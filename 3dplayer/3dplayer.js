@@ -8,13 +8,18 @@ import './three.js/three.js'
 import P3dController from './P3dController.js'
 
 // TODO: THE APP SHOULD BE SET UP TO GO FULL SCREEN IF NO SIZE IS SET
-//var windowWidth = window.innerWidth;
-//var windowHeight = window.innerHeight;
 
 // GET WINDOW SIZE FROM HTML PARAMETERS
 var script = document.scripts[document.scripts.length - 1]; // A reference to the currently running script
 var windowWidth = script.getAttribute('width');
 var windowHeight = script.getAttribute('height');
+
+if( (windowWidth > 0  &&  windowHeight > 0) == false )
+{
+  windowWidth = window.innerWidth;
+  windowHeight = window.innerHeight;
+}
+
 
 // CREATE RENDERER
 var renderer = new THREE.WebGLRenderer();
