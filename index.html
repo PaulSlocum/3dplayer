@@ -1,49 +1,22 @@
 <html>
 	<head>
-		<title>My first three.js app</title>
+		<title>3D Player Demo</title>
 		<style>
 			body { margin: 0; }
 			canvas { display: block; }
 		</style>
 	</head>
+	
 	<body>
-		<script src="js/three.js"></script>
-		<script>
-			var scene = new THREE.Scene();
-			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+  	<br>
+	  <table width="800" align="center" bgcolor="#220000"><tr><td>
+    <br><br><br><br><br>
 
-			var renderer = new THREE.WebGLRenderer();
-			renderer.setSize( window.innerWidth, window.innerHeight );
-			document.body.appendChild( renderer.domElement );
+	  <center>
+		<script type="module" src="3dplayer/3dplayer.js" width="800" height="400"></script>
+		</center>
 
-			var geometry = new THREE.BoxGeometry();
-			//var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-      const material = new THREE.MeshPhongMaterial();
-      material.color.setHSL(0, 1, .5);  // red
-      material.flatShading = true;			
-      var cube = new THREE.Mesh( geometry, material );
-
-      // add spotlight for the shadows
-      var spotLight = new THREE.SpotLight(0xffffff);
-      spotLight.position.set(-0, 30, 60);
-      spotLight.castShadow = true;
-      spotLight.intensity = 0.6;
-      scene.add( spotLight );
-
-			scene.add( cube );
-
-			camera.position.z = 5;
-
-			var animate = function () {
-				requestAnimationFrame( animate );
-
-				cube.rotation.x += 0.01;
-				cube.rotation.y += 0.01;
-
-				renderer.render( scene, camera );
-			};
-
-			animate();
-		</script>
+    <br><br><br><br><br>
+		</td></tr></table>
 	</body>
 </html>
