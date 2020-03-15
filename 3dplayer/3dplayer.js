@@ -1,7 +1,7 @@
 
 
-import './js/three.js'
-
+import './three.js/three.js'
+import P3dController from './P3dController.js'
 
 //var windowWidth = window.innerWidth;
 //var windowHeight = window.innerHeight;
@@ -13,6 +13,10 @@ var windowHeight = script.getAttribute('height');
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, windowWidth/windowHeight, 0.1, 1000 );
 
+
+const controller = new P3dController( windowWidth, windowHeight );
+
+
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize( windowWidth, windowHeight );
 //document.body.appendChild( renderer.domElement );
@@ -21,15 +25,16 @@ renderer.setSize( windowWidth, windowHeight );
 var div = document.createElement('div'); // Create a new div
 //var script = document.scripts[document.scripts.length - 1]; // A reference to the currently running script
 div.innerHTML = 'Hello'; // Add some content to the newly-created div
-//script.parentElement.insertBefore(div, script); // Add the newly-created div to the page
 script.parentElement.insertBefore(renderer.domElement, script); // Add the newly-created div to the page
 //////////////////////////////////////////////////////////////////
 
 
 var geometry = new THREE.BoxGeometry();
-//var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-//const material = new THREE.MeshPhongMaterial();
-const material = new THREE.MeshStandardMaterial();
+
+//const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+const material = new THREE.MeshPhongMaterial();
+//const material = new THREE.MeshStandardMaterial();
+
 material.color.setHSL(0, 1, .5);  // red
 material.flatShading = true;			
 var cube = new THREE.Mesh( geometry, material );
