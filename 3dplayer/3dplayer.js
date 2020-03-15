@@ -1,62 +1,31 @@
-
+// 3dplayer.js
+//
+// 3D PLAYER SETUP SCRIPT. CREATES THE RENDERER AND APP CONTROLLER.
+//
+//////////////////////////////////////////////////////////////////////////
 
 import './three.js/three.js'
 import P3dController from './P3dController.js'
 
+// TODO: THE APP SHOULD BE SET UP TO GO FULL SCREEN IF NO SIZE IS SET
 //var windowWidth = window.innerWidth;
 //var windowHeight = window.innerHeight;
 
+// GET WINDOW SIZE FROM HTML PARAMETERS
 var script = document.scripts[document.scripts.length - 1]; // A reference to the currently running script
 var windowWidth = script.getAttribute('width');
 var windowHeight = script.getAttribute('height');
 
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, windowWidth/windowHeight, 0.1, 1000 );
-
-
-const controller = new P3dController( windowWidth, windowHeight );
-
-
+// CREATE RENDERER
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize( windowWidth, windowHeight );
-//document.body.appendChild( renderer.domElement );
 
-//////////////////////////////////////////////////////////////////
+// ADD THE RENDERER TO THE DOCUMENT WHERE THE SCRIPT WAS PLACED
 var div = document.createElement('div'); // Create a new div
-//var script = document.scripts[document.scripts.length - 1]; // A reference to the currently running script
 div.innerHTML = 'Hello'; // Add some content to the newly-created div
 script.parentElement.insertBefore(renderer.domElement, script); // Add the newly-created div to the page
-//////////////////////////////////////////////////////////////////
+
+// LAUNCH THE APP CONTROLLER
+const controller = new P3dController( windowWidth, windowHeight, renderer );
 
 
-var geometry = new THREE.BoxGeometry();
-
-//const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-const material = new THREE.MeshPhongMaterial();
-//const material = new THREE.MeshStandardMaterial();
-
-material.color.setHSL(0, 1, .5);  // red
-material.flatShading = true;			
-var cube = new THREE.Mesh( geometry, material );
-
-// add spotlight for the shadows
-var spotLight = new THREE.SpotLight(0xffffff);
-spotLight.position.set(-0, 30, 60);
-spotLight.castShadow = true;
-spotLight.intensity = 0.6;
-scene.add( spotLight );
-
-scene.add( cube );
-
-camera.position.z = 5;
-
-var animate = function () {
-requestAnimationFrame( animate );
-
-cube.rotation.x += 0.01;
-cube.rotation.y += 0.01;
-
-renderer.render( scene, camera );
-};
-
-animate();
