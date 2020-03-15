@@ -1,6 +1,6 @@
 
 
-import './js/THREE.js'
+import './js/three.js'
 
 
 //var windowWidth = window.innerWidth;
