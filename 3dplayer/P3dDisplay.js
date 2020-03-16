@@ -1,4 +1,8 @@
 
+//import './three.js/three.js'
+//import { GLTFLoader } from 'https://www.npmjs.com/package/three-gltf-loader';
+import { GLTFLoader } from './three/examples/jsm/loaders/GLTFLoader.js';
+
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 export default class P3dDisplay 
 {
@@ -18,6 +22,8 @@ export default class P3dDisplay
 
     this.cube = null;
     this.customCube = null;
+    this.loadedModel = null;
+
 
     this.buildStructures();    
 
@@ -36,6 +42,9 @@ export default class P3dDisplay
     this.customCube.rotation.x += 0.01;
     this.customCube.rotation.y += 0.01;
     
+    this.loadedModel.rotation.x += 0.02;
+    this.loadedModel.rotation.y += 0.02;
+    
     this.renderer.render( this.scene, this.camera );
   };
 
@@ -51,6 +60,31 @@ export default class P3dDisplay
     const height = 2.0;
     const depth = 3.0;
     
+    // INSTANTIATE A LOADER
+    /*var loader = new GLTFLoader();
+
+    loader.load( '3dplayer/chassis.glb', function ( gltf ) {
+
+      console.log("---->LOADER SUCCESS");
+      //this.scene.add( gltf.scene );
+
+    }, undefined, function ( error ) {
+
+      console.log("---->LOADER ERROR");
+      console.error( error );
+
+    } ); //*/
+
+
+    const gltfLoader = new GLTFLoader();
+    const url = '3dplayer/chassis.glb';
+    gltfLoader.load(url, (gltf) => {
+      this.loadedModel = gltf.scene;
+      this.loadedModel.position.z = -2;
+      this.scene.add( this.loadedModel );
+    });
+
+
     // CUSTOM GEOMETRY
     const customGeometry = new THREE.Geometry();
     customGeometry.vertices.push(
@@ -64,15 +98,15 @@ export default class P3dDisplay
       new THREE.Vector3(  1,  1, -1 ),  // 7
     );
 
-    /*
-         6----7
-        /|   /|
-       2----3 |
-       | |  | |
-       | 4--|-5
-       |/   |/
-       0----1
-    */
+    
+    //     6----7
+    //    /|   /|
+    //   2----3 |
+    //   | |  | |
+    //   | 4--|-5
+    //   |/   |/
+    //   0----1
+    
 
     customGeometry.faces.push(
        // front
@@ -102,8 +136,8 @@ export default class P3dDisplay
     customMaterial.flatShading = true;			
     this.customCube = new THREE.Mesh( customGeometry, customMaterial );
     this.customCube.position.z = -2;
-    this.scene.add( this.customCube );
-
+    this.scene.add( this.customCube ); //*/
+ 
     
     // TEST CUBE  
     var geometry = new THREE.BoxGeometry();

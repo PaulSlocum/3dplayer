@@ -1,0 +1,45 @@
+
+
+
+BUTTONS:
+stop (maybe)
+power (maybe)
+open/close (maybe, also maybe separate buttons)
+fastForward (maybe)
+rewind (maybe)
+play
+pause
+next
+prev
+repeatTrack
+repeatAlbum
+shuffle (maybe)
+
+SLIDERS:
+songPosition
+bass
+treble
+volume (maybe)
+
+DISPLAYS:
+track/status (open/stop/play/pause)
+trackTime
+FFT display
+multi-track display
+
+OTHER:
+cdTray (maybe)
+
+
+
+--------------------------------------------------------------------------------------
+
+                                  TRACK        TIME                  FFT
+
+                            PLAY   PAUSE
+                            PREV   NEXT
+
+
+
+
+--------------------------------------------------------------------------------------

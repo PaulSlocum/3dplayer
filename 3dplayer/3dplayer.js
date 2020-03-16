@@ -5,7 +5,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 
-import './three.js/three.js'
+import './three/build/three.js'
 import P3dController from './P3dController.js'
 
 
