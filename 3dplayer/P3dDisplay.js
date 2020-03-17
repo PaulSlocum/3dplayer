@@ -39,19 +39,20 @@ export default class P3dDisplay
 
     this.frameCounter++;
 
-    //this.cube.rotation.x += 0.01;
-    //this.cube.rotation.y += 0.01;
+    /*if( this.cube != null )
+    {
+      this.cube.rotation.x += 0.001;
+      this.cube.rotation.y += 0.001;
+    } //*/
 
-    //this.loadedModel.rotation.x = frameCounter * 0.1;
-    //this.loadedModel.rotation.y += 0.02;
     if( this.loadedModel != null )
     {
       this.loadedModel.rotation.y = Math.cos( this.frameCounter * 0.03 ) * 0.08;
       this.loadedModel.rotation.x = Math.sin( this.frameCounter * 0.03) * 0.08;
     }  
-      
     
     this.renderer.render( this.scene, this.camera );
+
   };
 
 
@@ -76,11 +77,11 @@ export default class P3dDisplay
     });
 
     // TEST CUBE  
-    /*var geometry = new THREE.BoxGeometry();
-    //const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    const material = new THREE.MeshPhongMaterial();
+    var geometry = new THREE.BoxGeometry( -10, -10, -10 );
+    const material = new THREE.MeshBasicMaterial( { color: 0x101030 } );
+    //const material = new THREE.MeshPhongMaterial();
     //const material = new THREE.MeshStandardMaterial();
-    material.color.setHSL(0, 1, .5);  // red
+    //material.color.setHSL(0, 1, .5);  // red
     material.flatShading = true;			
     this.cube = new THREE.Mesh( geometry, material );
     this.scene.add( this.cube ); //*/
