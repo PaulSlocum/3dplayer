@@ -3,6 +3,8 @@
 //import { GLTFLoader } from 'https://www.npmjs.com/package/three-gltf-loader';
 import { GLTFLoader } from './three/examples/jsm/loaders/GLTFLoader.js';
 
+
+
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 export default class P3dDisplay 
 {
@@ -78,11 +80,33 @@ export default class P3dDisplay
 
     // TEST CUBE  
     var geometry = new THREE.BoxGeometry( -10, -10, -10 );
-    const material = new THREE.MeshBasicMaterial( { color: 0x101030 } );
+
+    /*this.uniforms = {};
+    //this.uniforms = {
+    //    time: { type: "f", value: 1.0 },
+    //    resolution: { type: "v2", value: new THREE.Vector2() }
+    //};
+    const material =  new THREE.ShaderMaterial(
+      {
+        uniforms: this.uniforms,
+        fragmentShader: this.fragmentShader(),
+        vertexShader: this.vertexShader(),
+      }); //*/
+    
+    
+    const material = new THREE.ShaderMaterial({
+      vertexShader: this.vertexShader(),
+      fragmentShader: this.fragmentShader()
+    }); //*/
+    
+    
+    //const material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF } );
+    //const material = new THREE.MeshBasicMaterial( { color: 0x101030 } );
     //const material = new THREE.MeshPhongMaterial();
     //const material = new THREE.MeshStandardMaterial();
-    //material.color.setHSL(0, 1, .5);  // red
-    material.flatShading = true;			
+    //material.flatShading = true; //*/
+    
+    
     this.cube = new THREE.Mesh( geometry, material );
     this.scene.add( this.cube ); //*/
 
@@ -95,4 +119,53 @@ export default class P3dDisplay
 
   }
 
+  ///////////////////////////////////////////////////////////////////////
+  vertexShader() 
+  {
+    return `
+      void main() 
+      {
+        vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
+        gl_Position = projectionMatrix * modelViewPosition;
+      }
+        `
+    /*return `
+      varying vec3 vUv; 
+      varying vec4 modelViewPosition; 
+      varying vec3 vecNormal;
+
+      void main() {
+        vUv = position; 
+        vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
+        vecNormal = (modelViewMatrix * vec4(normal, 0.0)).xyz; //????????
+        gl_Position = projectionMatrix * modelViewPosition; 
+      }
+    ` //*/
+  }
+
+  ///////////////////////////////////////////////////////////////////////
+  fragmentShader() 
+  {
+    return `
+        void main() {
+          gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
+        }
+        `
+
+//            float x = mod(time + gl_FragCoord.x, 20.) < 10. ? 1. : 0.;
+//            float y = mod(time + gl_FragCoord.y, 20.) < 10. ? 1. : 0.;
+//            gl_FragColor = vec4(vec3(min(x, y)), 1.);
+  
+  
+    /*return `
+      uniform vec3 colorA; 
+      uniform vec3 colorB; 
+      varying vec3 vUv;
+
+      void main() {
+        gl_FragColor = vec4(mix(colorA, colorB, vUv.z), 1.0);
+      }
+  ` //*/
+  }  
+  
 }
