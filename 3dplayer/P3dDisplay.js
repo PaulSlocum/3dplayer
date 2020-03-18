@@ -78,6 +78,16 @@ export default class P3dDisplay
       this.scene.add( this.loadedModel );
     });
 
+    // ADD BLUR (NOT YET WORKING)
+    /*this.composer = new THREE.EffectComposer( this.renderer );
+    this.composer.addPass( new THREE.RenderPass( this.scene, this.camera ) );
+    hblur = new THREE.ShaderPass( THREE.HorizontalBlurShader );
+    this.composer.addPass( hblur );
+    vblur = new THREE.ShaderPass( THREE.VerticalBlurShader );
+    // set this shader pass to render to screen so we can see the effects
+    vblur.renderToScreen = true;
+    this.composer.addPass( vblur ); //*/
+
     // TEST CUBE  
     var geometry = new THREE.BoxGeometry( -80, -40, -40 );
 
@@ -147,10 +157,15 @@ export default class P3dDisplay
   fragmentShader() 
   {
     return `
-        void main() {
-          float colorValue = gl_PointCoord.y/100.0+0.2;
-          gl_FragColor = vec4( colorValue, colorValue, colorValue+0.03, 1.0);
-        }
+      float rand(vec2 co)
+      {
+          return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+      }
+      
+      void main() {
+        float colorValue = gl_PointCoord.y/100.0+0.2 + rand(gl_PointCoord.xy)*0.02;
+        gl_FragColor = vec4( colorValue, colorValue, colorValue+0.03, 1.0);
+      }
         `
 //          gl_FragColor = vec4(0.05, 0.0, gl_PointCoord.y/5.0+0.7, 1.0);
 
