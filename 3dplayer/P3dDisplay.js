@@ -71,7 +71,7 @@ export default class P3dDisplay
     
     // INSTANTIATE A LOADER
     const gltfLoader = new GLTFLoader();
-    const url = '3dplayer/chassis.glb';
+    const url = '3dplayer/model/chassis.glb';
     gltfLoader.load(url, (gltf) => {
       this.loadedModel = gltf.scene;
       this.loadedModel.position.z = -2;
