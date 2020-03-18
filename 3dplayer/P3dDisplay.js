@@ -79,7 +79,7 @@ export default class P3dDisplay
     });
 
     // TEST CUBE  
-    var geometry = new THREE.BoxGeometry( -40, -40, -40 );
+    var geometry = new THREE.BoxGeometry( -80, -40, -40 );
 
     /*this.uniforms = {};
     //this.uniforms = {
@@ -148,10 +148,11 @@ export default class P3dDisplay
   {
     return `
         void main() {
-          gl_FragColor = vec4( gl_PointCoord.y/25.0+0.2, gl_PointCoord.y/25.0+0.2, gl_PointCoord.y/25.0+0.2, 1.0);
+          float colorValue = gl_PointCoord.y/100.0+0.2;
+          gl_FragColor = vec4( colorValue, colorValue, colorValue+0.03, 1.0);
         }
         `
-//          gl_FragColor = vec4(0.05, 0.0, gl_PointCoord.y/5.0+0.2, 1.0);
+//          gl_FragColor = vec4(0.05, 0.0, gl_PointCoord.y/5.0+0.7, 1.0);
 
 //            float x = mod(time + gl_FragCoord.x, 20.) < 10. ? 1. : 0.;
 //            float y = mod(time + gl_FragCoord.y, 20.) < 10. ? 1. : 0.;
