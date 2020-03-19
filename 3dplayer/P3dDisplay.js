@@ -62,7 +62,7 @@ export default class P3dDisplay
   buildStructures()
   {
     // CAMERA
-    this.camera.position.z = 5;
+    this.camera.position.z = 4;
 
     // MODEL
     const width = 4.0;
