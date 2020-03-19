@@ -41,10 +41,10 @@ export default class P3dDisplay
 
     this.frameCounter++;
 
-    /*if( this.cube != null )
+    if( this.cube != null )
     {
-      this.cube.rotation.x += 0.001;
-      this.cube.rotation.y += 0.001;
+      this.cube.rotation.x += 0.05;
+      this.cube.rotation.y += 0.05;
     } //*/
 
     if( this.loadedModel != null )
@@ -91,7 +91,8 @@ export default class P3dDisplay
     this.composer.addPass( vblur ); //*/
 
     // TEST CUBE  
-    var geometry = new THREE.BoxGeometry( -80, -40, -40 );
+    //var geometry = new THREE.BoxGeometry( -80, -40, -40 );
+    var geometry = new THREE.BoxGeometry( -70, -70, -70 );
 
     // CUSTOM SHADER
     const material = new THREE.ShaderMaterial({
@@ -129,18 +130,6 @@ export default class P3dDisplay
         gl_Position = projectionMatrix * modelViewPosition;
       }
         `
-    /*return `
-      varying vec3 vUv; 
-      varying vec4 modelViewPosition; 
-      varying vec3 vecNormal;
-
-      void main() {
-        vUv = position; 
-        vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
-        vecNormal = (modelViewMatrix * vec4(normal, 0.0)).xyz; //????????
-        gl_Position = projectionMatrix * modelViewPosition; 
-      }
-    ` //*/
   }
 
   ///////////////////////////////////////////////////////////////////////
@@ -154,25 +143,9 @@ export default class P3dDisplay
       
       void main() {
         float colorValue = gl_PointCoord.y/100.0+0.2 + rand(gl_PointCoord.xy)*0.02;
-        gl_FragColor = vec4( colorValue, colorValue, colorValue+0.03, 1.0);
+        gl_FragColor = vec4( colorValue, colorValue, colorValue+0.05, 1.0);
       }
         `
-//          gl_FragColor = vec4(0.05, 0.0, gl_PointCoord.y/5.0+0.7, 1.0);
-
-//            float x = mod(time + gl_FragCoord.x, 20.) < 10. ? 1. : 0.;
-//            float y = mod(time + gl_FragCoord.y, 20.) < 10. ? 1. : 0.;
-//            gl_FragColor = vec4(vec3(min(x, y)), 1.);
-  
-  
-    /*return `
-      uniform vec3 colorA; 
-      uniform vec3 colorB; 
-      varying vec3 vUv;
-
-      void main() {
-        gl_FragColor = vec4(mix(colorA, colorB, vUv.z), 1.0);
-      }
-  ` //*/
   }  
   
 }
