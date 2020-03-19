@@ -50,7 +50,9 @@ export default class P3dDisplay
     if( this.loadedModel != null )
     {
       this.loadedModel.rotation.y = Math.cos( this.frameCounter * 0.03 ) * 0.08;
-      this.loadedModel.rotation.x = Math.sin( this.frameCounter * 0.03) * 0.08;
+      this.loadedModel.rotation.x = Math.sin( this.frameCounter * 0.03) * 0.08 - 0.15;
+      //this.loadedModel.rotation.x += 0.01;
+      
     }  
     
     this.renderer.render( this.scene, this.camera );
@@ -62,7 +64,7 @@ export default class P3dDisplay
   buildStructures()
   {
     // CAMERA
-    this.camera.position.z = 4;
+    this.camera.position.z = 5.5;
 
     // MODEL
     const width = 4.0;
@@ -91,19 +93,7 @@ export default class P3dDisplay
     // TEST CUBE  
     var geometry = new THREE.BoxGeometry( -80, -40, -40 );
 
-    /*this.uniforms = {};
-    //this.uniforms = {
-    //    time: { type: "f", value: 1.0 },
-    //    resolution: { type: "v2", value: new THREE.Vector2() }
-    //};
-    const material =  new THREE.ShaderMaterial(
-      {
-        uniforms: this.uniforms,
-        fragmentShader: this.fragmentShader(),
-        vertexShader: this.vertexShader(),
-      }); //*/
-    
-    
+    // CUSTOM SHADER
     const material = new THREE.ShaderMaterial({
       vertexShader: this.vertexShader(),
       fragmentShader: this.fragmentShader()
