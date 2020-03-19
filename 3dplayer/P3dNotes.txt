@@ -36,11 +36,11 @@ cdTray (maybe)
 
                                   TRACK        TIME                  FFT
                                   
-                            PLAY    PAUSE     PREV     NEXT       TREB+  TREB-
-                            OPEN    CLOSE      REW      FF        BASS+  BASS-
-                                    DISP     REPEAT1  REPEATA     STOP   STANDBY       
+                            PLAY    PAUSE    REPEAT1  REPEATA       TREB+  TREB-
+                            PREV     NEXT    DISPSEL  PEAK          BASS+  BASS-
+                            REW      FF                             VOL+   VOL-    
                             
-
+                                                                  OPEN   STANDBY 
 
 
 --------------------------------------------------------------------------------------
