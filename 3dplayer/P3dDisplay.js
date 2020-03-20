@@ -30,7 +30,54 @@ export default class P3dDisplay
 
     this.buildStructures();    
 
+    // MOUSE HANDLING
+    this.raycaster = new THREE.Raycaster();
+    document.addEventListener( 'mousedown', this.mouseDown.bind(this), false );
+
   }
+
+
+  ///////////////////////////////////////////////////////////////////////
+  mouseDown( event )
+  {
+    console.log("---->MOUSE DOWN EVENT");
+
+    var mouse = new THREE.Vector2();
+    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+    console.log("---->MOUSE X", mouse.x);
+    console.log("---->MOUSE Y", mouse.y);
+
+
+    // update the picking ray with the camera and mouse position
+    this.raycaster.setFromCamera( mouse, this.camera );
+
+    // calculate objects intersecting the picking ray
+    //var intersects = this.raycaster.intersectObjects( this.scene.children );
+    var intersects = this.raycaster.intersectObjects( this.loadedModel.children );
+
+    if( intersects.length == 0 )
+    {
+      console.log("---->NO INTERSECTION");
+    } 
+    else
+    {
+      console.log("---->INTERSECTION FOUND: ", intersects.length );
+    }
+  
+    
+
+    for ( var i = 0; i < intersects.length; i++ ) 
+    {
+      console.log("---->INTERSECTION: ", i );
+      //intersects[ i ].object.material.color.set( 0xff0000 );
+      intersects[ i ].object.position.z = -0.1;
+
+    } //*/
+
+  }
+
 
 
   ///////////////////////////////////////////////////////////////////////
@@ -41,7 +88,7 @@ export default class P3dDisplay
 
     this.frameCounter++;
 
-    if( this.cube != null )
+    /*if( this.cube != null )
     {
       this.cube.rotation.x += 0.05;
       this.cube.rotation.y += 0.05;
@@ -91,8 +138,8 @@ export default class P3dDisplay
     this.composer.addPass( vblur ); //*/
 
     // TEST CUBE  
-    //var geometry = new THREE.BoxGeometry( -80, -40, -40 );
-    var geometry = new THREE.BoxGeometry( -70, -70, -70 );
+    var geometry = new THREE.BoxGeometry( -80, -40, -40 );
+    //var geometry = new THREE.BoxGeometry( -70, -70, -70 );
 
     // CUSTOM SHADER
     const material = new THREE.ShaderMaterial({
