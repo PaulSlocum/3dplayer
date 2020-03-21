@@ -91,8 +91,8 @@ export default class P3dDisplay
 
     // ROTATE ROOM CUBE...
     this.backgroundSpinRate += 0.00001;
-    if( this.backgroundSpinRate > 0.2 ) 
-      this.backgroundSpinRate = 0.2;
+    if( this.backgroundSpinRate > 0.15 ) 
+      this.backgroundSpinRate = 0.15;
     if( this.cube != null )
     {
       this.cube.rotation.x += this.backgroundSpinRate;
