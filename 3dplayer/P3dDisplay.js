@@ -26,6 +26,7 @@ export default class P3dDisplay
     this.customCube = null;
     this.loadedModel = null;
 
+    this.backgroundSpinRate = 0;
     this.frameCounter = 0;
 
     this.buildStructures();    
@@ -57,24 +58,33 @@ export default class P3dDisplay
     //var intersects = this.raycaster.intersectObjects( this.scene.children );
     var intersects = this.raycaster.intersectObjects( this.loadedModel.children );
 
-    if( intersects.length == 0 )
+    // DEBUG
+    /*if( intersects.length == 0 )
     {
       console.log("---->NO INTERSECTION");
     } 
     else
     {
       console.log("---->INTERSECTION FOUND: ", intersects.length );
-    }
-  
-    
+    } //*/
 
     for ( var i = 0; i < intersects.length; i++ ) 
     {
-      console.log("---->INTERSECTION: ", i );
-      //intersects[ i ].object.material.color.set( 0xff0000 );
-      intersects[ i ].object.position.z = -0.1;
-
+      // DEBUG
+      //console.log("---->INTERSECTION: ", i, " ", intersects[i].object.name );
+      //intersects[i].object.material.color.set( 0xff0000 );
+      //intersects[i].object.position.z = -0.1;
+      
+      switch( intersects[i].object.name )
+      {
+        case "ButtonPlay": console.log("---->PLAY BUTTON PRESSED"); break;
+        case "ButtonPause": console.log("---->PAUSE BUTTON PRESSED"); break;
+      }
+      
+      
     } //*/
+    
+    
 
   }
 
@@ -88,10 +98,11 @@ export default class P3dDisplay
 
     this.frameCounter++;
 
-    /*if( this.cube != null )
+    this.backgroundSpinRate += 0.00001;
+    if( this.cube != null )
     {
-      this.cube.rotation.x += 0.05;
-      this.cube.rotation.y += 0.05;
+      this.cube.rotation.x += this.backgroundSpinRate;
+      this.cube.rotation.y += this.backgroundSpinRate;
     } //*/
 
     if( this.loadedModel != null )
@@ -195,4 +206,5 @@ export default class P3dDisplay
         `
   }  
   
+        //float colorValue = gl_PointCoord.y/100.0+0.2 + rand(gl_PointCoord.xy)*0.02;
 }

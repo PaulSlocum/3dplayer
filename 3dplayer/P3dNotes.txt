@@ -1,6 +1,8 @@
 
 
 
+________________________________________________________________________________
+
 BUTTONS:
 stop (maybe)
 power (maybe)
@@ -30,17 +32,30 @@ multi-track display
 OTHER:
 cdTray (maybe)
 
-
-
+BUTTON LAYOUT:
 --------------------------------------------------------------------------------------
+       TRACK        TIME                  FFT
+       
+ PLAY    PAUSE    REPEAT1  REPEATA       TREB+  TREB-
+ PREV     NEXT    DISPSEL  PEAK          BASS+  BASS-
+ REW      FF                             VOL+   VOL-    
+ 
+                                       OPEN   STANDBY 
+---------------------------------------------------------------------------------------
 
-                                  TRACK        TIME                  FFT
-                                  
-                            PLAY    PAUSE    REPEAT1  REPEATA       TREB+  TREB-
-                            PREV     NEXT    DISPSEL  PEAK          BASS+  BASS-
-                            REW      FF                             VOL+   VOL-    
-                            
-                                                                  OPEN   STANDBY 
 
 
---------------------------------------------------------------------------------------
+CASES AND ACTIONS TO CONSIDER:
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-PLAYBACK CONTROLS (Play/Pause/Prev/Next/FF/Rew/Standby(stop))
+-PLAYBACK SETTINGS (Repeat 1/Repeat A)
+-SOUND CONTROLS (Treb/Bass/Vol)
+-DISPLAY CONTROLS (Disp Sel/Peak)
+-TRAY CONTROLS (Open/Close)
+~    -     ~    -     ~    -     
+-SOUND CONTROL DISPLAY (Show settings momentarily on FFT screen? ...or use individual LED strips above/below buttons?)
+-TRAY ANIMATION AND CONTROL
+-LED indicators next to buttons
+
+
+
