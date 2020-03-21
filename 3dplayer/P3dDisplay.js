@@ -2,6 +2,8 @@
 //import './three.js/three.js'
 //import { GLTFLoader } from 'https://www.npmjs.com/package/three-gltf-loader';
 import { GLTFLoader } from './three/examples/jsm/loaders/GLTFLoader.js';
+import P3dController from './P3dController.js'
+import { ButtonEvent } from './P3dController.js'
 
 
 
@@ -11,10 +13,11 @@ export default class P3dDisplay
 
 
   ///////////////////////////////////////////////////////////////////////
-  constructor( windowWidth, windowHeight, renderer ) 
+  constructor( appController, windowWidth, windowHeight, renderer ) 
   {
-    console.log("---->DISPLAY CONSTRUCTOR");
+    console.log("---->DISPLAY CLASS CONSTRUCTOR");
 
+    this.appController = appController;
     this.windowWidth = windowWidth;
     this.windowHeight = windowHeight;
     this.renderer = renderer;
@@ -34,6 +37,7 @@ export default class P3dDisplay
     // MOUSE HANDLING
     this.raycaster = new THREE.Raycaster();
     document.addEventListener( 'mousedown', this.mouseDown.bind(this), false );
+    document.addEventListener( 'mouseup', this.mouseUp.bind(this), false );
 
   }
 
@@ -41,14 +45,12 @@ export default class P3dDisplay
   ///////////////////////////////////////////////////////////////////////
   mouseDown( event )
   {
-    console.log("---->MOUSE DOWN EVENT");
+    // DEBUG
+    //console.log("---->MOUSE DOWN EVENT", ButtonEvent.BUTTON_DOWN_PLAY);
 
     var mouse = new THREE.Vector2();
     mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
-    console.log("---->MOUSE X", mouse.x);
-    console.log("---->MOUSE Y", mouse.y);
 
 
     // update the picking ray with the camera and mouse position
@@ -58,59 +60,50 @@ export default class P3dDisplay
     //var intersects = this.raycaster.intersectObjects( this.scene.children );
     var intersects = this.raycaster.intersectObjects( this.loadedModel.children );
 
-    // DEBUG
-    /*if( intersects.length == 0 )
-    {
-      console.log("---->NO INTERSECTION");
-    } 
-    else
-    {
-      console.log("---->INTERSECTION FOUND: ", intersects.length );
-    } //*/
-
     for ( var i = 0; i < intersects.length; i++ ) 
     {
-      // DEBUG
-      //console.log("---->INTERSECTION: ", i, " ", intersects[i].object.name );
-      //intersects[i].object.material.color.set( 0xff0000 );
-      //intersects[i].object.position.z = -0.1;
-      
       switch( intersects[i].object.name )
       {
-        case "ButtonPlay": console.log("---->PLAY BUTTON PRESSED"); break;
-        case "ButtonPause": console.log("---->PAUSE BUTTON PRESSED"); break;
+        case "ButtonPlay": this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_PLAY ); break;
+        case "ButtonPause": this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_PAUSE ); break;
       }
-      
-      
     } //*/
-    
-    
-
   }
 
 
+  ///////////////////////////////////////////////////////////////////////
+  mouseUp( event )
+  {
+    // DEBUG
+    //console.log("---->MOUSE UP EVENT", ButtonEvent.BUTTON_DOWN_PLAY );
+    
+    this.appController.processButtonEvent( ButtonEvent.BUTTON_UP ); 
+  }
+
 
   ///////////////////////////////////////////////////////////////////////
-  // NOTE: run() MUST BE CALLED EXTERNALLY TO START THE ANIMATION
+  // NOTE: MUST BE CALLED EXTERNALLY TO START THE ANIMATION
   run() 
   {
     requestAnimationFrame( this.run.bind(this) );
 
     this.frameCounter++;
 
+    // ROTATE ROOM CUBE...
     this.backgroundSpinRate += 0.00001;
+    if( this.backgroundSpinRate > 0.2 ) 
+      this.backgroundSpinRate = 0.2;
     if( this.cube != null )
     {
       this.cube.rotation.x += this.backgroundSpinRate;
       this.cube.rotation.y += this.backgroundSpinRate;
     } //*/
 
+    // MODULATE CD PLAYER ROTATION...
     if( this.loadedModel != null )
     {
       this.loadedModel.rotation.y = Math.cos( this.frameCounter * 0.03 ) * 0.08;
       this.loadedModel.rotation.x = Math.sin( this.frameCounter * 0.03) * 0.08 - 0.15;
-      //this.loadedModel.rotation.x += 0.01;
-      
     }  
     
     this.renderer.render( this.scene, this.camera );
@@ -158,13 +151,12 @@ export default class P3dDisplay
       fragmentShader: this.fragmentShader()
     }); //*/
     
-    
+    // OTHER MATERIAL OPTIONS (DEBUG)    
     //const material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF } );
     //const material = new THREE.MeshBasicMaterial( { color: 0x101030 } );
     //const material = new THREE.MeshPhongMaterial();
     //const material = new THREE.MeshStandardMaterial();
     //material.flatShading = true; //*/
-    
     
     this.cube = new THREE.Mesh( geometry, material );
     this.scene.add( this.cube ); //*/
@@ -205,6 +197,5 @@ export default class P3dDisplay
       }
         `
   }  
-  
-        //float colorValue = gl_PointCoord.y/100.0+0.2 + rand(gl_PointCoord.xy)*0.02;
+
 }
