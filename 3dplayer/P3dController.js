@@ -1,6 +1,6 @@
 
 //-----------------------------------------------------------------------------------
-import P3dDisplay from './P3dDisplay.js'
+import P3dUserInterface from './P3dUserInterface.js'
 import P3dTransport from './P3dTransport.js'
 //-----------------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ export default class P3dController {
 
     this.transport = new P3dTransport();
 
-    this.display = new P3dDisplay( this, windowWidth, windowHeight, renderer );
+    this.display = new P3dUserInterface( this, windowWidth, windowHeight, renderer );
     this.display.run();
 
   }

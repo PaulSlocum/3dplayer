@@ -8,7 +8,7 @@ import { ButtonEvent } from './P3dController.js'
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-export default class P3dDisplay 
+export default class P3dUserInterface 
 {
 
 
