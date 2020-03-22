@@ -1,7 +1,9 @@
 
 //-----------------------------------------------------------------------------------
 import { GLTFLoader } from './three/examples/jsm/loaders/GLTFLoader.js';
+
 import P3dController from './P3dController.js'
+import P3dGraphics from './P3dGraphics.js'
 import { ButtonEvent } from './P3dController.js'
 //-----------------------------------------------------------------------------------
 
@@ -22,6 +24,9 @@ export default class P3dUserInterface
     this.windowHeight = windowHeight;
     this.renderer = renderer;
 
+    this.graphics = new P3dGraphics();
+
+
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera( 75, windowWidth/windowHeight, 0.1, 1000 );
 
@@ -41,7 +46,6 @@ export default class P3dUserInterface
     document.addEventListener( 'mousedown', this.mouseDown.bind(this), false );
     document.addEventListener( 'mouseup', this.mouseUp.bind(this), false );
     document.addEventListener('touchstart', this.mouseDown.bind(this), false);
-    //someElement.addEventListener('touchmove', process_touchmove, false);
     document.addEventListener('touchcancel', this.mouseUp.bind(this), false);
     document.addEventListener('touchend', this.mouseUp.bind(this), false);
   }
@@ -55,7 +59,7 @@ export default class P3dUserInterface
     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
     // update the picking ray with the camera and mouse position
-    this.raycaster.setFromCamera( mouse, this.camera );
+    /*this.raycaster.setFromCamera( mouse, this.camera );
 
     // calculate objects intersecting the picking ray
     //var intersects = this.raycaster.intersectObjects( this.scene.children );
