@@ -1,9 +1,9 @@
 
-//import './three.js/three.js'
-//import { GLTFLoader } from 'https://www.npmjs.com/package/three-gltf-loader';
+//-----------------------------------------------------------------------------------
 import { GLTFLoader } from './three/examples/jsm/loaders/GLTFLoader.js';
 import P3dController from './P3dController.js'
 import { ButtonEvent } from './P3dController.js'
+//-----------------------------------------------------------------------------------
 
 
 
@@ -83,6 +83,7 @@ export default class P3dDisplay
 
   ///////////////////////////////////////////////////////////////////////
   // NOTE: MUST BE CALLED EXTERNALLY TO START THE ANIMATION
+  // -----> THIS SHOULD BE MOVED TO A NEW CLASS
   run() 
   {
     requestAnimationFrame( this.run.bind(this) );
@@ -112,6 +113,7 @@ export default class P3dDisplay
 
 
   ///////////////////////////////////////////////////////////////////////
+  // -----> THIS SHOULD BE MOVED TO A NEW CLASS
   buildStructures()
   {
     // CAMERA
@@ -172,6 +174,7 @@ export default class P3dDisplay
 
   ///////////////////////////////////////////////////////////////////////
   vertexShader() 
+  // -----> THIS SHOULD BE MOVED TO A NEW CLASS
   {
     return `
       void main() 
@@ -184,6 +187,7 @@ export default class P3dDisplay
 
   ///////////////////////////////////////////////////////////////////////
   fragmentShader() 
+  // -----> THIS SHOULD BE MOVED TO A NEW CLASS
   {
     return `
       float rand(vec2 co)

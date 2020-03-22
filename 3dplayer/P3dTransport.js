@@ -1,9 +1,11 @@
 
 
 
+//-----------------------------------------------------------------------------------
 import P3dController from './P3dController.js'
 import { ButtonEvent } from './P3dController.js'
 import P3dSound from './P3dSound.js'
+//-----------------------------------------------------------------------------------
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -15,7 +17,10 @@ export default class P3dTransport {
   {
     console.log("---->TRANSPORT CLASS CONSTRUCTOR");
     
-    this.sound = new P3dSound();
+    this.soundPlayer = new P3dSound();
+    this.soundPlayer.loadSound( '3dplayer/sounds/clickDown.wav' );
+    this.soundPlayer.playSound( '3dplayer/sounds/clickDown.wav' );
+    
   }
   
   ///////////////////////////////////////////////////////////////////////

@@ -1,16 +1,17 @@
 
-
+//-----------------------------------------------------------------------------------
 import P3dDisplay from './P3dDisplay.js'
 import P3dTransport from './P3dTransport.js'
+//-----------------------------------------------------------------------------------
 
 
 
 
 export const ButtonEvent = {
-    NONE: 1,
-    BUTTON_DOWN_PLAY: 2,
-    BUTTON_DOWN_PAUSE: 3,
-    BUTTON_UP: 4
+    NONE: 'ButtonNone',
+    BUTTON_DOWN_PLAY: 'ButtonDownPlay',
+    BUTTON_DOWN_PAUSE: 'ButtonDownPause',
+    BUTTON_UP: 'ButtonUp'
 }
 
 
@@ -24,7 +25,7 @@ export default class P3dController {
   ///////////////////////////////////////////////////////////////////////
   constructor( windowWidth, windowHeight, renderer ) 
   {
-    console.log("CONTROLLER CONSTRUCTOR");
+    console.log("---->CONTROLLER CONSTRUCTOR");
 
     this.height = windowWidth;
     this.width = windowHeight;
