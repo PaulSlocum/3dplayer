@@ -10,7 +10,7 @@ export default class P3dSound
     console.log("---->SOUND CLASS CONSTRUCTOR");
 
     // Create an AudioContext instance for this sound
-    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    //this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
     this.bufferArray = {};
     this.contextArray = {};
@@ -62,23 +62,25 @@ export default class P3dSound
     //this.request.open('GET', '3dplayer/sounds/clickDown.wav', true);
     // Setting the responseType to arraybuffer sets up the audio decoding
     this.request.responseType = 'arraybuffer';
-    this.request.onload = (soundFilename) => 
+    this.request.onload = function() 
     { // FILE LOADER CALLBACK:
       
-      console.log("---->SOUND CLASS ONLOAD", );
+      console.log("---->SOUND CLASS ONLOAD", soundFilename, this.request.response );
       // Decode the audio once the require is complete
-      this.audioContext.decodeAudioData( this.request.response, (buffer) => 
+      this.contextArray[soundFilename] = new (window.AudioContext || window.webkitAudioContext)();
+      this.contextArray[soundFilename].decodeAudioData( this.request.response, function(buffer)  
       { // DECODER CALLBACK:
-        
-        console.log("---->SOUND CLASS LOADED: ", soundFilename, this.bufferArray);
         
         this.bufferArray[soundFilename] = buffer;
         this.testBuffer = buffer;
 
-      }, function(e) {
+        //console.log("---->SOUND CLASS LOADED: ", soundFilename, "<-" );
+        console.log("---->SOUND CLASS LOADED: ", buffer, soundFilename, this.bufferArray);
+
+      }.bind(this), function(e) {
         console.log('Audio error! ', e);
-      });  
-    }
+      } );  
+    }.bind(this)
     // Send the request which kicks off 
     this.request.send();
   }
@@ -86,21 +88,24 @@ export default class P3dSound
   //////////////////////////////////////////////////////////////////////////
   playSound( soundFilename )
   {
-    console.log("---->SOUND CLASS PLAY: ", soundFilename, this.bufferArray );
+    console.log("---->SOUND CLASS PLAY: ", soundFilename, this.bufferArray, this.contextArray );
 
         // Create a buffer for the incoming sound content
-        this.source = this.audioContext.createBufferSource();
+        var source = this.contextArray[soundFilename].createBufferSource();
 
-        //this.source.buffer = this.bufferArray[ soundFilename ];
-        this.source.buffer = this.testBuffer;
+     console.log("---->SOUND SOURCE: ", source );
 
-        console.log("---->SOUND CLASS BUFFER PLAY: ", this.source.buffer );
+
+        source.buffer = this.bufferArray[ soundFilename ];
+        //this.source.buffer = this.testBuffer;
+
+        console.log("---->SOUND CLASS BUFFER PLAY: ", source.buffer );
         // Connect the audio to source (multiple audio buffers can be connected!)
-        this.source.connect( this.audioContext.destination );
+        source.connect( this.contextArray[soundFilename].destination );
         // Simple setting for the buffer
-        this.source.loop = false;
+        source.loop = false;
         // Play the sound!
-        this.source.start(0); //*/
+        source.start(0); //*/
   }
   
   
