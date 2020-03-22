@@ -16,6 +16,8 @@ export const SoundFilenames = {
     TRAY_CLOSE: '3dplayer/sounds/cdDiscIn.wav'
 }
 
+const MUSIC_FILENAME = 'expansion.mp3';
+
 
 
 
@@ -33,7 +35,7 @@ export default class P3dTransport {
     this.soundPlayer.loadSound( SoundFilenames.CLICK_UP );
     this.soundPlayer.loadSound( SoundFilenames.TRAY_OPEN );
     this.soundPlayer.loadSound( SoundFilenames.TRAY_CLOSE );
-    this.soundPlayer.loadSound( 'knight_rider.mp3' );    
+    this.soundPlayer.loadSound( MUSIC_FILENAME );    
     
     this.trackPlaying = false;
   }
@@ -48,7 +50,7 @@ export default class P3dTransport {
             if( this.trackPlaying == false )
             {
               this.trackPlaying = true;
-              this.soundPlayer.playSound( 'knight_rider.mp3' );    
+              this.soundPlayer.playSound( MUSIC_FILENAME );    
             }
             break;
       case ButtonEvent.BUTTON_DOWN_PAUSE: console.log("---->PAUSE BUTTON PRESSED (TRANSPORT)"); 
@@ -56,7 +58,7 @@ export default class P3dTransport {
             if( this.trackPlaying == true )
             {
               this.trackPlaying = false;
-              this.soundPlayer.stopSound( 'knight_rider.mp3' );    
+              this.soundPlayer.stopSound( MUSIC_FILENAME );    
             }
             break;
       case ButtonEvent.BUTTON_UP: console.log("---->BUTTON UP (TRANSPORT)"); 
