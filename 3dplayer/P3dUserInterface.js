@@ -135,6 +135,16 @@ export default class P3dUserInterface
       this.loadedModel = gltf.scene;
       this.loadedModel.position.z = -0;
       this.scene.add( this.loadedModel );
+      
+      //var model = gltf.scene;
+      var mixer = new THREE.AnimationMixer( this.loadedModel );
+      var clip1 = gltf.animations[1];
+      console.log("---->CLIP: ", clip1 );
+      var action1 = mixer.clipAction(clip1);
+      console.log("---->ACTION: ", action1 );
+      //action1.clampWhenFinished = true;
+      //mixer.update( 1 );
+      action1.play();
     });
 
     // ADD BLUR (NOT YET WORKING)
