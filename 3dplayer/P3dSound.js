@@ -1,7 +1,7 @@
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-export default class P3dSound
+export default class P3dSoundPlayer
 {
 
   ///////////////////////////////////////////////////////////////////////
@@ -11,6 +11,7 @@ export default class P3dSound
 
     this.bufferArray = {};
     this.contextArray = {};
+    this.sourceArray = {};
   }
   
   //////////////////////////////////////////////////////////////////////////
@@ -45,15 +46,20 @@ export default class P3dSound
   playSound( soundFilename )
   {
     // Create a buffer for the incoming sound content
-    var source = this.contextArray[soundFilename].createBufferSource();
-    source.buffer = this.bufferArray[ soundFilename ];
+    this.sourceArray[soundFilename] = this.contextArray[soundFilename].createBufferSource();
+    this.sourceArray[soundFilename].buffer = this.bufferArray[ soundFilename ];
 
     // Connect the audio to source (multiple audio buffers can be connected!)
-    source.connect( this.contextArray[soundFilename].destination );
+    this.sourceArray[soundFilename].connect( this.contextArray[soundFilename].destination );
     // Simple setting for the buffer
-    source.loop = false;
+    this.sourceArray[soundFilename].loop = false;
     // Play the sound!
-    source.start(0); //*/
+    this.sourceArray[soundFilename].start(0); //*/
+  }
+  
+  stopSound( soundFilename )
+  {
+    this.sourceArray[soundFilename].stop(); //*/
   }
   
   

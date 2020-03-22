@@ -28,6 +28,8 @@ export default class P3dUserInterface
     this.cube = null;
     this.customCube = null;
     this.loadedModel = null;
+    
+    this.buttonDown = false;
 
     this.backgroundSpinRate = 0;
     this.frameCounter = 0;
@@ -45,13 +47,9 @@ export default class P3dUserInterface
   ///////////////////////////////////////////////////////////////////////
   mouseDown( event )
   {
-    // DEBUG
-    //console.log("---->MOUSE DOWN EVENT", ButtonEvent.BUTTON_DOWN_PLAY);
-
     var mouse = new THREE.Vector2();
     mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-
 
     // update the picking ray with the camera and mouse position
     this.raycaster.setFromCamera( mouse, this.camera );
@@ -64,8 +62,10 @@ export default class P3dUserInterface
     {
       switch( intersects[i].object.name )
       {
-        case "ButtonPlay": this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_PLAY ); break;
-        case "ButtonPause": this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_PAUSE ); break;
+        case "ButtonPlay": this.buttonDown = true;
+          this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_PLAY ); break;
+        case "ButtonPause": this.buttonDown = true;
+          this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_PAUSE ); break;
       }
     } //*/
   }
@@ -74,10 +74,11 @@ export default class P3dUserInterface
   ///////////////////////////////////////////////////////////////////////
   mouseUp( event )
   {
-    // DEBUG
-    //console.log("---->MOUSE UP EVENT", ButtonEvent.BUTTON_DOWN_PLAY );
-    
-    this.appController.processButtonEvent( ButtonEvent.BUTTON_UP ); 
+    if( this.buttonDown == true )
+    {
+      this.buttonDown = false;
+      this.appController.processButtonEvent( ButtonEvent.BUTTON_UP ); 
+    }
   }
 
 
@@ -129,7 +130,7 @@ export default class P3dUserInterface
     const url = '3dplayer/model/chassis.glb';
     gltfLoader.load(url, (gltf) => {
       this.loadedModel = gltf.scene;
-      this.loadedModel.position.z = -2;
+      this.loadedModel.position.z = -1;
       this.scene.add( this.loadedModel );
     });
 
