@@ -133,7 +133,7 @@ export default class P3dUserInterface
     const url = '3dplayer/model/chassis.glb';
     gltfLoader.load(url, (gltf) => {
       this.loadedModel = gltf.scene;
-      this.loadedModel.position.z = -1;
+      this.loadedModel.position.z = -0;
       this.scene.add( this.loadedModel );
     });
 
