@@ -105,8 +105,8 @@ export default class P3dUserInterface
     } //*/
 
     // MODULATE CD PLAYER ROTATION...
-    //const rotationSpeed = 0.03;
-    const rotationSpeed = 0.01;
+    const rotationSpeed = 0.03; // NORMAL
+    //const rotationSpeed = 0.01; // SLOW
     if( this.loadedModel != null )
     {
       this.loadedModel.rotation.y = Math.cos( this.frameCounter * rotationSpeed ) * 0.08;
@@ -206,6 +206,8 @@ export default class P3dUserInterface
   // -----> THIS SHOULD BE MOVED TO A NEW CLASS
   {
     return `
+      precision mediump float;
+    
       float rand(vec2 co)
       {
           return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
