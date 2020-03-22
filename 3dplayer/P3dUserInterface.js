@@ -40,7 +40,10 @@ export default class P3dUserInterface
     this.raycaster = new THREE.Raycaster();
     document.addEventListener( 'mousedown', this.mouseDown.bind(this), false );
     document.addEventListener( 'mouseup', this.mouseUp.bind(this), false );
-
+    document.addEventListener('touchstart', this.mouseDown.bind(this), false);
+    //someElement.addEventListener('touchmove', process_touchmove, false);
+    document.addEventListener('touchcancel', this.mouseUp.bind(this), false);
+    document.addEventListener('touchend', this.mouseUp.bind(this), false);
   }
 
 
