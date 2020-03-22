@@ -214,11 +214,14 @@ export default class P3dUserInterface
       }
       
       void main() {
-        float colorValue = gl_PointCoord.y/100.0+0.2;
-        gl_FragColor = vec4( colorValue, colorValue, colorValue+0.05, 1.0);
+        float colorValue = gl_PointCoord.y/100.0;
+        gl_FragColor = vec4( colorValue, colorValue, colorValue, 1.0);
       }
         `
   }  
+
+      //float colorValue = gl_PointCoord.y/100.0+0.2;
+      //gl_FragColor = vec4( colorValue, colorValue, colorValue+0.05, 1.0);
 
       //float colorValue = gl_PointCoord.y/100.0+0.2 + rand(gl_PointCoord.xy)*0.02;
 }
