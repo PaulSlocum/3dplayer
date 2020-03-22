@@ -136,6 +136,7 @@ export default class P3dUserInterface
     gltfLoader.load(url, (gltf) => {
       this.loadedModel = gltf.scene;
       this.loadedModel.position.z = -0;
+      this.loadedModel.position.y = 0;
       this.scene.add( this.loadedModel );
       
       //var model = gltf.scene;
