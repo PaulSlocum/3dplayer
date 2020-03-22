@@ -105,10 +105,12 @@ export default class P3dUserInterface
     } //*/
 
     // MODULATE CD PLAYER ROTATION...
+    //const rotationSpeed = 0.03;
+    const rotationSpeed = 0.01;
     if( this.loadedModel != null )
     {
-      this.loadedModel.rotation.y = Math.cos( this.frameCounter * 0.03 ) * 0.08;
-      this.loadedModel.rotation.x = Math.sin( this.frameCounter * 0.03) * 0.08 - 0.15;
+      this.loadedModel.rotation.y = Math.cos( this.frameCounter * rotationSpeed ) * 0.08;
+      this.loadedModel.rotation.x = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.15;
     }  
     
     this.renderer.render( this.scene, this.camera );
