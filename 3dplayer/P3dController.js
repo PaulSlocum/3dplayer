@@ -1,6 +1,6 @@
 // P3dController.js
 //
-// MAIN APP CONTROLLER THAT LOADS/CONNECTS THE USER INTERFACE SUBSYSTEM
+// MAIN APP CONTROLLER: LOADS/CONNECTS THE USER INTERFACE SUBSYSTEM
 // AND MEDIA TRANSPORT SUBSYSTEM.
 //
 ///////////////////////////////////////////////////////////////////////////////////

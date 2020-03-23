@@ -62,6 +62,7 @@ export default class P3dSoundPlayer
     this.sourceArray[soundFilename].start(0); //*/
   }
   
+  ///////////////////////////////////////////////////////////////////////////
   stopSound( soundFilename )
   {
     this.sourceArray[soundFilename].stop(); //*/

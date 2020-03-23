@@ -1,6 +1,6 @@
 // P3dGraphics.js
 //
-// GRAPHICS SUBSYSTEM THAT LOADS AND MANIPULATES THE 3D MODELS AND RENDERING ASSETS.
+// LOADS AND MANIPULATES 3D MODELS AND RENDERING ASSETS.
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -18,6 +18,8 @@ export default class P3dGraphics
   ///////////////////////////////////////////////////////////////////////
   constructor( appController, windowWidth, windowHeight, renderer ) 
   {
+    console.log("---->GRAPHICS CLASS CONSTRUCTOR");
+
     this.appController = appController;
     this.windowWidth = windowWidth;
     this.windowHeight = windowHeight;
@@ -26,11 +28,11 @@ export default class P3dGraphics
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera( 75, windowWidth/windowHeight, 0.1, 1000 );
 
-    this.cube = null;
-    this.customCube = null;
+    this.roomCube = null;
     this.loadedModel = null;
     
     this.buttonDown = false;
+    this.raycaster = new THREE.Raycaster();
 
     this.backgroundSpinRate = 0;
     this.frameCounter = 0;
@@ -52,13 +54,13 @@ export default class P3dGraphics
     this.backgroundSpinRate += 0.00001;
     if( this.backgroundSpinRate > 0.15 ) 
       this.backgroundSpinRate = 0.15;
-    if( this.cube != null )
+    if( this.roomCube != null )
     {
-      this.cube.rotation.x += this.backgroundSpinRate;
-      this.cube.rotation.y += this.backgroundSpinRate;
+      this.roomCube.rotation.x += this.backgroundSpinRate;
+      this.roomCube.rotation.y += this.backgroundSpinRate;
     } //*/
 
-    // MODULATE CD PLAYER ROTATION...
+    // MODULATE CD PLAYER ORIENTATION...
     const rotationSpeed = 0.03; // NORMAL
     //const rotationSpeed = 0.01; // SLOW
     if( this.loadedModel != null )
@@ -114,14 +116,14 @@ export default class P3dGraphics
     vblur.renderToScreen = true;
     this.composer.addPass( vblur ); //*/
 
-    // TEST CUBE  
+    // ROOM CUBE  
     var geometry = new THREE.BoxGeometry( -80, -40, -40 );
     //var geometry = new THREE.BoxGeometry( -70, -70, -70 );
 
-    // CUSTOM SHADER
+    // CUSTOM SHADER FOR ROOM BACKGROUND
     const material = new THREE.ShaderMaterial({
-      vertexShader: this.vertexShader(),
-      fragmentShader: this.fragmentShader()
+      vertexShader: this.roomVertexShader(),
+      fragmentShader: this.roomFragmentShader()
     }); //*/
     
     // OTHER MATERIAL OPTIONS (DEBUG)    
@@ -131,8 +133,8 @@ export default class P3dGraphics
     //const material = new THREE.MeshStandardMaterial();
     //material.flatShading = true; //*/
     
-    this.cube = new THREE.Mesh( geometry, material );
-    this.scene.add( this.cube ); //*/
+    this.roomCube = new THREE.Mesh( geometry, material );
+    this.scene.add( this.roomCube ); //*/
 
     // SPOTLIGHT
     var spotLight = new THREE.SpotLight(0xffffff);
@@ -144,7 +146,7 @@ export default class P3dGraphics
   }
 
   ///////////////////////////////////////////////////////////////////////
-  vertexShader() 
+  roomVertexShader() 
   // -----> THIS SHOULD BE MOVED TO A NEW CLASS
   {
     return `
@@ -157,9 +159,14 @@ export default class P3dGraphics
   }
 
   ///////////////////////////////////////////////////////////////////////
-  fragmentShader() 
+  roomFragmentShader() 
   // -----> THIS SHOULD BE MOVED TO A NEW CLASS
-  {
+  {   
+      //----------------------------------------------------------------------------
+      //float colorValue = gl_PointCoord.y/100.0+0.2;
+      //gl_FragColor = vec4( colorValue, colorValue, colorValue+0.05, 1.0);
+      //float colorValue = gl_PointCoord.y/100.0+0.2 + rand(gl_PointCoord.xy)*0.02;
+      //----------------------------------------------------------------------------
     return `
       precision mediump float;
     
@@ -170,15 +177,27 @@ export default class P3dGraphics
       
       void main() {
         float colorValue = gl_PointCoord.y/100.0;
+        colorValue = clamp( colorValue, 0.0, 1.0 );
         gl_FragColor = vec4( colorValue, colorValue, colorValue, 1.0);
       }
         `
   }  
 
-      //float colorValue = gl_PointCoord.y/100.0+0.2;
-      //gl_FragColor = vec4( colorValue, colorValue, colorValue+0.05, 1.0);
 
-      //float colorValue = gl_PointCoord.y/100.0+0.2 + rand(gl_PointCoord.xy)*0.02;
+  ////////////////////////////////////////////////////////////////////////
+  getIntersectionsAtPixel( mousePosition )
+  {
+    // update the picking ray with the camera and mouse position
+    this.raycaster.setFromCamera( mousePosition, this.camera );
+
+    // calculate objects intersecting the picking ray
+    //var intersects = this.raycaster.intersectObjects( this.scene.children );
+    var intersects = this.raycaster.intersectObjects( this.loadedModel.children );
+
+    console.log("---->INTERSECTS: ", intersects);
+
+    return intersects;
+  }
 
   
 }

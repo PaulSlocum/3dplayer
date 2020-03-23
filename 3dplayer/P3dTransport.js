@@ -1,6 +1,6 @@
 // P3dTransport.js
 //
-// MEDIA TRANSPORT THAT SIMULATES OPERATION OF CD PLAYER LOGIC AND AUDIO.
+// SIMULATES CD PLAYER LOGIC, SOUNDS, AND PLAYBACK USING SOUND PLAYER CLASS (P3dSound).
 //
 ////////////////////////////////////////////////////////////////////////////////////
 

@@ -1,7 +1,6 @@
 // P3dUserInterface.js
 //
-// USER INTERFACE SUBSYSTEM THAT HANDLES MOUSE/TOUCH EVENTS AND CONTAINS CLASSES
-// TO DRIVE THE GRAPHICS.
+// HANDLES MOUSE/TOUCH EVENTS AND SETS UP THE GRAPHICS SUBSYSTEM CLASS (P3dGraphics)
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -34,7 +33,6 @@ export default class P3dUserInterface
 
 
     // MOUSE HANDLING
-    this.raycaster = new THREE.Raycaster();
     document.addEventListener( 'mousedown', this.mouseDown.bind(this), false );
     document.addEventListener( 'mouseup', this.mouseUp.bind(this), false );
     document.addEventListener('touchstart', this.mouseDown.bind(this), false);
@@ -50,13 +48,7 @@ export default class P3dUserInterface
     mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
     mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 
-    // update the picking ray with the camera and mouse position
-    /*this.raycaster.setFromCamera( mouse, this.camera );
-
-    // calculate objects intersecting the picking ray
-    //var intersects = this.raycaster.intersectObjects( this.scene.children );
-    var intersects = this.raycaster.intersectObjects( this.loadedModel.children );
-
+    var intersects = this.graphics.getIntersectionsAtPixel( mouse );
     for ( var i = 0; i < intersects.length; i++ ) 
     {
       switch( intersects[i].object.name )
