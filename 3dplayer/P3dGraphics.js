@@ -78,6 +78,13 @@ export default class P3dGraphics
   };
 
 
+  ////////////////////////////////////////////////////////////////////////
+  modelLoadComplete()
+  {
+    this.numericDisplay.load();
+  }
+
+
   ///////////////////////////////////////////////////////////////////////
   // -----> THIS SHOULD BE MOVED TO A NEW CLASS
   buildStructures()
@@ -98,6 +105,8 @@ export default class P3dGraphics
       this.loadedModel.position.z = -0;
       this.loadedModel.position.y = 0;
       this.scene.add( this.loadedModel );
+      
+      this.modelLoadComplete();
       
       // TEST ANIMATIONS (NOT YET WORKING)
       /*var mixer = new THREE.AnimationMixer( this.loadedModel );

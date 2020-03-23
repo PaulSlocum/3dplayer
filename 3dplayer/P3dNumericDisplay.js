@@ -21,4 +21,10 @@ export default class P3dNumericDisplay
     this.ledDriver = new P3dLEDDriver( scene );
   }
   
+  //////////////////////////////////////////////////////////////////////////////
+  load()
+  {
+    this.ledDriver.load();
+  }
+  
 }
