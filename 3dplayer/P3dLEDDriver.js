@@ -2,11 +2,54 @@
 
 
 
-
+// open disc play stop treb bass vol
+// a b c d e f h i l n o p r s t u v 
 
 
 const TOTAL_LED_DIGITS = 6;
 const TOTAL_LED_SEGMENTS = 7;
+const SEGMENT_TABLE = { 
+        0: [1,1,1,1,1,1,0],
+        1: [0,0,1,1,0,0,0],
+        2: [0,1,1,0,1,1,1],
+        3: [0,1,1,1,1,0,1],
+        4: [1,0,1,1,0,0,1],
+        5: [1,1,0,1,1,0,1],
+        6: [1,1,0,1,1,1,1],
+        7: [0,1,1,1,0,0,0],
+        8: [1,1,1,1,1,1,1],
+        9: [1,1,1,1,0,0,1],
+        9: [1,1,1,1,0,0,1],
+        9: [1,1,1,1,0,0,1],
+        9: [1,1,1,1,0,0,1],
+        9: [1,1,1,1,0,0,1],
+        9: [1,1,1,1,0,0,1],
+        9: [1,1,1,1,0,0,1],
+        a: [1,1,1,1,0,1,1],
+        b: [1,0,0,1,1,1,1],
+
+        c: [0,0,0,0,1,1,1],
+        d: [0,0,1,1,1,1,1],
+        e: [1,1,0,0,1,1,1],
+        f: [1,1,0,0,0,1,1],
+        h: [1,0,0,1,0,1,1],
+        i: [0,0,0,1,0,0,0],
+        l: [0,0,1,1,0,0,0],
+        L: [1,0,0,0,1,1,0],
+        n: [0,0,0,1,0,1,1],
+        N: [1,1,1,1,0,1,0],
+        o: [0,0,0,1,1,1,1],
+        O: [1,1,1,1,1,1,0],
+        p: [1,1,1,0,0,1,1],
+        r: [0,0,0,0,0,1,1],
+        s: [1,1,0,1,1,0,1],
+        t: [1,0,0,0,1,1,1],
+        v: [0,0,0,1,1,1,0],
+        y: [1,0,1,1,1,0,1],
+        
+        blank: [0,0,0,0,0,0,0]
+        
+         };
 
 
 
@@ -29,7 +72,7 @@ export default class P3dLEDDriver
     this.mainLedArray = [ [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], 
                           [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0] ];
     this.highlightLedArray = [ [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], 
-                          [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0] ];
+                               [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0] ];
   }
 
 
@@ -82,11 +125,11 @@ export default class P3dLEDDriver
         //console.log( "---->LED DRIVER->MAIN: ", this.mainLedArray[ledDigit][ledSegment] );
         //console.log( "---->LED DRIVER->HIGHLIGHT: ", this.highlightLedArray[ledDigit][ledSegment] );
         
-        if( ledSegment%1 == 0 )
-        {        
-          this.mainLedArray[ledDigit][ledSegment].material = this.ledOffMaterial;
-          this.highlightLedArray[ledDigit][ledSegment].material = this.displayGlassMaterial;
-        }
+        /*if( ledSegment%2 == 0 )
+          this.segmentOff( ledDigit, ledSegment );
+        else
+          this.segmentOn( ledDigit, ledSegment ); //*/
+        
       }
     } //*/
     
@@ -101,27 +144,46 @@ export default class P3dLEDDriver
     this.scene.getObjectByName( "Seg1b1001", true ).material = this.displayGlassMaterial;
     this.scene.getObjectByName( "Seg1b2001", true ).material = this.displayGlassMaterial; //*/
     
+    this.setDigitCharacter( 'p', 0 );
+    this.setDigitCharacter( 'L', 1 );
+    this.setDigitCharacter( 'a', 2 );
+    this.setDigitCharacter( 'y', 3 );
+    this.setDigitCharacter( 'blank', 4 );
+    this.setDigitCharacter( 'blank', 5 );
+    
   }
 
 
   ////////////////////////////////////////////////////////////////////////
   setDigitCharacter( character, digit )
   {
+    //console.log( "---->LED DRIVER->SET: ", SEGMENT_TABLE[character] );
+    var segmentArray = SEGMENT_TABLE[character];
+    for( var ledSegment=0; ledSegment<TOTAL_LED_SEGMENTS; ledSegment++ )
+    {
+      if( segmentArray[ledSegment] == 0 )
+        this.segmentOff( digit, ledSegment );
+      else
+        this.segmentOn( digit, ledSegment );
+    }
+    
   }
 
   /////////////////////////////////////////////////////////////////////////
-  segmentOn( digit, segment )
+  segmentOn( ledDigit, ledSegment )
   {
+    this.mainLedArray[ledDigit][ledSegment].material = this.ledOnMaterial;
+    this.highlightLedArray[ledDigit][ledSegment].material = this.ledDimMaterial;
   }
   
   /////////////////////////////////////////////////////////////////////////
-  segmentOff( digit, segment )
+  segmentOff( ledDigit, ledSegment )
   {
-  }
-  
-  ///////////////////////////////////////////////////////////////////////////
-  getObjectName( digit, segment )
-  {
+    //this.mainLedArray[ledDigit][ledSegment].material = this.ledDimMaterial;
+    //this.highlightLedArray[ledDigit][ledSegment].material = this.displayGlassMaterial;
+
+    this.mainLedArray[ledDigit][ledSegment].material = this.ledOffMaterial;
+    this.highlightLedArray[ledDigit][ledSegment].material = this.displayGlassMaterial;
   }
   
   
