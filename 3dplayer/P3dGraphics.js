@@ -8,6 +8,7 @@
 //-----------------------------------------------------------------------------------
 import { GLTFLoader } from './three/examples/jsm/loaders/GLTFLoader.js';
 import P3dController from './P3dController.js'
+import P3dNumericDisplay from './P3dNumericDisplay.js'
 //-----------------------------------------------------------------------------------
 
 
@@ -15,6 +16,7 @@ import P3dController from './P3dController.js'
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 export default class P3dGraphics
 {
+
   ///////////////////////////////////////////////////////////////////////
   constructor( appController, windowWidth, windowHeight, renderer ) 
   {
@@ -38,6 +40,8 @@ export default class P3dGraphics
     this.frameCounter = 0;
 
     this.buildStructures();    
+
+    this.numericDisplay = new P3dNumericDisplay( appController, this.scene );
   }
 
 
@@ -95,15 +99,15 @@ export default class P3dGraphics
       this.loadedModel.position.y = 0;
       this.scene.add( this.loadedModel );
       
-      //var model = gltf.scene;
-      var mixer = new THREE.AnimationMixer( this.loadedModel );
+      // TEST ANIMATIONS (NOT YET WORKING)
+      /*var mixer = new THREE.AnimationMixer( this.loadedModel );
       var clip1 = gltf.animations[1];
       console.log("---->CLIP: ", clip1 );
       var action1 = mixer.clipAction(clip1);
       console.log("---->ACTION: ", action1 );
       //action1.clampWhenFinished = true;
       //mixer.update( 1 );
-      action1.play();
+      action1.play(); //*/
     });
 
     // ADD BLUR (NOT YET WORKING)
@@ -193,8 +197,6 @@ export default class P3dGraphics
     // calculate objects intersecting the picking ray
     //var intersects = this.raycaster.intersectObjects( this.scene.children );
     var intersects = this.raycaster.intersectObjects( this.loadedModel.children );
-
-    console.log("---->INTERSECTS: ", intersects);
 
     return intersects;
   }

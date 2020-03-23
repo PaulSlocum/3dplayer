@@ -31,8 +31,7 @@ export default class P3dUserInterface
 
     this.graphics = new P3dGraphics( appController, windowWidth, windowHeight, renderer );
 
-
-    // MOUSE HANDLING
+    // MOUSE/TOUCH HANDLING (TOUCH DOESN'T WORK YET)
     document.addEventListener( 'mousedown', this.mouseDown.bind(this), false );
     document.addEventListener( 'mouseup', this.mouseUp.bind(this), false );
     document.addEventListener('touchstart', this.mouseDown.bind(this), false);
@@ -45,8 +44,8 @@ export default class P3dUserInterface
   mouseDown( event )
   {
     var mouse = new THREE.Vector2();
-    mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-    mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    mouse.x = ( event.clientX / this.windowWidth ) * 2 - 1;
+    mouse.y = - ( event.clientY / this.windowHeight ) * 2 + 1;
 
     var intersects = this.graphics.getIntersectionsAtPixel( mouse );
     for ( var i = 0; i < intersects.length; i++ ) 
