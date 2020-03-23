@@ -180,6 +180,12 @@ export default class P3dGraphics
       //gl_FragColor = vec4( colorValue, colorValue, colorValue+0.05, 1.0);
       //float colorValue = gl_PointCoord.y/100.0+0.2 + rand(gl_PointCoord.xy)*0.02;
       //----------------------------------------------------------------------------
+      /* ORIGINAL GRADIENT
+        float colorValue = gl_PointCoord.y/100.0;
+        colorValue = clamp( colorValue, 0.0, 1.0 );
+        gl_FragColor = vec4( colorValue, colorValue, colorValue, 1.0);
+      //*/
+      //----------------------------------------------------------------------------
     return `
       precision mediump float;
     
@@ -189,9 +195,7 @@ export default class P3dGraphics
       }
       
       void main() {
-        float colorValue = gl_PointCoord.y/100.0;
-        colorValue = clamp( colorValue, 0.0, 1.0 );
-        gl_FragColor = vec4( colorValue, colorValue, colorValue, 1.0);
+        gl_FragColor = vec4( 0.0, 0.0, 0.0, 1.0);
       }
         `
   }  

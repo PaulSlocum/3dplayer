@@ -62,9 +62,6 @@ export default class P3dLEDDriver
     this.scene.getObjectByName( "Seg1a2001", true ).material = this.displayGlassMaterial;
     this.scene.getObjectByName( "Seg1b1001", true ).material = this.displayGlassMaterial;
     this.scene.getObjectByName( "Seg1b2001", true ).material = this.displayGlassMaterial;
-    //var object = this.scene.getObjectByName( "Seg1a1001", true );
-    //object.material = this.displayGlassMaterial;
-
     
   }
 
