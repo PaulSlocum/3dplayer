@@ -1,4 +1,9 @@
-
+// P3dSound.js
+//
+// WEB AUDIO API WRAPPER THAT ALLOWS LOADING OF AUDIO FILES INTO MEMORY AND 
+// PLAYBACK OF BOTH SHORT AUDIO EFFECTS AND ALSO THE LONGER MAIN AUDIO TRACK.
+//
+//////////////////////////////////////////////////////////////////////////////
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 export default class P3dSoundPlayer

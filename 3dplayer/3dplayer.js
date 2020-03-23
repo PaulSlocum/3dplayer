@@ -1,6 +1,6 @@
 // 3dplayer.js
 //
-// 3D PLAYER SETUP SCRIPT. CREATES THE RENDERER AND APP CONTROLLER.
+// 3D PLAYER SETUP SCRIPT. CREATES THE RENDERER AND LAUNCHES THE APP CONTROLLER.
 //
 //////////////////////////////////////////////////////////////////////////
 

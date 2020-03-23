@@ -1,3 +1,10 @@
+// P3dController.js
+//
+// MAIN APP CONTROLLER THAT LOADS/CONNECTS THE USER INTERFACE SUBSYSTEM
+// AND MEDIA TRANSPORT SUBSYSTEM.
+//
+///////////////////////////////////////////////////////////////////////////////////
+
 
 //-----------------------------------------------------------------------------------
 import P3dUserInterface from './P3dUserInterface.js'
