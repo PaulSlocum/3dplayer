@@ -1,9 +1,13 @@
 
 
 
-
+//-----------------------------------------
+// REQUIRED TEXT/CHARACTERS:
+//
 // open disc play stop treb bass vol
 // a b c d e f h i l n o p r s t u v 
+//
+//-----------------------------------------
 
 
 const TOTAL_LED_DIGITS = 6;
@@ -48,8 +52,7 @@ const SEGMENT_TABLE = {
         y: [1,0,1,1,1,0,1],
         
         blank: [0,0,0,0,0,0,0]
-        
-         };
+     };
 
 
 
@@ -79,11 +82,6 @@ export default class P3dLEDDriver
   /////////////////////////////////////////////////////////////////////////
   load()
   {
-    //var object = this.scene.getObjectByName( "Seg1a1.001", true );
-    //var object = this.scene.getObjectByName( "ButtonPlay", true );
-    //var object = this.scene.getObjectByName( "Seg1a1001", true );
-    //console.log("---->LED DRIVER->OBJECT: ", object);
-    
     // FIND THE MATERIALS USED FOR THE LEDS...
     this.scene.traverse( function(child) 
     {
@@ -116,40 +114,20 @@ export default class P3dLEDDriver
       for( var ledSegment=0; ledSegment<TOTAL_LED_SEGMENTS; ledSegment++ )
       {
         var mainObjectName = "Seg1".concat( String.fromCharCode(ledSegment+97), "100", ledDigit+1 );
-        //console.log( "---->LED DRIVER->NAME: ", mainObjectName );
         this.mainLedArray[ledDigit][ledSegment] = this.scene.getObjectByName( mainObjectName, true );
         
         var highlightObjectName = "Seg1".concat( String.fromCharCode(ledSegment+97), "200", ledDigit+1 );
         this.highlightLedArray[ledDigit][ledSegment] = this.scene.getObjectByName( highlightObjectName, true );
-
-        //console.log( "---->LED DRIVER->MAIN: ", this.mainLedArray[ledDigit][ledSegment] );
-        //console.log( "---->LED DRIVER->HIGHLIGHT: ", this.highlightLedArray[ledDigit][ledSegment] );
-        
-        /*if( ledSegment%2 == 0 )
-          this.segmentOff( ledDigit, ledSegment );
-        else
-          this.segmentOn( ledDigit, ledSegment ); //*/
-        
       }
     } //*/
-    
-    // DEBUG...
-    /*var test = this.scene.getObjectByName( "Seg1a1001", true );
-    console.log( "---->LED DRIVER->TEST: ", test );
-    this.mainLedArray[0][0] = test; //*/
-    
-    
-    /*this.scene.getObjectByName( "Seg1a1001", true ).material = this.displayGlassMaterial;
-    this.scene.getObjectByName( "Seg1a2001", true ).material = this.displayGlassMaterial;
-    this.scene.getObjectByName( "Seg1b1001", true ).material = this.displayGlassMaterial;
-    this.scene.getObjectByName( "Seg1b2001", true ).material = this.displayGlassMaterial; //*/
-    
-    this.setDigitCharacter( 'p', 0 );
-    this.setDigitCharacter( 'L', 1 );
-    this.setDigitCharacter( 'a', 2 );
-    this.setDigitCharacter( 'y', 3 );
+
+    // SET INITIAL CHARACTERS    
+    this.setDigitCharacter( 's', 0 );
+    this.setDigitCharacter( 't', 1 );
+    this.setDigitCharacter( 'o', 2 );
+    this.setDigitCharacter( 'p', 3 );
     this.setDigitCharacter( 'blank', 4 );
-    this.setDigitCharacter( 'blank', 5 );
+    this.setDigitCharacter( '1', 5 ); //*/
     
   }
 
@@ -175,6 +153,7 @@ export default class P3dLEDDriver
     this.mainLedArray[ledDigit][ledSegment].material = this.ledOnMaterial;
     this.highlightLedArray[ledDigit][ledSegment].material = this.ledDimMaterial;
   }
+
   
   /////////////////////////////////////////////////////////////////////////
   segmentOff( ledDigit, ledSegment )
