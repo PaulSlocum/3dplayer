@@ -145,8 +145,8 @@ export default class P3dGraphics
     
     // NEW CUSTOM SHADER FOR ROOM BACKGROUND
     const uniforms = {
-        colorB: {type: 'vec3', value: new THREE.Color(0xACB6E5)},
-        colorA: {type: 'vec3', value: new THREE.Color(0x74ebd5)}
+        colorB: {type: 'vec3', value: new THREE.Color(0x000000)},
+        colorA: {type: 'vec3', value: new THREE.Color(0x010102)}
     }
 
     //let geometry = new THREE.BoxGeometry(1, 1, 1)
