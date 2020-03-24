@@ -29,8 +29,9 @@ if( (windowWidth > 0  &&  windowHeight > 0) == false )
 }
 
 // CREATE RENDERER
-var renderer = new THREE.WebGLRenderer( { antialias: false } );
-//var renderer = new THREE.WebGLRenderer( { antialias: true } );
+var renderer = new THREE.WebGLRenderer( {preserveDrawingBuffer:false} );
+//renderer.antialias = false;
+//renderer.preserveDrawingBuffer = false;
 renderer.setSize( windowWidth, windowHeight );
 
 // ADD THE RENDERER TO THE DOCUMENT AT THE LOCATION WHERE THE SCRIPT WAS PLACED

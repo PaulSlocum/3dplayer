@@ -137,10 +137,25 @@ export default class P3dGraphics
     //var geometry = new THREE.BoxGeometry( -70, -70, -70 );
 
     // CUSTOM SHADER FOR ROOM BACKGROUND
-    const material = new THREE.ShaderMaterial({
+    /*const material = new THREE.ShaderMaterial({
       vertexShader: this.roomVertexShader(),
       fragmentShader: this.roomFragmentShader()
     }); //*/
+    
+    
+    // NEW CUSTOM SHADER FOR ROOM BACKGROUND
+    const uniforms = {
+        colorB: {type: 'vec3', value: new THREE.Color(0xACB6E5)},
+        colorA: {type: 'vec3', value: new THREE.Color(0x74ebd5)}
+    }
+
+    //let geometry = new THREE.BoxGeometry(1, 1, 1)
+    const material =  new THREE.ShaderMaterial({
+      uniforms: uniforms,
+      fragmentShader: this.roomFragmentShader(),
+      vertexShader: this.roomVertexShader(),
+    })
+
     
     // OTHER MATERIAL OPTIONS (DEBUG)    
     //const material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF } );
@@ -165,13 +180,47 @@ export default class P3dGraphics
   roomVertexShader() 
   // -----> THIS SHOULD BE MOVED TO A NEW CLASS
   {
-    return `
-      void main() 
+    //---------------------------------------------------------------------
+    /* DIFFUSE SHADER
+      varying vec3 normal;
+      varying vec3 vertex_to_light_vector;
+ 
+      void main()
+      {
+          // Transforming The Vertex
+          gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+ 
+          // Transforming The Normal To ModelView-Space
+          normal = gl_NormalMatrix * gl_Normal;
+ 
+          // Transforming The Vertex Position To ModelView-Space
+          vec4 vertex_in_modelview_space = gl_ModelViewMatrx * gl_Vertex;
+ 
+          // Calculating The Vector From The Vertex Position To The Light Position
+          vertex_to_light_vector = vec3(gl_LightSource[0].position Â– vertex_in_modelview_space);
+      }
+    //*/
+    //-------------------------------------------------------------------------
+    /* ORIGINAL
+      void main()
       {
         vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
         gl_Position = projectionMatrix * modelViewPosition;
       }
-        `
+    //*/
+    //-------------------------------------------------------------------------
+
+    return `
+    varying vec3 vUv; 
+
+    void main() {
+      vUv = position; 
+
+      vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
+      gl_Position = projectionMatrix * modelViewPosition; 
+    }
+
+      `
   }
 
   ///////////////////////////////////////////////////////////////////////
@@ -193,21 +242,36 @@ export default class P3dGraphics
               gl_FragColor = vec4( 0.0, 0.0, 0.1, 1.0);
               //*/
       //----------------------------------------------------------------------------
-
+      /* DIFFUSE SHADER
+        varying vec3 normal;
+        varying vec3 vertex_to_light_vector;
+ 
+        void main()
+        {
+            // Defining The Material Colors
+            const vec4 AmbientColor = vec4(0.1, 0.0, 0.0, 1.0);
+            const vec4 DiffuseColor = vec4(1.0, 0.0, 0.0, 1.0);
+ 
+            // Scaling The Input Vector To Length 1
+            vec3 normalized_normal = normalize(normal);
+            vec3 normalized_vertex_to_light_vector = normalize(vertex_to_light_vector);
+ 
+            // Calculating The Diffuse Term And Clamping It To [0;1]
+            float DiffuseTerm = clamp(dot(normal, vertex_to_light_vector), 0.0, 1.0);
+ 
+            // Calculating The Final Color
+            gl_FragColor = AmbientColor + DiffuseColor * DiffuseTerm;
+        }
+              //*/
+      //----------------------------------------------------------------------------
     return `
-      precision mediump float;
-    
-      float rand(vec2 co)
-      {
-          return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
-      }
-      
+      uniform vec3 colorA; 
+      uniform vec3 colorB; 
+      varying vec3 vUv;
+
       void main() {
-        float colorValue = gl_PointCoord.y/100.0;
-        colorValue = clamp( colorValue, 0.0, 1.0 );
-        gl_FragColor = vec4( colorValue, colorValue, colorValue, 1.0);
-      }
-        `
+        gl_FragColor = vec4(mix(colorA, colorB, vUv.z), 1.0);
+      }        `
   }  
 
 
