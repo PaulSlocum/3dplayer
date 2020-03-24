@@ -7,7 +7,7 @@
 
 //-----------------------------------------------------------------------------------
 import P3dController from './P3dController.js'
-import { ButtonEvent } from './P3dController.js'
+import { Mode, ButtonEvent } from './P3dController.js'
 import P3dSoundPlayer from './P3dSound.js'
 //-----------------------------------------------------------------------------------
 
@@ -42,6 +42,8 @@ export default class P3dTransport {
     this.soundPlayer.loadSound( MUSIC_FILENAME );    
     
     this.trackPlaying = false;
+    
+    this.status = Mode.STOPPED;
   }
   
   ///////////////////////////////////////////////////////////////////////
@@ -55,6 +57,7 @@ export default class P3dTransport {
             {
               this.trackPlaying = true;
               this.soundPlayer.playSound( MUSIC_FILENAME );    
+              this.status = Mode.PLAYING;
             }
             break;
       case ButtonEvent.BUTTON_DOWN_PAUSE: console.log("---->PAUSE BUTTON PRESSED (TRANSPORT)"); 
@@ -63,6 +66,7 @@ export default class P3dTransport {
             {
               this.trackPlaying = false;
               this.soundPlayer.stopSound( MUSIC_FILENAME );    
+              this.status = Mode.STOPPED;
             }
             break;
       case ButtonEvent.BUTTON_UP: console.log("---->BUTTON UP (TRANSPORT)"); 
@@ -77,5 +81,10 @@ export default class P3dTransport {
     return this.soundPlayer.getPlaybackTime( MUSIC_FILENAME );
   }
   
+  //////////////////////////////////////////////////////////////////////////
+  getStatus()
+  {
+    return this.status;
+  }
   
 }

@@ -65,4 +65,13 @@ export default class P3dController {
   {
     return this.transport.getPlaybackTime();
   }
+  
+  /////////////////////////////////////////////////////////////////////////////
+  getStatus()
+  {
+    return this.transport.getStatus();
+  }
+  
+  
+  
 }

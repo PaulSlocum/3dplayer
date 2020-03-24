@@ -17,6 +17,9 @@ export default class P3dSoundPlayer
     this.bufferArray = {};
     this.contextArray = {};
     this.sourceArray = {};
+    
+    this.loadedMusicFilename = null;
+    
   }
   
   //   ~      -         ~      -         ~      -         ~      -         ~     
@@ -79,25 +82,29 @@ export default class P3dSoundPlayer
 
 
   /////////////////////////////////////////////////////////////////////////////
-  playMusic( soundFilename )
+  playMusic( soundFilename, offsetSec=0.0 )
   {
+    if( loadedMusicFilename != soundFilename )
+    {
+    
+    }
+    else
+    {
+    }
   }
-  
-  
+
+
+  /////////////////////////////////////////////////////////////////////////////
   pauseMusic()
   {
   }
 
 
+  /////////////////////////////////////////////////////////////////////////////
   getMusicTime()
   {
   }
   
-  
-  playMusicOffset( soundFilename, offset )
-  {
-  }
-
 
   //   ~      -         ~      -         ~      -         ~      -         ~     
 

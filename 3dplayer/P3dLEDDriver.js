@@ -12,7 +12,8 @@
 
 const TOTAL_LED_DIGITS = 6;
 const TOTAL_LED_SEGMENTS = 7;
-const SEGMENT_TABLE = { 
+const SEGMENT_TABLE = 
+{ 
         0: [1,1,1,1,1,1,0],
         1: [0,0,1,1,0,0,0],
         2: [0,1,1,0,1,1,1],
@@ -23,15 +24,8 @@ const SEGMENT_TABLE = {
         7: [0,1,1,1,0,0,0],
         8: [1,1,1,1,1,1,1],
         9: [1,1,1,1,0,0,1],
-        9: [1,1,1,1,0,0,1],
-        9: [1,1,1,1,0,0,1],
-        9: [1,1,1,1,0,0,1],
-        9: [1,1,1,1,0,0,1],
-        9: [1,1,1,1,0,0,1],
-        9: [1,1,1,1,0,0,1],
         a: [1,1,1,1,0,1,1],
         b: [1,0,0,1,1,1,1],
-
         c: [0,0,0,0,1,1,1],
         d: [0,0,1,1,1,1,1],
         e: [1,1,0,0,1,1,1],
@@ -50,9 +44,9 @@ const SEGMENT_TABLE = {
         t: [1,0,0,0,1,1,1],
         v: [0,0,0,1,1,1,0],
         y: [1,0,1,1,1,0,1],
-        
-        blank: [0,0,0,0,0,0,0]
-     };
+        blank: [0,0,0,0,0,0,0],
+        X: [0,0,0,0,0,0,0]
+};
 
 
 
@@ -80,6 +74,7 @@ export default class P3dLEDDriver
 
 
   /////////////////////////////////////////////////////////////////////////
+  // SET UP MATERIALS AND OBJECTS -- MUST BE CALLED AFTER SCENE IS LOADED
   load()
   {
     // FIND THE MATERIALS USED FOR THE LEDS...
@@ -87,22 +82,22 @@ export default class P3dLEDDriver
     {
       if( this.ledOnMaterial == null  &&  child.material  &&  child.material.name == "ledOn" )
       {
-        console.log( "---->LED DRIVER: 'ledOn' MATERIAL FOUND" );
+        //console.log( "---->LED DRIVER: 'ledOn' MATERIAL FOUND" );
         this.ledOnMaterial = child.material;
       }
       if( this.ledDimMaterial == null  &&  child.material  &&  child.material.name == "ledDim" )
       {
-        console.log( "---->LED DRIVER: 'ledDim' MATERIAL FOUND" );
+        //console.log( "---->LED DRIVER: 'ledDim' MATERIAL FOUND" );
         this.ledDimMaterial = child.material;
       }
       if( this.ledOffMaterial == null  &&  child.material  &&  child.material.name == "ledOff" )
       {
-        console.log( "---->LED DRIVER: 'ledOff' MATERIAL FOUND" );
+        //console.log( "---->LED DRIVER: 'ledOff' MATERIAL FOUND" );
         this.ledOffMaterial = child.material;
       }
       if( this.displayGlassMaterial == null  &&  child.material  &&  child.material.name == "displayGlass" )
       {
-        console.log( "---->LED DRIVER: 'displayGlass' MATERIAL FOUND" );
+        //console.log( "---->LED DRIVER: 'displayGlass' MATERIAL FOUND" );
         this.displayGlassMaterial = child.material;
       }
       //console.log("---->LED DRIVER->CHILD: ", child.material);
@@ -122,27 +117,35 @@ export default class P3dLEDDriver
     } //*/
 
     // SET INITIAL CHARACTERS    
-    this.setDigitCharacter( 'blank', 0 );
-    this.setDigitCharacter( 'blank', 1 );
-    this.setDigitCharacter( 'blank', 2 );
-    this.setDigitCharacter( 'blank', 3 );
-    this.setDigitCharacter( 'blank', 4 );
-    this.setDigitCharacter( 'blank', 5 ); //*/
+    this.setDigitCharacter( 0, 'blank' );
+    this.setDigitCharacter( 1, 'blank' );
+    this.setDigitCharacter( 2, 'blank' );
+    this.setDigitCharacter( 3, 'blank' );
+    this.setDigitCharacter( 4, 'blank' );
+    this.setDigitCharacter( 5, 'blank' ); //*/
     
   }
 
+  ////////////////////////////////////////////////////////////////////////
+  setString( text )
+  {
+    for( var index=0; index<text.length; index++ )
+    {
+      this.setDigitCharacter( index, text[index] );
+    }
+  }
 
   ////////////////////////////////////////////////////////////////////////
-  setDigitCharacter( character, digit )
+  setDigitCharacter( ledDigit, character )
   {
     //console.log( "---->LED DRIVER->SET: ", SEGMENT_TABLE[character] );
     var segmentArray = SEGMENT_TABLE[character];
     for( var ledSegment=0; ledSegment<TOTAL_LED_SEGMENTS; ledSegment++ )
     {
       if( segmentArray[ledSegment] == 0 )
-        this.segmentOff( digit, ledSegment );
+        this.segmentOff( ledDigit, ledSegment );
       else
-        this.segmentOn( digit, ledSegment );
+        this.segmentOn( ledDigit, ledSegment );
     }
     
   }
