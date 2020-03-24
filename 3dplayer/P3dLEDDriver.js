@@ -103,7 +103,7 @@ export default class P3dLEDDriver
       //console.log("---->LED DRIVER->CHILD: ", child.material);
     }.bind(this) ); //*/
     
-    
+    // FIND AND LOAD ALL THE SEGMENT OBJECTS INTO ARRAYS...
     for( var ledDigit=0; ledDigit<TOTAL_LED_DIGITS; ledDigit++ )
     {
       for( var ledSegment=0; ledSegment<TOTAL_LED_SEGMENTS; ledSegment++ )
@@ -116,13 +116,8 @@ export default class P3dLEDDriver
       }
     } //*/
 
-    // SET INITIAL CHARACTERS    
-    this.setDigitCharacter( 0, 'blank' );
-    this.setDigitCharacter( 1, 'blank' );
-    this.setDigitCharacter( 2, 'blank' );
-    this.setDigitCharacter( 3, 'blank' );
-    this.setDigitCharacter( 4, 'blank' );
-    this.setDigitCharacter( 5, 'blank' ); //*/
+    // CLEAR ALL SEGMENTS
+    setString( 'XXXXXX' );
     
   }
 
