@@ -152,7 +152,7 @@ export default class P3dGraphics
     
     // NEW CUSTOM SHADER FOR ROOM BACKGROUND
     const uniforms = {
-        colorB: {type: 'vec3', value: new THREE.Color(0x000000)},
+        colorB: {type: 'vec3', value: new THREE.Color(0x020000)},
         colorA: {type: 'vec3', value: new THREE.Color(0x010102)}
     }
 
@@ -277,7 +277,7 @@ export default class P3dGraphics
       varying vec3 vUv;
 
       void main() {
-        gl_FragColor = vec4(mix(colorA, colorB, vUv.z), 1.0);
+        gl_FragColor = vec4(mix(colorA, colorB, vUv.y), 1.0);
       }        `
   }  
 
