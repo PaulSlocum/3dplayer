@@ -122,12 +122,12 @@ export default class P3dLEDDriver
     } //*/
 
     // SET INITIAL CHARACTERS    
-    this.setDigitCharacter( 's', 0 );
-    this.setDigitCharacter( 't', 1 );
-    this.setDigitCharacter( 'o', 2 );
-    this.setDigitCharacter( 'p', 3 );
+    this.setDigitCharacter( 'blank', 0 );
+    this.setDigitCharacter( 'blank', 1 );
+    this.setDigitCharacter( 'blank', 2 );
+    this.setDigitCharacter( 'blank', 3 );
     this.setDigitCharacter( 'blank', 4 );
-    this.setDigitCharacter( '1', 5 ); //*/
+    this.setDigitCharacter( 'blank', 5 ); //*/
     
   }
 

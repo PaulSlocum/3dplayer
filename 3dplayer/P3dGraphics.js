@@ -54,6 +54,9 @@ export default class P3dGraphics
 
     this.frameCounter++;
 
+    // UPDATE LED DISPLAY
+    this.numericDisplay.update();
+
     // ROTATE ROOM CUBE...
     this.backgroundSpinRate += 0.00001;
     if( this.backgroundSpinRate > 0.15 ) 
@@ -186,6 +189,11 @@ export default class P3dGraphics
         gl_FragColor = vec4( colorValue, colorValue, colorValue, 1.0);
       //*/
       //----------------------------------------------------------------------------
+      /* SOLID COLOR
+              gl_FragColor = vec4( 0.0, 0.0, 0.1, 1.0);
+              //*/
+      //----------------------------------------------------------------------------
+
     return `
       precision mediump float;
     
@@ -195,7 +203,9 @@ export default class P3dGraphics
       }
       
       void main() {
-        gl_FragColor = vec4( 0.0, 0.0, 0.1, 1.0);
+        float colorValue = gl_PointCoord.y/100.0;
+        colorValue = clamp( colorValue, 0.0, 1.0 );
+        gl_FragColor = vec4( colorValue, colorValue, colorValue, 1.0);
       }
         `
   }  

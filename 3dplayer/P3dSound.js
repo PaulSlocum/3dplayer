@@ -19,6 +19,9 @@ export default class P3dSoundPlayer
     this.sourceArray = {};
   }
   
+  //   ~      -         ~      -         ~      -         ~      -         ~     
+
+  
   //////////////////////////////////////////////////////////////////////////
   loadSound( soundFilename )
   {
@@ -47,6 +50,7 @@ export default class P3dSoundPlayer
     request.send();
   }
 
+
   //////////////////////////////////////////////////////////////////////////
   playSound( soundFilename )
   {
@@ -62,10 +66,56 @@ export default class P3dSoundPlayer
     this.sourceArray[soundFilename].start(0); //*/
   }
   
+  
   ///////////////////////////////////////////////////////////////////////////
   stopSound( soundFilename )
   {
     this.sourceArray[soundFilename].stop(); //*/
+  }
+  
+  
+  
+  //   ~      -         ~      -         ~      -         ~      -         ~     
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  playMusic( soundFilename )
+  {
+  }
+  
+  
+  pauseMusic()
+  {
+  }
+
+
+  getMusicTime()
+  {
+  }
+  
+  
+  playMusicOffset( soundFilename, offset )
+  {
+  }
+
+
+  //   ~      -         ~      -         ~      -         ~      -         ~     
+
+  
+  /////////////////////////////////////////////////////////////////////////
+  // TEMPORARY FUNCTION UNTIL MUSIC SYSTEM IS WORKING
+  getPlaybackTime( soundFilename )
+  {
+    //console.log('Playback time: ', soundFilename );
+    
+    var returnValue = 0.0;
+    if( this.contextArray[soundFilename] )
+    {
+      returnValue = this.contextArray[soundFilename].currentTime;
+    }
+    
+    //console.log('Playback time: ', returnValue, ' ', soundFilename );
+    return returnValue;
   }
   
   

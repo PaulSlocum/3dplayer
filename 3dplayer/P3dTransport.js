@@ -71,5 +71,11 @@ export default class P3dTransport {
     }
   }
   
+  /////////////////////////////////////////////////////////////////////////
+  getPlaybackTime()
+  {
+    return this.soundPlayer.getPlaybackTime( MUSIC_FILENAME );
+  }
+  
   
 }
