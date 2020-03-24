@@ -34,18 +34,49 @@ export default class P3dUserInterface
     // MOUSE/TOUCH HANDLING (TOUCH DOESN'T WORK YET)
     document.addEventListener( 'mousedown', this.mouseDown.bind(this), false );
     document.addEventListener( 'mouseup', this.mouseUp.bind(this), false );
-    document.addEventListener('touchstart', this.mouseDown.bind(this), false);
-    document.addEventListener('touchcancel', this.mouseUp.bind(this), false);
-    document.addEventListener('touchend', this.mouseUp.bind(this), false);
+    document.addEventListener('touchstart', this.touchDown.bind(this), false);
+    document.addEventListener('touchcancel', this.touchUp.bind(this), false);
+    document.addEventListener('touchend', this.touchUp.bind(this), false);
+  }
+
+  //////////////////////////////////////////////////////////////////////////
+  mouseDown( event )
+  {
+    this.touchMouseDown( event );
+  }
+  
+  /////////////////////////////////////////////////////////////////////////
+  mouseUp( event )
+  {
+    this.touchMouseUp( event );
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////
+  touchDown( event )
+  {
+    this.touchMouseDown( event.targetTouches[0] );
+    event.targetTouches[0].preventDefault();
+  }
+  
+  /////////////////////////////////////////////////////////////////////////
+  touchUp( event )
+  {
+    this.touchMouseUp( event.targetTouches[0] );
+    event.targetTouches[0].preventDefault();
   }
 
 
   ///////////////////////////////////////////////////////////////////////
-  mouseDown( event )
+  touchMouseDown( event )
   {
     var mouse = new THREE.Vector2();
     mouse.x = ( event.clientX / this.windowWidth ) * 2 - 1;
     mouse.y = - ( event.clientY / this.windowHeight ) * 2 + 1;
+
+    console.log( "---->DISPLAY MOUSE X: ", mouse.x );
+
+    //this.graphics.debugIndicator( mouse.x );
 
     var intersects = this.graphics.getIntersectionsAtPixel( mouse );
     for ( var i = 0; i < intersects.length; i++ ) 
@@ -62,7 +93,7 @@ export default class P3dUserInterface
 
 
   ///////////////////////////////////////////////////////////////////////
-  mouseUp( event )
+  touchMouseUp( event )
   {
     if( this.buttonDown == true )
     {
