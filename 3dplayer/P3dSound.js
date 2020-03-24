@@ -19,6 +19,7 @@ export default class P3dSoundPlayer
     this.sourceArray = {};
     
     this.loadedMusicFilename = null;
+    this.musicStartTime = 0.0;
     
   }
   
