@@ -104,17 +104,12 @@ export default class P3dGraphics
     // CAMERA
     this.camera.position.z = 5.5;
 
-    // MODEL
-    /*const width = 4.0;
-    const height = 2.0;
-    const depth = 3.0; //*/
-    
     // INSTANTIATE A LOADER
     const gltfLoader = new GLTFLoader();
     const url = '3dplayer/model/chassis.glb';
     gltfLoader.load(url, (gltf) => {
       this.loadedModel = gltf.scene;
-      this.loadedModel.position.z = -3.0;
+      this.loadedModel.position.z = -3.5;
       this.loadedModel.position.y = 0;
       this.scene.add( this.loadedModel );
       
@@ -145,14 +140,14 @@ export default class P3dGraphics
     var geometry = new THREE.BoxGeometry( -80, -40, -40 );
     //var geometry = new THREE.BoxGeometry( -70, -70, -70 );
 
-    // CUSTOM SHADER FOR ROOM BACKGROUND
+    // OLD CUSTOM SHADER FOR ROOM BACKGROUND
     /*const material = new THREE.ShaderMaterial({
       vertexShader: this.roomVertexShader(),
       fragmentShader: this.roomFragmentShader()
     }); //*/
     
     
-    // NEW CUSTOM SHADER FOR ROOM BACKGROUND
+    // *NEW* CUSTOM SHADER FOR ROOM BACKGROUND
     const uniforms = {
         colorB: {type: 'vec3', value: new THREE.Color(0x020000)},
         colorA: {type: 'vec3', value: new THREE.Color(0x010102)}
