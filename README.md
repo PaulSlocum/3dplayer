@@ -3,4 +3,6 @@
 
 Currently in early development...
 
+![screenshot](https://paulslocum.github.io/docs/screenshot.jpg)
+
 [Link to working project demo page](https://paulslocum.github.io/3dplayer/)
