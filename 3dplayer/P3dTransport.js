@@ -70,6 +70,32 @@ export default class P3dTransport {
               this.status = Mode.PAUSED;
             }
             break;
+      case ButtonEvent.BUTTON_DOWN_PREV: console.log("---->PREV BUTTON PRESSED (TRANSPORT)"); 
+            this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN );
+            break;
+      case ButtonEvent.BUTTON_DOWN_NEXT: console.log("---->NEXT BUTTON PRESSED (TRANSPORT)"); 
+            this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN );
+            break;
+      case ButtonEvent.BUTTON_DOWN_STOP: console.log("---->STOP BUTTON PRESSED (TRANSPORT)"); 
+            this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN );
+            if( this.trackPlaying == true )
+            {
+              this.trackPlaying = false;
+              this.soundPlayer.pauseMusic();    
+              //this.soundPlayer.stopMusic( MUSIC_FILENAME );    
+            }
+            this.status = Mode.STOPPED;
+            break;
+      case ButtonEvent.BUTTON_DOWN_STANDBY: console.log("---->STANDBY BUTTON PRESSED (TRANSPORT)"); 
+            if( this.trackPlaying == true )
+            {
+              this.trackPlaying = false;
+              this.soundPlayer.pauseMusic();    
+              //this.soundPlayer.stopMusic( MUSIC_FILENAME );    
+            }
+            this.status = Mode.STANDBY;
+            this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN );
+            break;
       case ButtonEvent.BUTTON_UP: console.log("---->BUTTON UP (TRANSPORT)"); 
             this.soundPlayer.playSound( SoundFilenames.CLICK_UP ); break;
       case ButtonEvent.NONE: console.log("---->NO BUTTON PRESSED (TRANSPORT)"); break;

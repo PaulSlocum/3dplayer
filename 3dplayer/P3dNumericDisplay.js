@@ -77,6 +77,10 @@ export default class P3dNumericDisplay
       case Mode.STOPPED:
         this.ledDriver.setString( 'stopXX' );
         break;
+
+      case Mode.STANDBY:
+        this.ledDriver.setString( 'XXXXXX' );
+        break;
     }
     
     /*if( mode == Mode.PLAYING )

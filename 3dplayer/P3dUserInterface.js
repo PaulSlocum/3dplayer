@@ -87,6 +87,14 @@ export default class P3dUserInterface
           this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_PLAY ); break;
         case "ButtonPause": this.buttonDown = true;
           this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_PAUSE ); break;
+        case "ButtonPrev": this.buttonDown = true;
+          this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_PREV ); break;
+        case "ButtonNext": this.buttonDown = true;
+          this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_NEXT ); break;
+        case "ButtonStop": this.buttonDown = true;
+          this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_STOP ); break;
+        case "ButtonStandby": this.buttonDown = true;
+          this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_STANDBY ); break;
       }
     } //*/
   }

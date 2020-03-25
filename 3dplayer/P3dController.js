@@ -18,6 +18,10 @@ export const ButtonEvent = {
   NONE: 'ButtonNone',
   BUTTON_DOWN_PLAY: 'ButtonDownPlay',
   BUTTON_DOWN_PAUSE: 'ButtonDownPause',
+  BUTTON_DOWN_NEXT: 'ButtonDownNext',
+  BUTTON_DOWN_PREV: 'ButtonDownPrev',
+  BUTTON_DOWN_STOP: 'ButtonDownStop',
+  BUTTON_DOWN_STANDBY: 'ButtonDownStandby',
   BUTTON_UP: 'ButtonUp'
 }
 
