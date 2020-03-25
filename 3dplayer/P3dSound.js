@@ -22,8 +22,9 @@ export default class P3dSoundPlayer
     this.musicBuffer = null;
     this.musicContext = null;
     this.musicSource = null;
+    this.musicPauseTime = 0.0;
     this.musicStartTime = 0.0;
-    
+    this.musicPlaying = false;
     
   }
   
@@ -91,6 +92,9 @@ export default class P3dSoundPlayer
   {
     if( this.loadedMusicFilename != soundFilename )
     {
+      this.loadedMusicFilename = soundFilename;
+      console.log( "-----> MUSIC LOAD: ", soundFilename );
+    
       // Create the XHR which will grab the audio contents
       let request = new XMLHttpRequest();
       // Set the audio file src here
@@ -108,7 +112,8 @@ export default class P3dSoundPlayer
 
           this.musicBuffer = buffer;
           //this.bufferArray[soundFilename] = buffer;
-          
+   
+          this.musicPauseTime = 0.0;
           this.startMusic();
 
         }.bind(this), function(e) {
@@ -120,6 +125,7 @@ export default class P3dSoundPlayer
     }
     else
     {
+      console.log( "-----> MUSIC QUICKSTART" );
       this.startMusic();
     }
   }
@@ -138,7 +144,10 @@ export default class P3dSoundPlayer
     // Simple setting for the buffer
     this.musicSource.loop = false;
     // Play the sound!
-    this.musicSource.start(0); //*/
+      console.log( "-----> MUSIC PAUSE TIME (PLAY): ", this.musicPauseTime );
+    this.musicSource.start( 0.0, this.musicPauseTime ); //*/
+    this.musicPlaying = true;  
+    this.musicStartTime = this.musicContext.currentTime;        
   }
   
 
@@ -146,7 +155,13 @@ export default class P3dSoundPlayer
   /////////////////////////////////////////////////////////////////////////////
   pauseMusic()
   {
-    this.musicSource.stop(); //*/
+    if( this.musicPlaying == true )
+    {
+      this.musicPauseTime += this.musicContext.currentTime - this.musicStartTime;
+      this.musicSource.stop(); //*/
+      this.musicPlaying = false;
+      console.log( "-----> MUSIC PAUSE TIME: ", this.musicPauseTime );
+    }
   }
 
 
@@ -156,7 +171,12 @@ export default class P3dSoundPlayer
     if( this.musicContext == null )
       return 0.0;
     else
-      return this.musicContext.currentTime;
+    {
+      if( this.musicPlaying == true )
+        return this.musicContext.currentTime - this.musicStartTime + this.musicPauseTime;
+      else
+        return this.musicPauseTime;
+    }
   }
   
 

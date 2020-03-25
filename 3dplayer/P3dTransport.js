@@ -67,7 +67,7 @@ export default class P3dTransport {
               this.trackPlaying = false;
               this.soundPlayer.pauseMusic();    
               //this.soundPlayer.stopMusic( MUSIC_FILENAME );    
-              this.status = Mode.STOPPED;
+              this.status = Mode.PAUSED;
             }
             break;
       case ButtonEvent.BUTTON_UP: console.log("---->BUTTON UP (TRANSPORT)"); 
