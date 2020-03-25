@@ -7,8 +7,8 @@ Currently in early development...
 
 Planned features: 
  - load an "album" by specifying a list of MP3 files in the script call parameters
- - compact disc player operation including play, pause, stop, track forward, track back, fast forward, rewind, repeat, etc.
- - compact disc player sound effects and animated disc drawer
+ - simulated compact disc player operation including play, pause, stop, track forward and back, fast forward, rewind, etc.
+ - disc player sound effects and animated disc drawer
  - working treble and bass tone controls
  - realtime spectrum analyzer display
  - realtime enviromental visualizations that respond to playing music
