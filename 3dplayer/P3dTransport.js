@@ -55,6 +55,7 @@ export default class P3dTransport {
             this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN ); 
             if( this.trackPlaying == false )
             {
+              console.log("---->PLAYBACK STARTING"); 
               this.trackPlaying = true;
               this.soundPlayer.playMusic( MUSIC_FILENAME );    
               this.status = Mode.PLAYING;
@@ -97,7 +98,8 @@ export default class P3dTransport {
             this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN );
             break;
       case ButtonEvent.BUTTON_UP: console.log("---->BUTTON UP (TRANSPORT)"); 
-            this.soundPlayer.playSound( SoundFilenames.CLICK_UP ); break;
+            //this.soundPlayer.playSound( SoundFilenames.CLICK_UP ); 
+            break;
       case ButtonEvent.NONE: console.log("---->NO BUTTON PRESSED (TRANSPORT)"); break;
     }
   }

@@ -20,7 +20,8 @@ export default class P3dSoundPlayer
     
     this.loadedMusicFilename = null;
     this.musicBuffer = null;
-    this.musicContext = null;
+    //this.musicContext = null;
+    this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
     this.musicSource = null;
     this.musicPauseTime = 0.0;
     this.musicStartTime = 0.0;
@@ -63,16 +64,23 @@ export default class P3dSoundPlayer
   //////////////////////////////////////////////////////////////////////////
   playSound( soundFilename )
   {
-    // Create a buffer for the incoming sound content
-    this.sourceArray[soundFilename] = this.contextArray[soundFilename].createBufferSource();
-    this.sourceArray[soundFilename].buffer = this.bufferArray[ soundFilename ];
+    /*if( this.sourceArray[soundFilename] )
+    {
+      this.sourceArray[soundFilename].stop();
+    }//*/
+    //else
+    {
+      // Create a buffer for the incoming sound content
+      this.sourceArray[soundFilename] = this.contextArray[soundFilename].createBufferSource();
+      this.sourceArray[soundFilename].buffer = this.bufferArray[ soundFilename ];
 
-    // Connect the audio to source (multiple audio buffers can be connected!)
-    this.sourceArray[soundFilename].connect( this.contextArray[soundFilename].destination );
-    // Simple setting for the buffer
-    this.sourceArray[soundFilename].loop = false;
-    // Play the sound!
-    this.sourceArray[soundFilename].start(0); //*/
+      // Connect the audio to source (multiple audio buffers can be connected!)
+      this.sourceArray[soundFilename].connect( this.contextArray[soundFilename].destination );
+      // Simple setting for the buffer
+      this.sourceArray[soundFilename].loop = false;
+      // Play the sound!
+      this.sourceArray[soundFilename].start(0); //*/
+    }
   }
   
   
@@ -96,7 +104,6 @@ export default class P3dSoundPlayer
       console.log( "-----> MUSIC LOAD: ", soundFilename );
 
 
-      this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
       this.musicSource = this.musicContext.createBufferSource();
       
       
@@ -152,8 +159,8 @@ export default class P3dSoundPlayer
     }
     else
     {
-      console.log( "-----> MUSIC QUICKSTART" );
-      this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
+      //console.log( "-----> MUSIC QUICKSTART" );
+      //this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
       this.musicSource = this.musicContext.createBufferSource();
       this.startMusic();
     }
@@ -164,7 +171,7 @@ export default class P3dSoundPlayer
   // PRIVATE FUNCTION
   startMusic()
   {
-    console.log( "------->MUSIC CONTEXT: ", this.musicContext );
+    //console.log( "------->MUSIC CONTEXT: ", this.musicContext );
     
   
     // Create a buffer for the incoming sound content
@@ -176,7 +183,7 @@ export default class P3dSoundPlayer
     // Simple setting for the buffer
     this.musicSource.loop = false;
     // Play the sound!
-      console.log( "-----> MUSIC PAUSE TIME (PLAY): ", this.musicPauseTime );
+    //console.log( "-----> MUSIC PAUSE TIME (PLAY): ", this.musicPauseTime );
     this.musicSource.start( 0.0, this.musicPauseTime ); //*/
     this.musicPlaying = true;  
     this.musicStartTime = this.musicContext.currentTime;        
