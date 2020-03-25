@@ -273,8 +273,12 @@ export default class P3dGraphics
       uniform vec3 colorB; 
       varying vec3 vUv;
 
+      float rand(vec2 co){
+          return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+      }
+
       void main() {
-        gl_FragColor = vec4(mix(colorA, colorB, vUv.y), 1.0);
+        gl_FragColor = vec4(mix(colorA, colorB, vUv.y + rand(vUv.xy)*7.0 ), 1.0);
       }        `
   }  
 
