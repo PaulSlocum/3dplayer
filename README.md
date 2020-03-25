@@ -1,5 +1,5 @@
 # 3dplayer
-3D WebGL mp3 player using THREE.js and Web Audio API.
+### 3D WebGL mp3 player using THREE.js and Web Audio API.
 
 Currently in early development...
 
@@ -15,3 +15,4 @@ Planned features:
  
 ![screenshot](https://paulslocum.github.io/3dplayer/docs/screenshot.jpg)
 
+License forthcoming, probably MIT.
