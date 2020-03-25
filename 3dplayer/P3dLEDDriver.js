@@ -117,7 +117,7 @@ export default class P3dLEDDriver
     } //*/
 
     // CLEAR ALL SEGMENTS
-    setString( 'XXXXXX' );
+    this.setString( 'XXXXXX' );
     
   }
 

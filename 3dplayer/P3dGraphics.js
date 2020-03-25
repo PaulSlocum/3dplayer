@@ -28,7 +28,9 @@ export default class P3dGraphics
     this.renderer = renderer;
 
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera( 75, windowWidth/windowHeight, 0.1, 1000 );
+    // PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
+    //this.camera = new THREE.PerspectiveCamera( 75, windowWidth/windowHeight, 0.1, 1000 ); // <-- ORIGINAL
+    this.camera = new THREE.PerspectiveCamera( 35, windowWidth/windowHeight, 0.1, 1000 );
 
     this.roomCube = null;
     this.loadedModel = null;
@@ -73,7 +75,7 @@ export default class P3dGraphics
     if( this.loadedModel != null )
     {
       this.loadedModel.rotation.y = Math.cos( this.frameCounter * rotationSpeed ) * 0.08;
-      this.loadedModel.rotation.x = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.15;
+      this.loadedModel.rotation.x = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.10;
     }  
     
     this.renderer.render( this.scene, this.camera );
@@ -103,16 +105,16 @@ export default class P3dGraphics
     this.camera.position.z = 5.5;
 
     // MODEL
-    const width = 4.0;
+    /*const width = 4.0;
     const height = 2.0;
-    const depth = 3.0;
+    const depth = 3.0; //*/
     
     // INSTANTIATE A LOADER
     const gltfLoader = new GLTFLoader();
     const url = '3dplayer/model/chassis.glb';
     gltfLoader.load(url, (gltf) => {
       this.loadedModel = gltf.scene;
-      this.loadedModel.position.z = -0;
+      this.loadedModel.position.z = -3.0;
       this.loadedModel.position.y = 0;
       this.scene.add( this.loadedModel );
       
