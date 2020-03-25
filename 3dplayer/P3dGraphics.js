@@ -75,7 +75,7 @@ export default class P3dGraphics
     if( this.loadedModel != null )
     {
       this.loadedModel.rotation.y = Math.cos( this.frameCounter * rotationSpeed ) * 0.08;
-      this.loadedModel.rotation.x = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.10;
+      this.loadedModel.rotation.x = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.05;
     }  
     
     this.renderer.render( this.scene, this.camera );
@@ -109,7 +109,7 @@ export default class P3dGraphics
     const url = '3dplayer/model/chassis.glb';
     gltfLoader.load(url, (gltf) => {
       this.loadedModel = gltf.scene;
-      this.loadedModel.position.z = -4.5;
+      this.loadedModel.position.z = -5.5;
       this.loadedModel.position.y = 0;
       this.scene.add( this.loadedModel );
       
@@ -173,7 +173,7 @@ export default class P3dGraphics
 
     // SPOTLIGHT
     let spotLight = new THREE.SpotLight(0xffffff);
-    spotLight.position.set(-0, 30, 60);
+    spotLight.position.set(-0, 20, 60);
     spotLight.castShadow = true;
     spotLight.intensity = 0.6;
     this.scene.add( spotLight );
