@@ -94,7 +94,12 @@ export default class P3dSoundPlayer
     {
       this.loadedMusicFilename = soundFilename;
       console.log( "-----> MUSIC LOAD: ", soundFilename );
-    
+
+
+      this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
+      this.musicSource = this.musicContext.createBufferSource();
+      
+      
       // Create the XHR which will grab the audio contents
       let request = new XMLHttpRequest();
       // Set the audio file src here
@@ -106,15 +111,35 @@ export default class P3dSoundPlayer
       { // FILE LOADER CALLBACK:
       
         // Decode the audio once the require is complete
-        this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
+        console.log( "-----> MUSIC LOADED, CONTEXT CREATED" );
         this.musicContext.decodeAudioData( request.response, function(buffer)  
         { // DECODER CALLBACK:
 
+          console.log( "-----> MUSIC DECODED, CONTEXT: ", this.musicContext );
           this.musicBuffer = buffer;
           //this.bufferArray[soundFilename] = buffer;
    
           this.musicPauseTime = 0.0;
+
           this.startMusic();
+          //this.startMusic().bind(this);
+          //setTimeout( this.startMusic, 2000 );
+
+
+    // Create a buffer for the incoming sound content
+    /*this.musicSource = this.musicContext.createBufferSource();
+    this.musicSource.buffer = this.musicBuffer;
+
+    // Connect the audio to source (multiple audio buffers can be connected!)
+    this.musicSource.connect( this.musicContext.destination );
+    // Simple setting for the buffer
+    this.musicSource.loop = false;
+    // Play the sound!
+      console.log( "-----> MUSIC PAUSE TIME (PLAY): ", this.musicPauseTime );
+    this.musicSource.start( 0.0, this.musicPauseTime ); 
+    this.musicPlaying = true;  
+    this.musicStartTime = this.musicContext.currentTime;         //*/
+
 
         }.bind(this), function(e) {
           console.log('Audio error! ', e);
@@ -122,10 +147,14 @@ export default class P3dSoundPlayer
       }.bind(this,request)
       // Send the request which kicks off 
       request.send(); //*/
+      
+      console.log( "--->SEND COMPLETE!" );
     }
     else
     {
       console.log( "-----> MUSIC QUICKSTART" );
+      this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
+      this.musicSource = this.musicContext.createBufferSource();
       this.startMusic();
     }
   }
@@ -135,8 +164,11 @@ export default class P3dSoundPlayer
   // PRIVATE FUNCTION
   startMusic()
   {
+    console.log( "------->MUSIC CONTEXT: ", this.musicContext );
+    
+  
     // Create a buffer for the incoming sound content
-    this.musicSource = this.musicContext.createBufferSource();
+    //this.musicSource = this.musicContext.createBufferSource();
     this.musicSource.buffer = this.musicBuffer;
 
     // Connect the audio to source (multiple audio buffers can be connected!)
