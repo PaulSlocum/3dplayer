@@ -109,7 +109,7 @@ export default class P3dGraphics
     const url = '3dplayer/model/chassis.glb';
     gltfLoader.load(url, (gltf) => {
       this.loadedModel = gltf.scene;
-      this.loadedModel.position.z = -3.5;
+      this.loadedModel.position.z = -4.5;
       this.loadedModel.position.y = 0;
       this.scene.add( this.loadedModel );
       

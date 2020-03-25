@@ -39,7 +39,7 @@ export default class P3dTransport {
     this.soundPlayer.loadSound( SoundFilenames.CLICK_UP );
     this.soundPlayer.loadSound( SoundFilenames.TRAY_OPEN );
     this.soundPlayer.loadSound( SoundFilenames.TRAY_CLOSE );
-    this.soundPlayer.loadSound( MUSIC_FILENAME );    
+    //this.soundPlayer.loadSound( MUSIC_FILENAME );    
     
     this.trackPlaying = false;
     
@@ -56,7 +56,7 @@ export default class P3dTransport {
             if( this.trackPlaying == false )
             {
               this.trackPlaying = true;
-              this.soundPlayer.playSound( MUSIC_FILENAME );    
+              this.soundPlayer.playMusic( MUSIC_FILENAME );    
               this.status = Mode.PLAYING;
             }
             break;
@@ -65,7 +65,8 @@ export default class P3dTransport {
             if( this.trackPlaying == true )
             {
               this.trackPlaying = false;
-              this.soundPlayer.stopSound( MUSIC_FILENAME );    
+              this.soundPlayer.pauseMusic();    
+              //this.soundPlayer.stopMusic( MUSIC_FILENAME );    
               this.status = Mode.STOPPED;
             }
             break;
@@ -78,7 +79,7 @@ export default class P3dTransport {
   /////////////////////////////////////////////////////////////////////////
   getPlaybackTime()
   {
-    return this.soundPlayer.getPlaybackTime( MUSIC_FILENAME );
+    return this.soundPlayer.getMusicTime();
   }
   
   //////////////////////////////////////////////////////////////////////////
