@@ -17,9 +17,9 @@ console.log("---->LAUNCHING 3DPLAYER");
 
 
 // GET WINDOW SIZE FROM HTML PARAMETERS
-var script = document.scripts[document.scripts.length - 1]; // A reference to the currently running script
-var windowWidth = script.getAttribute('width');
-var windowHeight = script.getAttribute('height');
+const script = document.scripts[document.scripts.length - 1]; // A reference to the currently running script
+let windowWidth = script.getAttribute('width');
+let windowHeight = script.getAttribute('height');
 
 // USE ENTIRE WINDOW IF NO SIZE WAS SPECIFIED...
 if( (windowWidth > 0  &&  windowHeight > 0) == false )
@@ -29,7 +29,7 @@ if( (windowWidth > 0  &&  windowHeight > 0) == false )
 }
 
 // CREATE RENDERER
-var renderer = new THREE.WebGLRenderer( {preserveDrawingBuffer:false} );
+const renderer = new THREE.WebGLRenderer( {preserveDrawingBuffer:false} );
 //renderer.antialias = false;
 //renderer.preserveDrawingBuffer = false;
 renderer.setSize( windowWidth, windowHeight );

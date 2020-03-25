@@ -30,7 +30,7 @@ export default class P3dSoundPlayer
   loadSound( soundFilename )
   {
     // Create the XHR which will grab the audio contents
-    var request = new XMLHttpRequest();
+    let request = new XMLHttpRequest();
     // Set the audio file src here
     request.open('GET', soundFilename, true);
     //this.request.open('GET', '3dplayer/sounds/clickDown.wav', true);
@@ -87,7 +87,29 @@ export default class P3dSoundPlayer
   {
     if( loadedMusicFilename != soundFilename )
     {
-    
+      // Create the XHR which will grab the audio contents
+      /*let request = new XMLHttpRequest();
+      // Set the audio file src here
+      request.open('GET', soundFilename, true);
+      //this.request.open('GET', '3dplayer/sounds/clickDown.wav', true);
+      // Setting the responseType to arraybuffer sets up the audio decoding
+      request.responseType = 'arraybuffer';
+      request.onload = function() 
+      { // FILE LOADER CALLBACK:
+      
+        // Decode the audio once the require is complete
+        this.contextArray[soundFilename] = new (window.AudioContext || window.webkitAudioContext)();
+        this.contextArray[soundFilename].decodeAudioData( request.response, function(buffer)  
+        { // DECODER CALLBACK:
+
+          this.bufferArray[soundFilename] = buffer;
+
+        }.bind(this), function(e) {
+          console.log('Audio error! ', e);
+        } );  
+      }.bind(this,request)
+      // Send the request which kicks off 
+      request.send(); //*/
     }
     else
     {
@@ -116,7 +138,7 @@ export default class P3dSoundPlayer
   {
     //console.log('Playback time: ', soundFilename );
     
-    var returnValue = 0.0;
+    let returnValue = 0.0;
     if( this.contextArray[soundFilename] )
     {
       returnValue = this.contextArray[soundFilename].currentTime;

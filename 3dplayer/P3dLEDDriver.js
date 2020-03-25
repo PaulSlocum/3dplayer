@@ -70,6 +70,8 @@ export default class P3dLEDDriver
                           [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0] ];
     this.highlightLedArray = [ [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], 
                                [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0] ];
+                               
+    this.objectsLoaded = false;
   }
 
 
@@ -104,9 +106,9 @@ export default class P3dLEDDriver
     }.bind(this) ); //*/
     
     // FIND AND LOAD ALL THE SEGMENT OBJECTS INTO ARRAYS...
-    for( var ledDigit=0; ledDigit<TOTAL_LED_DIGITS; ledDigit++ )
+    for( let ledDigit=0; ledDigit<TOTAL_LED_DIGITS; ledDigit++ )
     {
-      for( var ledSegment=0; ledSegment<TOTAL_LED_SEGMENTS; ledSegment++ )
+      for( let ledSegment=0; ledSegment<TOTAL_LED_SEGMENTS; ledSegment++ )
       {
         var mainObjectName = "Seg1".concat( String.fromCharCode(ledSegment+97), "100", ledDigit+1 );
         this.mainLedArray[ledDigit][ledSegment] = this.scene.getObjectByName( mainObjectName, true );
@@ -116,6 +118,8 @@ export default class P3dLEDDriver
       }
     } //*/
 
+    this.objectsLoaded = true;
+
     // CLEAR ALL SEGMENTS
     this.setString( 'XXXXXX' );
     
@@ -124,7 +128,7 @@ export default class P3dLEDDriver
   ////////////////////////////////////////////////////////////////////////
   setString( text )
   {
-    for( var index=0; index<text.length; index++ )
+    for( let index=0; index<text.length; index++ )
     {
       this.setDigitCharacter( index, text[index] );
     }
@@ -134,8 +138,8 @@ export default class P3dLEDDriver
   setDigitCharacter( ledDigit, character )
   {
     //console.log( "---->LED DRIVER->SET: ", SEGMENT_TABLE[character] );
-    var segmentArray = SEGMENT_TABLE[character];
-    for( var ledSegment=0; ledSegment<TOTAL_LED_SEGMENTS; ledSegment++ )
+    let segmentArray = SEGMENT_TABLE[character];
+    for( let ledSegment=0; ledSegment<TOTAL_LED_SEGMENTS; ledSegment++ )
     {
       if( segmentArray[ledSegment] == 0 )
         this.segmentOff( ledDigit, ledSegment );
@@ -148,19 +152,25 @@ export default class P3dLEDDriver
   /////////////////////////////////////////////////////////////////////////
   segmentOn( ledDigit, ledSegment )
   {
-    this.mainLedArray[ledDigit][ledSegment].material = this.ledOnMaterial;
-    this.highlightLedArray[ledDigit][ledSegment].material = this.ledDimMaterial;
+    if( this.objectsLoaded == true )
+    {
+      this.mainLedArray[ledDigit][ledSegment].material = this.ledOnMaterial;
+      this.highlightLedArray[ledDigit][ledSegment].material = this.ledDimMaterial;
+    }
   }
 
   
   /////////////////////////////////////////////////////////////////////////
   segmentOff( ledDigit, ledSegment )
   {
-    //this.mainLedArray[ledDigit][ledSegment].material = this.ledDimMaterial;
-    //this.highlightLedArray[ledDigit][ledSegment].material = this.displayGlassMaterial;
+    if( this.objectsLoaded == true )
+    {
+      //this.mainLedArray[ledDigit][ledSegment].material = this.ledDimMaterial;
+      //this.highlightLedArray[ledDigit][ledSegment].material = this.displayGlassMaterial;
 
-    this.mainLedArray[ledDigit][ledSegment].material = this.ledOffMaterial;
-    this.highlightLedArray[ledDigit][ledSegment].material = this.displayGlassMaterial;
+      this.mainLedArray[ledDigit][ledSegment].material = this.ledOffMaterial;
+      this.highlightLedArray[ledDigit][ledSegment].material = this.displayGlassMaterial;
+    }
   }
   
   

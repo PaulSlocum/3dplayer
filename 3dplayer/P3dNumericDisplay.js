@@ -31,15 +31,15 @@ export default class P3dNumericDisplay
   //////////////////////////////////////////////////////////////////////////////
   update()
   {
-    var playbackTime = this.appController.getPlaybackTime();
-    var playbackTimeInt = Math.floor( playbackTime );
-    var mode = this.appController.getStatus();
+    let playbackTime = this.appController.getPlaybackTime();
+    let playbackTimeInt = Math.floor( playbackTime );
+    let mode = this.appController.getStatus();
     
     if( mode == Mode.PLAYING )
     {
       // SHOW TIME AND TRACK NUMBER
-      var minutes = Math.floor( playbackTimeInt / 60 );
-      var seconds = playbackTimeInt % 60;
+      let minutes = Math.floor( playbackTimeInt / 60 );
+      let seconds = playbackTimeInt % 60;
       this.ledDriver.setDigitCharacter( 0, 'blank' );
       this.ledDriver.setDigitCharacter( 1, minutes%10 );
       this.ledDriver.setDigitCharacter( 2, Math.floor( seconds / 10 )%10 );
@@ -50,12 +50,6 @@ export default class P3dNumericDisplay
     else
     {
       this.ledDriver.setString( 'stopXX' );
-      /*this.ledDriver.setDigitCharacter( 0, 's' );
-      this.ledDriver.setDigitCharacter( 1, 't' );
-      this.ledDriver.setDigitCharacter( 2, 'o' );
-      this.ledDriver.setDigitCharacter( 3, 'p' );
-      this.ledDriver.setDigitCharacter( 4, 'blank' );
-      this.ledDriver.setDigitCharacter( 5, 'blank' ); //*/  
     }
 
     

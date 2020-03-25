@@ -137,7 +137,7 @@ export default class P3dGraphics
     this.composer.addPass( vblur ); //*/
 
     // ROOM CUBE  
-    var geometry = new THREE.BoxGeometry( -80, -40, -40 );
+    let geometry = new THREE.BoxGeometry( -80, -40, -40 );
     //var geometry = new THREE.BoxGeometry( -70, -70, -70 );
 
     // OLD CUSTOM SHADER FOR ROOM BACKGROUND
@@ -172,7 +172,7 @@ export default class P3dGraphics
     this.scene.add( this.roomCube ); //*/
 
     // SPOTLIGHT
-    var spotLight = new THREE.SpotLight(0xffffff);
+    let spotLight = new THREE.SpotLight(0xffffff);
     spotLight.position.set(-0, 30, 60);
     spotLight.castShadow = true;
     spotLight.intensity = 0.6;
@@ -287,7 +287,7 @@ export default class P3dGraphics
 
     // calculate objects intersecting the picking ray
     //var intersects = this.raycaster.intersectObjects( this.scene.children );
-    var intersects = this.raycaster.intersectObjects( this.loadedModel.children );
+    let intersects = this.raycaster.intersectObjects( this.loadedModel.children );
 
     return intersects;
   }

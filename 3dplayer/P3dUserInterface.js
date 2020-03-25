@@ -70,16 +70,16 @@ export default class P3dUserInterface
   ///////////////////////////////////////////////////////////////////////
   touchMouseDown( event )
   {
-    var mouse = new THREE.Vector2();
+    let mouse = new THREE.Vector2();
     mouse.x = ( event.clientX / this.windowWidth ) * 2 - 1;
     mouse.y = - ( event.clientY / this.windowHeight ) * 2 + 1;
 
-    console.log( "---->DISPLAY MOUSE X: ", mouse.x );
-
+    // DEBUG
+    //console.log( "---->DISPLAY MOUSE X: ", mouse.x );
     //this.graphics.debugIndicator( mouse.x );
 
-    var intersects = this.graphics.getIntersectionsAtPixel( mouse );
-    for ( var i = 0; i < intersects.length; i++ ) 
+    let intersects = this.graphics.getIntersectionsAtPixel( mouse );
+    for ( let i = 0; i < intersects.length; i++ ) 
     {
       switch( intersects[i].object.name )
       {
