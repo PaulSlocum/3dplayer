@@ -20,7 +20,6 @@ export default class P3dSoundPlayer
     
     this.loadedMusicFilename = null;
     this.musicBuffer = null;
-    //this.musicContext = null;
     this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
     this.musicSource = null;
     this.musicPauseTime = 0.0;
