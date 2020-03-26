@@ -45,7 +45,7 @@ export default class P3dGraphics
     this.renderer = renderer;
     
     this.scene = new THREE.Scene();
-    // PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
+    // ---> PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
     //this.camera = new THREE.PerspectiveCamera( 75, windowWidth/windowHeight, 0.1, 1000 ); // <-- ORIGINAL
     this.camera = new THREE.PerspectiveCamera( 35, windowWidth/windowHeight, 0.1, 1000 );
 

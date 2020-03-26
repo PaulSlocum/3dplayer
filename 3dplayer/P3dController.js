@@ -46,14 +46,14 @@ export default class P3dController {
 
 
   ///////////////////////////////////////////////////////////////////////
-  constructor( windowWidth, windowHeight, renderer, musicFilenameArray ) 
+  constructor( filenameList, windowWidth, windowHeight, renderer ) 
   {
     console.log("---->CONTROLLER CONSTRUCTOR");
 
     this.height = windowWidth;
     this.width = windowHeight;
 
-    this.transport = new P3dTransport( musicFilenameArray );
+    this.transport = new P3dTransport( filenameList );
 
     this.display = new P3dUserInterface( this, windowWidth, windowHeight, renderer );
     this.display.run();

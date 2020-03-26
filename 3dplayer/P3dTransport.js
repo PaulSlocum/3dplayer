@@ -20,7 +20,7 @@ export const SoundFilenames = {
     TRAY_CLOSE: '3dplayer/sounds/cdDiscIn.wav'
 }
 
-const MUSIC_FILENAME = 'music/expansion.mp3';
+//const MUSIC_FILENAME = 'music/expansion.mp3';
 
 
 
@@ -30,18 +30,18 @@ export default class P3dTransport {
 
 
   ///////////////////////////////////////////////////////////////////////
-  constructor( musicFilenameArray ) 
+  constructor( filenameList ) 
   {
-    console.log("---->TRANSPORT CLASS CONSTRUCTOR");
+    console.log("---->TRANSPORT CLASS CONSTRUCTOR: ", filenameList );
     
     this.soundPlayer = new P3dSoundPlayer();
     this.soundPlayer.loadSound( SoundFilenames.CLICK_DOWN );
     this.soundPlayer.loadSound( SoundFilenames.CLICK_UP );
     this.soundPlayer.loadSound( SoundFilenames.TRAY_OPEN );
     this.soundPlayer.loadSound( SoundFilenames.TRAY_CLOSE );
-    //this.soundPlayer.loadSound( MUSIC_FILENAME );    
     
-    this.musicFilenameArray = musicFilenameArray;
+    this.filenameList = filenameList;
+    this.trackNumber = 1; // FIRST TRACK IS ONE (NOT ZERO)
     
     this.trackPlaying = false;
     
@@ -57,9 +57,9 @@ export default class P3dTransport {
             this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN ); 
             if( this.trackPlaying == false )
             {
-              console.log("---->PLAYBACK STARTING"); 
+              console.log("---->PLAYBACK STARTING: ", this.filenameList[this.trackNumber] ); 
               this.trackPlaying = true;
-              this.soundPlayer.playMusic( MUSIC_FILENAME );    
+              this.soundPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
               this.status = Mode.PLAYING;
             }
             break;

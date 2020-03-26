@@ -2,6 +2,9 @@
 //
 // 3D PLAYER SETUP SCRIPT. CREATES THE RENDERER AND LAUNCHES THE APP CONTROLLER.
 //
+//
+//
+//
 //////////////////////////////////////////////////////////////////////////
 
 
@@ -14,10 +17,24 @@ import P3dController from './P3dController.js'
 
 console.log("---->LAUNCHING 3DPLAYER");
 
+// GET SCRIPT TO READ ATTRIBUTES
+const script = document.scripts[document.scripts.length - 1]; // A reference to the currently running script
 
+// READ LIST OF AUDIO FILENAME FROM SCRIPT PARAMETERS
+let filenameList = [];
+let endOfList = false;
+for( let i=1; endOfList==false; i++ )
+{
+  let attributeName = "track" + i;
+  let filename = script.getAttribute( attributeName );
+  if( filename != null )
+    filenameList[i] = filename;
+  else
+    endOfList = true;
+}
+console.log( "--->FILE LIST: ", filenameList );
 
 // GET WINDOW SIZE FROM HTML PARAMETERS
-const script = document.scripts[document.scripts.length - 1]; // A reference to the currently running script
 let windowWidth = script.getAttribute('width');
 let windowHeight = script.getAttribute('height');
 
@@ -38,6 +55,6 @@ renderer.setSize( windowWidth, windowHeight );
 script.parentElement.insertBefore(renderer.domElement, script); // Add the newly-created div to the page
 
 // LAUNCH THE 3D PLAYER APPLICATION CONTROLLER
-const controller = new P3dController( windowWidth, windowHeight, renderer );
+const controller = new P3dController( filenameList, windowWidth, windowHeight, renderer );
 
 
