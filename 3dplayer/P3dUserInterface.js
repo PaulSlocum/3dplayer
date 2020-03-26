@@ -95,6 +95,10 @@ export default class P3dUserInterface
           this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_STOP ); break;
         case "ButtonStandby": this.buttonDown = true;
           this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_STANDBY ); break;
+        case "ButtonRewind": this.buttonDown = true;
+          this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_REWIND ); break;
+        case "ButtonFastForward": this.buttonDown = true;
+          this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_FAST_FORWARD ); break;
       }
     } //*/
   }

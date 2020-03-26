@@ -30,7 +30,7 @@ export default class P3dTransport {
 
 
   ///////////////////////////////////////////////////////////////////////
-  constructor() 
+  constructor( musicFilenameArray ) 
   {
     console.log("---->TRANSPORT CLASS CONSTRUCTOR");
     
@@ -40,6 +40,8 @@ export default class P3dTransport {
     this.soundPlayer.loadSound( SoundFilenames.TRAY_OPEN );
     this.soundPlayer.loadSound( SoundFilenames.TRAY_CLOSE );
     //this.soundPlayer.loadSound( MUSIC_FILENAME );    
+    
+    this.musicFilenameArray = musicFilenameArray;
     
     this.trackPlaying = false;
     
@@ -75,6 +77,12 @@ export default class P3dTransport {
             this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN );
             break;
       case ButtonEvent.BUTTON_DOWN_NEXT: console.log("---->NEXT BUTTON PRESSED (TRANSPORT)"); 
+            this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN );
+            break;
+      case ButtonEvent.BUTTON_DOWN_FAST_FORWARD: console.log("---->FAST FORWARD BUTTON PRESSED (TRANSPORT)"); 
+            this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN );
+            break;
+      case ButtonEvent.BUTTON_DOWN_REWIND: console.log("---->REWIND BUTTON PRESSED (TRANSPORT)"); 
             this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN );
             break;
       case ButtonEvent.BUTTON_DOWN_STOP: console.log("---->STOP BUTTON PRESSED (TRANSPORT)"); 

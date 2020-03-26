@@ -22,6 +22,8 @@ export const ButtonEvent = {
   BUTTON_DOWN_PREV: 'ButtonDownPrev',
   BUTTON_DOWN_STOP: 'ButtonDownStop',
   BUTTON_DOWN_STANDBY: 'ButtonDownStandby',
+  BUTTON_DOWN_REWIND: 'ButtonDownRewind',
+  BUTTON_DOWN_FAST_FORWARD: 'ButtonDownFastForward',
   BUTTON_UP: 'ButtonUp'
 }
 
@@ -44,14 +46,14 @@ export default class P3dController {
 
 
   ///////////////////////////////////////////////////////////////////////
-  constructor( windowWidth, windowHeight, renderer ) 
+  constructor( windowWidth, windowHeight, renderer, musicFilenameArray ) 
   {
     console.log("---->CONTROLLER CONSTRUCTOR");
 
     this.height = windowWidth;
     this.width = windowHeight;
 
-    this.transport = new P3dTransport();
+    this.transport = new P3dTransport( musicFilenameArray );
 
     this.display = new P3dUserInterface( this, windowWidth, windowHeight, renderer );
     this.display.run();
