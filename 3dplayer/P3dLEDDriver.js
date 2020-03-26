@@ -165,9 +165,6 @@ export default class P3dLEDDriver
   {
     if( this.objectsLoaded == true )
     {
-      //this.mainLedArray[ledDigit][ledSegment].material = this.ledDimMaterial;
-      //this.highlightLedArray[ledDigit][ledSegment].material = this.displayGlassMaterial;
-
       this.mainLedArray[ledDigit][ledSegment].material = this.ledOffMaterial;
       this.highlightLedArray[ledDigit][ledSegment].material = this.displayGlassMaterial;
     }
