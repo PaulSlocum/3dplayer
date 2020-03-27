@@ -29,20 +29,15 @@ export default class P3dSoundPlayer
   {
     console.log("---->SOUND CLASS CONSTRUCTOR");
 
+    // SOUND EFFECT PLAYER
     this.bufferArray = {};
     this.contextArray = {};
     this.sourceArray = {};
-    
-    //------------------------------------------------------------
-    // ORIGINAL LOADER
-    this.loadedMusicFilename = null; // THIS VARIABLE SHOULD BE REMOVED
-    this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
-    this.musicBuffer = null; // TO BE REMOVED
-    this.musicSource = null;
-    //------------------------------------------------------------
 
-    //------------------------------------------------------------
-    // NEW LOADER
+    // MUSIC PLAYER    
+    this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
+    this.musicSource = null;
+
     this.musicPauseTime = 0.0;
     this.musicStartTime = 0.0;
     this.musicPlaying = false;
@@ -54,11 +49,8 @@ export default class P3dSoundPlayer
     this.musicDownloading = false;
     this.musicDecoding = false;
     
-    //this.musicBuffers = []; // NEW!
-    //this.fileBuffers = []; // NEW!
-    this.musicFiles = [];
-    //------------------------------------------------------------
-    
+    this.musicFiles = []; // ARRAY OF "MusicFile" CLASS/STRUCT
+
   }
   
   //   ~      -         ~      -         ~      -         ~      -         ~     
@@ -207,12 +199,13 @@ export default class P3dSoundPlayer
         console.log( "------> PROCESS MUSIC: DECODE QUEUE 0: ", decodeFilename );
 
         // DECODE!
+        this.musicDecoding = true;
         this.musicContext.decodeAudioData( this.musicFiles[decodeFilename].fileData, function( decodeFilename, buffer)  
         { // DECODER CALLBACK:
 
           console.log( "-----> MUSIC DECODED, CONTEXT: ", this.musicContext, decodeFilename, buffer );
           this.musicFiles[decodeFilename].decodedData = buffer;
-          //this.bufferArray[soundFilename] = buffer;
+          this.musicDecoding = false;
    
           this.musicPauseTime = 0.0;
           this.processMusicQueues();
