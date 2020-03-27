@@ -11,9 +11,9 @@ class MusicFile
 {
   constructor()
   {
-    this.downloading = false;
+    this.downloadStarted = false;
     this.fileData = null;
-    this.decoding = false;
+    this.decodeStarted = false;
     this.decodedData = null;
   }
 }
@@ -50,6 +50,9 @@ export default class P3dSoundPlayer
     this.musicDownloadQueue = []; // NEW!
     this.musicDecodeQueue = []; // NEW!
     
+    this.musicDownloading = false;
+    this.musicDecoding = false;
+    
     //this.musicBuffers = []; // NEW!
     //this.fileBuffers = []; // NEW!
     this.musicFiles = [];
@@ -72,35 +75,36 @@ export default class P3dSoundPlayer
   downloadMusic( musicFilename )
   {
     this.initMusicFile( musicFilename );
-  
-    if( this.musicFiles[musicFilename].fileData == null )
-    {
-      console.log( "-----> SOUND: DOWNLOADING: ", musicFilename );
 
-      this.musicSource = this.musicContext.createBufferSource();
-      
-      
-      // Create the XHR which will grab the audio contents
-      let request = new XMLHttpRequest();
-      // Set the audio file src here
-      request.open('GET', musicFilename, true);
-      //this.request.open('GET', '3dplayer/sounds/clickDown.wav', true);
-      // Setting the responseType to arraybuffer sets up the audio decoding
-      request.responseType = 'arraybuffer';
-      request.onload = function() {
-        console.log( "-----> SOUND: FILE DOWNLOADED" );
-      }.bind(this,request)
-      // Send the request which kicks off 
-      request.send(); //*/
+    console.log( "-----> SOUND: DOWNLOAD MUSIC: ", musicFilename );
+  
+    if( this.musicFiles[musicFilename].downloadStarted == false  &&  
+        this.musicDownloadQueue.includes( musicFilename ) == false )
+    {
+      console.log( "-----> SOUND: ADDING TO DOWNLOAD QUEUE: ", musicFilename );
+      this.musicDownloadQueue.push( musicFilename );
+      this.processMusicQueues();
     }
   }
-
-  //////////////////////////////////////////////////////////////////////////////
-  downloadCompleteCallback()
+  
+  ///////////////////////////////////////////////////////////////////////////////
+  decodeMusic( musicFilename )
   {
-    console.log( "-----> SOUND: FILE DOWNLOADED" );
-  }
+    this.initMusicFile( musicFilename );
+    
+    console.log( "-----> SOUND: DECODE MUSIC: ", musicFilename );
 
+    if( this.musicFiles[musicFilename].decodeStarted == false  &&  
+        this.musicDecodeQueue.includes( musicFilename ) == false )
+    {
+      console.log( "-----> SOUND: ADDING TO DOWNLOAD QUEUE: ", musicFilename );
+      this.downloadMusic( musicFilename ); // IN CASE MUSIC ISN'T ALREADY DOWNLOADED
+      this.musicDecodeQueue.push( musicFilename );
+      this.processMusicQueues();
+    }
+  }
+  
+  
 
   /////////////////////////////////////////////////////////////////////////////
   playMusic2( soundFilename, offsetSet )
@@ -111,8 +115,53 @@ export default class P3dSoundPlayer
 
 
   //////////////////////////////////////////////////////////////////////////////
-  processUpdate()
+  processMusicQueues()
   {
+    console.log( "------> PROCESS MUSIC QUEUES", this.musicDownloadQueue );
+
+    // DOWNLOAD QUEUE...
+    if( this.musicDownloading == false  &&  this.musicDownloadQueue.length > 0 )
+    {
+      let downloadFilename = this.musicDownloadQueue.shift();
+    
+      console.log( "-----> MUSIC UPDATE: DOWNLOADING: ", downloadFilename );
+
+      this.musicSource = this.musicContext.createBufferSource();
+
+      this.downloading = true;
+      
+      // Create the XHR which will grab the audio contents
+      let request = new XMLHttpRequest();
+      // Set the audio file src here
+      request.open('GET', downloadFilename, true);
+      //this.request.open('GET', '3dplayer/sounds/clickDown.wav', true);
+      // Setting the responseType to arraybuffer sets up the audio decoding
+      request.responseType = 'arraybuffer';
+      request.onload = function() 
+      { // FILE LOADER CALLBACK:
+      
+        // Decode the audio once the require is complete
+        console.log( "-----> MUSIC DOWNLOADED, CONTEXT CREATED", downloadFilename, request );
+        this.musicFiles[downloadFilename].fileData = request.response;
+        this.downloading = false;
+        this.processMusicQueues();
+        
+        //this.musicContext.decodeAudioData( request.response, function(buffer)  
+      // Send the request which kicks off 
+      }.bind(this,request,downloadFilename)
+      
+      request.send(); 
+    }
+
+    // DECODE QUEUE...
+    if( this.musicDecoding == false  &&  this.musicDecodeQueue.length > 0 )
+    {
+      console.log( "------> PROCESS MUSIC: DECODE QUEUE 0: ", this.musicDecodeQueue[0] );
+    }
+    
+    
+
+  
     //if( this.musicPlayingFilename 
   }
   
