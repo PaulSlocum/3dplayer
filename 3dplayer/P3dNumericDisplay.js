@@ -37,6 +37,7 @@ export default class P3dNumericDisplay
     let playbackTime = this.appController.getPlaybackTime();
     let playbackTimeInt = Math.floor( playbackTime );
     let mode = this.appController.getStatus();
+    let trackNumber = this.appController.getTrackNumber();
     
     switch( mode )
     {
@@ -49,8 +50,9 @@ export default class P3dNumericDisplay
         this.ledDriver.setDigitCharacter( 1, minutes%10 );
         this.ledDriver.setDigitCharacter( 2, Math.floor( seconds / 10 )%10 );
         this.ledDriver.setDigitCharacter( 3, seconds%10 );
+        
         this.ledDriver.setDigitCharacter( 4, 'blank' );
-        this.ledDriver.setDigitCharacter( 5, 1 ); //*/
+        this.ledDriver.setDigitCharacter( 5, trackNumber%10 ); //*/
         break;
       }
       case Mode.PAUSED:
@@ -70,7 +72,7 @@ export default class P3dNumericDisplay
           this.ledDriver.setDigitCharacter( 3, seconds%10 );
         }
         this.ledDriver.setDigitCharacter( 4, 'blank' );
-        this.ledDriver.setDigitCharacter( 5, 1 ); //*/
+        this.ledDriver.setDigitCharacter( 5, trackNumber%10 ); //*/
         break;
       }
         

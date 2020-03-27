@@ -101,11 +101,10 @@ export default class P3dSoundPlayer
   
 
   /////////////////////////////////////////////////////////////////////////////
-  playMusic( soundFilename, offsetSet )
+  playMusic( musicFilename, offsetSet )
   {
-    // TODO: ALSO LOAD AND DECODE HERE IF NOT ALREADY DONE!
-  
-    this.musicPlayingFilename = soundFilename;
+    this.decodeMusic( musicFilename );
+    this.musicPlayingFilename = musicFilename;
     this.musicPlayPending = true;
     this.processMusicQueues();
   }
