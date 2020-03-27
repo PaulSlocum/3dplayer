@@ -133,6 +133,15 @@ export default class P3dSoundPlayer
   }
 
 
+  ///////////////////////////////////////////////////////////////////////////////
+  // REWINDS TRACK TO BEGINNING AND STOPS PLAYBACK IF PLAYING
+  rewindMusic()
+  {
+    this.pauseMusic();
+    this.musicPauseTime = 0.0;
+  }
+
+
   /////////////////////////////////////////////////////////////////////////////
   getMusicTime()
   {
@@ -197,6 +206,7 @@ export default class P3dSoundPlayer
         let decodeFilename = this.musicDecodeQueue.shift();
         console.log( "------> PROCESS MUSIC: DECODE QUEUE 0: ", decodeFilename );
 
+        // DECODE!
         this.musicContext.decodeAudioData( this.musicFiles[decodeFilename].fileData, function( decodeFilename, buffer)  
         { // DECODER CALLBACK:
 
@@ -213,7 +223,7 @@ export default class P3dSoundPlayer
       }
     }
     
-    // START PLAYBACK IF DATA IS DECODED...
+    // START PLAYBACK IF MUSIC FILE IS DECODED...
     if( this.musicPlayPending == true  &&  this.musicPlaying == false )
     {
       if( this.musicFiles[this.musicPlayingFilename].decodedData != null )

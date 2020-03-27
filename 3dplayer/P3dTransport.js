@@ -41,8 +41,8 @@ export default class P3dTransport {
     this.soundPlayer.loadSound( SoundFilenames.TRAY_CLOSE );
     
     this.soundPlayer.decodeMusic( filenameList[1] );
-    //this.soundPlayer.downloadMusic( filenameList[2] );
-    //this.soundPlayer.downloadMusic( filenameList[3] );
+    this.soundPlayer.downloadMusic( filenameList[2] );
+    this.soundPlayer.downloadMusic( filenameList[3] );
     
     this.filenameList = filenameList;
     this.trackNumber = 1; // FIRST TRACK IS ONE (NOT ZERO)
@@ -55,10 +55,14 @@ export default class P3dTransport {
   ///////////////////////////////////////////////////////////////////////
   processButtonEvent( buttonEvent )
   {
+    // BUTTON CLICK SOUND EFFECT
+    if( buttonEvent != ButtonEvent.BUTTON_UP  &&  buttonEvent != ButtonEvent.BUTTON_UP )
+      this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN ); 
+  
+    // BUTON FUNCTIONS...
     switch( buttonEvent )
     {
       case ButtonEvent.BUTTON_DOWN_PLAY: console.log("---->PLAY BUTTON PRESSED (TRANSPORT!)"); 
-            this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN ); 
             if( this.trackPlaying == false )
             {
               console.log("---->PLAYBACK STARTING: ", this.filenameList[this.trackNumber] ); 
@@ -68,7 +72,6 @@ export default class P3dTransport {
             }
             break;
       case ButtonEvent.BUTTON_DOWN_PAUSE: console.log("---->PAUSE BUTTON PRESSED (TRANSPORT)"); 
-            this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN );
             if( this.trackPlaying == true )
             {
               this.trackPlaying = false;
@@ -78,23 +81,18 @@ export default class P3dTransport {
             }
             break;
       case ButtonEvent.BUTTON_DOWN_PREV: console.log("---->PREV BUTTON PRESSED (TRANSPORT)"); 
-            this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN );
             break;
       case ButtonEvent.BUTTON_DOWN_NEXT: console.log("---->NEXT BUTTON PRESSED (TRANSPORT)"); 
-            this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN );
             break;
       case ButtonEvent.BUTTON_DOWN_FAST_FORWARD: console.log("---->FAST FORWARD BUTTON PRESSED (TRANSPORT)"); 
-            this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN );
             break;
       case ButtonEvent.BUTTON_DOWN_REWIND: console.log("---->REWIND BUTTON PRESSED (TRANSPORT)"); 
-            this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN );
             break;
       case ButtonEvent.BUTTON_DOWN_STOP: console.log("---->STOP BUTTON PRESSED (TRANSPORT)"); 
-            this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN );
             if( this.trackPlaying == true )
             {
               this.trackPlaying = false;
-              this.soundPlayer.pauseMusic();    
+              this.soundPlayer.rewindMusic();    
               //this.soundPlayer.stopMusic( MUSIC_FILENAME );    
             }
             this.status = Mode.STOPPED;
@@ -107,12 +105,11 @@ export default class P3dTransport {
               //this.soundPlayer.stopMusic( MUSIC_FILENAME );    
             }
             this.status = Mode.STANDBY;
-            this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN );
             break;
       case ButtonEvent.BUTTON_UP: console.log("---->BUTTON UP (TRANSPORT)"); 
-            //this.soundPlayer.playSound( SoundFilenames.CLICK_UP ); 
             break;
-      case ButtonEvent.NONE: console.log("---->NO BUTTON PRESSED (TRANSPORT)"); break;
+      case ButtonEvent.NONE: console.log("---->NO BUTTON PRESSED (TRANSPORT)"); 
+            break;
     }
   }
   
