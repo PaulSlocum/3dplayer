@@ -70,6 +70,11 @@ export default class P3dLEDDriver
                           [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0] ];
     this.highlightLedArray = [ [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], 
                                [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0] ];
+
+    this.colonObject = null;
+    this.colonHighlight = null;
+    this.minusObject = null;
+    this.minusHighlight = null;
                                
     this.objectsLoaded = false;
   }
@@ -102,6 +107,7 @@ export default class P3dLEDDriver
         //console.log( "---->LED DRIVER: 'displayGlass' MATERIAL FOUND" );
         this.displayGlassMaterial = child.material;
       }
+
       //console.log("---->LED DRIVER->CHILD: ", child.material);
     }.bind(this) ); //*/
     
@@ -117,6 +123,14 @@ export default class P3dLEDDriver
         this.highlightLedArray[ledDigit][ledSegment] = this.scene.getObjectByName( highlightObjectName, true );
       }
     } //*/
+
+    this.colonObject = this.scene.getObjectByName( "Colon1a" );
+    this.colonHighlight = this.scene.getObjectByName( "Colon1b" );
+    this.minusObject = this.scene.getObjectByName( "Minus1a" );
+    this.minusHighlight = this.scene.getObjectByName( "Minus1b" );
+    
+    //console.log( "------->LED DRIVER: COLON AND MINUS: ", this.colonObject, this.colonHighlight, 
+    //                                                      this.minusObject, this.minusHighlight );
 
     this.objectsLoaded = true;
 
@@ -149,6 +163,7 @@ export default class P3dLEDDriver
     
   }
 
+
   /////////////////////////////////////////////////////////////////////////
   segmentOn( ledDigit, ledSegment )
   {
@@ -169,6 +184,35 @@ export default class P3dLEDDriver
       this.highlightLedArray[ledDigit][ledSegment].material = this.displayGlassMaterial;
     }
   }
+
+  //////////////////////////////////////////////////////////////////////////
+  colonOn()
+  {
+    this.colonObject.material = this.ledOnMaterial;
+    this.colonHighlight.material = this.ledDimMaterial;
+  }  
+  
+  //////////////////////////////////////////////////////////////////////////
+  colonOff()
+  {
+    this.colonObject.material = this.ledOffMaterial;
+    this.colonHighlight.material = this.displayGlassMaterial;
+  }  
+  
+  //////////////////////////////////////////////////////////////////////////
+  minusOn()
+  {
+    this.minusObject.material = this.ledOnMaterial;
+    this.minusHighlight.material = this.ledDimMaterial;
+  }  
+  
+  //////////////////////////////////////////////////////////////////////////
+  minusOff()
+  {
+    this.minusObject.material = this.ledOffMaterial;
+    this.minusHighlight.material = this.displayGlassMaterial;
+  }  
+  
   
   
   

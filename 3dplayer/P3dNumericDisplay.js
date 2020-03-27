@@ -27,6 +27,9 @@ export default class P3dNumericDisplay
   load()
   {
     this.ledDriver.load();
+
+    this.ledDriver.colonOff();
+    this.ledDriver.minusOff();
   }
   
   //////////////////////////////////////////////////////////////////////////////
@@ -38,7 +41,30 @@ export default class P3dNumericDisplay
     let playbackTimeInt = Math.floor( playbackTime );
     let mode = this.appController.getStatus();
     let trackNumber = this.appController.getTrackNumber();
+
+    // HANDLE COLON...
+    switch( mode )
+    {
+      case Mode.PAUSED:
+      case Mode.PLAYING:
+        // DEBUG - FLASH MINUS/COLON
+        if( Math.floor(this.frameCounter/20)%3 == 0 )
+        {
+          this.ledDriver.colonOn();
+        }
+        else
+        {
+          this.ledDriver.colonOff();
+        }
+        break;
+      default:
+        this.ledDriver.colonOff();
+        this.ledDriver.minusOff();
+        break;
+    }
     
+    
+    // HANDLE ALPHANUMERIC SEGMENTS...
     switch( mode )
     {
       case Mode.PLAYING:

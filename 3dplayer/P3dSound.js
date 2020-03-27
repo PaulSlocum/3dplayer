@@ -129,7 +129,7 @@ export default class P3dSoundPlayer
   rewindMusic()
   {
     this.pauseMusic();
-    this.musicPauseTime = 0.0;
+    this.musicPauseTime = this.musicContext.currentTime;
   }
 
 
