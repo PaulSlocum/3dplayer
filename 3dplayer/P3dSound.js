@@ -5,6 +5,21 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
+
+//||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+class MusicFile
+{
+  constructor()
+  {
+    this.downloading = false;
+    this.fileData = null;
+    this.decoding = false;
+    this.decodedData = null;
+  }
+}
+
+
+
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 export default class P3dSoundPlayer
 {
@@ -18,80 +33,94 @@ export default class P3dSoundPlayer
     this.contextArray = {};
     this.sourceArray = {};
     
-    this.loadedMusicFilename = null;
-    this.musicBuffer = null;
+    //------------------------------------------------------------
+    // ORIGINAL LOADER
+    this.loadedMusicFilename = null; // THIS VARIABLE SHOULD BE REMOVED
     this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
+    this.musicBuffer = null; // TO BE REMOVED
     this.musicSource = null;
+    //------------------------------------------------------------
+
+    //------------------------------------------------------------
+    // NEW LOADER
     this.musicPauseTime = 0.0;
     this.musicStartTime = 0.0;
     this.musicPlaying = false;
+    this.musicPlayingFilename = null; // NEW!
+    this.musicDownloadQueue = []; // NEW!
+    this.musicDecodeQueue = []; // NEW!
+    
+    //this.musicBuffers = []; // NEW!
+    //this.fileBuffers = []; // NEW!
+    this.musicFiles = [];
+    //------------------------------------------------------------
     
   }
   
   //   ~      -         ~      -         ~      -         ~      -         ~     
+  //   ~      -         ~      -         ~      -         ~      -         ~     
 
-  
-  //////////////////////////////////////////////////////////////////////////
-  loadSound( soundFilename )
+  /////////////////////////////////////////////////////////////////////////////
+  initMusicFile( musicFilename )
   {
-    // Create the XHR which will grab the audio contents
-    let request = new XMLHttpRequest();
-    // Set the audio file src here
-    request.open('GET', soundFilename, true);
-    //this.request.open('GET', '3dplayer/sounds/clickDown.wav', true);
-    // Setting the responseType to arraybuffer sets up the audio decoding
-    request.responseType = 'arraybuffer';
-    request.onload = function() 
-    { // FILE LOADER CALLBACK:
-      
-      // Decode the audio once the require is complete
-      this.contextArray[soundFilename] = new (window.AudioContext || window.webkitAudioContext)();
-      this.contextArray[soundFilename].decodeAudioData( request.response, function(buffer)  
-      { // DECODER CALLBACK:
-
-        this.bufferArray[soundFilename] = buffer;
-
-      }.bind(this), function(e) {
-        console.log('Audio error! ', e);
-      } );  
-    }.bind(this,request)
-    // Send the request which kicks off 
-    request.send();
+    if( this.musicFiles[musicFilename] == null )
+      this.musicFiles[musicFilename] = new MusicFile();
   }
 
 
-  //////////////////////////////////////////////////////////////////////////
-  playSound( soundFilename )
+  /////////////////////////////////////////////////////////////////////////////
+  downloadMusic( musicFilename )
   {
-    /*if( this.sourceArray[soundFilename] )
+    this.initMusicFile( musicFilename );
+  
+    if( this.musicFiles[musicFilename].fileData == null )
     {
-      this.sourceArray[soundFilename].stop();
-    }//*/
-    //else
-    {
-      // Create a buffer for the incoming sound content
-      this.sourceArray[soundFilename] = this.contextArray[soundFilename].createBufferSource();
-      this.sourceArray[soundFilename].buffer = this.bufferArray[ soundFilename ];
+      console.log( "-----> SOUND: DOWNLOADING: ", musicFilename );
 
-      // Connect the audio to source (multiple audio buffers can be connected!)
-      this.sourceArray[soundFilename].connect( this.contextArray[soundFilename].destination );
-      // Simple setting for the buffer
-      this.sourceArray[soundFilename].loop = false;
-      // Play the sound!
-      this.sourceArray[soundFilename].start(0); //*/
+      this.musicSource = this.musicContext.createBufferSource();
+      
+      
+      // Create the XHR which will grab the audio contents
+      let request = new XMLHttpRequest();
+      // Set the audio file src here
+      request.open('GET', musicFilename, true);
+      //this.request.open('GET', '3dplayer/sounds/clickDown.wav', true);
+      // Setting the responseType to arraybuffer sets up the audio decoding
+      request.responseType = 'arraybuffer';
+      request.onload = function() {
+        console.log( "-----> SOUND: FILE DOWNLOADED" );
+      }.bind(this,request)
+      // Send the request which kicks off 
+      request.send(); //*/
     }
   }
-  
-  
-  ///////////////////////////////////////////////////////////////////////////
-  stopSound( soundFilename )
+
+  //////////////////////////////////////////////////////////////////////////////
+  downloadCompleteCallback()
   {
-    this.sourceArray[soundFilename].stop(); //*/
+    console.log( "-----> SOUND: FILE DOWNLOADED" );
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  playMusic2( soundFilename, offsetSet )
+  {
+    this.musicPlayingFilename = soundFilename;
+    this.musicPlaying = true;
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////////
+  processUpdate()
+  {
+    //if( this.musicPlayingFilename 
   }
   
   
-  
+
   //   ~      -         ~      -         ~      -         ~      -         ~     
+  //   ~      -         ~      -         ~      -         ~      -         ~     
+
 
   /////////////////////////////////////////////////////////////////////////////
   playMusic( soundFilename, offsetSec=0.0 )
@@ -218,6 +247,63 @@ export default class P3dSoundPlayer
   
 
   //   ~      -         ~      -         ~      -         ~      -         ~     
+  //   ~      -         ~      -         ~      -         ~      -         ~     
+
+  
+  //////////////////////////////////////////////////////////////////////////
+  loadSound( soundFilename )
+  {
+    // Create the XHR which will grab the audio contents
+    let request = new XMLHttpRequest();
+    // Set the audio file src here
+    request.open('GET', soundFilename, true);
+    //this.request.open('GET', '3dplayer/sounds/clickDown.wav', true);
+    // Setting the responseType to arraybuffer sets up the audio decoding
+    request.responseType = 'arraybuffer';
+    request.onload = function() 
+    { // FILE LOADER CALLBACK:
+      
+      // Decode the audio once the require is complete
+      this.contextArray[soundFilename] = new (window.AudioContext || window.webkitAudioContext)();
+      this.contextArray[soundFilename].decodeAudioData( request.response, function(buffer)  
+      { // DECODER CALLBACK:
+
+        this.bufferArray[soundFilename] = buffer;
+
+      }.bind(this), function(e) {
+        console.log('Audio error! ', e);
+      } );  
+    }.bind(this,request)
+    // Send the request which kicks off 
+    request.send();
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////
+  playSound( soundFilename )
+  {
+    // Create a buffer for the incoming sound content
+    this.sourceArray[soundFilename] = this.contextArray[soundFilename].createBufferSource();
+    this.sourceArray[soundFilename].buffer = this.bufferArray[ soundFilename ];
+
+    // Connect the audio to source (multiple audio buffers can be connected!)
+    this.sourceArray[soundFilename].connect( this.contextArray[soundFilename].destination );
+    // Simple setting for the buffer
+    this.sourceArray[soundFilename].loop = false;
+    // Play the sound!
+    this.sourceArray[soundFilename].start(0); //*/
+  }
+  
+  
+  ///////////////////////////////////////////////////////////////////////////
+  stopSound( soundFilename )
+  {
+    this.sourceArray[soundFilename].stop(); //*/
+  }
+  
+  
+  
+
 
   
   

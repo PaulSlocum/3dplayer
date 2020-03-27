@@ -40,6 +40,8 @@ export default class P3dTransport {
     this.soundPlayer.loadSound( SoundFilenames.TRAY_OPEN );
     this.soundPlayer.loadSound( SoundFilenames.TRAY_CLOSE );
     
+    this.soundPlayer.downloadMusic( filenameList[1] );
+    
     this.filenameList = filenameList;
     this.trackNumber = 1; // FIRST TRACK IS ONE (NOT ZERO)
     
