@@ -46,6 +46,7 @@ export default class P3dSoundPlayer
     this.musicPauseTime = 0.0;
     this.musicStartTime = 0.0;
     this.musicPlaying = false;
+    this.musicPlayPending = false;
     this.musicPlayingFilename = null; // NEW!
     this.musicDownloadQueue = []; // NEW!
     this.musicDecodeQueue = []; // NEW!
@@ -107,10 +108,11 @@ export default class P3dSoundPlayer
   
 
   /////////////////////////////////////////////////////////////////////////////
-  playMusic2( soundFilename, offsetSet )
+  playMusic( soundFilename, offsetSet )
   {
     this.musicPlayingFilename = soundFilename;
-    this.musicPlaying = true;
+    this.musicPlayPending = true;
+    this.processMusicQueues();
   }
 
 
@@ -119,7 +121,7 @@ export default class P3dSoundPlayer
   {
     console.log( "------> PROCESS MUSIC QUEUES", this.musicDownloadQueue );
 
-    // DOWNLOAD QUEUE...
+    // PROCESS DOWNLOAD QUEUE...
     if( this.musicDownloading == false  &&  this.musicDownloadQueue.length > 0 )
     {
       let downloadFilename = this.musicDownloadQueue.shift();
@@ -128,7 +130,7 @@ export default class P3dSoundPlayer
 
       this.musicSource = this.musicContext.createBufferSource();
 
-      this.downloading = true;
+      this.musicDownloading = true;
       
       // Create the XHR which will grab the audio contents
       let request = new XMLHttpRequest();
@@ -141,9 +143,9 @@ export default class P3dSoundPlayer
       { // FILE LOADER CALLBACK:
       
         // Decode the audio once the require is complete
-        console.log( "-----> MUSIC DOWNLOADED, CONTEXT CREATED", downloadFilename, request );
+        console.log( "-----> MUSIC DOWNLOADED: ", downloadFilename, request );
         this.musicFiles[downloadFilename].fileData = request.response;
-        this.downloading = false;
+        this.musicDownloading = false;
         this.processMusicQueues();
         
         //this.musicContext.decodeAudioData( request.response, function(buffer)  
@@ -153,13 +155,56 @@ export default class P3dSoundPlayer
       request.send(); 
     }
 
-    // DECODE QUEUE...
+    // PROCESS DECODE QUEUE...
     if( this.musicDecoding == false  &&  this.musicDecodeQueue.length > 0 )
     {
-      console.log( "------> PROCESS MUSIC: DECODE QUEUE 0: ", this.musicDecodeQueue[0] );
+      // MAKE SURE FILE IS FINISHED DOWNLOADING
+      if( this.musicFiles[this.musicDecodeQueue[0]].fileData != null )
+      {
+        let decodeFilename = this.musicDecodeQueue.shift();
+        console.log( "------> PROCESS MUSIC: DECODE QUEUE 0: ", decodeFilename );
+
+        this.musicContext.decodeAudioData( this.musicFiles[decodeFilename].fileData, function( decodeFilename, buffer)  
+        { // DECODER CALLBACK:
+
+          console.log( "-----> MUSIC DECODED, CONTEXT: ", this.musicContext, decodeFilename, buffer );
+          this.musicFiles[decodeFilename].decodedData = buffer;
+          //this.bufferArray[soundFilename] = buffer;
+   
+          this.musicPauseTime = 0.0;
+          this.processMusicQueues();
+
+        }.bind(this, decodeFilename), function(e) {
+          console.log('Audio decode error! ', e);
+        } );  
+      }
     }
     
-    
+    // START PLAYBACK IF DATA IS DECODED...
+    if( this.musicPlayPending == true  &&  this.musicPlaying == false )
+    {
+      if( this.musicFiles[this.musicPlayingFilename].decodedData != null )
+      {
+        this.musicSource = this.musicContext.createBufferSource();
+
+        console.log( "----> PLAYBACK STARTING: MUSIC SOURCE: ", this.musicSource, this.musicFiles[this.musicPlayingFilename].decodedData );
+
+        // --> START PLAYBACK HERE <--
+        // Create a buffer for the incoming sound content
+        //this.musicSource = this.musicContext.createBufferSource();
+        this.musicSource.buffer = this.musicFiles[this.musicPlayingFilename].decodedData;
+
+        // Connect the audio to source (multiple audio buffers can be connected!)
+        this.musicSource.connect( this.musicContext.destination );
+        // Simple setting for the buffer
+        this.musicSource.loop = false;
+        // Play the sound!
+        //console.log( "-----> MUSIC PAUSE TIME (PLAY): ", this.musicPauseTime );
+        this.musicSource.start( 0.0, this.musicPauseTime ); //*/
+        this.musicPlaying = true;  
+        this.musicStartTime = this.musicContext.currentTime;        
+      }
+    } //*/
 
   
     //if( this.musicPlayingFilename 
@@ -172,7 +217,8 @@ export default class P3dSoundPlayer
 
 
   /////////////////////////////////////////////////////////////////////////////
-  playMusic( soundFilename, offsetSec=0.0 )
+  /*
+  playMusicOriginal( soundFilename, offsetSec=0.0 )
   {
     if( this.loadedMusicFilename != soundFilename )
     {
@@ -208,28 +254,12 @@ export default class P3dSoundPlayer
           //this.startMusic().bind(this);
           //setTimeout( this.startMusic, 2000 );
 
-
-    // Create a buffer for the incoming sound content
-    /*this.musicSource = this.musicContext.createBufferSource();
-    this.musicSource.buffer = this.musicBuffer;
-
-    // Connect the audio to source (multiple audio buffers can be connected!)
-    this.musicSource.connect( this.musicContext.destination );
-    // Simple setting for the buffer
-    this.musicSource.loop = false;
-    // Play the sound!
-      console.log( "-----> MUSIC PAUSE TIME (PLAY): ", this.musicPauseTime );
-    this.musicSource.start( 0.0, this.musicPauseTime ); 
-    this.musicPlaying = true;  
-    this.musicStartTime = this.musicContext.currentTime;         //*/
-
-
         }.bind(this), function(e) {
           console.log('Audio error! ', e);
         } );  
       }.bind(this,request)
       // Send the request which kicks off 
-      request.send(); //*/
+      request.send(); 
       
       console.log( "--->SEND COMPLETE!" );
     }
@@ -240,12 +270,12 @@ export default class P3dSoundPlayer
       this.musicSource = this.musicContext.createBufferSource();
       this.startMusic();
     }
-  }
+  } //*/
   
   
   ///////////////////////////////////////////////////////////////////////////////
   // PRIVATE FUNCTION
-  startMusic()
+  /*startMusic()
   {
     //console.log( "------->MUSIC CONTEXT: ", this.musicContext );
     
@@ -260,10 +290,10 @@ export default class P3dSoundPlayer
     this.musicSource.loop = false;
     // Play the sound!
     //console.log( "-----> MUSIC PAUSE TIME (PLAY): ", this.musicPauseTime );
-    this.musicSource.start( 0.0, this.musicPauseTime ); //*/
+    this.musicSource.start( 0.0, this.musicPauseTime ); 
     this.musicPlaying = true;  
     this.musicStartTime = this.musicContext.currentTime;        
-  }
+  } //*/
   
 
 
