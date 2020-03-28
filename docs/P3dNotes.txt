@@ -1,9 +1,19 @@
+--------------------------------------------------------------------------------
+/\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
+--------------------------------------------------------------------------------
 
 
+TODO:
+- Fix issue where pressing "Next" quickly after pressing "Play" breaks audio system
 
-________________________________________________________________________________
 
-BUTTONS:
+--------------------------------------------------------------------------------
+/\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
+--------------------------------------------------------------------------------
+
+
+BUTTONS AND BUTTON LAYOUT PLANNING:
+
 stop (maybe)
 power (maybe)
 open/close (maybe, also maybe separate buttons)
@@ -44,6 +54,10 @@ BUTTON LAYOUT:
 ---------------------------------------------------------------------------------------
 
 
+--------------------------------------------------------------------------------
+/\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
+--------------------------------------------------------------------------------
+
 
 CASES AND ACTIONS TO CONSIDER:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -58,8 +72,11 @@ CASES AND ACTIONS TO CONSIDER:
 -LED indicators next to buttons
 
 
+--------------------------------------------------------------------------------
+/\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
+--------------------------------------------------------------------------------
 
------------------------------------------------------------------------------------------
+
 WEB AUDIO GOTHCAS
 
 from https://github.com/Jam3/web-audio-player#webaudio-gotchas
@@ -81,5 +98,60 @@ There are currently a lot of challenges with cross-platform WebAudio playback. T
 - In Safari 9+, AudioContext state might default to "suspended" — to get around this, we resume the context when play() is called
 - In recent Chrome, you can't use datauri with crossOrigin: 'Anonymous'
 - If multiple sources are provided to Safari and the first has an error, the browser will not attempt to load any subsequent sources
+
+
 -----------------------------------------------------------------------------------------
+
+
+https://robert.ocallahan.org/2017/09/some-opinions-on-history-of-web-audio.html
+
+SOME OPINIONS ON THE HISTORY OF WEB AUDIO
+
+By Robert O'Callahan   9/14/2017
+
+People complain that Web Audio provides implementations of numerous canned processing features, 
+but they very often don't do exactly what you want, and working around those limitations by 
+writing your own audio processing code in JS is difficult or impossible.
+
+This was an obvious pitfall from the moment the Web Audio API was proposed by Chris Rogers 
+(at Google, at that time). I personally fought pretty hard in the Audio WG for an API that
+ would be based on JS audio processing (with allowance for popular effects to be replaced 
+ with browser-implemented modules). I invested enough to write a draft spec for my alternative 
+ and implement a lot of that spec in Firefox, including Worker-based JS sample processing.
+
+My efforts went nowhere for several reasons. My views on making JS sample manipulation a 
+priority were not shared by the Audio WG. Here's my very first response to Chris Rogers' 
+reveal of the Web Audio draft; you can read the resulting discussion there. The main arguments 
+against prioritizing JS sample processing were that JS sample manipulation would be too slow, 
+and JS GC (or other non-realtime behaviour) would make audio too glitchy. Furthermore, audio 
+professionals like Chris Rogers assured me they had identified a set of primitives that would 
+suffice for most use cases. Since most of the Audio WG were audio professionals and I wasn't, 
+I didn't have much defense against "audio professionals say..." arguments.
+
+The Web Audio API proceeded mostly unchanged because there wasn't anyone other than me trying 
+to make significant changes. After an initial burst of interest Apple's WG participation 
+declined dramatically, perhaps because they were getting Chris Rogers' Webkit implementation 
+"for free" and had nothing to gain from further discussion. I begged Microsoft people to get 
+involved but they never did; in this and other areas they were (are?) apparently content for 
+Mozilla and Google to spend energy to thrash out a decent spec that they later implement.
+
+However, the main reason that Web Audio was eventually standardized without major changes 
+is because Google and Apple shipped it long before the spec was done. They shipped it with 
+a "webkit" prefix, but they evangelized it to developers who of course started using it, and 
+so pretty soon Mozilla had to cave.
+
+Ironically, soon after Web Audio won, the "extensible Web" become a hot buzzword. Web Audio 
+had a TAG review at which it was clear Web Audio was pretty much the antithesis of "extensible 
+Web", but by then it was too late to do anything about it.
+
+What could I have done better? I probably should have reduced the scope of my spec proposal 
+to exclude MediaStream/HTMLMediaElement integration. But I don't think that, or anything 
+else I can think of, would have changed the outcome.
+
+
+
+--------------------------------------------------------------------------------
+/\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
+--------------------------------------------------------------------------------
+
 
