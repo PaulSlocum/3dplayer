@@ -61,7 +61,10 @@ export default class P3dSoundPlayer
   initMusicFile( musicFilename )
   {
     if( this.musicFiles[musicFilename] == null )
+    {
+      console.log( "-----> SOUND: NEW MUSIC FILE: ", musicFilename );
       this.musicFiles[musicFilename] = new MusicFile();
+    }
   }
 
 
@@ -129,7 +132,7 @@ export default class P3dSoundPlayer
   rewindMusic()
   {
     this.pauseMusic();
-    this.musicPauseTime = this.musicContext.currentTime;
+    this.musicPauseTime = 0;
   }
 
 
@@ -158,6 +161,7 @@ export default class P3dSoundPlayer
     if( this.musicDownloading == false  &&  this.musicDownloadQueue.length > 0 )
     {
       let downloadFilename = this.musicDownloadQueue.shift();
+      this.musicFiles[downloadFilename].downloadStarted = true;
     
       console.log( "-----> MUSIC UPDATE: DOWNLOADING: ", downloadFilename );
 
@@ -195,6 +199,8 @@ export default class P3dSoundPlayer
       if( this.musicFiles[this.musicDecodeQueue[0]].fileData != null )
       {
         let decodeFilename = this.musicDecodeQueue.shift();
+        this.musicFiles[decodeFilename].decodeStarted = true;
+
         console.log( "------> PROCESS MUSIC: DECODE QUEUE 0: ", decodeFilename );
 
         // DECODE!
