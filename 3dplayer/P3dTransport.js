@@ -87,25 +87,9 @@ export default class P3dTransport {
             break;
       case ButtonEvent.BUTTON_DOWN_PREV: console.log("---->PREV BUTTON PRESSED (TRANSPORT)"); 
             this.previousTrack();
-            /*if( this.trackNumber > 1 )
-            {
-              this.trackNumber--;
-              this.trackPlaying = true;
-              this.musicPlayer.rewindMusic();    
-              this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
-              this.status = Mode.PLAYING;
-            }//*/
             break;
       case ButtonEvent.BUTTON_DOWN_NEXT: console.log("---->NEXT BUTTON PRESSED (TRANSPORT)"); 
             this.nextTrack();
-            /*if( this.trackNumber < this.filenameList.length-1 )
-            {
-              this.trackNumber++;
-              this.trackPlaying = true;
-              this.musicPlayer.rewindMusic();    
-              this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
-              this.status = Mode.PLAYING;
-            } //*/
             break;
       case ButtonEvent.BUTTON_DOWN_FAST_FORWARD: console.log("---->FAST FORWARD BUTTON PRESSED (TRANSPORT)"); 
             break;
@@ -113,15 +97,12 @@ export default class P3dTransport {
             break;
       case ButtonEvent.BUTTON_DOWN_STOP: console.log("---->STOP BUTTON PRESSED (TRANSPORT)"); 
             this.stop();
-            /*this.trackPlaying = false;
-            this.musicPlayer.rewindMusic();    
-            this.trackNumber = 1;
-            this.status = Mode.STOPPED; //*/
             break;
       case ButtonEvent.BUTTON_DOWN_STANDBY: console.log("---->STANDBY BUTTON PRESSED (TRANSPORT)"); 
-            this.trackPlaying = false;
+            this.stop();
+            /*this.trackPlaying = false;
             this.musicPlayer.rewindMusic();    
-            this.trackNumber = 1;
+            this.trackNumber = 1; //*/
             this.status = Mode.STANDBY;
             break;
       case ButtonEvent.BUTTON_UP: console.log("---->BUTTON UP (TRANSPORT)"); 
