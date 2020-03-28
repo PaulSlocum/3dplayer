@@ -31,7 +31,8 @@ export default class P3dMusicPlayer
     console.log("---->MUSIC CLASS CONSTRUCTOR");
 
     // MUSIC PLAYER    
-    this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
+    this.downloadContext = new (window.AudioContext || window.webkitAudioContext)();
+    this.musicContext = null;
     this.musicSource = null;
 
     this.musicPauseTime = 0.0;
@@ -46,11 +47,11 @@ export default class P3dMusicPlayer
     this.musicDecoding = false;
 
     // FILTER    
-  	this.low = this.musicContext.createBiquadFilter();
+  	/*this.low = this.musicContext.createBiquadFilter();
     this.low.type = "lowshelf";
     this.low.frequency.value = 320.0;
     this.low.gain.value = 0.0;
-    //this.low.connect( this.xfadeGain );
+    //this.low.connect( this.xfadeGain ); //*/
     
     this.delegate = delegate;
     
@@ -100,6 +101,9 @@ export default class P3dMusicPlayer
   /////////////////////////////////////////////////////////////////////////////
   playMusic( musicFilename, offsetSet )
   {
+    if( this.musicContext == null )
+      this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
+
     this.decodeMusic( musicFilename );
     this.musicPlayingFilename = musicFilename;
     this.musicPlayPending = true;
@@ -177,7 +181,7 @@ export default class P3dMusicPlayer
     
       console.log( "-----> MUSIC UPDATE: DOWNLOADING: ", downloadFilename );
 
-      this.musicSource = this.musicContext.createBufferSource();
+      this.musicSource = this.downloadContext.createBufferSource();
 
       this.musicDownloading = true;
       
@@ -214,7 +218,7 @@ export default class P3dMusicPlayer
         let decodeFilename = this.musicDecodeQueue.shift();
         this.musicFiles[decodeFilename].decodeStarted = true;
         this.musicDecoding = true;
-        this.musicContext.decodeAudioData( this.musicFiles[decodeFilename].fileData, function( decodeFilename, buffer)  
+        this.downloadContext.decodeAudioData( this.musicFiles[decodeFilename].fileData, function( decodeFilename, buffer)  
         { // DECODER CALLBACK:
 
           console.log( "-----> MUSIC DECODED, CONTEXT: ", this.musicContext, decodeFilename, buffer );
