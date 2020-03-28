@@ -103,7 +103,10 @@ export default class P3dNumericDisplay
       }
         
       case Mode.STOPPED:
+        let numberOfTracks = this.appController.getNumberOfTracks();
         this.ledDriver.setString( 'stopXX' );
+        this.ledDriver.setDigitCharacter( 4, 'blank' );
+        this.ledDriver.setDigitCharacter( 5, numberOfTracks%10 ); //*/
         break;
 
       case Mode.STANDBY:

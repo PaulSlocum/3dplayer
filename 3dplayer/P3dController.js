@@ -78,6 +78,12 @@ export default class P3dController {
     return this.transport.getTrackNumber();
   }
   
+  
+  getNumberOfTracks()
+  {
+    return this.transport.getNumberOfTracks();
+  }
+  
   /////////////////////////////////////////////////////////////////////////////
   getStatus()
   {
