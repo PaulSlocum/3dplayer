@@ -44,6 +44,13 @@ export default class P3dMusicPlayer
     
     this.musicDownloading = false;
     this.musicDecoding = false;
+
+    // FILTER    
+  	this.low = this.musicContext.createBiquadFilter();
+    this.low.type = "lowshelf";
+    this.low.frequency.value = 320.0;
+    this.low.gain.value = 0.0;
+    //this.low.connect( this.xfadeGain );
     
     this.delegate = delegate;
     
@@ -107,9 +114,9 @@ export default class P3dMusicPlayer
     {
       this.musicPauseTime += this.musicContext.currentTime - this.musicStartTime;
       this.musicSource.onended = null;
-      this.musicSource.stop(); //*/
       this.musicPlaying = false;
       this.musicPlayPending = false;
+      this.musicSource.stop(); //*/
       console.log( "-----> MUSIC PAUSE TIME: ", this.musicPauseTime );
     }
   }
