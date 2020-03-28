@@ -26,7 +26,7 @@ export default class P3dMusicPlayer
 {
 
   ///////////////////////////////////////////////////////////////////////
-  constructor() 
+  constructor( delegate ) 
   {
     console.log("---->MUSIC CLASS CONSTRUCTOR");
 
@@ -44,6 +44,8 @@ export default class P3dMusicPlayer
     
     this.musicDownloading = false;
     this.musicDecoding = false;
+    
+    this.delegate = delegate;
     
     this.musicFiles = []; // ARRAY OF "MusicFile" CLASS/STRUCT
 
@@ -104,6 +106,7 @@ export default class P3dMusicPlayer
     if( this.musicPlaying == true )
     {
       this.musicPauseTime += this.musicContext.currentTime - this.musicStartTime;
+      this.musicSource.onended = null;
       this.musicSource.stop(); //*/
       this.musicPlaying = false;
       this.musicPlayPending = false;
@@ -236,6 +239,7 @@ export default class P3dMusicPlayer
         this.musicSource.connect( this.musicContext.destination );
         // Simple setting for the buffer
         this.musicSource.loop = false;
+        this.musicSource.onended = this.musicEndedCallback.bind(this);
         // Play the sound!
         this.musicSource.start( 0.0, this.musicPauseTime ); //*/
         this.musicPlaying = true;  
@@ -245,5 +249,15 @@ export default class P3dMusicPlayer
 
   }
   
+  
+  /////////////////////////////////////////////////////////////////////////////////////
+  musicEndedCallback()
+  {
+    if( this.musicPlaying = true )
+    {
+      console.log( "------> MUSIC PLAYER: MUSIC ENDED CALLBACK" );
+      this.delegate.musicEndedCallback();
+    }//*/
+  }
   
 }

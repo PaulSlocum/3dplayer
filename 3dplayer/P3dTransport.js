@@ -42,7 +42,7 @@ export default class P3dTransport {
     this.soundPlayer.loadSound( SoundFilenames.TRAY_CLOSE );
 
     // PRE-DECODE FIRST MUSIC TRACK
-    this.musicPlayer = new P3dMusicPlayer();
+    this.musicPlayer = new P3dMusicPlayer( this );
     this.musicPlayer.decodeMusic( filenameList[1] );
     
     // PRE-DOWNLOAD THE OTHER MUSIC TRACKS
@@ -88,34 +88,34 @@ export default class P3dTransport {
             }
             break;
       case ButtonEvent.BUTTON_DOWN_PREV: console.log("---->PREV BUTTON PRESSED (TRANSPORT)"); 
-            if( this.trackNumber > 1 )
-            {
-              this.trackNumber--;
-              this.trackPlaying = true;
-              this.musicPlayer.rewindMusic();    
-              this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
-              this.status = Mode.PLAYING;
-            }
+    if( this.trackNumber > 1 )
+    {
+      this.trackNumber--;
+      this.trackPlaying = true;
+      this.musicPlayer.rewindMusic();    
+      this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
+      this.status = Mode.PLAYING;
+    }
             break;
       case ButtonEvent.BUTTON_DOWN_NEXT: console.log("---->NEXT BUTTON PRESSED (TRANSPORT)"); 
-            if( this.trackNumber < this.filenameList.length-1 )
-            {
-              this.trackNumber++;
-              this.trackPlaying = true;
-              this.musicPlayer.rewindMusic();    
-              this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
-              this.status = Mode.PLAYING;
-            }
+    if( this.trackNumber < this.filenameList.length-1 )
+    {
+      this.trackNumber++;
+      this.trackPlaying = true;
+      this.musicPlayer.rewindMusic();    
+      this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
+      this.status = Mode.PLAYING;
+    }
             break;
       case ButtonEvent.BUTTON_DOWN_FAST_FORWARD: console.log("---->FAST FORWARD BUTTON PRESSED (TRANSPORT)"); 
             break;
       case ButtonEvent.BUTTON_DOWN_REWIND: console.log("---->REWIND BUTTON PRESSED (TRANSPORT)"); 
             break;
       case ButtonEvent.BUTTON_DOWN_STOP: console.log("---->STOP BUTTON PRESSED (TRANSPORT)"); 
-            this.trackPlaying = false;
-            this.musicPlayer.rewindMusic();    
-            this.trackNumber = 1;
-            this.status = Mode.STOPPED;
+    this.trackPlaying = false;
+    this.musicPlayer.rewindMusic();    
+    this.trackNumber = 1;
+    this.status = Mode.STOPPED;
             break;
       case ButtonEvent.BUTTON_DOWN_STANDBY: console.log("---->STANDBY BUTTON PRESSED (TRANSPORT)"); 
             this.trackPlaying = false;
@@ -149,5 +149,54 @@ export default class P3dTransport {
   {
     return this.status;
   }
+  
+  ///////////////////////////////////////////////////////////////////////////
+  nextTrack()
+  {
+    if( this.trackNumber < this.filenameList.length-1 )
+    {
+      this.trackNumber++;
+      this.trackPlaying = true;
+      this.musicPlayer.rewindMusic();    
+      this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
+      this.status = Mode.PLAYING;
+    }
+  }
+  
+  
+  ///////////////////////////////////////////////////////////////////////////
+  previousTrack()
+  {
+    if( this.trackNumber > 1 )
+    {
+      this.trackNumber--;
+      this.trackPlaying = true;
+      this.musicPlayer.rewindMusic();    
+      this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
+      this.status = Mode.PLAYING;
+    }
+  }
+  
+  ////////////////////////////////////////////////////////////////////////////
+  stop()
+  {
+    this.trackPlaying = false;
+    this.musicPlayer.rewindMusic();    
+    this.trackNumber = 1;
+    this.status = Mode.STOPPED;
+  }
+  
+  
+  //////////////////////////////////////////////////////////////////////////
+  musicEndedCallback()
+  {
+    console.log( "----->TRANSPORT: SONG ENDED CALLBACK" );
+    if( this.trackNumber < this.filenameList.length-1 )
+      this.nextTrack();
+    else
+      this.stop();
+
+  }
+  
   
 }
