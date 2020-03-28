@@ -9,6 +9,7 @@
 import P3dController from './P3dController.js'
 import { Mode, ButtonEvent } from './P3dController.js'
 import P3dSoundPlayer from './P3dSound.js'
+import P3dMusicPlayer from './P3dMusic.js'
 //-----------------------------------------------------------------------------------
 
 
@@ -41,13 +42,14 @@ export default class P3dTransport {
     this.soundPlayer.loadSound( SoundFilenames.TRAY_CLOSE );
 
     // PRE-DECODE FIRST MUSIC TRACK
-    this.soundPlayer.decodeMusic( filenameList[1] );
+    this.musicPlayer = new P3dMusicPlayer();
+    this.musicPlayer.decodeMusic( filenameList[1] );
     
     // PRE-DOWNLOAD THE OTHER MUSIC TRACKS
     if( filenameList.length > 1 )
     {
       for( let i=2; i<filenameList.length; i++ )
-       this.soundPlayer.downloadMusic( filenameList[i] );
+       this.musicPlayer.downloadMusic( filenameList[i] );
     }
     
     this.filenameList = filenameList;
@@ -72,7 +74,7 @@ export default class P3dTransport {
             {
               console.log("---->PLAYBACK STARTING: ", this.filenameList[this.trackNumber] ); 
               this.trackPlaying = true;
-              this.soundPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
+              this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
               this.status = Mode.PLAYING;
             }
             break;
@@ -80,8 +82,8 @@ export default class P3dTransport {
             if( this.trackPlaying == true )
             {
               this.trackPlaying = false;
-              this.soundPlayer.pauseMusic();    
-              //this.soundPlayer.stopMusic( MUSIC_FILENAME );    
+              this.musicPlayer.pauseMusic();    
+              //this.musicPlayer.stopMusic( MUSIC_FILENAME );    
               this.status = Mode.PAUSED;
             }
             break;
@@ -90,8 +92,8 @@ export default class P3dTransport {
             {
               this.trackNumber--;
               this.trackPlaying = true;
-              this.soundPlayer.rewindMusic();    
-              this.soundPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
+              this.musicPlayer.rewindMusic();    
+              this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
               this.status = Mode.PLAYING;
             }
             break;
@@ -100,8 +102,8 @@ export default class P3dTransport {
             {
               this.trackNumber++;
               this.trackPlaying = true;
-              this.soundPlayer.rewindMusic();    
-              this.soundPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
+              this.musicPlayer.rewindMusic();    
+              this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
               this.status = Mode.PLAYING;
             }
             break;
@@ -113,9 +115,9 @@ export default class P3dTransport {
             if( this.trackPlaying == true )
             {
               this.trackPlaying = false;
-              this.soundPlayer.rewindMusic();    
+              this.musicPlayer.rewindMusic();    
               this.trackNumber = 1;
-              //this.soundPlayer.stopMusic( MUSIC_FILENAME );    
+              //this.musicPlayer.stopMusic( MUSIC_FILENAME );    
             }
             this.status = Mode.STOPPED;
             break;
@@ -123,8 +125,8 @@ export default class P3dTransport {
             if( this.trackPlaying == true )
             {
               this.trackPlaying = false;
-              this.soundPlayer.pauseMusic();    
-              //this.soundPlayer.stopMusic( MUSIC_FILENAME );    
+              this.musicPlayer.pauseMusic();    
+              //this.musicPlayer.stopMusic( MUSIC_FILENAME );    
             }
             this.status = Mode.STANDBY;
             break;
@@ -138,7 +140,7 @@ export default class P3dTransport {
   /////////////////////////////////////////////////////////////////////////
   getPlaybackTime()
   {
-    return this.soundPlayer.getMusicTime();
+    return this.musicPlayer.getMusicTime();
   }
   
 
