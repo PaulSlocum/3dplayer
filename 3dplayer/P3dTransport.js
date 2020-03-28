@@ -112,22 +112,15 @@ export default class P3dTransport {
       case ButtonEvent.BUTTON_DOWN_REWIND: console.log("---->REWIND BUTTON PRESSED (TRANSPORT)"); 
             break;
       case ButtonEvent.BUTTON_DOWN_STOP: console.log("---->STOP BUTTON PRESSED (TRANSPORT)"); 
-            if( this.trackPlaying == true )
-            {
-              this.trackPlaying = false;
-              this.musicPlayer.rewindMusic();    
-              this.trackNumber = 1;
-              //this.musicPlayer.stopMusic( MUSIC_FILENAME );    
-            }
+            this.trackPlaying = false;
+            this.musicPlayer.rewindMusic();    
+            this.trackNumber = 1;
             this.status = Mode.STOPPED;
             break;
       case ButtonEvent.BUTTON_DOWN_STANDBY: console.log("---->STANDBY BUTTON PRESSED (TRANSPORT)"); 
-            if( this.trackPlaying == true )
-            {
-              this.trackPlaying = false;
-              this.musicPlayer.pauseMusic();    
-              //this.musicPlayer.stopMusic( MUSIC_FILENAME );    
-            }
+            this.trackPlaying = false;
+            this.musicPlayer.rewindMusic();    
+            this.trackNumber = 1;
             this.status = Mode.STANDBY;
             break;
       case ButtonEvent.BUTTON_UP: console.log("---->BUTTON UP (TRANSPORT)"); 

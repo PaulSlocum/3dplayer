@@ -200,12 +200,9 @@ export default class P3dMusicPlayer
       // MAKE SURE FILE IS FINISHED DOWNLOADING
       if( this.musicFiles[this.musicDecodeQueue[0]].fileData != null )
       {
+        console.log( "------> PROCESS MUSIC: DECODE QUEUE 0: ", this.musicDecodeQueue[0] );
         let decodeFilename = this.musicDecodeQueue.shift();
         this.musicFiles[decodeFilename].decodeStarted = true;
-
-        console.log( "------> PROCESS MUSIC: DECODE QUEUE 0: ", decodeFilename );
-
-        // DECODE!
         this.musicDecoding = true;
         this.musicContext.decodeAudioData( this.musicFiles[decodeFilename].fileData, function( decodeFilename, buffer)  
         { // DECODER CALLBACK:
