@@ -260,7 +260,7 @@ export default class P3dMusicPlayer
   /////////////////////////////////////////////////////////////////////////////////////
   musicEndedCallback()
   {
-    if( this.musicPlaying = true )
+    if( this.musicPlaying == true )
     {
       console.log( "------> MUSIC PLAYER: MUSIC ENDED CALLBACK" );
       this.delegate.musicEndedCallback();
