@@ -31,7 +31,7 @@ export default class P3dUserInterface
 
     this.graphics = new P3dGraphics( appController, windowWidth, windowHeight, renderer );
 
-    // MOUSE/TOUCH HANDLING (TOUCH DOESN'T WORK YET)
+    // MOUSE/TOUCH HANDLING
     document.addEventListener( 'mousedown', this.mouseDown.bind(this), false );
     document.addEventListener( 'mouseup', this.mouseUp.bind(this), false );
     document.addEventListener('touchstart', this.touchDown.bind(this), false);

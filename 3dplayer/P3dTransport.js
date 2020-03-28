@@ -21,8 +21,6 @@ export const SoundFilenames = {
     TRAY_CLOSE: '3dplayer/sounds/cdDiscIn.wav'
 }
 
-//const MUSIC_FILENAME = 'music/expansion.mp3';
-
 
 
 
