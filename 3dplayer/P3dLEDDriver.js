@@ -188,29 +188,41 @@ export default class P3dLEDDriver
   //////////////////////////////////////////////////////////////////////////
   colonOn()
   {
-    this.colonObject.material = this.ledOnMaterial;
-    this.colonHighlight.material = this.ledDimMaterial;
+    if( this.objectsLoaded == true )
+    {
+      this.colonObject.material = this.ledOnMaterial;
+      this.colonHighlight.material = this.ledDimMaterial;
+    }
   }  
   
   //////////////////////////////////////////////////////////////////////////
   colonOff()
   {
-    this.colonObject.material = this.ledOffMaterial;
-    this.colonHighlight.material = this.displayGlassMaterial;
+    if( this.objectsLoaded == true )
+    {
+      this.colonObject.material = this.ledOffMaterial;
+      this.colonHighlight.material = this.displayGlassMaterial;
+    }
   }  
   
   //////////////////////////////////////////////////////////////////////////
   minusOn()
   {
-    this.minusObject.material = this.ledOnMaterial;
-    this.minusHighlight.material = this.ledDimMaterial;
+    if( this.objectsLoaded == true )
+    {
+      this.minusObject.material = this.ledOnMaterial;
+      this.minusHighlight.material = this.ledDimMaterial;
+    }
   }  
   
   //////////////////////////////////////////////////////////////////////////
   minusOff()
   {
-    this.minusObject.material = this.ledOffMaterial;
-    this.minusHighlight.material = this.displayGlassMaterial;
+    if( this.objectsLoaded == true )
+    {
+      this.minusObject.material = this.ledOffMaterial;
+      this.minusHighlight.material = this.displayGlassMaterial;
+    }
   }  
   
   
