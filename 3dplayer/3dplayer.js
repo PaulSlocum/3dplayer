@@ -11,11 +11,12 @@
 //-----------------------------------------------------------------------------------
 import './three/build/three.js'
 import P3dController from './P3dController.js'
+import { logger } from './P3dLog.js'
 //-----------------------------------------------------------------------------------
 
 
 
-console.log("---->LAUNCHING 3DPLAYER");
+logger("---->LAUNCHING 3DPLAYER");
 
 // GET SCRIPT TO READ ATTRIBUTES
 const script = document.scripts[document.scripts.length - 1]; // A reference to the currently running script
@@ -32,7 +33,7 @@ for( let i=1; endOfList==false; i++ )
   else
     endOfList = true;
 }
-console.log( "--->FILE LIST: ", filenameList );
+logger( "--->FILE LIST: ", filenameList );
 
 // GET WINDOW SIZE FROM HTML PARAMETERS
 let windowWidth = script.getAttribute('width');

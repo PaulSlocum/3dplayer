@@ -1,6 +1,12 @@
 
 
-
+//-----------------------------------------------------------------------------------
+import { logger } from './P3dLog.js'
+//-----------------------------------------------------------------------------------
+ 
+ 
+ 
+ 
 //-----------------------------------------
 // REQUIRED TEXT/CHARACTERS:
 //
@@ -57,7 +63,7 @@ export default class P3dLEDDriver
   ///////////////////////////////////////////////////////////////////////
   constructor( scene ) 
   {
-    console.log("---->LED DRIVER CLASS CONSTRUCTOR: " );
+    logger("---->LED DRIVER CLASS CONSTRUCTOR: " );
     
     this.scene = scene;
     

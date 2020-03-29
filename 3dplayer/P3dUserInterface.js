@@ -10,7 +10,11 @@
 import P3dController from './P3dController.js'
 import P3dGraphics from './P3dGraphics.js'
 import { ButtonEvent } from './P3dController.js'
+import { logger } from './P3dLog.js'
 //-----------------------------------------------------------------------------------
+
+
+
 
 
 
@@ -22,7 +26,8 @@ export default class P3dUserInterface
   ///////////////////////////////////////////////////////////////////////
   constructor( appController, windowWidth, windowHeight, renderer ) 
   {
-    console.log("---->DISPLAY CLASS CONSTRUCTOR");
+    //console.log("---->DISPLAY CLASS CONSTRUCTOR" );
+    logger( "---->DISPLAY CLASS CONSTRUCTOR" );
 
     this.appController = appController;
     this.windowWidth = windowWidth;

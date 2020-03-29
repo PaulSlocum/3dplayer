@@ -10,7 +10,8 @@ import P3dController from './P3dController.js'
 import { Mode, ButtonEvent } from './P3dController.js'
 import P3dSoundPlayer from './P3dSound.js'
 import P3dMusicPlayer from './P3dMusic.js'
-//-----------------------------------------------------------------------------------
+import { logger } from './P3dLog.js'
+///-----------------------------------------------------------------------------------
 
 
 
@@ -31,7 +32,7 @@ export default class P3dTransport {
   ///////////////////////////////////////////////////////////////////////
   constructor( filenameList ) 
   {
-    console.log("---->TRANSPORT CLASS CONSTRUCTOR: ", filenameList );
+    logger("---->TRANSPORT CLASS CONSTRUCTOR: ", filenameList );
     
     this.soundPlayer = new P3dSoundPlayer();
     this.soundPlayer.loadSound( SoundFilenames.CLICK_DOWN );
@@ -67,16 +68,16 @@ export default class P3dTransport {
     // BUTON FUNCTIONS...
     switch( buttonEvent )
     {
-      case ButtonEvent.BUTTON_DOWN_PLAY: console.log("---->PLAY BUTTON PRESSED (TRANSPORT!)"); 
+      case ButtonEvent.BUTTON_DOWN_PLAY: logger("---->PLAY BUTTON PRESSED (TRANSPORT!)"); 
             if( this.trackPlaying == false )
             {
-              console.log("---->PLAYBACK STARTING: ", this.filenameList[this.trackNumber] ); 
+              logger("---->PLAYBACK STARTING: ", this.filenameList[this.trackNumber] ); 
               this.trackPlaying = true;
               this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
               this.status = Mode.PLAYING;
             }
             break;
-      case ButtonEvent.BUTTON_DOWN_PAUSE: console.log("---->PAUSE BUTTON PRESSED (TRANSPORT)"); 
+      case ButtonEvent.BUTTON_DOWN_PAUSE: logger("---->PAUSE BUTTON PRESSED (TRANSPORT)"); 
             if( this.trackPlaying == true )
             {
               this.trackPlaying = false;
@@ -85,29 +86,29 @@ export default class P3dTransport {
               this.status = Mode.PAUSED;
             }
             break;
-      case ButtonEvent.BUTTON_DOWN_PREV: console.log("---->PREV BUTTON PRESSED (TRANSPORT)"); 
+      case ButtonEvent.BUTTON_DOWN_PREV: logger("---->PREV BUTTON PRESSED (TRANSPORT)"); 
             this.previousTrack();
             break;
-      case ButtonEvent.BUTTON_DOWN_NEXT: console.log("---->NEXT BUTTON PRESSED (TRANSPORT)"); 
+      case ButtonEvent.BUTTON_DOWN_NEXT: logger("---->NEXT BUTTON PRESSED (TRANSPORT)"); 
             this.nextTrack();
             break;
-      case ButtonEvent.BUTTON_DOWN_FAST_FORWARD: console.log("---->FAST FORWARD BUTTON PRESSED (TRANSPORT)"); 
+      case ButtonEvent.BUTTON_DOWN_FAST_FORWARD: logger("---->FAST FORWARD BUTTON PRESSED (TRANSPORT)"); 
             break;
-      case ButtonEvent.BUTTON_DOWN_REWIND: console.log("---->REWIND BUTTON PRESSED (TRANSPORT)"); 
+      case ButtonEvent.BUTTON_DOWN_REWIND: logger("---->REWIND BUTTON PRESSED (TRANSPORT)"); 
             break;
-      case ButtonEvent.BUTTON_DOWN_STOP: console.log("---->STOP BUTTON PRESSED (TRANSPORT)"); 
+      case ButtonEvent.BUTTON_DOWN_STOP: loggerg("---->STOP BUTTON PRESSED (TRANSPORT)"); 
             this.stop();
             break;
-      case ButtonEvent.BUTTON_DOWN_STANDBY: console.log("---->STANDBY BUTTON PRESSED (TRANSPORT)"); 
+      case ButtonEvent.BUTTON_DOWN_STANDBY: logger("---->STANDBY BUTTON PRESSED (TRANSPORT)"); 
             this.stop();
             /*this.trackPlaying = false;
             this.musicPlayer.rewindMusic();    
             this.trackNumber = 1; //*/
             this.status = Mode.STANDBY;
             break;
-      case ButtonEvent.BUTTON_UP: console.log("---->BUTTON UP (TRANSPORT)"); 
+      case ButtonEvent.BUTTON_UP: logger("---->BUTTON UP (TRANSPORT)"); 
             break;
-      case ButtonEvent.NONE: console.log("---->NO BUTTON PRESSED (TRANSPORT)"); 
+      case ButtonEvent.NONE: logger("---->NO BUTTON PRESSED (TRANSPORT)"); 
             break;
     }
   }
@@ -179,7 +180,7 @@ export default class P3dTransport {
   //////////////////////////////////////////////////////////////////////////
   musicEndedCallback()
   {
-    console.log( "----->TRANSPORT: SONG ENDED CALLBACK" );
+    logger( "----->TRANSPORT: SONG ENDED CALLBACK" );
     if( this.trackNumber < this.filenameList.length-1 )
       this.nextTrack();
     else

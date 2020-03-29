@@ -5,6 +5,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
+//-----------------------------------------------------------------------------------
+import { logger } from './P3dLog.js'
+//-----------------------------------------------------------------------------------
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -28,7 +31,7 @@ export default class P3dMusicPlayer
   ///////////////////////////////////////////////////////////////////////
   constructor( delegate ) 
   {
-    console.log("---->MUSIC CLASS CONSTRUCTOR");
+    logger("---->MUSIC CLASS CONSTRUCTOR");
 
     // MUSIC PLAYER    
     this.preloadContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -70,12 +73,12 @@ export default class P3dMusicPlayer
   {
     this.initMusicFile( musicFilename );
 
-    console.log( "-----> SOUND: DOWNLOAD MUSIC: ", musicFilename );
+    logger( "-----> SOUND: DOWNLOAD MUSIC: ", musicFilename );
   
     if( this.musicFiles[musicFilename].downloadStarted == false  &&  
         this.musicDownloadQueue.includes( musicFilename ) == false )
     {
-      console.log( "-----> SOUND: ADDING TO DOWNLOAD QUEUE: ", musicFilename );
+      logger( "-----> SOUND: ADDING TO DOWNLOAD QUEUE: ", musicFilename );
       this.musicDownloadQueue.push( musicFilename );
       this.processMusicQueues();
     }
@@ -86,12 +89,12 @@ export default class P3dMusicPlayer
   {
     this.initMusicFile( musicFilename );
     
-    console.log( "-----> SOUND: DECODE MUSIC: ", musicFilename );
+    logger( "-----> SOUND: DECODE MUSIC: ", musicFilename );
 
     if( this.musicFiles[musicFilename].decodeStarted == false  &&  
         this.musicDecodeQueue.includes( musicFilename ) == false )
     {
-      console.log( "-----> SOUND: ADDING TO DOWNLOAD QUEUE: ", musicFilename );
+      logger( "-----> SOUND: ADDING TO DOWNLOAD QUEUE: ", musicFilename );
       this.downloadMusic( musicFilename ); // IN CASE MUSIC ISN'T ALREADY DOWNLOADED
       this.musicDecodeQueue.push( musicFilename );
       this.processMusicQueues();
@@ -147,7 +150,7 @@ export default class P3dMusicPlayer
       this.musicPlaying = false;
       this.musicPlayPending = false;
       this.musicSource.stop(); //*/
-      console.log( "-----> MUSIC PAUSE TIME: ", this.musicPauseTime );
+      logger( "-----> MUSIC PAUSE TIME: ", this.musicPauseTime );
     }
   }
 
@@ -186,7 +189,7 @@ export default class P3dMusicPlayer
   {
     if( this.musicFiles[musicFilename] == null )
     {
-      console.log( "-----> SOUND: NEW MUSIC FILE: ", musicFilename );
+      logger( "-----> SOUND: NEW MUSIC FILE: ", musicFilename );
       this.musicFiles[musicFilename] = new MusicFile();
     }
   }
@@ -197,7 +200,7 @@ export default class P3dMusicPlayer
   // PRIVATE FUNCTION
   processMusicQueues()
   {
-    console.log( "------> PROCESS MUSIC QUEUES", this.musicDownloadQueue );
+    logger( "------> PROCESS MUSIC QUEUES", this.musicDownloadQueue );
 
     // PROCESS DOWNLOAD QUEUE...
     if( this.musicDownloading == false  &&  this.musicDownloadQueue.length > 0 )
@@ -205,7 +208,7 @@ export default class P3dMusicPlayer
       let downloadFilename = this.musicDownloadQueue.shift();
       this.musicFiles[downloadFilename].downloadStarted = true;
     
-      console.log( "-----> MUSIC UPDATE: DOWNLOADING: ", downloadFilename );
+      logger( "-----> MUSIC UPDATE: DOWNLOADING: ", downloadFilename );
 
       this.musicSource = this.preloadContext.createBufferSource();
 
@@ -222,7 +225,7 @@ export default class P3dMusicPlayer
       { // FILE LOADER CALLBACK:
       
         // Decode the audio once the require is complete
-        console.log( "-----> MUSIC DOWNLOADED: ", downloadFilename, request );
+        logger( "-----> MUSIC DOWNLOADED: ", downloadFilename, request );
         this.musicFiles[downloadFilename].fileData = request.response;
         this.musicDownloading = false;
         this.processMusicQueues();
@@ -240,14 +243,14 @@ export default class P3dMusicPlayer
       // MAKE SURE FILE IS FINISHED DOWNLOADING
       if( this.musicFiles[this.musicDecodeQueue[0]].fileData != null )
       {
-        console.log( "------> PROCESS MUSIC: DECODE QUEUE 0: ", this.musicDecodeQueue[0] );
+        logger( "------> PROCESS MUSIC: DECODE QUEUE 0: ", this.musicDecodeQueue[0] );
         let decodeFilename = this.musicDecodeQueue.shift();
         this.musicFiles[decodeFilename].decodeStarted = true;
         this.musicDecoding = true;
         this.preloadContext.decodeAudioData( this.musicFiles[decodeFilename].fileData, function( decodeFilename, buffer)  
         { // DECODER CALLBACK:
 
-          console.log( "-----> MUSIC DECODED, CONTEXT: ", this.musicContext, decodeFilename, buffer );
+          logger( "-----> MUSIC DECODED, CONTEXT: ", this.musicContext, decodeFilename, buffer );
           this.musicFiles[decodeFilename].decodedData = buffer;
           this.musicDecoding = false;
    
@@ -255,7 +258,7 @@ export default class P3dMusicPlayer
           this.processMusicQueues();
 
         }.bind(this, decodeFilename), function(e) {
-          console.log('Audio decode error! ', e);
+          logger('Audio decode error! ', e);
         } );  
       }
     }
@@ -265,7 +268,7 @@ export default class P3dMusicPlayer
     {
       if( this.musicFiles[this.musicPlayingFilename].decodedData != null )
       {
-        console.log( "----> PLAYBACK STARTING: MUSIC SOURCE: ", this.musicSource, this.musicFiles[this.musicPlayingFilename].decodedData );
+        logger( "----> PLAYBACK STARTING: MUSIC SOURCE: ", this.musicSource, this.musicFiles[this.musicPlayingFilename].decodedData );
 
         // --> START PLAYBACK HERE <--
         // Create a buffer for the incoming sound content
@@ -296,7 +299,7 @@ export default class P3dMusicPlayer
   {
     if( this.musicPlaying == true )
     {
-      console.log( "------> MUSIC PLAYER: MUSIC ENDED CALLBACK" );
+      logger( "------> MUSIC PLAYER: MUSIC ENDED CALLBACK" );
       this.delegate.musicEndedCallback();
     }//*/
   }

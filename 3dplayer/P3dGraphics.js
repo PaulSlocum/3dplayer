@@ -10,6 +10,7 @@ import { GLTFLoader } from './three/examples/jsm/loaders/GLTFLoader.js';
 import P3dController from './P3dController.js'
 import P3dNumericDisplay from './P3dNumericDisplay.js'
 import P3dShaders from './P3dShaders.js'
+import { logger } from './P3dLog.js'
 //-----------------------------------------------------------------------------------
 
 
@@ -37,7 +38,7 @@ export default class P3dGraphics
   ///////////////////////////////////////////////////////////////////////
   constructor( appController, windowWidth, windowHeight, renderer ) 
   {
-    console.log("---->GRAPHICS CLASS CONSTRUCTOR");
+    logger("---->GRAPHICS CLASS CONSTRUCTOR");
 
     this.appController = appController;
     this.windowWidth = windowWidth;

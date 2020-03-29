@@ -9,6 +9,7 @@
 //-----------------------------------------------------------------------------------
 import P3dUserInterface from './P3dUserInterface.js'
 import P3dTransport from './P3dTransport.js'
+import { logger } from './P3dLog.js'
 //-----------------------------------------------------------------------------------
 
 
@@ -48,7 +49,7 @@ export default class P3dController {
   ///////////////////////////////////////////////////////////////////////
   constructor( filenameList, windowWidth, windowHeight, renderer ) 
   {
-    console.log("---->CONTROLLER CONSTRUCTOR");
+    logger( "---->CONTROLLER CONSTRUCTOR", renderer );
 
     this.height = windowWidth;
     this.width = windowHeight;

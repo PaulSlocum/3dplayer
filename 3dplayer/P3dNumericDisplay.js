@@ -5,6 +5,7 @@
 import P3dController from './P3dController.js'
 import P3dLEDDriver from './P3dLEDDriver.js'
 import { Mode } from './P3dController.js'
+import { logger } from './P3dLog.js'
 //-----------------------------------------------------------------------------------
 
 
@@ -15,7 +16,7 @@ export default class P3dNumericDisplay
   ///////////////////////////////////////////////////////////////////////
   constructor( appController, scene ) 
   {
-    console.log("---->NUMERIC DISPLAY CLASS CONSTRUCTOR");
+    logger("---->NUMERIC DISPLAY CLASS CONSTRUCTOR");
 
     this.appController = appController;
    
