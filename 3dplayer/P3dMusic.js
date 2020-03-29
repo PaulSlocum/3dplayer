@@ -124,8 +124,10 @@ export default class P3dMusicPlayer
       this.highFilter.type = "highshelf";
       this.highFilter.frequency.value = 3200.0;
       this.highFilter.gain.value = 0.0;
-
-
+      
+      this.gainNode = this.musicContext.createGain();
+      this.gainNode.gain.value = 1.0;
+      
     }
 
     this.decodeMusic( musicFilename );
@@ -273,8 +275,9 @@ export default class P3dMusicPlayer
         // Connect the audio to source (multiple audio buffers can be connected!)
         this.musicSource.connect( this.lowFilter );
         this.lowFilter.connect( this.highFilter );
+        this.highFilter.connect( this.gainNode );
         //this.low.connect( this.xfadeGain ); //*/
-        this.highFilter.connect( this.musicContext.destination );
+        this.gainNode.connect( this.musicContext.destination );
         // Simple setting for the buffer
         this.musicSource.loop = false;
         this.musicSource.onended = this.musicEndedCallback.bind(this);
