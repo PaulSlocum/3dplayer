@@ -96,7 +96,7 @@ export default class P3dTransport {
             break;
       case ButtonEvent.BUTTON_DOWN_REWIND: logger("---->REWIND BUTTON PRESSED (TRANSPORT)"); 
             break;
-      case ButtonEvent.BUTTON_DOWN_STOP: loggerg("---->STOP BUTTON PRESSED (TRANSPORT)"); 
+      case ButtonEvent.BUTTON_DOWN_STOP: logger("---->STOP BUTTON PRESSED (TRANSPORT)"); 
             this.stop();
             break;
       case ButtonEvent.BUTTON_DOWN_STANDBY: logger("---->STANDBY BUTTON PRESSED (TRANSPORT)"); 
