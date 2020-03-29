@@ -82,30 +82,7 @@ export default class P3dUserInterface
     for ( let i = 0; i < intersects.length; i++ ) 
     {
       if( intersects[i].object.name.startsWith( "Button" ) )
-      {
         this.appController.processButtonEvent( intersects[i].object.name ); 
-      }
-    
-      /*switch( intersects[i].object.name )
-      {
-        case "ButtonPlay": this.buttonDown = true;
-          this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_PLAY ); break;
-        case "ButtonPause": this.buttonDown = true;
-          this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_PAUSE ); break;
-        case "ButtonPrev": this.buttonDown = true;
-          this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_PREV ); break;
-        case "ButtonNext": this.buttonDown = true;
-          this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_NEXT ); break;
-        case "ButtonStop": this.buttonDown = true;
-          this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_STOP ); break;
-        case "ButtonStandby": this.buttonDown = true;
-          this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_STANDBY ); break;
-        case "ButtonRewind": this.buttonDown = true;
-          this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_REWIND ); break;
-        case "ButtonFastForward": this.buttonDown = true;
-          this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_FAST_FORWARD ); break;
-      } //*/
-      
     } //*/
   }
 

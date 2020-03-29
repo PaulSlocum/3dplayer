@@ -16,14 +16,14 @@ import P3dTransport from './P3dTransport.js'
 
 export const ButtonEvent = {
   NONE: 'ButtonNone',
-  BUTTON_DOWN_PLAY: 'ButtonDownPlay',
-  BUTTON_DOWN_PAUSE: 'ButtonDownPause',
-  BUTTON_DOWN_NEXT: 'ButtonDownNext',
-  BUTTON_DOWN_PREV: 'ButtonDownPrev',
-  BUTTON_DOWN_STOP: 'ButtonDownStop',
-  BUTTON_DOWN_STANDBY: 'ButtonDownStandby',
-  BUTTON_DOWN_REWIND: 'ButtonDownRewind',
-  BUTTON_DOWN_FAST_FORWARD: 'ButtonDownFastForward',
+  BUTTON_DOWN_PLAY: 'ButtonPlay',
+  BUTTON_DOWN_PAUSE: 'ButtonPause',
+  BUTTON_DOWN_NEXT: 'ButtonNext',
+  BUTTON_DOWN_PREV: 'ButtonPrev',
+  BUTTON_DOWN_STOP: 'ButtonStop',
+  BUTTON_DOWN_STANDBY: 'ButtonStandby',
+  BUTTON_DOWN_REWIND: 'ButtonRewind',
+  BUTTON_DOWN_FAST_FORWARD: 'ButtonFastForward',
   BUTTON_UP: 'ButtonUp'
 }
 
