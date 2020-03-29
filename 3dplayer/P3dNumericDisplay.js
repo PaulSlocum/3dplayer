@@ -35,6 +35,9 @@ export default class P3dNumericDisplay
     this.frameCounter = 0;
     
     this.displayMode = LedMode.NORMAL;
+    
+    this.altDisplayStartSec = 0.0;
+    this.altDisplayWaitSec = 2000.0;
   }
   
   //////////////////////////////////////////////////////////////////////////////
@@ -53,26 +56,30 @@ export default class P3dNumericDisplay
   
     let appMode = this.appController.getStatus();
 
+    if( this.displayMode != LedMode.NORMAL )
+    {
+      this.ledDriver.colonOff();
+      this.ledDriver.minusOff();
+      if( this.altDisplayStartSec + this.altDisplayWaitSec < performance.now() )
+      {
+        this.displayMode = LedMode.NORMAL;
+      }
+    }
+
     switch( this.displayMode )
     {
       case LedMode.NORMAL:
         this._updateStandardDisplay( appMode );
         break;
       case LedMode.VOLUME:
-        this.ledDriver.colonOff();
-        this.ledDriver.minusOff();
         this.ledDriver.setString( 'XvolX5' );
         this.ledDriver.setDigitCharacter( 5, this.appController.getVolume() );
         break;
       case LedMode.TREBLE:
-        this.ledDriver.colonOff();
-        this.ledDriver.minusOff();
         this.ledDriver.setString( 'trebX5' );
         this.ledDriver.setDigitCharacter( 5, this.appController.getTreble() );
         break;
       case LedMode.BASS:
-        this.ledDriver.colonOff();
-        this.ledDriver.minusOff();
         this.ledDriver.setString( 'bassX5' );
         this.ledDriver.setDigitCharacter( 5, this.appController.getBass() );
         break;
@@ -84,8 +91,8 @@ export default class P3dNumericDisplay
   ////////////////////////////////////////////////////////////////////////////////
   showVolume()
   {
-    logger( "SET VOLUME MODE!!!!!!!!!!!!!!!!!!!!!!!!" );
     this.displayMode = LedMode.VOLUME;
+    this.altDisplayStartSec = performance.now();
   }
   
 
@@ -93,6 +100,7 @@ export default class P3dNumericDisplay
   showBass()
   {
     this.displayMode = LedMode.BASS;
+    this.altDisplayStartSec = performance.now();
   }
   
 
@@ -100,6 +108,7 @@ export default class P3dNumericDisplay
   showTreble()
   {
     this.displayMode = LedMode.TREBLE;
+    this.altDisplayStartSec = performance.now();
   }
   
 

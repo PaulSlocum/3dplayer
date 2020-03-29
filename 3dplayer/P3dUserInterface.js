@@ -101,7 +101,6 @@ export default class P3dUserInterface
           break;
         case ButtonEvent.BUTTON_DOWN_VOL_DOWN:
         case ButtonEvent.BUTTON_DOWN_VOL_UP:
-          logger( "FUCK SHOW VOLUME" );
           this.graphics.numericDisplay.showVolume();
           break;
       }
