@@ -81,7 +81,12 @@ export default class P3dUserInterface
     let intersects = this.graphics.getIntersectionsAtPixel( mouse );
     for ( let i = 0; i < intersects.length; i++ ) 
     {
-      switch( intersects[i].object.name )
+      if( intersects[i].object.name.startsWith( "Button" ) )
+      {
+        this.appController.processButtonEvent( intersects[i].object.name ); 
+      }
+    
+      /*switch( intersects[i].object.name )
       {
         case "ButtonPlay": this.buttonDown = true;
           this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_PLAY ); break;
@@ -99,7 +104,8 @@ export default class P3dUserInterface
           this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_REWIND ); break;
         case "ButtonFastForward": this.buttonDown = true;
           this.appController.processButtonEvent( ButtonEvent.BUTTON_DOWN_FAST_FORWARD ); break;
-      }
+      } //*/
+      
     } //*/
   }
 
