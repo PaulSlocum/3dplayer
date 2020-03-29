@@ -86,9 +86,29 @@ export default class P3dUserInterface
     let intersects = this.graphics.getIntersectionsAtPixel( mouse );
     for ( let i = 0; i < intersects.length; i++ ) 
     {
-      if( intersects[i].object.name.startsWith( "Button" ) )
-        this.appController.processButtonEvent( intersects[i].object.name ); 
+      let objectName = intersects[i].object.name;
+      if( objectName.startsWith( "Button" ) )
+        this.appController.processButtonEvent( objectName ); 
+      switch( objectName )
+      {
+        case ButtonEvent.BUTTON_DOWN_BASS_DOWN:
+        case ButtonEvent.BUTTON_DOWN_BASS_UP:
+          this.graphics.numericDisplay.showBass();
+          break;
+        case ButtonEvent.BUTTON_DOWN_TREBLE_DOWN:
+        case ButtonEvent.BUTTON_DOWN_TREBLE_UP:
+          this.graphics.numericDisplay.showTreble();
+          break;
+        case ButtonEvent.BUTTON_DOWN_VOL_DOWN:
+        case ButtonEvent.BUTTON_DOWN_VOL_UP:
+          logger( "FUCK SHOW VOLUME" );
+          this.graphics.numericDisplay.showVolume();
+          break;
+      }
     } //*/
+
+
+
   }
 
 

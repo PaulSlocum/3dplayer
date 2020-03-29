@@ -35,7 +35,7 @@ export const ButtonEvent = {
 }
 
 
-export const Mode = {
+export const TransportMode = {
   TRAY_OPEN:'TrayOpen',
   TRAY_OPENING:'TrayOpening',
   TRAY_CLOSING:'TrayClosing',
@@ -67,6 +67,7 @@ export default class P3dController {
 
   }
 
+
   /////////////////////////////////////////////////////////////////////////////
   processButtonEvent( buttonEvent )
   {
@@ -96,7 +97,25 @@ export default class P3dController {
   {
     return this.transport.getStatus();
   }
+
+  ////////////////////////////////////////////////////////////////////////////
+  getVolume()
+  {
+    return this.transport.getVolume();
+  }
   
+  ////////////////////////////////////////////////////////////////////////////
+  getTreble()
+  {
+    return this.transport.getTreble();
+  }
+  
+  ////////////////////////////////////////////////////////////////////////////
+  getBass()
+  {
+    return this.transport.getBass();
+  }
+
   
   
 }

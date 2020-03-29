@@ -76,13 +76,13 @@ export default class P3dLEDDriver
                           [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0] ];
     this.highlightLedArray = [ [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], 
                                [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0] ];
-
     this.colonObject = null;
     this.colonHighlight = null;
     this.minusObject = null;
     this.minusHighlight = null;
                                
     this.objectsLoaded = false;
+    
   }
 
 
@@ -162,34 +162,13 @@ export default class P3dLEDDriver
     for( let ledSegment=0; ledSegment<TOTAL_LED_SEGMENTS; ledSegment++ )
     {
       if( segmentArray[ledSegment] == 0 )
-        this.segmentOff( ledDigit, ledSegment );
+        this._segmentOff( ledDigit, ledSegment );
       else
-        this.segmentOn( ledDigit, ledSegment );
+        this._segmentOn( ledDigit, ledSegment );
     }
     
   }
 
-
-  /////////////////////////////////////////////////////////////////////////
-  segmentOn( ledDigit, ledSegment )
-  {
-    if( this.objectsLoaded == true )
-    {
-      this.mainLedArray[ledDigit][ledSegment].material = this.ledOnMaterial;
-      this.highlightLedArray[ledDigit][ledSegment].material = this.ledDimMaterial;
-    }
-  }
-
-  
-  /////////////////////////////////////////////////////////////////////////
-  segmentOff( ledDigit, ledSegment )
-  {
-    if( this.objectsLoaded == true )
-    {
-      this.mainLedArray[ledDigit][ledSegment].material = this.ledOffMaterial;
-      this.highlightLedArray[ledDigit][ledSegment].material = this.displayGlassMaterial;
-    }
-  }
 
   //////////////////////////////////////////////////////////////////////////
   colonOn()
@@ -230,8 +209,33 @@ export default class P3dLEDDriver
       this.minusHighlight.material = this.displayGlassMaterial;
     }
   }  
+
+
+  //  -    ~       -    ~       -    ~       -    ~       -    ~       -    ~        
   
   
+  
+  /////////////////////////////////////////////////////////////////////////
+  _segmentOn( ledDigit, ledSegment )
+  {
+    if( this.objectsLoaded == true )
+    {
+      this.mainLedArray[ledDigit][ledSegment].material = this.ledOnMaterial;
+      this.highlightLedArray[ledDigit][ledSegment].material = this.ledDimMaterial;
+    }
+  }
+
+  
+  /////////////////////////////////////////////////////////////////////////
+  _segmentOff( ledDigit, ledSegment )
+  {
+    if( this.objectsLoaded == true )
+    {
+      this.mainLedArray[ledDigit][ledSegment].material = this.ledOffMaterial;
+      this.highlightLedArray[ledDigit][ledSegment].material = this.displayGlassMaterial;
+    }
+  }
+
   
   
 }

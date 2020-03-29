@@ -7,7 +7,7 @@
 
 //-----------------------------------------------------------------------------------
 import P3dController from './P3dController.js'
-import { Mode, ButtonEvent } from './P3dController.js'
+import { TransportMode, ButtonEvent } from './P3dController.js'
 import P3dSoundPlayer from './P3dSound.js'
 import P3dMusicPlayer from './P3dMusic.js'
 import { logger } from './P3dLog.js'
@@ -62,7 +62,7 @@ export default class P3dTransport {
     this.bass = MIDDLE_AUDIO_SETTING_VALUE;
     this.volume = MAX_AUDIO_SETTING_VALUE;
     
-    this.status = Mode.STOPPED;
+    this.status = TransportMode.STOPPED;
   }
   
   
@@ -83,7 +83,7 @@ export default class P3dTransport {
             {
               this.trackPlaying = true;
               this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
-              this.status = Mode.PLAYING;
+              this.status = TransportMode.PLAYING;
             }
             break;
       case ButtonEvent.BUTTON_DOWN_PAUSE:
@@ -92,7 +92,7 @@ export default class P3dTransport {
               this.trackPlaying = false;
               this.musicPlayer.pauseMusic();    
               //this.musicPlayer.stopMusic( MUSIC_FILENAME );    
-              this.status = Mode.PAUSED;
+              this.status = TransportMode.PAUSED;
             }
             break;
       case ButtonEvent.BUTTON_DOWN_PREV:
@@ -113,7 +113,7 @@ export default class P3dTransport {
             /*this.trackPlaying = false;
             this.musicPlayer.rewindMusic();    
             this.trackNumber = 1; //*/
-            this.status = Mode.STANDBY;
+            this.status = TransportMode.STANDBY;
             break;
       case ButtonEvent.BUTTON_UP:
             break;
@@ -215,7 +215,7 @@ export default class P3dTransport {
       this.trackPlaying = true;
       this.musicPlayer.rewindMusic();    
       this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
-      this.status = Mode.PLAYING;
+      this.status = TransportMode.PLAYING;
     }
   }
   
@@ -229,7 +229,7 @@ export default class P3dTransport {
       this.trackPlaying = true;
       this.musicPlayer.rewindMusic();    
       this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
-      this.status = Mode.PLAYING;
+      this.status = TransportMode.PLAYING;
     }
   }
   
@@ -239,7 +239,7 @@ export default class P3dTransport {
     this.trackPlaying = false;
     this.musicPlayer.rewindMusic();    
     this.trackNumber = 1;
-    this.status = Mode.STOPPED;
+    this.status = TransportMode.STOPPED;
   }
   
   

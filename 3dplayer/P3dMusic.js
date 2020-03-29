@@ -52,6 +52,9 @@ export default class P3dMusicPlayer
     this.musicDownloading = false;
     this.musicDecoding = false;
 
+    this.bassValue = 0.0;
+    this.trebleValue = 0.0;
+    this.volumeValue = 1.0;
 
     // FILTER    
   	/*this.low = this.preloadContext.createBiquadFilter();
@@ -71,14 +74,18 @@ export default class P3dMusicPlayer
   setVolume( value )
   {
     logger( "------> MUSIC PLAYER: SETTING VOLUME: ", value );
-    this.gainNode.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
+    this.volumeValue = value;
+    if( this.musicPlaying == true )
+      this.gainNode.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
   }
 
   ///////////////////////////////////////////////////////////////////////////
   setBass( value )
   {
     logger( "------> MUSIC PLAYER: SETTING BASS: ", value );
-    this.lowFilter.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
+    this.bassValue = value;
+    if( this.musicPlaying == true )
+      this.lowFilter.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
   }
 
 
@@ -86,7 +93,9 @@ export default class P3dMusicPlayer
   setTreble( value )
   {
     logger( "------> MUSIC PLAYER: SETTING TREBLE: ", value );
-    this.highFilter.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
+    this.trebleValue = value;
+    if( this.musicPlaying == true )
+      this.highFilter.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
   }
 
 
@@ -145,7 +154,7 @@ export default class P3dMusicPlayer
       this.lowFilter = this.musicContext.createBiquadFilter();
       this.lowFilter.type = "lowshelf";
       this.lowFilter.frequency.value = 320.0;
-      this.lowFilter.gain.value = 0.0;
+      this.lowFilter.gain.value = this.bassValue;
 
       // MID RANGE FILTER (NOT CURRENTLY USED)
       /*this.mid = audioCtx.createBiquadFilter();
@@ -157,10 +166,10 @@ export default class P3dMusicPlayer
       this.highFilter = this.musicContext.createBiquadFilter();
       this.highFilter.type = "highshelf";
       this.highFilter.frequency.value = 3200.0;
-      this.highFilter.gain.value = 0.0;
+      this.highFilter.gain.value = this.trebleValue;
       
       this.gainNode = this.musicContext.createGain();
-      this.gainNode.gain.value = 1.0;
+      this.gainNode.gain.value = this.volumeValue;
     }
 
     this.decodeMusic( musicFilename );
