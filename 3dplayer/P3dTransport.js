@@ -129,7 +129,7 @@ export default class P3dTransport {
   //////////////////////////////////////////////////////////////////////////
   getNumberOfTracks()
   {
-    return this.filenameList.length;
+    return this.filenameList.length - 1; // <-- MINUS ONE BECAUSE THE FIRST TRACK IS AT ARRAY POSITION ONE INSTEAD OF ZERO
   }
   
 
