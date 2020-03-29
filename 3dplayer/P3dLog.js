@@ -2,8 +2,8 @@
 
 
 
-//const LOG_ENABLED = true;
-const LOG_ENABLED = false;
+const LOG_ENABLED = true;
+//const LOG_ENABLED = false;
 
 
 

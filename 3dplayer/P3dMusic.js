@@ -39,6 +39,7 @@ export default class P3dMusicPlayer
     this.musicSource = null;
     this.lowFilter = null;
     this.highFilter = null;
+    this.gainNode = null;
 
     this.musicPauseTime = 0.0;
     this.musicStartTime = 0.0;
@@ -50,6 +51,7 @@ export default class P3dMusicPlayer
     
     this.musicDownloading = false;
     this.musicDecoding = false;
+
 
     // FILTER    
   	/*this.low = this.preloadContext.createBiquadFilter();
@@ -63,12 +65,38 @@ export default class P3dMusicPlayer
     this.musicFiles = []; // ARRAY OF "MusicFile" CLASS/STRUCT
 
   }
+
+
+  ///////////////////////////////////////////////////////////////////////////
+  setVolume( value )
+  {
+    logger( "------> MUSIC PLAYER: SETTING VOLUME: ", value );
+    this.gainNode.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  setBass( value )
+  {
+    logger( "------> MUSIC PLAYER: SETTING BASS: ", value );
+    this.lowFilter.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
+  }
+
+
+  ///////////////////////////////////////////////////////////////////////////
+  setTreble( value )
+  {
+    logger( "------> MUSIC PLAYER: SETTING TREBLE: ", value );
+    this.highFilter.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
+  }
+
+
   
   //   ~      -         ~      -         ~      -         ~      -         ~     
   //   ~      -         ~      -         ~      -         ~      -         ~     
 
 
   /////////////////////////////////////////////////////////////////////////////
+  // DOWNLOADS BUT DOESN'T DECODE
   downloadMusic( musicFilename )
   {
     this.initMusicFile( musicFilename );
@@ -84,7 +112,9 @@ export default class P3dMusicPlayer
     }
   }
   
+  
   ///////////////////////////////////////////////////////////////////////////////
+  // ALSO DOWNLOADS IF NOT ALREADY DOWNLOADED
   decodeMusic( musicFilename )
   {
     this.initMusicFile( musicFilename );
@@ -104,6 +134,7 @@ export default class P3dMusicPlayer
   
 
   /////////////////////////////////////////////////////////////////////////////
+  // ALSO DOWNLOADS AND/OR DECODES IF NOT ALREADY DONE
   playMusic( musicFilename, offsetSet )
   {
     if( this.musicContext == null )
@@ -130,7 +161,6 @@ export default class P3dMusicPlayer
       
       this.gainNode = this.musicContext.createGain();
       this.gainNode.gain.value = 1.0;
-      
     }
 
     this.decodeMusic( musicFilename );
@@ -156,7 +186,7 @@ export default class P3dMusicPlayer
 
 
   ///////////////////////////////////////////////////////////////////////////////
-  // REWINDS TRACK TO BEGINNING AND STOPS PLAYBACK IF PLAYING
+  // REWINDS TRACK TO BEGINNING AND ENDS PLAYBACK IF PLAYING
   rewindMusic()
   {
     this.pauseMusic();
@@ -295,6 +325,7 @@ export default class P3dMusicPlayer
   
   
   /////////////////////////////////////////////////////////////////////////////////////
+  // PRIVATE FUNCTION
   musicEndedCallback()
   {
     if( this.musicPlaying == true )

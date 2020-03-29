@@ -25,6 +25,12 @@ export const ButtonEvent = {
   BUTTON_DOWN_STANDBY: 'ButtonStandby',
   BUTTON_DOWN_REWIND: 'ButtonRewind',
   BUTTON_DOWN_FAST_FORWARD: 'ButtonFastForward',
+  BUTTON_DOWN_BASS_DOWN: 'ButtonBassDown',
+  BUTTON_DOWN_BASS_UP: 'ButtonBassUp',
+  BUTTON_DOWN_TREBLE_DOWN: 'ButtonTrebDown',
+  BUTTON_DOWN_TREBLE_UP: 'ButtonTrebUp',
+  BUTTON_DOWN_VOL_DOWN: 'ButtonVolDown',
+  BUTTON_DOWN_VOL_UP: 'ButtonVolUp',
   BUTTON_UP: 'ButtonUp'
 }
 

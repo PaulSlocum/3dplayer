@@ -24,6 +24,9 @@ export const SoundFilenames = {
 
 
 
+const MAX_AUDIO_SETTING_VALUE = 9;
+const MIDDLE_AUDIO_SETTING_VALUE = 5;
+
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 export default class P3dTransport {
@@ -55,12 +58,19 @@ export default class P3dTransport {
     this.trackNumber = 1; // FIRST TRACK IS ONE (NOT ZERO)
     this.trackPlaying = false;
     
+    this.treble = MIDDLE_AUDIO_SETTING_VALUE;
+    this.bass = MIDDLE_AUDIO_SETTING_VALUE;
+    this.volume = MAX_AUDIO_SETTING_VALUE;
+    
+    
     this.status = Mode.STOPPED;
   }
   
   ///////////////////////////////////////////////////////////////////////
   processButtonEvent( buttonEvent )
   {
+    logger( "------>BUTTON PRESS: ", buttonEvent );
+  
     // BUTTON CLICK SOUND EFFECT
     if( buttonEvent != ButtonEvent.BUTTON_UP  &&  buttonEvent != ButtonEvent.BUTTON_UP )
       this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN ); 
@@ -109,6 +119,43 @@ export default class P3dTransport {
       case ButtonEvent.BUTTON_UP: logger("---->BUTTON UP (TRANSPORT)"); 
             break;
       case ButtonEvent.NONE: logger("---->NO BUTTON PRESSED (TRANSPORT)"); 
+            break;
+
+      case ButtonEvent.BUTTON_DOWN_BASS_DOWN:
+            this.bass -= 1;
+            if( this.bass < 0 )
+              this.bass = 0;
+            this.musicPlayer.setBass( (this.bass - MIDDLE_AUDIO_SETTING_VALUE) * 1.5 );
+            break;
+      case ButtonEvent.BUTTON_DOWN_BASS_UP:
+            this.bass += 1;
+            if( this.bass > MAX_AUDIO_SETTING_VALUE )
+              this.bass = MAX_AUDIO_SETTING_VALUE;
+            this.musicPlayer.setBass( (this.bass - MIDDLE_AUDIO_SETTING_VALUE) * 1.5 );
+            break;
+      case ButtonEvent.BUTTON_DOWN_TREBLE_DOWN:
+            this.treble -= 1;
+            if( this.treble < 0 )
+              this.treble = 0;
+            this.musicPlayer.setTreble( (this.treble - MIDDLE_AUDIO_SETTING_VALUE) * 1.5 );
+            break;
+      case ButtonEvent.BUTTON_DOWN_TREBLE_UP:
+            this.treble += 1;
+            if( this.treble > MAX_AUDIO_SETTING_VALUE )
+              this.treble = MAX_AUDIO_SETTING_VALUE;
+            this.musicPlayer.setTreble( (this.treble - MIDDLE_AUDIO_SETTING_VALUE) * 1.5 );
+            break;
+      case ButtonEvent.BUTTON_DOWN_VOL_DOWN:
+            this.volume -= 1;
+            if( this.volume < 0 )
+              this.volume = 0;
+            this.musicPlayer.setVolume( (this.volume + 1) / 10.0 );
+            break;
+      case ButtonEvent.BUTTON_DOWN_VOL_UP:
+            this.volume += 1;
+            if( this.volume > MAX_AUDIO_SETTING_VALUE )
+              this.volume = MAX_AUDIO_SETTING_VALUE;
+            this.musicPlayer.setVolume( (this.volume + 1) / 10.0 );
             break;
     }
   }
