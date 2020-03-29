@@ -62,7 +62,6 @@ export default class P3dTransport {
     this.bass = MIDDLE_AUDIO_SETTING_VALUE;
     this.volume = MAX_AUDIO_SETTING_VALUE;
     
-    
     this.status = Mode.STOPPED;
   }
   
@@ -78,16 +77,15 @@ export default class P3dTransport {
     // BUTON FUNCTIONS...
     switch( buttonEvent )
     {
-      case ButtonEvent.BUTTON_DOWN_PLAY: logger("---->PLAY BUTTON PRESSED (TRANSPORT!)"); 
+      case ButtonEvent.BUTTON_DOWN_PLAY:
             if( this.trackPlaying == false )
             {
-              logger("---->PLAYBACK STARTING: ", this.filenameList[this.trackNumber] ); 
               this.trackPlaying = true;
               this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
               this.status = Mode.PLAYING;
             }
             break;
-      case ButtonEvent.BUTTON_DOWN_PAUSE: logger("---->PAUSE BUTTON PRESSED (TRANSPORT)"); 
+      case ButtonEvent.BUTTON_DOWN_PAUSE:
             if( this.trackPlaying == true )
             {
               this.trackPlaying = false;
@@ -96,29 +94,29 @@ export default class P3dTransport {
               this.status = Mode.PAUSED;
             }
             break;
-      case ButtonEvent.BUTTON_DOWN_PREV: logger("---->PREV BUTTON PRESSED (TRANSPORT)"); 
+      case ButtonEvent.BUTTON_DOWN_PREV:
             this.previousTrack();
             break;
-      case ButtonEvent.BUTTON_DOWN_NEXT: logger("---->NEXT BUTTON PRESSED (TRANSPORT)"); 
+      case ButtonEvent.BUTTON_DOWN_NEXT:
             this.nextTrack();
             break;
-      case ButtonEvent.BUTTON_DOWN_FAST_FORWARD: logger("---->FAST FORWARD BUTTON PRESSED (TRANSPORT)"); 
+      case ButtonEvent.BUTTON_DOWN_FAST_FORWARD:
             break;
-      case ButtonEvent.BUTTON_DOWN_REWIND: logger("---->REWIND BUTTON PRESSED (TRANSPORT)"); 
+      case ButtonEvent.BUTTON_DOWN_REWIND:
             break;
-      case ButtonEvent.BUTTON_DOWN_STOP: logger("---->STOP BUTTON PRESSED (TRANSPORT)"); 
+      case ButtonEvent.BUTTON_DOWN_STOP:
             this.stop();
             break;
-      case ButtonEvent.BUTTON_DOWN_STANDBY: logger("---->STANDBY BUTTON PRESSED (TRANSPORT)"); 
+      case ButtonEvent.BUTTON_DOWN_STANDBY:
             this.stop();
             /*this.trackPlaying = false;
             this.musicPlayer.rewindMusic();    
             this.trackNumber = 1; //*/
             this.status = Mode.STANDBY;
             break;
-      case ButtonEvent.BUTTON_UP: logger("---->BUTTON UP (TRANSPORT)"); 
+      case ButtonEvent.BUTTON_UP:
             break;
-      case ButtonEvent.NONE: logger("---->NO BUTTON PRESSED (TRANSPORT)"); 
+      case ButtonEvent.NONE:
             break;
 
       case ButtonEvent.BUTTON_DOWN_BASS_DOWN:
