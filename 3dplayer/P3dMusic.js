@@ -23,7 +23,7 @@ class MusicFile
 }
 
 
-const TREBLE_BASS_MULTIPLIER = 15.0;
+const TREBLE_BASS_MULTIPLIER = 2.0;
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
