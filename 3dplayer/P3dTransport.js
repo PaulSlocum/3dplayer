@@ -128,25 +128,25 @@ export default class P3dTransport {
               this.bass -= 1;
               if( this.bass < 0 )
                 this.bass = 0;
-              this.musicPlayer.setBass( (this.bass - MIDDLE_AUDIO_SETTING_VALUE) * 1.5 );
+              this.musicPlayer.setBass( this.bass - MIDDLE_AUDIO_SETTING_VALUE );
               break;
         case ButtonEvent.BUTTON_DOWN_BASS_UP:
               this.bass += 1;
               if( this.bass > MAX_AUDIO_SETTING_VALUE )
                 this.bass = MAX_AUDIO_SETTING_VALUE;
-              this.musicPlayer.setBass( (this.bass - MIDDLE_AUDIO_SETTING_VALUE) * 1.5 );
+              this.musicPlayer.setBass( this.bass - MIDDLE_AUDIO_SETTING_VALUE );
               break;
         case ButtonEvent.BUTTON_DOWN_TREBLE_DOWN:
               this.treble -= 1;
               if( this.treble < 0 )
                 this.treble = 0;
-              this.musicPlayer.setTreble( (this.treble - MIDDLE_AUDIO_SETTING_VALUE) * 1.5 );
+              this.musicPlayer.setTreble( this.treble - MIDDLE_AUDIO_SETTING_VALUE );
               break;
         case ButtonEvent.BUTTON_DOWN_TREBLE_UP:
               this.treble += 1;
               if( this.treble > MAX_AUDIO_SETTING_VALUE )
                 this.treble = MAX_AUDIO_SETTING_VALUE;
-              this.musicPlayer.setTreble( (this.treble - MIDDLE_AUDIO_SETTING_VALUE) * 1.5 );
+              this.musicPlayer.setTreble( this.treble - MIDDLE_AUDIO_SETTING_VALUE );
               break;
         case ButtonEvent.BUTTON_DOWN_VOL_DOWN:
               this.volume -= 1;

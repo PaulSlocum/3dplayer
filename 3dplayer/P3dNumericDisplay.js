@@ -56,35 +56,50 @@ export default class P3dNumericDisplay
   
     let appMode = this.appController.getStatus();
 
-    if( this.displayMode != LedMode.NORMAL )
+    if( appMode == TransportMode.STANDBY )
     {
-      this.ledDriver.colonOff();
-      this.ledDriver.minusOff();
-      if( this.altDisplayStartSec + this.altDisplayWaitSec < performance.now() )
+      // HIGHEST PRIORITY IN THE LOGIC IS STANDBY MODE WHICH TURNS OFF DISPLAY COMPLETELY
+      this.ledDriver.setString( 'XXXXXX' );
+      this.showNormalDisplay();
+    }
+    else
+    {
+      if( this.displayMode != LedMode.NORMAL )
       {
-        this.displayMode = LedMode.NORMAL;
+        this.ledDriver.colonOff();
+        this.ledDriver.minusOff();
+        if( this.altDisplayStartSec + this.altDisplayWaitSec < performance.now() )
+        {
+          this.displayMode = LedMode.NORMAL;
+        }
+      }
+
+      switch( this.displayMode )
+      {
+        case LedMode.NORMAL:
+          this._updateStandardDisplay( appMode );
+          break;
+        case LedMode.VOLUME:
+          this.ledDriver.setString( 'XvolX5' );
+          this.ledDriver.setDigitCharacter( 5, this.appController.getVolume() );
+          break;
+        case LedMode.TREBLE:
+          this.ledDriver.setString( 'trebX5' );
+          this.ledDriver.setDigitCharacter( 5, this.appController.getTreble() );
+          break;
+        case LedMode.BASS:
+          this.ledDriver.setString( 'bassX5' );
+          this.ledDriver.setDigitCharacter( 5, this.appController.getBass() );
+          break;
       }
     }
-
-    switch( this.displayMode )
-    {
-      case LedMode.NORMAL:
-        this._updateStandardDisplay( appMode );
-        break;
-      case LedMode.VOLUME:
-        this.ledDriver.setString( 'XvolX5' );
-        this.ledDriver.setDigitCharacter( 5, this.appController.getVolume() );
-        break;
-      case LedMode.TREBLE:
-        this.ledDriver.setString( 'trebX5' );
-        this.ledDriver.setDigitCharacter( 5, this.appController.getTreble() );
-        break;
-      case LedMode.BASS:
-        this.ledDriver.setString( 'bassX5' );
-        this.ledDriver.setDigitCharacter( 5, this.appController.getBass() );
-        break;
-    }
     
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////
+  showNormalDisplay()
+  {
+    this.displayMode = LedMode.NORMAL;
   }
 
 
@@ -186,8 +201,8 @@ export default class P3dNumericDisplay
         this.ledDriver.setDigitCharacter( 5, numberOfTracks%10 ); //*/
         break;
 
+        // STANDBY DOESN'T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
       case TransportMode.STANDBY:
-        this.ledDriver.setString( 'XXXXXX' );
         break;
     }
 

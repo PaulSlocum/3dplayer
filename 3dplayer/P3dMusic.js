@@ -23,6 +23,8 @@ class MusicFile
 }
 
 
+const TREBLE_BASS_MULTIPLIER = 15.0;
+
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 export default class P3dMusicPlayer
@@ -79,11 +81,13 @@ export default class P3dMusicPlayer
       this.gainNode.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
   }
 
+
+
   ///////////////////////////////////////////////////////////////////////////
   setBass( value )
   {
     logger( "------> MUSIC PLAYER: SETTING BASS: ", value );
-    this.bassValue = value;
+    this.bassValue = value * TREBLE_BASS_MULTIPLIER;
     if( this.musicPlaying == true )
       this.lowFilter.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
   }
@@ -93,7 +97,7 @@ export default class P3dMusicPlayer
   setTreble( value )
   {
     logger( "------> MUSIC PLAYER: SETTING TREBLE: ", value );
-    this.trebleValue = value;
+    this.trebleValue = value * TREBLE_BASS_MULTIPLIER;
     if( this.musicPlaying == true )
       this.highFilter.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
   }
