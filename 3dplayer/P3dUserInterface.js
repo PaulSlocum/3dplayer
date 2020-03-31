@@ -90,7 +90,7 @@ export default class P3dUserInterface
       if( objectName.startsWith( "Button" ) )
       {
         this.appController.processButtonEvent( objectName ); 
-        this.graphics.playAnimation( objectName );
+        //this.graphics.playAnimation( objectName );
       }
       switch( objectName )
       {
@@ -117,7 +117,7 @@ export default class P3dUserInterface
   ///////////////////////////////////////////////////////////////////////
   touchMouseUp( event )
   {
-    this.graphics.resetAnimation();
+    //this.graphics.resetAnimation();
 
     if( this.buttonDown == true )
     {
