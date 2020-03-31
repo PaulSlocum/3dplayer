@@ -117,6 +117,8 @@ export default class P3dUserInterface
   ///////////////////////////////////////////////////////////////////////
   touchMouseUp( event )
   {
+    this.graphics.resetAnimation();
+
     if( this.buttonDown == true )
     {
       this.buttonDown = false;

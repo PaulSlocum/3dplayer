@@ -52,8 +52,11 @@ export default class P3dGraphics
 
     this.roomCube = null;
     this.loadedModel = null;
-    this.loadedAnimations = {};
     this.shaders = new P3dShaders();
+
+    this.loadedAnimations = {};
+    this.currentClip = null;
+    this.currentAction = null;
     
     this.buttonDown = false;
     this.raycaster = new THREE.Raycaster();
@@ -119,10 +122,36 @@ export default class P3dGraphics
   
   
   //////////////////////////////////////////////////////////////////////////////
-  playAnimation( animationName )
+  playAnimation( animationName, rate = 1.0 )
   {
     logger( "------> GRAPHICS: PLAY ANIMATION: ", animationName );
+
+    this.animationMixer.stopAllAction();
     
+    this.currentClip = this.loadedAnimations[ animationName ];
+    if( this.currentClip )
+    {
+      //var clip1 = this.loadedAnimations[ 'ButtonPause' ];
+      logger("---->CLIP: ", this.currentClip, this.currentClip.name );
+      this.currentAction = this.animationMixer.clipAction( this.currentClip );
+      //var action1 = this.animationMixer.clipAction( this.loadedAnimations[ 'TrayOpen' ] );
+      logger("---->ACTION: ", this.currentAction );
+      this.currentAction.clampWhenFinished = true;
+      this.currentAction.setLoop( THREE.LoopOnce );
+      this.currentAction.timeScale = rate; // OPEN INSTANTLY SO IT LOOKS LIKE IT STARTS OPENED
+      //mixer.update( 1 );
+      this.currentAction.play(); //*/
+    }
+    
+  }
+
+  
+  //////////////////////////////////////////////////////////////////////////////
+  resetAnimation()
+  {
+    this.animationMixer.stopAllAction();
+    this.currentAction.timeScale = -1;
+    this.currentAction.play();
   }
 
 
@@ -174,15 +203,19 @@ export default class P3dGraphics
       }
       
       // OPEN TRAY
-      var clip1 = gltf.animations[0];
+      //var clip1 = gltf.animations[0];
+      /*var clip1 = this.loadedAnimations[ 'TrayOpen' ];
+      //var clip1 = this.loadedAnimations[ 'ButtonPause' ];
       logger("---->CLIP: ", clip1, clip1.name );
-      var action1 = this.animationMixer.clipAction(clip1);
+      var action1 = this.animationMixer.clipAction( clip1 );
+      //var action1 = this.animationMixer.clipAction( this.loadedAnimations[ 'TrayOpen' ] );
       logger("---->ACTION: ", action1 );
       action1.clampWhenFinished = true;
       action1.setLoop( THREE.LoopOnce );
-      action1.timeScale = 100; // OPEN INSTANTLY SO IT LOOKS LIKE IT STARTS OPENED
+      action1.timeScale = 300; // OPEN INSTANTLY SO IT LOOKS LIKE IT STARTS OPENED
       //mixer.update( 1 );
       action1.play(); //*/
+      this.playAnimation( 'TrayOpen', 500 );
     });
 
     // ADD BLUR (NOT YET WORKING)
