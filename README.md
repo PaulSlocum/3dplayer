@@ -17,7 +17,7 @@ In early development -- most of the buttons now work, but needs some adjustments
 
 ### Usage
 
-To load the player with an album, include the list of 'tracks' in the script tag parameters:
+To load the player with an album, include the list of tracks in the script tag parameters:
 
 ```
 <script type="module" src="3dplayer/3dplayer.js"
