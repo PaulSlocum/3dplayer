@@ -58,13 +58,6 @@ export default class P3dMusicPlayer
     this.trebleValue = 0.0;
     this.volumeValue = 1.0;
 
-    // FILTER    
-  	/*this.low = this.preloadContext.createBiquadFilter();
-    this.low.type = "lowshelf";
-    this.low.frequency.value = 320.0;
-    this.low.gain.value = 5.0;
-    //this.low.connect( this.xfadeGain ); //*/
-    
     this.delegate = delegate;
     
     this.musicFiles = []; // ARRAY OF "MusicFile" CLASS/STRUCT
@@ -109,7 +102,7 @@ export default class P3dMusicPlayer
 
 
   /////////////////////////////////////////////////////////////////////////////
-  // NOTE: THIS DOWNLOADS BUT DOESN'T DECODE
+  // NOTE: DOWNLOADS BUT DOESN'T DECODE
   downloadMusic( musicFilename )
   {
     this.initMusicFile( musicFilename );
@@ -127,7 +120,7 @@ export default class P3dMusicPlayer
   
   
   ///////////////////////////////////////////////////////////////////////////////
-  // NOTE: THIS ALSO DOWNLOADS IF NOT ALREADY DOWNLOADED
+  // NOTE: THIS ALSO DOWNLOADS IF NOT ALREADY DONE
   decodeMusic( musicFilename )
   {
     this.initMusicFile( musicFilename );

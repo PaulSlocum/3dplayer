@@ -53,6 +53,8 @@ export default class P3dGraphics
     this.windowHeight = windowHeight;
     this.renderer = renderer;
     
+    this.trayOpen = true;
+    
     this.scene = new THREE.Scene();
     // ---> PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
     //this.camera = new THREE.PerspectiveCamera( 75, windowWidth/windowHeight, 0.1, 1000 ); // <-- ORIGINAL
@@ -65,6 +67,9 @@ export default class P3dGraphics
         colorB: {type: 'vec3', value: new THREE.Color(0x020000)},
         colorA: {type: 'vec3', value: new THREE.Color(0x010102)}
     };
+
+    this.targetRotationX = 0;
+    this.targetRotationY = 0;
 
     this.loadedAnimations = {};
     this.currentClip = null;
@@ -123,8 +128,16 @@ export default class P3dGraphics
     //const rotationSpeed = 0.07; // FAST
     if( this.loadedModel != null )
     {
-      this.loadedModel.rotation.y = Math.cos( this.frameCounter * rotationSpeed ) * 0.08;
-      this.loadedModel.rotation.x = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.05;
+      if( this.trayOpen == true )
+        this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.05  + 0.05;
+      else 
+        this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.05;
+      
+      this.targetRotationY = Math.cos( this.frameCounter * rotationSpeed ) * 0.08;
+
+      this.loadedModel.rotation.x = this.converge( this.loadedModel.rotation.x, this.targetRotationX, 0.005 );
+      this.loadedModel.rotation.y = this.converge( this.loadedModel.rotation.y, this.targetRotationY, 0.005 );
+      
     }  
     
     this.renderer.render( this.scene, this.camera );
@@ -132,8 +145,33 @@ export default class P3dGraphics
   };
   
   
+  //////////////////////////////////////////////////////////////////////////////////
+  converge( currentValue, targetValue, rate )
+  {
+    if( currentValue < targetValue )
+    {
+      currentValue += rate;
+      if( currentValue > targetValue )
+        currentValue = targetValue;
+    }
+    else
+    {
+      if( currentValue > targetValue )
+      {
+        currentValue -= rate;
+        if( currentValue < targetValue )
+          currentValue = targetValue;
+      }
+    }
+    
+    return currentValue;
+    
+  }
+  
+  
   
   //////////////////////////////////////////////////////////////////////////////
+  // UNFINISHED, STILL TO BE DETERMINED HOW THIS INTERFACE IS GOING TO WORK
   playAnimation( animationName, rate = 1.0 )
   {
     logger( "------> GRAPHICS: PLAY ANIMATION: ", animationName );
@@ -161,6 +199,7 @@ export default class P3dGraphics
 
   
   //////////////////////////////////////////////////////////////////////////////
+  // UNFINISHED - MAY BE REMOVED
   resetAnimation()
   {
     this.animationMixer.stopAllAction();
@@ -170,15 +209,17 @@ export default class P3dGraphics
   
   
   ////////////////////////////////////////////////////////////////////////
-  openTray()
+  openTray( rate = 1.0 )
   {
-    this.playAnimation( 'OpenTray', 1.0 );
+    this.playAnimation( 'TrayOpen', rate );
+    this.trayOpen = true;
   }
+
 
   ////////////////////////////////////////////////////////////////////////
   closeTray()
   {
-    //this.playAnimation( 'OpenTray', -1.0 );
+    this.trayOpen = false;
     this.animationMixer.stopAllAction();
     this.currentAction.timeScale = -1;
     this.currentAction.time = this.currentAction.getClip().duration;
@@ -236,19 +277,7 @@ export default class P3dGraphics
       }
       
       // OPEN TRAY
-      //var clip1 = gltf.animations[0];
-      /*var clip1 = this.loadedAnimations[ 'TrayOpen' ];
-      //var clip1 = this.loadedAnimations[ 'ButtonPause' ];
-      logger("---->CLIP: ", clip1, clip1.name );
-      var action1 = this.animationMixer.clipAction( clip1 );
-      //var action1 = this.animationMixer.clipAction( this.loadedAnimations[ 'TrayOpen' ] );
-      logger("---->ACTION: ", action1 );
-      action1.clampWhenFinished = true;
-      action1.setLoop( THREE.LoopOnce );
-      action1.timeScale = 300; // OPEN INSTANTLY SO IT LOOKS LIKE IT STARTS OPENED
-      //mixer.update( 1 );
-      action1.play(); //*/
-      this.playAnimation( 'TrayOpen', 300 );
+      this.openTray( 300 );
     });
 
     // ADD BLUR (NOT YET WORKING)
