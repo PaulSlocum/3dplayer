@@ -19,12 +19,12 @@ In early development -- most of the buttons now work, but needs some adjustments
 
 To load the player with an album, include the list of 'tracks' in the script tag parameters:
 
-`<script type="module" src="3dplayer/3dplayer.js"
+```<script type="module" src="3dplayer/3dplayer.js"
 track1="music/expansion.mp3" 
 track2="music/knight_rider.mp3" 
 track3="music/one_person_might_not.mp3"
 track4="music/okay_shorter_fade.mp3"
 track5="music/trian.mp3"
-></script>`
+></script>```
 
 License forthcoming, probably MIT.
