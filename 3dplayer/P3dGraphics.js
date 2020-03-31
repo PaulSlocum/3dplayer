@@ -61,6 +61,9 @@ export default class P3dGraphics
     this.frameCounter = 0;
 
     this.buildStructures();    
+    
+    this.animationMixer = null;
+    this.clock = new THREE.Clock();
 
     this.numericDisplay = new P3dNumericDisplay( appController, this.scene );
     
@@ -77,6 +80,13 @@ export default class P3dGraphics
     requestAnimationFrame( this.run.bind(this) );
 
     this.frameCounter++;
+
+    // UPDATE ANIMATIONS..
+    if( this.animationMixer != null )
+    {
+      var dt = this.clock.getDelta()
+      this.animationMixer.update(dt);
+    }
 
     // UPDATE LED DISPLAY
     this.numericDisplay.update();
@@ -143,12 +153,13 @@ export default class P3dGraphics
       this.modelLoadComplete();
       
       // TEST ANIMATIONS (NOT YET WORKING)
-      /*var mixer = new THREE.AnimationMixer( this.loadedModel );
-      var clip1 = gltf.animations[1];
-      console.log("---->CLIP: ", clip1 );
-      var action1 = mixer.clipAction(clip1);
+      this.animationMixer = new THREE.AnimationMixer( this.loadedModel );
+      var clip1 = gltf.animations[0];
+      console.log("---->CLIP: ", clip1, clip1.name );
+      var action1 = this.animationMixer.clipAction(clip1);
       console.log("---->ACTION: ", action1 );
-      //action1.clampWhenFinished = true;
+      action1.clampWhenFinished = true;
+      action1.setLoop( THREE.LoopOnce );
       //mixer.update( 1 );
       action1.play(); //*/
     });
