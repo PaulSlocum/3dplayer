@@ -88,7 +88,10 @@ export default class P3dUserInterface
     {
       let objectName = intersects[i].object.name;
       if( objectName.startsWith( "Button" ) )
+      {
         this.appController.processButtonEvent( objectName ); 
+        this.graphics.playAnimation( objectName );
+      }
       switch( objectName )
       {
         case ButtonEvent.BUTTON_DOWN_BASS_DOWN:
@@ -125,6 +128,12 @@ export default class P3dUserInterface
   run()
   {
     this.graphics.run();
+  }
+  
+  
+  playAnimation( animationName )
+  {
+    this.graphics.playAnimation( animationName );
   }
 
 }

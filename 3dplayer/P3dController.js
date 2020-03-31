@@ -35,6 +35,26 @@ export const ButtonEvent = {
 }
 
 
+export const Animation = {
+  ANIMATION_TRAY_OPEN: 'TrayOpen',
+  ANIMATION_BUTTON_PLAY: 'ButtonPlay',
+  ANIMATION_BUTTON_PAUSE: 'ButtonPause',
+  ANIMATION_BUTTON_NEXT: 'ButtonNext',
+  ANIMATION_BUTTON_PREV: 'ButtonPrev',
+  ANIMATION_BUTTON_STOP: 'ButtonStop',
+  ANIMATION_BUTTON_STANDBY: 'ButtonStandby',
+  ANIMATION_BUTTON_REWIND: 'ButtonRewind',
+  ANIMATION_BUTTON_FAST_FORWARD: 'ButtonFastForward',
+  ANIMATION_BUTTON_BASS_DOWN: 'ButtonBassDown',
+  ANIMATION_BUTTON_BASS_UP: 'ButtonBassUp',
+  ANIMATION_BUTTON_TREBLE_DOWN: 'ButtonTrebDown',
+  ANIMATION_BUTTON_TREBLE_UP: 'ButtonTrebUp',
+  ANIMATION_BUTTON_VOL_DOWN: 'ButtonVolDown',
+  ANIMATION_BUTTON_VOL_UP: 'ButtonVolUp'
+}
+
+
+
 export const TransportMode = {
   TRAY_OPEN:'TrayOpen',
   TRAY_OPENING:'TrayOpening',
@@ -45,6 +65,9 @@ export const TransportMode = {
   STOPPED:'Stopped',
   STANDBY:'Standby'
 }
+
+
+
 
 
 
@@ -62,8 +85,8 @@ export default class P3dController {
 
     this.transport = new P3dTransport( filenameList );
 
-    this.display = new P3dUserInterface( this, windowWidth, windowHeight, renderer );
-    this.display.run();
+    this.userInterface = new P3dUserInterface( this, windowWidth, windowHeight, renderer );
+    this.userInterface.run();
 
   }
 
@@ -116,6 +139,11 @@ export default class P3dController {
     return this.transport.getBass();
   }
 
+
+  ////////////////////////////////////////////////////////////////////////////
+  playAnimation()
+  {
+  }
   
   
 }

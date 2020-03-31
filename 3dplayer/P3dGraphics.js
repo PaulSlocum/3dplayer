@@ -52,6 +52,7 @@ export default class P3dGraphics
 
     this.roomCube = null;
     this.loadedModel = null;
+    this.loadedAnimations = {};
     this.shaders = new P3dShaders();
     
     this.buttonDown = false;
@@ -92,7 +93,7 @@ export default class P3dGraphics
     this.numericDisplay.update();
 
     // ROTATE ROOM CUBE...
-    this.backgroundSpinRate += 0.00001;
+    this.backgroundSpinRate += 0.00001; // <------------- ORIGINAL
     if( this.backgroundSpinRate > 0.04 ) 
       this.backgroundSpinRate = 0.04;
     if( this.roomCube != null )
@@ -102,8 +103,9 @@ export default class P3dGraphics
     } //*/
 
     // MODULATE CD PLAYER ORIENTATION...
-    const rotationSpeed = 0.03; // NORMAL
+    const rotationSpeed = 0.03; // NORMAL <-------------------
     //const rotationSpeed = 0.01; // SLOW
+    //const rotationSpeed = 0.07; // FAST
     if( this.loadedModel != null )
     {
       this.loadedModel.rotation.y = Math.cos( this.frameCounter * rotationSpeed ) * 0.08;
@@ -113,6 +115,15 @@ export default class P3dGraphics
     this.renderer.render( this.scene, this.camera );
 
   };
+  
+  
+  
+  //////////////////////////////////////////////////////////////////////////////
+  playAnimation( animationName )
+  {
+    logger( "------> GRAPHICS: PLAY ANIMATION: ", animationName );
+    
+  }
 
 
   //////////////////////////////////////////////////////////////////////////////
@@ -139,7 +150,9 @@ export default class P3dGraphics
     // INSTANTIATE A LOADER
     const gltfLoader = new GLTFLoader();
     const url = '3dplayer/model/chassis.glb';
-    gltfLoader.load(url, (gltf) => {
+    gltfLoader.load(url, (gltf) => 
+    { // GTLF LOADER CALLBACK...
+      
       this.loadedModel = gltf.scene;
       
       this.loadedModel.position.z = -5.5; // DEFAULT DESKTOP SIZE
@@ -154,12 +167,20 @@ export default class P3dGraphics
       
       // TEST ANIMATIONS (NOT YET WORKING)
       this.animationMixer = new THREE.AnimationMixer( this.loadedModel );
+      for( let i=0; i<gltf.animations.length; i++ )
+      {
+        logger( "SCANNING ANIMATIONS: ", i, gltf.animations[i].name );
+        this.loadedAnimations[gltf.animations[i].name] = gltf.animations[i];
+      }
+      
+      // OPEN TRAY
       var clip1 = gltf.animations[0];
-      console.log("---->CLIP: ", clip1, clip1.name );
+      logger("---->CLIP: ", clip1, clip1.name );
       var action1 = this.animationMixer.clipAction(clip1);
-      console.log("---->ACTION: ", action1 );
+      logger("---->ACTION: ", action1 );
       action1.clampWhenFinished = true;
       action1.setLoop( THREE.LoopOnce );
+      action1.timeScale = 100; // OPEN INSTANTLY SO IT LOOKS LIKE IT STARTS OPENED
       //mixer.update( 1 );
       action1.play(); //*/
     });
@@ -178,13 +199,6 @@ export default class P3dGraphics
     let geometry = new THREE.BoxGeometry( -80, -40, -40 );
     //var geometry = new THREE.BoxGeometry( -70, -70, -70 );
 
-    // OLD CUSTOM SHADER FOR ROOM BACKGROUND
-    /*const material = new THREE.ShaderMaterial({
-      vertexShader: this.roomVertexShader(),
-      fragmentShader: this.roomFragmentShader()
-    }); //*/
-    
-    
     // *NEW* CUSTOM SHADER FOR ROOM BACKGROUND
     const uniforms = {
         colorB: {type: 'vec3', value: new THREE.Color(0x020000)},
