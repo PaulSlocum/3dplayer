@@ -64,6 +64,7 @@ export default class P3dUserInterface
     event.targetTouches[0].preventDefault();
   }
   
+  
   /////////////////////////////////////////////////////////////////////////
   touchUp( event )
   {
@@ -127,15 +128,32 @@ export default class P3dUserInterface
   }
 
 
+  ////////////////////////////////////////////////////////////////////////
   run()
   {
     this.graphics.run();
   }
   
   
-  playAnimation( animationName )
+  /*playAnimation( animationName )
   {
     this.graphics.playAnimation( animationName );
+  }//*/
+  
+  
+  
+  ////////////////////////////////////////////////////////////////////////
+  openTray()
+  {
+    this.graphics.openTray();
   }
+
+
+  ////////////////////////////////////////////////////////////////////////
+  closeTray()
+  {
+    this.graphics.closeTray();
+  }
+
 
 }

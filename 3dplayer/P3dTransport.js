@@ -33,9 +33,11 @@ export default class P3dTransport {
 
 
   ///////////////////////////////////////////////////////////////////////
-  constructor( filenameList ) 
+  constructor( appController, filenameList ) 
   {
     logger("---->TRANSPORT CLASS CONSTRUCTOR: ", filenameList );
+    
+    this.appController = appController;
     
     this.soundPlayer = new P3dSoundPlayer();
     this.soundPlayer.loadSound( SoundFilenames.CLICK_DOWN );
@@ -91,6 +93,7 @@ export default class P3dTransport {
                 this.trackPlaying = true;
                 this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
                 this.status = TransportMode.PLAYING;
+                this.appController.closeTray();
               }
               break;
         case ButtonEvent.BUTTON_DOWN_PAUSE:
@@ -239,6 +242,7 @@ export default class P3dTransport {
     }
   }
   
+  
   ////////////////////////////////////////////////////////////////////////////
   stop()
   {
@@ -250,6 +254,7 @@ export default class P3dTransport {
   
   
   //////////////////////////////////////////////////////////////////////////
+  // CALLED BY MUSIC PLAYER
   musicEndedCallback()
   {
     logger( "----->TRANSPORT: SONG ENDED CALLBACK" );

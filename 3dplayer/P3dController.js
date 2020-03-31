@@ -83,7 +83,7 @@ export default class P3dController {
     this.height = windowWidth;
     this.width = windowHeight;
 
-    this.transport = new P3dTransport( filenameList );
+    this.transport = new P3dTransport( this, filenameList );
 
     this.userInterface = new P3dUserInterface( this, windowWidth, windowHeight, renderer );
     this.userInterface.run();
@@ -141,9 +141,18 @@ export default class P3dController {
 
 
   ////////////////////////////////////////////////////////////////////////////
-  playAnimation()
+  closeTray()
   {
+    this.userInterface.closeTray();
   }
+  
+  ////////////////////////////////////////////////////////////////////////////
+  openTray()
+  {
+    this.userInterface.openTray();
+  }
+  
+  
   
   
 }

@@ -138,6 +138,8 @@ export default class P3dGraphics
       logger("---->ACTION: ", this.currentAction );
       this.currentAction.clampWhenFinished = true;
       this.currentAction.setLoop( THREE.LoopOnce );
+      //if( rate < 0.0 )
+        //this.currentAction.time = this.currentAction.getClip().duration;
       this.currentAction.timeScale = rate; // OPEN INSTANTLY SO IT LOOKS LIKE IT STARTS OPENED
       //mixer.update( 1 );
       this.currentAction.play(); //*/
@@ -153,6 +155,25 @@ export default class P3dGraphics
     this.currentAction.timeScale = -1;
     this.currentAction.play();
   }
+  
+  
+  ////////////////////////////////////////////////////////////////////////
+  openTray()
+  {
+    this.playAnimation( 'OpenTray', 1.0 );
+  }
+
+  ////////////////////////////////////////////////////////////////////////
+  closeTray()
+  {
+    //this.playAnimation( 'OpenTray', -1.0 );
+    this.animationMixer.stopAllAction();
+    this.currentAction.timeScale = -1;
+    this.currentAction.time = this.currentAction.getClip().duration;
+    this.currentAction.play();//*/
+  }
+
+
 
 
   //////////////////////////////////////////////////////////////////////////////
@@ -215,7 +236,7 @@ export default class P3dGraphics
       action1.timeScale = 300; // OPEN INSTANTLY SO IT LOOKS LIKE IT STARTS OPENED
       //mixer.update( 1 );
       action1.play(); //*/
-      this.playAnimation( 'TrayOpen', 500 );
+      this.playAnimation( 'TrayOpen', 300 );
     });
 
     // ADD BLUR (NOT YET WORKING)
