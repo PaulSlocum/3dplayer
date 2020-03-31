@@ -156,7 +156,14 @@ export default class P3dUserInterface
     this.graphics.playAnimation( animationName );
   }//*/
   
-  
+
+
+  ///////////////////////////////////////////////////////////////////////////
+  setBackgroundColor( color )
+  {
+    this.graphics.setBackgroundColor( color );
+  }
+
 
 }
 

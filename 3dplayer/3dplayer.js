@@ -55,5 +55,6 @@ script.parentElement.insertBefore(renderer.domElement, script); // Add the newly
 
 // LAUNCH THE 3D PLAYER APPLICATION CONTROLLER
 const controller = new P3dController( filenameList, windowWidth, windowHeight, renderer );
-
+//controller.setBackgroundColor( 0x000000 );
+controller.run(); 
 

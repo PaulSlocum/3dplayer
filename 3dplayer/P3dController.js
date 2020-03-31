@@ -78,7 +78,7 @@ export default class P3dController {
   ///////////////////////////////////////////////////////////////////////
   constructor( filenameList, windowWidth, windowHeight, renderer ) 
   {
-    logger( "---->CONTROLLER CONSTRUCTOR", renderer );
+    logger( "---->CONTROLLER CONSTRUCTOR" );
 
     this.height = windowWidth;
     this.width = windowHeight;
@@ -86,10 +86,32 @@ export default class P3dController {
     this.transport = new P3dTransport( this, filenameList );
 
     this.userInterface = new P3dUserInterface( this, windowWidth, windowHeight, renderer );
-    this.userInterface.run();
-
   }
 
+
+  ///////////////////////////////////////////////////////////////////////////
+  // START THE PROGRAM RUNNING (BLOCKING CALL)
+  run()
+  {
+    this.userInterface.run();
+  }
+
+
+
+  // ~      -     ~      -     ~      -     ~      -     ~      -     ~      -     
+  
+  
+  ///////////////////////////////////////////////////////////////////////////
+  setBackgroundColor( color )
+  {
+    this.userInterface.setBackgroundColor( color );
+  }
+
+
+  
+  // ~      -     ~      -     ~      -     ~      -     ~      -     ~      -     
+  
+  
 
   /////////////////////////////////////////////////////////////////////////////
   processButtonEvent( buttonEvent )
@@ -151,6 +173,8 @@ export default class P3dController {
   {
     this.userInterface.openTray();
   }
+
+
   
   
   

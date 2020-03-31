@@ -35,6 +35,14 @@ window.mobileAndTabletcheck = function()
 export default class P3dGraphics
 {
 
+  ///////////////////////////////////////////////////////////////////////////
+  setBackgroundColor( color )
+  {
+    this.uniforms['colorA'] = { type: 'vec3', value: new THREE.Color( color ) };
+    this.uniforms['colorB'] = { type: 'vec3', value: new THREE.Color( color ) };
+  }
+  
+
   ///////////////////////////////////////////////////////////////////////
   constructor( appController, windowWidth, windowHeight, renderer ) 
   {
@@ -53,6 +61,10 @@ export default class P3dGraphics
     this.roomCube = null;
     this.loadedModel = null;
     this.shaders = new P3dShaders();
+    this.uniforms = {
+        colorB: {type: 'vec3', value: new THREE.Color(0x020000)},
+        colorA: {type: 'vec3', value: new THREE.Color(0x010102)}
+    };
 
     this.loadedAnimations = {};
     this.currentClip = null;
@@ -254,14 +266,14 @@ export default class P3dGraphics
     //var geometry = new THREE.BoxGeometry( -70, -70, -70 );
 
     // *NEW* CUSTOM SHADER FOR ROOM BACKGROUND
-    const uniforms = {
+    /*this.uniforms = {
         colorB: {type: 'vec3', value: new THREE.Color(0x020000)},
         colorA: {type: 'vec3', value: new THREE.Color(0x010102)}
-    }
+    } //*/
 
     //let geometry = new THREE.BoxGeometry(1, 1, 1)
     const material =  new THREE.ShaderMaterial({
-      uniforms: uniforms,
+      uniforms: this.uniforms,
       fragmentShader: this.shaders.roomFragmentShader(),
       vertexShader: this.shaders.roomVertexShader(),
     })
