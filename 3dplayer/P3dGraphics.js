@@ -191,7 +191,7 @@ export default class P3dGraphics
 
 
   ///////////////////////////////////////////////////////////////////////
-  // -----> THIS SHOULD BE MOVED TO A NEW CLASS
+  // -----> THIS SHOULD MAYBE BE MOVED TO A NEW CLASS
   buildStructures()
   {
     // CAMERA

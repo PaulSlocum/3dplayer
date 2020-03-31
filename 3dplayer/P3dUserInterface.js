@@ -91,7 +91,7 @@ export default class P3dUserInterface
       if( objectName.startsWith( "Button" ) )
       {
         this.appController.processButtonEvent( objectName ); 
-        //this.graphics.playAnimation( objectName );
+        //this.graphics.playAnimation( objectName ); // STILL DECIDING ABOUT BUTTON ANIMATIONS
       }
       switch( objectName )
       {
@@ -118,7 +118,7 @@ export default class P3dUserInterface
   ///////////////////////////////////////////////////////////////////////
   touchMouseUp( event )
   {
-    //this.graphics.resetAnimation();
+    //this.graphics.resetAnimation(); // STILL DECIDING ABOUT BUTTON ANIMATIONS
 
     if( this.buttonDown == true )
     {
@@ -135,13 +135,6 @@ export default class P3dUserInterface
   }
   
   
-  /*playAnimation( animationName )
-  {
-    this.graphics.playAnimation( animationName );
-  }//*/
-  
-  
-  
   ////////////////////////////////////////////////////////////////////////
   openTray()
   {
@@ -156,4 +149,16 @@ export default class P3dUserInterface
   }
 
 
+  ////////////////////////////////////////////////////////////////////////
+  // STILL DECIDING ON IMPLEMENTATION OF THIS...
+  /*playAnimation( animationName )
+  {
+    this.graphics.playAnimation( animationName );
+  }//*/
+  
+  
+
 }
+
+
+

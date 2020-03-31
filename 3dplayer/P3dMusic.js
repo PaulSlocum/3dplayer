@@ -109,7 +109,7 @@ export default class P3dMusicPlayer
 
 
   /////////////////////////////////////////////////////////////////////////////
-  // DOWNLOADS BUT DOESN'T DECODE
+  // NOTE: THIS DOWNLOADS BUT DOESN'T DECODE
   downloadMusic( musicFilename )
   {
     this.initMusicFile( musicFilename );
@@ -127,7 +127,7 @@ export default class P3dMusicPlayer
   
   
   ///////////////////////////////////////////////////////////////////////////////
-  // ALSO DOWNLOADS IF NOT ALREADY DOWNLOADED
+  // NOTE: THIS ALSO DOWNLOADS IF NOT ALREADY DOWNLOADED
   decodeMusic( musicFilename )
   {
     this.initMusicFile( musicFilename );
@@ -147,7 +147,7 @@ export default class P3dMusicPlayer
   
 
   /////////////////////////////////////////////////////////////////////////////
-  // ALSO DOWNLOADS AND/OR DECODES IF NOT ALREADY DONE
+  // NOTE: THIS ALSO DOWNLOADS AND/OR DECODES IF NOT ALREADY DONE
   playMusic( musicFilename, offsetSet )
   {
     if( this.musicContext == null )

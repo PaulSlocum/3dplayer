@@ -47,8 +47,8 @@ export default class P3dTransport {
 
     // PRE-DECODE FIRST MUSIC TRACK
     this.musicPlayer = new P3dMusicPlayer( this );
-    //this.musicPlayer.decodeMusic( filenameList[1] );
-    this.musicPlayer.downloadMusic( filenameList[1] );
+    //this.musicPlayer.decodeMusic( filenameList[1] );  // <-------------
+    this.musicPlayer.downloadMusic( filenameList[1] );  // <-- DEBUG
     
     // PRE-DOWNLOAD THE OTHER MUSIC TRACKS
     if( filenameList.length > 1 )
