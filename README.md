@@ -25,8 +25,7 @@ track1="music/expansion.mp3"
 track2="music/knight_rider.mp3" 
 track3="music/one_person_might_not.mp3"
 track4="music/okay_shorter_fade.mp3"
-track5="music/trian.mp3"
-></script>
+track5="music/trian.mp3"></script>
 ```
 
 License forthcoming, probably MIT.
