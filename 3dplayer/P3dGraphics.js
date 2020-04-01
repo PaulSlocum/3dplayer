@@ -62,13 +62,18 @@ export default class P3dGraphics
     this.camera = new THREE.PerspectiveCamera( 35, windowWidth/windowHeight, 0.1, 1000 );
 
     this.roomCube = null;
-    this.material = null;
+    this.roomMaterial = null;
+    this.cdMaterial = null;
 
     this.loadedModel = null;
     this.shaders = new P3dShaders();
-    this.uniforms = {
+    this.roomUniforms = {
         colorB: {type: 'vec3', value: new THREE.Color(0x070507)},
         colorA: {type: 'vec3', value: new THREE.Color(0x010110)}
+    };
+    this.cdUniforms = {
+        colorC: {type: 'vec3', value: new THREE.Color(0x040302)},
+        colorD: {type: 'vec3', value: new THREE.Color(0x090806)}
     };
 
     this.targetRotationX = 0;
@@ -138,9 +143,9 @@ export default class P3dGraphics
     if( this.loadedModel != null )
     {
       if( this.trayOpen == true )
-        this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.05  + 0.10;
+        this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.01  + 0.10;
       else 
-        this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.05;
+        this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.01;
       
       this.targetRotationY = Math.cos( this.frameCounter * rotationSpeed ) * 0.08;
 
@@ -272,7 +277,7 @@ export default class P3dGraphics
         this.loadedModel.position.z = -2.5;
       if( this.isTabletDevice == true )
         this.loadedModel.position.z = -4.5;
-      this.loadedModel.position.y = 0;
+      this.loadedModel.position.y = 0.4;
       this.scene.add( this.loadedModel );
       
       this.modelLoadComplete();
@@ -292,7 +297,7 @@ export default class P3dGraphics
         if( child.material  &&  child.material.name == "cd" )
         {
           //console.log( "---->LED DRIVER: 'ledOn' MATERIAL FOUND" );
-          child.material = this.material;
+          child.material = this.cdMaterial;
         }
       }.bind(this) ); //*/
 
@@ -315,17 +320,16 @@ export default class P3dGraphics
     let geometry = new THREE.BoxGeometry( -80, -40, -40 );
     //var geometry = new THREE.BoxGeometry( -70, -70, -70 );
 
-    // *NEW* CUSTOM SHADER FOR ROOM BACKGROUND
-    /*this.uniforms = {
-        colorB: {type: 'vec3', value: new THREE.Color(0x020000)},
-        colorA: {type: 'vec3', value: new THREE.Color(0x010102)}
-    } //*/
-
-    //let geometry = new THREE.BoxGeometry(1, 1, 1)
-    this.material =  new THREE.ShaderMaterial({
-      uniforms: this.uniforms,
+    this.roomMaterial =  new THREE.ShaderMaterial({
+      uniforms: this.roomUniforms,
       fragmentShader: this.shaders.roomFragmentShader(),
       vertexShader: this.shaders.roomVertexShader(),
+    })
+
+    this.cdMaterial =  new THREE.ShaderMaterial({
+      uniforms: this.cdUniforms,
+      fragmentShader: this.shaders.cdFragmentShader(),
+      vertexShader: this.shaders.cdVertexShader(),
     })
 
     
@@ -336,16 +340,16 @@ export default class P3dGraphics
     //const material = new THREE.MeshStandardMaterial();
     //material.flatShading = true; //*/
     
-    this.roomCube = new THREE.Mesh( geometry, this.material );
+    this.roomCube = new THREE.Mesh( geometry, this.roomMaterial );
     this.roomCube.rotation.x = 200;
     this.roomCube.rotation.y = 120;
     this.scene.add( this.roomCube ); //*/
 
     // SPOTLIGHT
     let spotLight = new THREE.SpotLight(0xffffff);
-    spotLight.position.set(-0, 20, 60);
+    spotLight.position.set(-0, 18, 60);
     spotLight.castShadow = true;
-    spotLight.intensity = 0.6;
+    spotLight.intensity = 0.8;
     this.scene.add( spotLight );
 
   }

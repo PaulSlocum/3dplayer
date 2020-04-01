@@ -27,8 +27,8 @@ export default class P3dShaders
   cdFragmentShader() 
   {   
     return `
-      uniform vec3 colorA; 
-      uniform vec3 colorB; 
+      uniform vec3 colorC; 
+      uniform vec3 colorD; 
       varying vec3 vUv;
 
       float rand(vec2 co){
@@ -36,7 +36,7 @@ export default class P3dShaders
       }
 
       void main() {
-        gl_FragColor = vec4(mix(colorA, colorB, vUv.y + rand(vUv.xy)*7.0 ), 1.0);
+        gl_FragColor = vec4(mix(colorC, colorD, vUv.y + rand(vUv.xy)*17.0 ), 1.0);
       }        `
   }  
 
