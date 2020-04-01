@@ -62,6 +62,7 @@ export default class P3dTransport {
     this.soundPlayer.loadSound( SoundFilenames.TRAY_CLOSE );
 
     this.eventQueue = [];
+    this.nextEventTimeSec = performance.now();
 
     // PRE-DECODE FIRST MUSIC TRACK
     this.musicPlayer = new P3dMusicPlayer( this );
@@ -129,6 +130,7 @@ export const TransportMode = {
                 if( this.status == TransportMode.TRAY_OPEN )
                   this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
                 this.eventQueue.push( TransportEvent.PLAY ); //*/
+                this.scheduleNextEvent();
               } //*/
               /*if( this.trackPlaying == false )
               {
@@ -143,6 +145,7 @@ export const TransportMode = {
               if( this.status == TransportMode.PLAYING )
               {
                 this.eventQueue.push( TransportEvent.PAUSE ); //*/
+                this.scheduleNextEvent();
               }
               /*if( this.trackPlaying == true )
               {
@@ -176,12 +179,14 @@ export const TransportMode = {
               if( this.status == TransportMode.TRAY_OPEN )
                 this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
               this.eventQueue.push( TransportEvent.STOP ); //*/
+              this.scheduleNextEvent();
               //this.stop();
               break;
         case ButtonEvent.BUTTON_DOWN_STANDBY:
               if( this.status == TransportMode.TRAY_OPEN )
                 this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
               this.eventQueue.push( TransportEvent.POWER_DOWN ); //*/
+              this.scheduleNextEvent();
               //this.stop();
               //this.status = TransportMode.STANDBY;
               break;
@@ -229,8 +234,6 @@ export const TransportMode = {
       } // SWITCH
     }
    
-    this.processEventQueue();
-      
   }
   
   
@@ -249,12 +252,21 @@ export const TransportMode = {
 
   
 
-
+  //////////////////////////////////////////////////////////////////////////////////
+  scheduleNextEvent( delaySec = 0.0 )
+  {
+    this.nextEventTimeSec = performance.now() + delaySec;
+    if( delaySec > 0.0 )
+      setTimeout( this.processEventQueue.bind(this), (delaySec * 1000) + 2 ); // <-- MILLISECONDS
+    else
+      this.processEventQueue();
+  }
+  
   
   /////////////////////////////////////////////////////////////////////////
   processEventQueue()
   {
-    if( this.eventQueue.length > 0 )
+    if( this.eventQueue.length > 0   &&  performance.now() >= this.nextEventTimeSec )
     {
       let event = this.eventQueue.shift();
       switch( event )
@@ -264,7 +276,10 @@ export const TransportMode = {
           this.appController.closeTray();
           this.status = TransportMode.TRAY_CLOSING;
           this.soundPlayer.playSound( SoundFilenames.TRAY_CLOSE ); 
-          setTimeout( this.processEventQueue.bind(this), 3000 );
+          
+          this.scheduleNextEvent( 3 );
+          //nextEventTimeSec = performance.now() + 3;
+          //setTimeout( this.processEventQueue.bind(this), 3001 );
           break; //*/
           
         case TransportEvent.PLAY:
