@@ -204,6 +204,18 @@ export default class P3dNumericDisplay
         // STANDBY DOESN'T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
       case TransportMode.STANDBY:
         break;
+
+
+        // STANDBY DOESN'T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
+      case TransportMode.TRAY_OPEN:
+      case TransportMode.TRAY_OPENING:
+        this.ledDriver.setString( 'OpeNXX' );
+        break;
+
+        // STANDBY DOESN'T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
+      case TransportMode.TRAY_CLOSING:
+        this.ledDriver.setString( 'LOadXX' );
+        break;
     }
 
   }

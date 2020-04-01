@@ -23,9 +23,25 @@ export const SoundFilenames = {
 }
 
 
-
 const MAX_AUDIO_SETTING_VALUE = 9;
 const MIDDLE_AUDIO_SETTING_VALUE = 5;
+
+
+
+export const TransportEvent = {
+  PLAY: 'TransportPlay',
+  PAUSE: 'TransportPause',
+  STOP: 'TransportStop', 
+  CLOSE_TRAY: 'TransportClose',
+  OPEN_TRAY: 'TransportOpen',
+  SPIN_UP: 'TransportSpinUp',
+  SPIN_DOWN: 'TransportSpinDown',
+  POWER_DOWN: 'TransportPowerDown',
+  POWER_UP: 'TransportPowerUp', 
+  SEEK: 'TransportSeek'
+}
+
+
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -44,6 +60,8 @@ export default class P3dTransport {
     this.soundPlayer.loadSound( SoundFilenames.CLICK_UP );
     this.soundPlayer.loadSound( SoundFilenames.TRAY_OPEN );
     this.soundPlayer.loadSound( SoundFilenames.TRAY_CLOSE );
+
+    this.eventQueue = [];
 
     // PRE-DECODE FIRST MUSIC TRACK
     this.musicPlayer = new P3dMusicPlayer( this );
@@ -65,9 +83,24 @@ export default class P3dTransport {
     this.bass = MIDDLE_AUDIO_SETTING_VALUE;
     this.volume = MAX_AUDIO_SETTING_VALUE;
     
-    this.status = TransportMode.STOPPED;
+    this.status = TransportMode.TRAY_OPEN;
   }
   
+  
+  /*
+export const TransportMode = {
+  TRAY_OPEN:'TrayOpen',
+  TRAY_OPENING:'TrayOpening',
+  TRAY_CLOSING:'TrayClosing',
+  PLAYING:'Playing',
+  STARTING_PLAY:'StartingPlay',
+  PAUSED:'Paused',
+  STOPPED:'Stopped',
+  STANDBY:'Standby'
+}
+  //*/
+
+
   
   ///////////////////////////////////////////////////////////////////////
   processButtonEvent( buttonEvent )
@@ -89,40 +122,68 @@ export default class P3dTransport {
       switch( buttonEvent )
       {
         case ButtonEvent.BUTTON_DOWN_PLAY:
-              if( this.trackPlaying == false )
+              if( this.status == TransportMode.TRAY_OPEN || 
+                  this.status == TransportMode.PAUSED || 
+                  this.status == TransportMode.STOPPED )
+              {
+                if( this.status == TransportMode.TRAY_OPEN )
+                  this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
+                this.eventQueue.push( TransportEvent.PLAY ); //*/
+              } //*/
+              /*if( this.trackPlaying == false )
               {
                 this.trackPlaying = true;
                 this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
                 this.status = TransportMode.PLAYING;
                 this.appController.closeTray();
                 this.soundPlayer.playSound( SoundFilenames.TRAY_CLOSE ); 
-              }
+              } //*/
               break;
         case ButtonEvent.BUTTON_DOWN_PAUSE:
-              if( this.trackPlaying == true )
+              if( this.status == TransportMode.PLAYING )
+              {
+                this.eventQueue.push( TransportEvent.PAUSE ); //*/
+              }
+              /*if( this.trackPlaying == true )
               {
                 this.trackPlaying = false;
                 this.musicPlayer.pauseMusic();    
                 //this.musicPlayer.stopMusic( MUSIC_FILENAME );    
                 this.status = TransportMode.PAUSED;
-              }
+              } //*/
               break;
         case ButtonEvent.BUTTON_DOWN_PREV:
-              this.previousTrack();
+              if( this.status == TransportMode.PLAYING || 
+                  this.status == TransportMode.PAUSED || 
+                  this.status == TransportMode.STOPPED )
+              {
+                this.previousTrack();
+              }
               break;
         case ButtonEvent.BUTTON_DOWN_NEXT:
-              this.nextTrack();
+              if( this.status == TransportMode.PLAYING || 
+                  this.status == TransportMode.PAUSED || 
+                  this.status == TransportMode.STOPPED )
+              {
+                this.nextTrack();
+              }
               break;
         case ButtonEvent.BUTTON_DOWN_FAST_FORWARD:
               break;
         case ButtonEvent.BUTTON_DOWN_REWIND:
               break;
         case ButtonEvent.BUTTON_DOWN_STOP:
-              this.stop();
+              if( this.status == TransportMode.TRAY_OPEN )
+                this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
+              this.eventQueue.push( TransportEvent.STOP ); //*/
+              //this.stop();
               break;
         case ButtonEvent.BUTTON_DOWN_STANDBY:
-              this.stop();
-              this.status = TransportMode.STANDBY;
+              if( this.status == TransportMode.TRAY_OPEN )
+                this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
+              this.eventQueue.push( TransportEvent.POWER_DOWN ); //*/
+              //this.stop();
+              //this.status = TransportMode.STANDBY;
               break;
         case ButtonEvent.BUTTON_UP:
               break;
@@ -167,13 +228,79 @@ export default class P3dTransport {
               break;
       } // SWITCH
     }
+   
+    this.processEventQueue();
       
   }
   
   
+/*  export const TransportEvent = {
+  PLAY: 'TransportPlay',
+  PAUSE: 'TransportPause',
+  STOP: 'TransportStop', 
+  CLOSE_TRAY: 'TransportClose',
+  OPEN_TRAY: 'TransportOpen',
+  SPIN_UP: 'TransportSpinUp',
+  SPIN_DOWN: 'TransportSpinDown',
+  POWER_DOWN: 'TransportPowerDown',
+  POWER_UP: 'TransportPowerUp', 
+  SEEK: 'TransportSeek'
+} //*/
+
+  
+
+
+  
   /////////////////////////////////////////////////////////////////////////
   processEventQueue()
   {
+    if( this.eventQueue.length > 0 )
+    {
+      let event = this.eventQueue.shift();
+      switch( event )
+      {
+        case TransportEvent.CLOSE_TRAY:
+          logger( "---->TRANSPORT: CLOSE_TRAY QUEUED!" );
+          this.appController.closeTray();
+          this.status = TransportMode.TRAY_CLOSING;
+          this.soundPlayer.playSound( SoundFilenames.TRAY_CLOSE ); 
+          setTimeout( this.processEventQueue.bind(this), 3000 );
+          break; //*/
+          
+        case TransportEvent.PLAY:
+          logger( "---->TRANSPORT: PLAY QUEUED!" );
+          if( this.trackPlaying == false )
+          {
+            this.trackPlaying = true;
+            this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
+            this.status = TransportMode.PLAYING;
+            //this.appController.closeTray();
+          } //*/
+          break;
+
+        case TransportEvent.STOP:
+          logger( "---->TRANSPORT: PLAY QUEUED!" );
+          this.stop();
+          break;
+
+        case TransportEvent.POWER_DOWN:
+          logger( "---->TRANSPORT: PLAY QUEUED!" );
+          this.stop();
+          this.status = TransportMode.STANDBY;
+          break;
+
+        case TransportEvent.PAUSE:
+          if( this.trackPlaying == true )
+          {
+            this.trackPlaying = false;
+            this.musicPlayer.pauseMusic();    
+            //this.musicPlayer.stopMusic( MUSIC_FILENAME );    
+            this.status = TransportMode.PAUSED;
+          } //*/
+
+      }
+      
+    }
     
   }
   
