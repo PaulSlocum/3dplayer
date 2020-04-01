@@ -22,6 +22,7 @@ export const ButtonEvent = {
   BUTTON_DOWN_NEXT: 'ButtonNext',
   BUTTON_DOWN_PREV: 'ButtonPrev',
   BUTTON_DOWN_STOP: 'ButtonStop',
+  BUTTON_DOWN_OPEN: 'ButtonOpen',
   BUTTON_DOWN_STANDBY: 'ButtonStandby',
   BUTTON_DOWN_REWIND: 'ButtonRewind',
   BUTTON_DOWN_FAST_FORWARD: 'ButtonFastForward',
@@ -35,6 +36,7 @@ export const ButtonEvent = {
 }
 
 
+// THIS MAY NOT BE USED, STILL DECIDING IF BUTTON ANIMATIONS ARE WORTH IT...
 export const Animation = {
   ANIMATION_TRAY_OPEN: 'TrayOpen',
   ANIMATION_BUTTON_PLAY: 'ButtonPlay',

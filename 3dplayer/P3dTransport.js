@@ -34,6 +34,7 @@ export const TransportEvent = {
   STOP: 'TransportStop', 
   CLOSE_TRAY: 'TransportClose',
   OPEN_TRAY: 'TransportOpen',
+  TRAY_OPENED: 'TransportOpened', 
   SPIN_UP: 'TransportSpinUp',
   SPIN_DOWN: 'TransportSpinDown',
   POWER_DOWN: 'TransportPowerDown',
@@ -132,14 +133,6 @@ export const TransportMode = {
                 this.eventQueue.push( TransportEvent.PLAY ); //*/
                 this.scheduleNextEvent();
               } //*/
-              /*if( this.trackPlaying == false )
-              {
-                this.trackPlaying = true;
-                this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
-                this.status = TransportMode.PLAYING;
-                this.appController.closeTray();
-                this.soundPlayer.playSound( SoundFilenames.TRAY_CLOSE ); 
-              } //*/
               break;
         case ButtonEvent.BUTTON_DOWN_PAUSE:
               if( this.status == TransportMode.PLAYING )
@@ -147,13 +140,6 @@ export const TransportMode = {
                 this.eventQueue.push( TransportEvent.PAUSE ); //*/
                 this.scheduleNextEvent();
               }
-              /*if( this.trackPlaying == true )
-              {
-                this.trackPlaying = false;
-                this.musicPlayer.pauseMusic();    
-                //this.musicPlayer.stopMusic( MUSIC_FILENAME );    
-                this.status = TransportMode.PAUSED;
-              } //*/
               break;
         case ButtonEvent.BUTTON_DOWN_PREV:
               if( this.status == TransportMode.PLAYING || 
@@ -180,20 +166,39 @@ export const TransportMode = {
                 this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
               this.eventQueue.push( TransportEvent.STOP ); //*/
               this.scheduleNextEvent();
-              //this.stop();
               break;
         case ButtonEvent.BUTTON_DOWN_STANDBY:
               if( this.status == TransportMode.TRAY_OPEN )
                 this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
               this.eventQueue.push( TransportEvent.POWER_DOWN ); //*/
               this.scheduleNextEvent();
-              //this.stop();
-              //this.status = TransportMode.STANDBY;
+              break;
+        case ButtonEvent.BUTTON_DOWN_OPEN:
+              if( this.status == TransportMode.TRAY_OPEN )
+              {
+                this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
+                this.eventQueue.push( TransportEvent.STOP ); //*/
+              }
+              else
+              {
+                if( this.status == TransportMode.PLAYING  ||  
+                    this.status == TransportMode.PAUSED  ||  
+                    this.status == TransportMode.STOPPED  ||  
+                    this.status == TransportMode.STARTING_PLAY )  
+                {
+                  this.eventQueue.push( TransportEvent.STOP ); //*/
+                  this.eventQueue.push( TransportEvent.OPEN_TRAY ); //*/
+                  this.eventQueue.push( TransportEvent.TRAY_OPENED );
+                }
+              }
+              this.scheduleNextEvent();
               break;
         case ButtonEvent.BUTTON_UP:
               break;
         case ButtonEvent.NONE:
               break;
+
+              //   ~    -     ~    -     ~    -     ~    -     ~    -     ~    -     ~    -    
 
         case ButtonEvent.BUTTON_DOWN_BASS_DOWN:
               this.bass -= 1;
@@ -250,7 +255,6 @@ export const TransportMode = {
   SEEK: 'TransportSeek'
 } //*/
 
-  
 
   //////////////////////////////////////////////////////////////////////////////////
   scheduleNextEvent( delaySec = 0.0 )
@@ -282,6 +286,21 @@ export const TransportMode = {
           //setTimeout( this.processEventQueue.bind(this), 3001 );
           break; //*/
           
+        case TransportEvent.OPEN_TRAY:
+          logger( "---->TRANSPORT: OPEN_TRAY QUEUED!" );
+          this.appController.openTray();
+          this.status = TransportMode.TRAY_OPENING;
+          this.soundPlayer.playSound( SoundFilenames.TRAY_OPEN ); 
+          
+          this.scheduleNextEvent( 2 );
+          //nextEventTimeSec = performance.now() + 3;
+          //setTimeout( this.processEventQueue.bind(this), 3001 );
+          break; //*/
+
+        case TransportEvent.TRAY_OPENED:
+          this.status = TransportMode.TRAY_OPEN;
+          break;
+          
         case TransportEvent.PLAY:
           logger( "---->TRANSPORT: PLAY QUEUED!" );
           if( this.trackPlaying == false )
@@ -296,6 +315,7 @@ export const TransportMode = {
         case TransportEvent.STOP:
           logger( "---->TRANSPORT: PLAY QUEUED!" );
           this.stop();
+          this.scheduleNextEvent();
           break;
 
         case TransportEvent.POWER_DOWN:
@@ -312,7 +332,7 @@ export const TransportMode = {
             //this.musicPlayer.stopMusic( MUSIC_FILENAME );    
             this.status = TransportMode.PAUSED;
           } //*/
-
+          break;
       }
       
     }
