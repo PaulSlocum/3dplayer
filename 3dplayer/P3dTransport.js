@@ -38,9 +38,9 @@ export const TransportEvent = {
   TRAY_OPENED: 'TransportOpened', 
   SPIN_UP: 'TransportSpinUp',
   SPIN_DOWN: 'TransportSpinDown',
-  POWER_DOWN: 'TransportPowerDown',
   STANDBY: 'Standby', 
-  POWER_UP: 'TransportPowerUp', 
+  SHUTDOWN: 'TransportPowerDown',
+  STARTUP: 'TransportPowerUp', 
   SEEK: 'TransportSeek'
 }
 
@@ -69,8 +69,8 @@ export default class P3dTransport {
 
     // PRE-DECODE FIRST MUSIC TRACK
     this.musicPlayer = new P3dMusicPlayer( this );
-    //this.musicPlayer.decodeMusic( filenameList[1] );  // <-------------
-    this.musicPlayer.downloadMusic( filenameList[1] );  // <-- DEBUG
+    this.musicPlayer.decodeMusic( filenameList[1] );  // <-------------
+    //this.musicPlayer.downloadMusic( filenameList[1] );  // <-- DEBUG
     
     // PRE-DOWNLOAD THE OTHER MUSIC TRACKS
     if( filenameList.length > 1 )
@@ -177,7 +177,7 @@ export const TransportMode = {
         case ButtonEvent.BUTTON_DOWN_STANDBY:
               if( this.status == TransportMode.TRAY_OPEN )
                 this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
-              this.eventQueue.push( TransportEvent.POWER_DOWN ); //*/
+              this.eventQueue.push( TransportEvent.SHUTDOWN ); //*/
               this.eventQueue.push( TransportEvent.STANDBY ); //*/
               this.scheduleNextEvent();
               break;
@@ -292,6 +292,7 @@ export const TransportMode = {
           break; //*/
           
         case TransportEvent.START_OPEN_TRAY:
+          logger( "START OPEN TRAY!!!!!!!!!!!!!!!!!!!!!!" );
           this.stop();
           //this.status = TransportMode.TRAY_OPENING;
           this.soundPlayer.playSound( SoundFilenames.TRAY_OPEN ); 
@@ -324,7 +325,7 @@ export const TransportMode = {
           this.scheduleNextEvent();
           break;
 
-        case TransportEvent.POWER_DOWN:
+        case TransportEvent.SHUTDOWN:
           this.stop();
           this.status = TransportMode.SHUTDOWN;
           this.scheduleNextEvent(1);
