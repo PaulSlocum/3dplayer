@@ -34,10 +34,12 @@ export const TransportEvent = {
   STOP: 'TransportStop', 
   CLOSE_TRAY: 'TransportClose',
   OPEN_TRAY: 'TransportOpen',
+  START_TRAY_OPEN: 'TransportStartTrayOpen',
   TRAY_OPENED: 'TransportOpened', 
   SPIN_UP: 'TransportSpinUp',
   SPIN_DOWN: 'TransportSpinDown',
   POWER_DOWN: 'TransportPowerDown',
+  STANDBY: 'Standby', 
   POWER_UP: 'TransportPowerUp', 
   SEEK: 'TransportSeek'
 }
@@ -116,7 +118,12 @@ export const TransportMode = {
     if( this.status == TransportMode.STANDBY )
     {
       if( buttonEvent == ButtonEvent.BUTTON_DOWN_STANDBY )
-        this.stop();
+      {
+        this.eventQueue.push( TransportEvent.STARTUP ); //*/
+        this.eventQueue.push( TransportEvent.STOP ); //*/
+        this.scheduleNextEvent();
+      }
+      
     }
     else
     {
@@ -171,11 +178,12 @@ export const TransportMode = {
               if( this.status == TransportMode.TRAY_OPEN )
                 this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
               this.eventQueue.push( TransportEvent.POWER_DOWN ); //*/
+              this.eventQueue.push( TransportEvent.STANDBY ); //*/
               this.scheduleNextEvent();
               break;
         case ButtonEvent.BUTTON_DOWN_OPEN:
               if( this.status == TransportMode.TRAY_OPEN )
-              {
+              { // CLOSE TRAY
                 this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
                 this.eventQueue.push( TransportEvent.STOP ); //*/
               }
@@ -186,7 +194,8 @@ export const TransportMode = {
                     this.status == TransportMode.STOPPED  ||  
                     this.status == TransportMode.STARTING_PLAY )  
                 {
-                  this.eventQueue.push( TransportEvent.STOP ); //*/
+                  // OPEN TRAY
+                  this.eventQueue.push( TransportEvent.START_OPEN_TRAY ); //*/
                   this.eventQueue.push( TransportEvent.OPEN_TRAY ); //*/
                   this.eventQueue.push( TransportEvent.TRAY_OPENED );
                 }
@@ -276,25 +285,24 @@ export const TransportMode = {
       switch( event )
       {
         case TransportEvent.CLOSE_TRAY:
-          logger( "---->TRANSPORT: CLOSE_TRAY QUEUED!" );
           this.appController.closeTray();
           this.status = TransportMode.TRAY_CLOSING;
           this.soundPlayer.playSound( SoundFilenames.TRAY_CLOSE ); 
-          
           this.scheduleNextEvent( 3 );
-          //nextEventTimeSec = performance.now() + 3;
-          //setTimeout( this.processEventQueue.bind(this), 3001 );
           break; //*/
           
+        case TransportEvent.START_OPEN_TRAY:
+          this.stop();
+          //this.status = TransportMode.TRAY_OPENING;
+          this.soundPlayer.playSound( SoundFilenames.TRAY_OPEN ); 
+          this.scheduleNextEvent( 0.5 );
+          break; //*/
+
         case TransportEvent.OPEN_TRAY:
-          logger( "---->TRANSPORT: OPEN_TRAY QUEUED!" );
           this.appController.openTray();
           this.status = TransportMode.TRAY_OPENING;
-          this.soundPlayer.playSound( SoundFilenames.TRAY_OPEN ); 
-          
-          this.scheduleNextEvent( 2 );
-          //nextEventTimeSec = performance.now() + 3;
-          //setTimeout( this.processEventQueue.bind(this), 3001 );
+          //this.soundPlayer.playSound( SoundFilenames.TRAY_OPEN ); 
+          this.scheduleNextEvent( 1 );
           break; //*/
 
         case TransportEvent.TRAY_OPENED:
@@ -302,7 +310,6 @@ export const TransportMode = {
           break;
           
         case TransportEvent.PLAY:
-          logger( "---->TRANSPORT: PLAY QUEUED!" );
           if( this.trackPlaying == false )
           {
             this.trackPlaying = true;
@@ -313,13 +320,22 @@ export const TransportMode = {
           break;
 
         case TransportEvent.STOP:
-          logger( "---->TRANSPORT: PLAY QUEUED!" );
           this.stop();
           this.scheduleNextEvent();
           break;
 
         case TransportEvent.POWER_DOWN:
-          logger( "---->TRANSPORT: PLAY QUEUED!" );
+          this.stop();
+          this.status = TransportMode.SHUTDOWN;
+          this.scheduleNextEvent(1);
+          break;
+
+        case TransportEvent.STARTUP:
+          this.status = TransportMode.STARTUP;
+          this.scheduleNextEvent(1);
+          break;
+
+        case TransportEvent.STANDBY:
           this.stop();
           this.status = TransportMode.STANDBY;
           break;

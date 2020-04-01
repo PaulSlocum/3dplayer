@@ -129,7 +129,7 @@ export default class P3dGraphics
     if( this.loadedModel != null )
     {
       if( this.trayOpen == true )
-        this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.05  + 0.08;
+        this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.05  + 0.10;
       else 
         this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.05;
       

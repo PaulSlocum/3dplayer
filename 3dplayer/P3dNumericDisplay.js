@@ -196,7 +196,7 @@ export default class P3dNumericDisplay
         
       case TransportMode.STOPPED:
         let numberOfTracks = this.appController.getNumberOfTracks();
-        this.ledDriver.setString( 'stopXX' );
+        this.ledDriver.setString( 'stOpXX' );
         this.ledDriver.setDigitCharacter( 4, 'blank' );
         this.ledDriver.setDigitCharacter( 5, numberOfTracks%10 ); //*/
         break;
@@ -215,6 +215,13 @@ export default class P3dNumericDisplay
         // STANDBY DOESN'T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
       case TransportMode.TRAY_CLOSING:
         this.ledDriver.setString( 'LOadXX' );
+        break;
+
+      case TransportMode.SHUTDOWN:
+        this.ledDriver.setString( 'XOffXX' );
+        break;
+      case TransportMode.STARTUP:
+        this.ledDriver.setString( '888888' );
         break;
     }
 
