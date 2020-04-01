@@ -61,11 +61,12 @@ export default class P3dGraphics
     this.camera = new THREE.PerspectiveCamera( 35, windowWidth/windowHeight, 0.1, 1000 );
 
     this.roomCube = null;
+    this.material = null;
     this.loadedModel = null;
     this.shaders = new P3dShaders();
     this.uniforms = {
-        colorB: {type: 'vec3', value: new THREE.Color(0x020000)},
-        colorA: {type: 'vec3', value: new THREE.Color(0x010102)}
+        colorB: {type: 'vec3', value: new THREE.Color(0xA20000)},
+        colorA: {type: 'vec3', value: new THREE.Color(0xA101A2)}
     };
 
     this.targetRotationX = 0;
@@ -268,7 +269,7 @@ export default class P3dGraphics
       
       this.modelLoadComplete();
       
-      // TEST ANIMATIONS (NOT YET WORKING)
+      // LOAD ANIMATIONS INTO DICTIONARY INDEXED BY NAME...
       this.animationMixer = new THREE.AnimationMixer( this.loadedModel );
       for( let i=0; i<gltf.animations.length; i++ )
       {
@@ -276,7 +277,19 @@ export default class P3dGraphics
         this.loadedAnimations[gltf.animations[i].name] = gltf.animations[i];
       }
       
-      // OPEN TRAY
+      
+      // FIND THE MATERIALS USED FOR THE LEDS...
+      this.loadedModel.traverse( function(child) 
+      {
+        if( child.material  &&  child.material.name == "cd" )
+        {
+          //console.log( "---->LED DRIVER: 'ledOn' MATERIAL FOUND" );
+          child.material = this.material;
+        }
+      }.bind(this) ); //*/
+
+      
+      // OPEN TRAY INSTANTLY (300X SPEED)
       this.openTray( 300 );
     });
 
@@ -301,7 +314,7 @@ export default class P3dGraphics
     } //*/
 
     //let geometry = new THREE.BoxGeometry(1, 1, 1)
-    const material =  new THREE.ShaderMaterial({
+    this.material =  new THREE.ShaderMaterial({
       uniforms: this.uniforms,
       fragmentShader: this.shaders.roomFragmentShader(),
       vertexShader: this.shaders.roomVertexShader(),
@@ -315,7 +328,7 @@ export default class P3dGraphics
     //const material = new THREE.MeshStandardMaterial();
     //material.flatShading = true; //*/
     
-    this.roomCube = new THREE.Mesh( geometry, material );
+    this.roomCube = new THREE.Mesh( geometry, this.material );
     this.scene.add( this.roomCube ); //*/
 
     // SPOTLIGHT

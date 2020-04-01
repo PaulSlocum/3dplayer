@@ -1,7 +1,7 @@
 # 3dplayer
 ### 3D WebGL mp3 player using THREE.js and Web Audio API.
 
-In early development -- most of the buttons now work, but needs some adjustments for mobile.  Works on iPad.
+In early development -- most of the buttons now work, but needs some adjustments for mobile.
 
 [Link to working project demo page](https://paulslocum.github.io/3dplayer/)
 

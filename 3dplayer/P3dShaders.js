@@ -7,8 +7,44 @@ export default class P3dShaders
 {
 
   ///////////////////////////////////////////////////////////////////////
+  cdVertexShader() 
+  {
+    return `
+    varying vec3 vUv; 
+
+    void main() {
+      vUv = position; 
+
+      vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
+      gl_Position = projectionMatrix * modelViewPosition; 
+    }
+
+      `
+  }
+
+
+  ///////////////////////////////////////////////////////////////////////
+  cdFragmentShader() 
+  {   
+    return `
+      uniform vec3 colorA; 
+      uniform vec3 colorB; 
+      varying vec3 vUv;
+
+      float rand(vec2 co){
+          return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+      }
+
+      void main() {
+        gl_FragColor = vec4(mix(colorA, colorB, vUv.y + rand(vUv.xy)*7.0 ), 1.0);
+      }        `
+  }  
+
+
+
+
+  ///////////////////////////////////////////////////////////////////////
   roomVertexShader() 
-  // -----> THIS SHOULD BE MOVED TO A NEW CLASS
   {
     //---------------------------------------------------------------------
     /* DIFFUSE SHADER
@@ -55,7 +91,6 @@ export default class P3dShaders
 
   ///////////////////////////////////////////////////////////////////////
   roomFragmentShader() 
-  // -----> THIS SHOULD BE MOVED TO A NEW CLASS
   {   
       //----------------------------------------------------------------------------
       //float colorValue = gl_PointCoord.y/100.0+0.2;
