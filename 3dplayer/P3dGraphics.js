@@ -11,6 +11,7 @@ import P3dController from './P3dController.js'
 import P3dNumericDisplay from './P3dNumericDisplay.js'
 import P3dShaders from './P3dShaders.js'
 import { logger } from './P3dLog.js'
+import { TransportMode } from './P3dController.js'
 //-----------------------------------------------------------------------------------
 
 
@@ -62,11 +63,12 @@ export default class P3dGraphics
 
     this.roomCube = null;
     this.material = null;
+
     this.loadedModel = null;
     this.shaders = new P3dShaders();
     this.uniforms = {
-        colorB: {type: 'vec3', value: new THREE.Color(0xA20000)},
-        colorA: {type: 'vec3', value: new THREE.Color(0xA101A2)}
+        colorB: {type: 'vec3', value: new THREE.Color(0x220000)},
+        colorA: {type: 'vec3', value: new THREE.Color(0x110122)}
     };
 
     this.targetRotationX = 0;
@@ -117,6 +119,12 @@ export default class P3dGraphics
     this.backgroundSpinRate += 0.00001; // <------------- ORIGINAL
     if( this.backgroundSpinRate > 0.04 ) 
       this.backgroundSpinRate = 0.04;
+    if( this.appController.getStatus() != TransportMode.PLAYING )
+    { 
+      this.backgroundSpinRate -= 0.0001;
+      if( this.backgroundSpinRate < 0.0002 )
+        this.backgroundSpinRate = 0.0002;
+    }
     if( this.roomCube != null )
     {
       this.roomCube.rotation.x += this.backgroundSpinRate;
@@ -329,6 +337,8 @@ export default class P3dGraphics
     //material.flatShading = true; //*/
     
     this.roomCube = new THREE.Mesh( geometry, this.material );
+    this.roomCube.rotation.x = 200;
+    this.roomCube.rotation.y = 120;
     this.scene.add( this.roomCube ); //*/
 
     // SPOTLIGHT
