@@ -67,8 +67,8 @@ export default class P3dGraphics
     this.loadedModel = null;
     this.shaders = new P3dShaders();
     this.uniforms = {
-        colorB: {type: 'vec3', value: new THREE.Color(0x220000)},
-        colorA: {type: 'vec3', value: new THREE.Color(0x110122)}
+        colorB: {type: 'vec3', value: new THREE.Color(0x070507)},
+        colorA: {type: 'vec3', value: new THREE.Color(0x010110)}
     };
 
     this.targetRotationX = 0;
