@@ -18,8 +18,8 @@ export default class P3dShaders
       vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
       gl_Position = projectionMatrix * modelViewPosition; 
     }
-
-      `
+      ` 
+      //*/
   }
 
 
@@ -35,9 +35,40 @@ export default class P3dShaders
           return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
       }
 
+      /**
+       * Returns accurate MOD when arguments are approximate integers.
+       */
+      float modI(float a,float b) {
+          float m=a-floor((a+0.5)/b)*b;
+          return floor(m+0.5);
+      }
+
+      void main() {
+        //if(  == 1 )
+        {
+        //  gl_FragColor = vec4(mix(colorC, colorD, vUv.y + rand(vUv.xy)*17.0 ), 1.0);
+        }
+        //else
+        {
+          //int i = mod( floor(gl_FragCoord.x), 10 );
+          //i = floor(gl_FragCoord.x);
+          float i = mod( gl_FragCoord.x, 15.0 );
+          gl_FragColor = vec4( i/25.0+0.2, i/35.0+0.1, 0.1, 0.0 );
+        }
+      }        ` //*/
+
+    /*return `
+      uniform vec3 colorC; 
+      uniform vec3 colorD; 
+      varying vec3 vUv;
+
+      float rand(vec2 co){
+          return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+      }
+
       void main() {
         gl_FragColor = vec4(mix(colorC, colorD, vUv.y + rand(vUv.xy)*17.0 ), 1.0);
-      }        `
+      }        ` //*/
   }  
 
 
