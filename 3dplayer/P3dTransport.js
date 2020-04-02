@@ -14,13 +14,23 @@ import { logger } from './P3dLog.js'
 ///-----------------------------------------------------------------------------------
 
 
+/*
+// DEBUG!!!!!!!!!!
+export const SoundFilenames = {
+    CLICK_DOWN: '3dplayer/sounds/clickDown.wav',
+    CLICK_UP: '3dplayer/sounds/clickDown.wav',
+    TRAY_OPEN: '3dplayer/sounds/cdDiscIn.wav',
+    TRAY_CLOSE: '3dplayer/sounds/cdDiscIn.wav'
+} //*/
+
+
 
 export const SoundFilenames = {
     CLICK_DOWN: '3dplayer/sounds/clickDown.wav',
     CLICK_UP: '3dplayer/sounds/clickDown.wav',
     TRAY_OPEN: '3dplayer/sounds/cdDiscOut.wav',
     TRAY_CLOSE: '3dplayer/sounds/cdDiscIn.wav'
-}
+} //*/
 
 
 const MAX_AUDIO_SETTING_VALUE = 9;

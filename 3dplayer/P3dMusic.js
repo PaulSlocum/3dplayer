@@ -147,6 +147,8 @@ export default class P3dMusicPlayer
     {
       this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
 
+      console.log( "----->PLAY MUSIC: CREATING CONTEXT: ", this.musicContext );
+
       // LOW FILTER    
       this.lowFilter = this.musicContext.createBiquadFilter();
       this.lowFilter.type = "lowshelf";
