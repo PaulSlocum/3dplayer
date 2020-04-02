@@ -53,7 +53,7 @@ export default class P3dShaders
           //int i = mod( floor(gl_FragCoord.x), 10 );
           //i = floor(gl_FragCoord.x);
           float i = mod( gl_FragCoord.x, 15.0 );
-          gl_FragColor = vec4( i/25.0+0.2, i/35.0+0.1, 0.1, 0.0 );
+          gl_FragColor = vec4( i/35.0+0.35, i/45.0+0.22, 0.15, 0.0 );
         }
       }        ` //*/
 
