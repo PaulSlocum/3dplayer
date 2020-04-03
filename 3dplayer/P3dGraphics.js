@@ -69,7 +69,7 @@ export default class P3dGraphics
     this.shaders = new P3dShaders();
     this.roomUniforms = {
         colorB: {type: 'vec3', value: new THREE.Color(0x070507)},
-        colorA: {type: 'vec3', value: new THREE.Color(0x010110)}
+        colorA: {type: 'vec3', value: new THREE.Color(0x040410)}
     };
     this.cdUniforms = {
         colorC: {type: 'vec3', value: new THREE.Color(0x040302)},

@@ -44,17 +44,9 @@ export default class P3dShaders
       }
 
       void main() {
-        //if(  == 1 )
-        {
-        //  gl_FragColor = vec4(mix(colorC, colorD, vUv.y + rand(vUv.xy)*17.0 ), 1.0);
-        }
-        //else
-        {
-          //int i = mod( floor(gl_FragCoord.x), 10 );
-          //i = floor(gl_FragCoord.x);
-          float i = mod( gl_FragCoord.x, 15.0 );
-          gl_FragColor = vec4( i/35.0+0.35, i/45.0+0.22, 0.15, 0.0 );
-        }
+        float noise = rand(vUv.xy)*0.15 - 0.07;
+        float i = mod( gl_FragCoord.x, 15.0 );
+        gl_FragColor = vec4( i/35.0+0.35 - noise, i/45.0+0.22 - noise, 0.15 - noise, 0.0 );
       }        ` //*/
 
     /*return `
@@ -171,8 +163,9 @@ export default class P3dShaders
 
       void main() {
         float i = mod( gl_FragCoord.x, 15.0 );
-        gl_FragColor = vec4(mix(colorA, colorB, vUv.y - rand(vUv.xy)*7.0 ), 1.0);
-        gl_FragColor = vec4( gl_FragColor.x * (i/15.0), gl_FragColor.y * (i/25.0), gl_FragColor.z * (i/15.0), 1.0 );
+        float noise = rand(vUv.xy)*0.2 - 0.1;
+        gl_FragColor = vec4(mix(colorA, colorB, vUv.y ), 1.0);
+        gl_FragColor = vec4( gl_FragColor.x * (i/15.0) - noise, gl_FragColor.y * (i/25.0) - noise, gl_FragColor.z * (i/20.0) - noise*2.0, 1.0 );
       }        `
   }  
 
