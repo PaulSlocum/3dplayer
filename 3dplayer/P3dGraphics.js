@@ -67,9 +67,13 @@ export default class P3dGraphics
 
     this.loadedModel = null;
     this.shaders = new P3dShaders();
-    this.roomUniforms = {
+    /*this.roomUniforms = {
         colorB: {type: 'vec3', value: new THREE.Color(0x070507)},
         colorA: {type: 'vec3', value: new THREE.Color(0x040410)}
+    }; //*/
+    this.roomUniforms = {
+        colorB: {type: 'vec3', value: new THREE.Color(0x090A0A)},
+        colorA: {type: 'vec3', value: new THREE.Color(0x060607)}
     };
     this.cdUniforms = {
         colorC: {type: 'vec3', value: new THREE.Color(0x040302)},
