@@ -170,7 +170,9 @@ export default class P3dShaders
       }
 
       void main() {
+        float i = mod( gl_FragCoord.x, 15.0 );
         gl_FragColor = vec4(mix(colorA, colorB, vUv.y - rand(vUv.xy)*7.0 ), 1.0);
+        gl_FragColor = vec4( gl_FragColor.x * (i/15.0), gl_FragColor.y * (i/25.0), gl_FragColor.z * (i/15.0), 1.0 );
       }        `
   }  
 
