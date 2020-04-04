@@ -72,7 +72,7 @@ export default class P3dGraphics
         colorA: {type: 'vec3', value: new THREE.Color(0x040410)}
     }; //*/
     this.roomUniforms = {
-        colorB: {type: 'vec3', value: new THREE.Color(0x090A0A)},
+        colorB: {type: 'vec3', value: new THREE.Color(0x0A0B0A)},
         colorA: {type: 'vec3', value: new THREE.Color(0x060607)}
     };
     this.cdUniforms = {
