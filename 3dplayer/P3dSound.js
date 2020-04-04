@@ -36,6 +36,8 @@ export default class P3dSoundPlayer
   //////////////////////////////////////////////////////////////////////////
   loadSound( soundFilename )
   {
+    logger( "--------> SOUND EFFECT LOAD REQUEST: ", soundFilename );
+
     // Create the XHR which will grab the audio contents
     let request = new XMLHttpRequest();
     // Set the audio file src here
@@ -45,6 +47,8 @@ export default class P3dSoundPlayer
     request.responseType = 'arraybuffer';
     request.onload = function() 
     { // FILE LOADER CALLBACK:
+      
+      logger( "-----> SOUND EFFECT LOADED: ", soundFilename );
       
       if( this.audioContext == null )
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();

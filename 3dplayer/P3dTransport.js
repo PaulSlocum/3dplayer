@@ -14,24 +14,17 @@ import { logger } from './P3dLog.js'
 ///-----------------------------------------------------------------------------------
 
 
-/*
-// DEBUG!!!!!!!!!!
-export const SoundFilenames = {
-    CLICK_DOWN: '3dplayer/sounds/clickDown.wav',
-    CLICK_UP: '3dplayer/sounds/clickDown.wav',
-    TRAY_OPEN: '3dplayer/sounds/cdDiscIn.wav',
-    TRAY_CLOSE: '3dplayer/sounds/cdDiscIn.wav'
-} //*/
-
-
 
 export const SoundFilenames = {
     CLICK_DOWN: '3dplayer/sounds/clickDown.wav',
-    CLICK_UP: '3dplayer/sounds/clickDown.wav',
-    TRAY_OPEN: '3dplayer/sounds/cdDiscOut.wav',
-    TRAY_CLOSE: '3dplayer/sounds/cdDiscIn.wav'
+    TRAY_OPEN: '3dplayer/sounds/cdOpen1.wav',
+    TRAY_CLOSE: '3dplayer/sounds/cdClose1.wav',
+    CD_SPINUP: '3dplayer/sounds/cdSpinup1.wav',
+    CD_SPINDOWN: '3dplayer/sounds/cdSpindown1.wav',
+    CD_SEEK: '3dplayer/sounds/cdSeek1.wav'
 } //*/
 
+//    TRAY_CLOSE: '3dplayer/sounds/cdClose1.wav',
 
 const MAX_AUDIO_SETTING_VALUE = 9;
 const MIDDLE_AUDIO_SETTING_VALUE = 5;
@@ -70,9 +63,11 @@ export default class P3dTransport {
     
     this.soundPlayer = new P3dSoundPlayer();
     this.soundPlayer.loadSound( SoundFilenames.CLICK_DOWN );
-    this.soundPlayer.loadSound( SoundFilenames.CLICK_UP );
     this.soundPlayer.loadSound( SoundFilenames.TRAY_OPEN );
     this.soundPlayer.loadSound( SoundFilenames.TRAY_CLOSE );
+    this.soundPlayer.loadSound( SoundFilenames.CD_SPINUP );
+    this.soundPlayer.loadSound( SoundFilenames.CD_SPINDOWN );
+    this.soundPlayer.loadSound( SoundFilenames.CD_SEEK );
 
     this.eventQueue = [];
     this.nextEventTimeSec = performance.now();
@@ -297,7 +292,7 @@ export const TransportMode = {
         case TransportEvent.CLOSE_TRAY:
           this.appController.closeTray();
           this.status = TransportMode.TRAY_CLOSING;
-          this.soundPlayer.playSound( SoundFilenames.TRAY_CLOSE ); 
+          this.soundPlayer.playSound( SoundFilenames.TRAY_CLOSE );  // <------------
           this.scheduleNextEvent( 3 );
           break; //*/
           
@@ -306,13 +301,12 @@ export const TransportMode = {
           this.stop();
           //this.status = TransportMode.TRAY_OPENING;
           this.soundPlayer.playSound( SoundFilenames.TRAY_OPEN ); 
-          this.scheduleNextEvent( 0.5 );
+          this.scheduleNextEvent( 0.65 );
           break; //*/
 
         case TransportEvent.OPEN_TRAY:
           this.appController.openTray();
           this.status = TransportMode.TRAY_OPENING;
-          //this.soundPlayer.playSound( SoundFilenames.TRAY_OPEN ); 
           this.scheduleNextEvent( 1 );
           break; //*/
 
@@ -323,10 +317,10 @@ export const TransportMode = {
         case TransportEvent.PLAY:
           if( this.trackPlaying == false )
           {
+            this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
             this.trackPlaying = true;
             this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
             this.status = TransportMode.PLAYING;
-            //this.appController.closeTray();
           } //*/
           break;
 
@@ -423,6 +417,7 @@ export const TransportMode = {
       this.trackPlaying = true;
       this.musicPlayer.rewindMusic();    
       this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
+      this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
       this.status = TransportMode.PLAYING;
     }
   }
@@ -437,6 +432,7 @@ export const TransportMode = {
       this.trackPlaying = true;
       this.musicPlayer.rewindMusic();    
       this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
+      this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
       this.status = TransportMode.PLAYING;
     }
   }
@@ -448,6 +444,8 @@ export const TransportMode = {
     this.trackPlaying = false;
     this.musicPlayer.rewindMusic();    
     this.trackNumber = 1;
+    if( this.status != TransportMode.STOPPED  &&  this.status != TransportMode.SHUTDOWN)
+      this.soundPlayer.playSound( SoundFilenames.CD_SPINDOWN );
     this.status = TransportMode.STOPPED;
   }
   

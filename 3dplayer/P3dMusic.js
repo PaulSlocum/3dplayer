@@ -107,12 +107,12 @@ export default class P3dMusicPlayer
   {
     this.initMusicFile( musicFilename );
 
-    logger( "-----> SOUND: DOWNLOAD MUSIC: ", musicFilename );
+    //logger( "-----> MUSIC: DOWNLOAD MUSIC: ", musicFilename );
   
     if( this.musicFiles[musicFilename].downloadStarted == false  &&  
         this.musicDownloadQueue.includes( musicFilename ) == false )
     {
-      logger( "-----> SOUND: ADDING TO DOWNLOAD QUEUE: ", musicFilename );
+      //logger( "-----> MUSIC: ADDING TO DOWNLOAD QUEUE: ", musicFilename );
       this.musicDownloadQueue.push( musicFilename );
       this.processMusicQueues();
     }
@@ -125,12 +125,12 @@ export default class P3dMusicPlayer
   {
     this.initMusicFile( musicFilename );
     
-    logger( "-----> SOUND: DECODE MUSIC: ", musicFilename );
+    //logger( "-----> MUSIC: DECODE FILE: ", musicFilename );
 
     if( this.musicFiles[musicFilename].decodeStarted == false  &&  
         this.musicDecodeQueue.includes( musicFilename ) == false )
     {
-      logger( "-----> SOUND: ADDING TO DOWNLOAD QUEUE: ", musicFilename );
+      //logger( "-----> MUSIC: ADDING TO DOWNLOAD QUEUE: ", musicFilename );
       this.downloadMusic( musicFilename ); // IN CASE MUSIC ISN'T ALREADY DOWNLOADED
       this.musicDecodeQueue.push( musicFilename );
       this.processMusicQueues();
@@ -228,7 +228,7 @@ export default class P3dMusicPlayer
   {
     if( this.musicFiles[musicFilename] == null )
     {
-      logger( "-----> SOUND: NEW MUSIC FILE: ", musicFilename );
+      //logger( "-----> MUSIC: NEW MUSIC FILE: ", musicFilename );
       this.musicFiles[musicFilename] = new MusicFile();
     }
   }
@@ -239,7 +239,7 @@ export default class P3dMusicPlayer
   // PRIVATE FUNCTION
   processMusicQueues()
   {
-    logger( "------> PROCESS MUSIC QUEUES", this.musicDownloadQueue );
+    //logger( "------> PROCESS MUSIC QUEUES", this.musicDownloadQueue );
 
     // PROCESS DOWNLOAD QUEUE...
     if( this.musicDownloading == false  &&  this.musicDownloadQueue.length > 0 )
@@ -247,7 +247,7 @@ export default class P3dMusicPlayer
       let downloadFilename = this.musicDownloadQueue.shift();
       this.musicFiles[downloadFilename].downloadStarted = true;
     
-      logger( "-----> MUSIC UPDATE: DOWNLOADING: ", downloadFilename );
+      //logger( "-----> MUSIC UPDATE: DOWNLOADING: ", downloadFilename );
 
       this.musicSource = this.preloadContext.createBufferSource();
 
