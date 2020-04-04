@@ -39,8 +39,8 @@ export const TransportEvent = {
   OPEN_TRAY: 'TransportOpen',
   START_TRAY_OPEN: 'TransportStartTrayOpen',
   TRAY_OPENED: 'TransportOpened', 
-  SPIN_UP: 'TransportSpinUp',
-  SPIN_DOWN: 'TransportSpinDown',
+  SPINUP: 'TransportSpinUp',
+  SPINDOWN: 'TransportSpinDown',
   STANDBY: 'Standby', 
   SHUTDOWN: 'TransportPowerDown',
   STARTUP: 'TransportPowerUp', 
@@ -142,6 +142,8 @@ export const TransportMode = {
               {
                 if( this.status == TransportMode.TRAY_OPEN )
                   this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
+                if( this.status != TransportMode.PAUSED )
+                  this.eventQueue.push( TransportEvent.SPINUP ); //*/
                 this.eventQueue.push( TransportEvent.PLAY ); //*/
                 this.scheduleNextEvent();
               } //*/
@@ -313,11 +315,16 @@ export const TransportMode = {
         case TransportEvent.TRAY_OPENED:
           this.status = TransportMode.TRAY_OPEN;
           break;
+
+        case TransportEvent.SPINUP:
+          this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
+          this.status = TransportMode.STARTING_PLAY;
+          this.scheduleNextEvent( 3 );
+          break;
           
         case TransportEvent.PLAY:
           if( this.trackPlaying == false )
           {
-            this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
             this.trackPlaying = true;
             this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
             this.status = TransportMode.PLAYING;
@@ -336,8 +343,9 @@ export const TransportMode = {
           break;
 
         case TransportEvent.STARTUP:
+          this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
           this.status = TransportMode.STARTUP;
-          this.scheduleNextEvent(1);
+          this.scheduleNextEvent(2);
           break;
 
         case TransportEvent.STANDBY:

@@ -159,6 +159,10 @@ export default class P3dNumericDisplay
     // HANDLE ALPHANUMERIC SEGMENTS...
     switch( appMode )
     {
+      case TransportMode.STARTING_PLAY:
+          this.ledDriver.setString( 'pLayXX' );
+          break;
+      
       case TransportMode.PLAYING:
       {
         // SHOW TIME AND TRACK NUMBER
