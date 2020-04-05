@@ -22,10 +22,12 @@ export const SoundFilenames = {
     CD_SPINUP1: '3dplayer/sounds/cdSpinup1.wav',
     CD_SPINUP2: '3dplayer/sounds/cdSpinup2.wav',
     CD_SPINUP3: '3dplayer/sounds/cdSpinup3.wav',
+    CD_SPINUP4: '3dplayer/sounds/cdSpinup4.wav',
     CD_SPINDOWN: '3dplayer/sounds/cdSpindown1.wav',
     CD_SEEK1: '3dplayer/sounds/cdSeek1.wav',
     CD_SEEK2: '3dplayer/sounds/cdSeek2.wav',
-    CD_SEEK3: '3dplayer/sounds/cdSeek3.wav'
+    CD_SEEK3: '3dplayer/sounds/cdSeek3.wav',
+    CD_SEEK4: '3dplayer/sounds/cdSeek4.wav'
 } //*/
 
 //    TRAY_CLOSE: '3dplayer/sounds/cdClose1.wav',
@@ -93,10 +95,12 @@ export default class P3dTransport {
     this.soundPlayer.loadSound( SoundFilenames.CD_SPINUP1 );
     this.soundPlayer.loadSound( SoundFilenames.CD_SPINUP2 );
     this.soundPlayer.loadSound( SoundFilenames.CD_SPINUP3 );
+    this.soundPlayer.loadSound( SoundFilenames.CD_SPINUP4 );
     this.soundPlayer.loadSound( SoundFilenames.CD_SPINDOWN );
     this.soundPlayer.loadSound( SoundFilenames.CD_SEEK1 );
     this.soundPlayer.loadSound( SoundFilenames.CD_SEEK2 );
     this.soundPlayer.loadSound( SoundFilenames.CD_SEEK3 );
+    this.soundPlayer.loadSound( SoundFilenames.CD_SEEK4 );
 
     this.eventQueue = [];
     this.nextEventTimeSec = performance.now();
@@ -372,11 +376,12 @@ export const TransportMode = {
           break;
 
         case TransportEvent.SPINUP:
-          switch( random(3) )
+          switch( random(4) )
           {
             case 0: this.soundPlayer.playSound( SoundFilenames.CD_SPINUP1 ); break;
             case 1: this.soundPlayer.playSound( SoundFilenames.CD_SPINUP2 ); break;
             case 2: this.soundPlayer.playSound( SoundFilenames.CD_SPINUP3 ); break;
+            case 3: this.soundPlayer.playSound( SoundFilenames.CD_SPINUP4 ); break;
           } //*/
           //this.soundPlayer.playSound( SoundFilenames.CD_SPINUP1 );
           
@@ -385,14 +390,15 @@ export const TransportMode = {
           break;
           
         case TransportEvent.SEEK:
-          switch( random(3) )
+          switch( random(4) )
           {
             case 0: this.soundPlayer.playSound( SoundFilenames.CD_SEEK1 ); break;
             case 1: this.soundPlayer.playSound( SoundFilenames.CD_SEEK2 ); break;
             case 2: this.soundPlayer.playSound( SoundFilenames.CD_SEEK3 ); break;
+            case 3: this.soundPlayer.playSound( SoundFilenames.CD_SEEK4 ); break;
           } //*/
           //this.soundPlayer.playSound( SoundFilenames.CD_SEEK1 );
-          this.scheduleNextEvent( 0.6 );
+          this.scheduleNextEvent( 0.65 );
           this.status = TransportMode.SEEK;
           break;
           
