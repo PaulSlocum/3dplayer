@@ -215,7 +215,6 @@ export const TransportMode = {
                   this.eventQueue.push( TransportEvent.PLAY ); //*/
                   this.scheduleNextEvent();
                   this.musicPlayer.decodeMusic( this.filenameList[ this.trackNumber ] );    
-                  //this.status = TransportMode.PLAYING;
                 }
                 //this.previousTrack();
               }
@@ -239,7 +238,6 @@ export const TransportMode = {
                   this.eventQueue.push( TransportEvent.PLAY ); //*/
                   this.scheduleNextEvent();
                   this.musicPlayer.decodeMusic( this.filenameList[ this.trackNumber ] );    
-                  //this.status = TransportMode.PLAYING;
                 }
                 //this.nextTrack();
               }
@@ -383,7 +381,6 @@ export const TransportMode = {
             case 2: this.soundPlayer.playSound( SoundFilenames.CD_SPINUP3 ); break;
             case 3: this.soundPlayer.playSound( SoundFilenames.CD_SPINUP4 ); break;
           } //*/
-          //this.soundPlayer.playSound( SoundFilenames.CD_SPINUP1 );
           
           this.status = TransportMode.STARTING_PLAY;
           this.scheduleNextEvent( 2 );
@@ -401,18 +398,6 @@ export const TransportMode = {
           this.scheduleNextEvent( 0.65 );
           this.status = TransportMode.SEEK;
           break;
-          
-        /*case TransportEvent.PLAY_NEXT:
-          this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
-          this.status = TransportMode.SEEK;
-          this.scheduleNextEvent( 1 );
-          break;
-          
-        case TransportEvent.PLAY_PREVIOUS:
-          this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
-          this.status = TransportMode.SEEK;
-          this.scheduleNextEvent( 1 );
-          break; //*/
           
         case TransportEvent.PLAY:
           if( this.trackPlaying == false )
@@ -462,36 +447,6 @@ export const TransportMode = {
   
 
   // ~     -      ~     -      ~     -      ~     -      ~     -      ~     -      
-  
-  
-  ///////////////////////////////////////////////////////////////////////////
-  // PRIVATE FUNCTION
-  nextTrack()
-  {
-    if( this.trackNumber < this.filenameList.length-1 )
-    {
-      this.trackNumber++;
-      this.trackPlaying = true;
-      this.musicPlayer.rewindMusic();    
-      this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
-      this.status = TransportMode.PLAYING;
-    }
-  }
-  
-  
-  ///////////////////////////////////////////////////////////////////////////
-  // PRIVATE FUNCTION
-  previousTrack()
-  {
-    if( this.trackNumber > 1 )
-    {
-      this.trackNumber--;
-      this.trackPlaying = true;
-      this.musicPlayer.rewindMusic();    
-      this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
-      this.status = TransportMode.PLAYING;
-    }
-  }
   
   
   ////////////////////////////////////////////////////////////////////////////

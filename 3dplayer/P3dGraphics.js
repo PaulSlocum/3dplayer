@@ -65,6 +65,8 @@ export default class P3dGraphics
     this.roomMaterial = null;
     this.cdMaterial = null;
 
+    this.sphere = null;
+
     this.loadedModel = null;
     this.shaders = new P3dShaders();
     /*this.roomUniforms = {
@@ -139,6 +141,15 @@ export default class P3dGraphics
       this.roomCube.rotation.x += this.backgroundSpinRate;
       this.roomCube.rotation.y += this.backgroundSpinRate;
     } //*/
+
+    
+
+    this.sphere.position.x += 0.01;
+    //this.sphere.position.y += 0.021;
+    if( this.sphere.position.x > 6.0 )
+      this.sphere.position.x = -6.1;
+    if( this.sphere.position.y > 6.0 )
+      this.sphere.position.y = -6.1;
 
     // MODULATE CD PLAYER ORIENTATION...
     const rotationSpeed = 0.03; // NORMAL <-------------------
@@ -303,6 +314,13 @@ export default class P3dGraphics
           //console.log( "---->LED DRIVER: 'ledOn' MATERIAL FOUND" );
           child.material = this.cdMaterial;
         }
+        
+        if ( child.isMesh ) 
+        {
+          //child.castShadow = true;
+          child.receiveShadow = true;
+        }//*/
+
       }.bind(this) ); //*/
 
       
@@ -319,6 +337,22 @@ export default class P3dGraphics
     // set this shader pass to render to screen so we can see the effects
     vblur.renderToScreen = true;
     this.composer.addPass( vblur ); //*/
+
+    // ADD SPHERE
+    var sphereGeometry = new THREE.SphereGeometry( 0.3, 32, 32 );
+    sphereGeometry.castShadow = true;
+    var sphereMaterial = new THREE.MeshStandardMaterial( {color: 0x4A4440} );
+    //sphereMaterial.metalness = 0.2;
+    //sphereMaterial.roughness = 0.15;
+    this.sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
+    this.sphere.castShadow = true;
+    this.sphere.position.z = -3.0;
+    this.scene.add( this.sphere );
+    
+    //this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    
 
     // ROOM CUBE  
     let geometry = new THREE.BoxGeometry( -80, -40, -40 );
@@ -350,11 +384,34 @@ export default class P3dGraphics
     this.scene.add( this.roomCube ); //*/
 
     // SPOTLIGHT
-    let spotLight = new THREE.SpotLight(0xffffff);
-    spotLight.position.set(-0, 18, 60);
+    /*let spotLight = new THREE.PointLight( 0xffffff ); // DEBUG!!!!!!!!!!!!!!!!
+    spotLight.intensity = 5.8;
+    spotLight.position.set(-0, 28, 30); //*/
+
+    let spotLight = new THREE.SpotLight(0xffffff); // <----------------------
+    spotLight.position.set(-0, 1.2, 0.9);
+    spotLight.angle = Math.PI / 3.0;
     spotLight.castShadow = true;
-    spotLight.intensity = 0.8;
+    //spotLight.shadow.mapSize.width = 2048;
+    //spotLight.shadow.mapSize.height = 2048;
+    
+    //spotLight.target = this.loadedModel;
+    spotLight.target.position.z = -3;
+    //spotLight.shadow.camera.fov = 60;
+    //spotLight.shadow.radius = 8;
+
+/*light.shadowCameraLeft = -d
+light.shadowCameraRight = d
+light.shadowCameraTop = d
+light.shadowCameraBottom = -d    //*/
+
+   //spotLight.shadow.camera.near = 1; 
+    //spotLight.shadow.camera.far = 60;
+    //spotLight.shadow.bias = - 0.005; // reduces self-shadowing on double-sided objects //*/
+    spotLight.intensity = 1.0;
     this.scene.add( spotLight );
+    this.scene.add( spotLight.target );
+    //spotLight.target.position = new THREE.Object3D( 0, 5, 0 );
 
   }
 
