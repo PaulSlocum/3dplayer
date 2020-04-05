@@ -110,6 +110,14 @@ export const TransportMode = {
   //*/
 
 
+  ///////////////////////////////////////////////////////////////////////
+  stopCdSounds()
+  {
+    this.soundPlayer.stopSound( SoundFilenames.SEEK ); 
+    this.soundPlayer.stopSound( SoundFilenames.SPINUP ); 
+  }
+
+
   
   ///////////////////////////////////////////////////////////////////////
   processButtonEvent( buttonEvent )
