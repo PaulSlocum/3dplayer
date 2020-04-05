@@ -64,6 +64,7 @@ export const TransportMode = {
   PLAYING:'Playing',
   STARTING_PLAY:'StartingPlay',
   PAUSED:'Paused',
+  SEEK:'Seek',
   STOPPED:'Stopped',
   SHUTDOWN:'Shutdown',
   STARTUP: 'Startup',

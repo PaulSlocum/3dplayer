@@ -258,20 +258,6 @@ export const TransportMode = {
   }
   
   
-/*  export const TransportEvent = {
-  PLAY: 'TransportPlay',
-  PAUSE: 'TransportPause',
-  STOP: 'TransportStop', 
-  CLOSE_TRAY: 'TransportClose',
-  OPEN_TRAY: 'TransportOpen',
-  SPIN_UP: 'TransportSpinUp',
-  SPIN_DOWN: 'TransportSpinDown',
-  POWER_DOWN: 'TransportPowerDown',
-  POWER_UP: 'TransportPowerUp', 
-  SEEK: 'TransportSeek'
-} //*/
-
-
   //////////////////////////////////////////////////////////////////////////////////
   scheduleNextEvent( delaySec = 0.0 )
   {
@@ -322,6 +308,24 @@ export const TransportMode = {
           this.scheduleNextEvent( 3 );
           break;
           
+        case TransportEvent.SEEK:
+          this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
+          this.status = TransportMode.SEEK;
+          this.scheduleNextEvent( 1 );
+          break;
+          
+        /*case TransportEvent.PLAY_NEXT:
+          this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
+          this.status = TransportMode.SEEK;
+          this.scheduleNextEvent( 1 );
+          break;
+          
+        case TransportEvent.PLAY_PREVIOUS:
+          this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
+          this.status = TransportMode.SEEK;
+          this.scheduleNextEvent( 1 );
+          break; //*/
+          
         case TransportEvent.PLAY:
           if( this.trackPlaying == false )
           {
@@ -367,6 +371,72 @@ export const TransportMode = {
     }
     
   }
+  
+
+  // ~     -      ~     -      ~     -      ~     -      ~     -      ~     -      
+  
+  
+  ///////////////////////////////////////////////////////////////////////////
+  // PRIVATE FUNCTION
+  nextTrack()
+  {
+    if( this.trackNumber < this.filenameList.length-1 )
+    {
+      this.trackNumber++;
+      this.trackPlaying = true;
+      this.musicPlayer.rewindMusic();    
+      this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
+      this.status = TransportMode.PLAYING;
+    }
+  }
+  
+  
+  ///////////////////////////////////////////////////////////////////////////
+  // PRIVATE FUNCTION
+  previousTrack()
+  {
+    if( this.trackNumber > 1 )
+    {
+      this.trackNumber--;
+      this.trackPlaying = true;
+      this.musicPlayer.rewindMusic();    
+      this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
+      this.status = TransportMode.PLAYING;
+    }
+  }
+  
+  
+  ////////////////////////////////////////////////////////////////////////////
+  // PRIVATE FUNCTION
+  stop()
+  {
+    this.trackPlaying = false;
+    this.musicPlayer.rewindMusic();    
+    this.trackNumber = 1;
+    if( this.status != TransportMode.STOPPED  &&  this.status != TransportMode.SHUTDOWN)
+      this.soundPlayer.playSound( SoundFilenames.CD_SPINDOWN );
+    this.status = TransportMode.STOPPED;
+  }
+  
+  
+  // ~     -      ~     -      ~     -      ~     -      ~     -      ~     -      
+  
+  
+  //////////////////////////////////////////////////////////////////////////
+  // CALLED BY MUSIC PLAYER
+  musicEndedCallback()
+  {
+    logger( "----->TRANSPORT: SONG ENDED CALLBACK" );
+    if( this.trackNumber < this.filenameList.length-1 )
+      this.nextTrack();
+    else
+      this.stop();
+
+  }
+  
+  
+  // ~     -      ~     -      ~     -      ~     -      ~     -      ~     -      
+  
   
   
   /////////////////////////////////////////////////////////////////////////
@@ -416,59 +486,6 @@ export const TransportMode = {
   }
 
   
-  ///////////////////////////////////////////////////////////////////////////
-  nextTrack()
-  {
-    if( this.trackNumber < this.filenameList.length-1 )
-    {
-      this.trackNumber++;
-      this.trackPlaying = true;
-      this.musicPlayer.rewindMusic();    
-      this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
-      this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
-      this.status = TransportMode.PLAYING;
-    }
-  }
-  
-  
-  ///////////////////////////////////////////////////////////////////////////
-  previousTrack()
-  {
-    if( this.trackNumber > 1 )
-    {
-      this.trackNumber--;
-      this.trackPlaying = true;
-      this.musicPlayer.rewindMusic();    
-      this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
-      this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
-      this.status = TransportMode.PLAYING;
-    }
-  }
-  
-  
-  ////////////////////////////////////////////////////////////////////////////
-  stop()
-  {
-    this.trackPlaying = false;
-    this.musicPlayer.rewindMusic();    
-    this.trackNumber = 1;
-    if( this.status != TransportMode.STOPPED  &&  this.status != TransportMode.SHUTDOWN)
-      this.soundPlayer.playSound( SoundFilenames.CD_SPINDOWN );
-    this.status = TransportMode.STOPPED;
-  }
-  
-  
-  //////////////////////////////////////////////////////////////////////////
-  // CALLED BY MUSIC PLAYER
-  musicEndedCallback()
-  {
-    logger( "----->TRANSPORT: SONG ENDED CALLBACK" );
-    if( this.trackNumber < this.filenameList.length-1 )
-      this.nextTrack();
-    else
-      this.stop();
-
-  }
   
   
 }
