@@ -13,6 +13,7 @@ import P3dNumericDisplay from './P3dNumericDisplay.js'
 import P3dShaders from './P3dShaders.js'
 import { logger } from './P3dLog.js'
 import { TransportMode } from './P3dController.js'
+import { random, converge } from './P3dUtility.js'
 //-----------------------------------------------------------------------------------
 
 
@@ -34,39 +35,6 @@ window.mobileAndTabletcheck = function()
   return check;
 };
 
-
-//=====================================================================================
-// UTILITY FUNCTION 
-function converge( currentValue, targetValue, rate )
-{
-  if( currentValue < targetValue )
-  {
-    currentValue += rate;
-    if( currentValue > targetValue )
-      currentValue = targetValue;
-  }
-  else
-  {
-    if( currentValue > targetValue )
-    {
-      currentValue -= rate;
-      if( currentValue < targetValue )
-        currentValue = targetValue;
-    }
-  }
-  return currentValue;
-}
-  
-
-
-//==============================================================================
-// UTILITY FUNCTION 
-function random(max) 
-{
-    const min = 0;
-    max = Math.floor(max-1);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 
 

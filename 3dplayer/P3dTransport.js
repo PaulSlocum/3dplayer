@@ -11,6 +11,7 @@ import { TransportMode, ButtonEvent } from './P3dController.js'
 import P3dSoundPlayer from './P3dSound.js'
 import P3dMusicPlayer from './P3dMusic.js'
 import { logger } from './P3dLog.js'
+import { random } from './P3dUtility.js'
 ///-----------------------------------------------------------------------------------
 
 
@@ -58,12 +59,12 @@ export const TransportEvent = {
 
 
 //==============================================================================
-function random(max) 
+/*function random(max) 
 {
     const min = 0;
     max = Math.floor(max-1);
     return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+}//*/
 
 
 /**

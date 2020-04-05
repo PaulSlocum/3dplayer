@@ -1,3 +1,16 @@
+
+
+
+//---------------------------------------------------------------------------------
+import { random } from './P3dUtility.js'
+//---------------------------------------------------------------------------------
+
+
+
+const MAX_OBJECTS = 5;
+
+
+
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 export default class P3dSwarm
 {
@@ -9,6 +22,8 @@ export default class P3dSwarm
     
     this.sphere = null;
     
+    this.objectArray = [];
+    
     this.load();
   }
   
@@ -18,14 +33,18 @@ export default class P3dSwarm
   {
     // ADD SPHERE
     var sphereGeometry = new THREE.SphereGeometry( 0.3, 32, 32 );
-    sphereGeometry.castShadow = true;
     var sphereMaterial = new THREE.MeshStandardMaterial( {color: 0x4A4440} );
-    //sphereMaterial.metalness = 0.2;
+    sphereMaterial.metalness = 0.5;
     sphereMaterial.roughness = 0.45;
-    this.sphere = new THREE.Mesh( sphereGeometry, sphereMaterial );
-    this.sphere.castShadow = true;
-    this.sphere.position.z = -3.0;
-    this.scene.add( this.sphere );
+    
+    for( let i=0; i<MAX_OBJECTS; i++ )
+    {
+      this.objectArray[i] = new THREE.Mesh( sphereGeometry, sphereMaterial );
+      this.objectArray[i].castShadow = true;
+      this.objectArray[i].position.y = i*0.7 - 1.5;
+      this.objectArray[i].position.z = -3.1;
+      this.scene.add( this.objectArray[i] );
+    } //*/
     
   }
   
@@ -34,13 +53,21 @@ export default class P3dSwarm
   ////////////////////////////////////////////////////////////////////////
   render()
   {
-    this.sphere.position.x += 0.01;
-    //this.sphere.position.y += 0.021;
-    if( this.sphere.position.x > 6.0 )
-      this.sphere.position.x = -6.1;
-    if( this.sphere.position.y > 6.0 )
-      this.sphere.position.y = -6.1;
+    for( let i=0; i<MAX_OBJECTS; i++ )
+    {
+      this.objectArray[i].position.x += 0.01;
+      if( this.objectArray[i].position.x > 6.0 )
+        this.objectArray[i].position.x = -6.1;
+      //if( this.sphere.position.y > 6.0 )
+      //  this.sphere.position.y = -6.1;
+    }
+      
+    //*/
   }
 
   
 }
+
+
+
+
