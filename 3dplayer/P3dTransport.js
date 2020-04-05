@@ -19,9 +19,13 @@ export const SoundFilenames = {
     CLICK_DOWN: '3dplayer/sounds/clickDown.wav',
     TRAY_OPEN: '3dplayer/sounds/cdOpen1.wav',
     TRAY_CLOSE: '3dplayer/sounds/cdClose1.wav',
-    CD_SPINUP: '3dplayer/sounds/cdSpinup1.wav',
+    CD_SPINUP1: '3dplayer/sounds/cdSpinup1.wav',
+    CD_SPINUP2: '3dplayer/sounds/cdSpinup2.wav',
+    CD_SPINUP3: '3dplayer/sounds/cdSpinup3.wav',
     CD_SPINDOWN: '3dplayer/sounds/cdSpindown1.wav',
-    CD_SEEK: '3dplayer/sounds/cdSeek1.wav'
+    CD_SEEK1: '3dplayer/sounds/cdSeek1.wav',
+    CD_SEEK2: '3dplayer/sounds/cdSeek2.wav',
+    CD_SEEK3: '3dplayer/sounds/cdSeek3.wav'
 } //*/
 
 //    TRAY_CLOSE: '3dplayer/sounds/cdClose1.wav',
@@ -50,6 +54,27 @@ export const TransportEvent = {
 
 
 
+
+//==============================================================================
+function random(max) 
+{
+    const min = 0;
+    max = Math.floor(max-1);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive).
+ * The value is no lower than min (or the next integer greater than min
+ * if min isn't an integer) and no greater than max (or the next integer
+ * lower than max if max isn't an integer).
+ * Using Math.round() will give you a non-uniform distribution!
+ */
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 export default class P3dTransport {
 
@@ -65,9 +90,13 @@ export default class P3dTransport {
     this.soundPlayer.loadSound( SoundFilenames.CLICK_DOWN );
     this.soundPlayer.loadSound( SoundFilenames.TRAY_OPEN );
     this.soundPlayer.loadSound( SoundFilenames.TRAY_CLOSE );
-    this.soundPlayer.loadSound( SoundFilenames.CD_SPINUP );
+    this.soundPlayer.loadSound( SoundFilenames.CD_SPINUP1 );
+    this.soundPlayer.loadSound( SoundFilenames.CD_SPINUP2 );
+    this.soundPlayer.loadSound( SoundFilenames.CD_SPINUP3 );
     this.soundPlayer.loadSound( SoundFilenames.CD_SPINDOWN );
-    this.soundPlayer.loadSound( SoundFilenames.CD_SEEK );
+    this.soundPlayer.loadSound( SoundFilenames.CD_SEEK1 );
+    this.soundPlayer.loadSound( SoundFilenames.CD_SEEK2 );
+    this.soundPlayer.loadSound( SoundFilenames.CD_SEEK3 );
 
     this.eventQueue = [];
     this.nextEventTimeSec = performance.now();
@@ -181,7 +210,7 @@ export const TransportMode = {
                   this.eventQueue.push( TransportEvent.SEEK ); //*/
                   this.eventQueue.push( TransportEvent.PLAY ); //*/
                   this.scheduleNextEvent();
-                  //this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
+                  this.musicPlayer.decodeMusic( this.filenameList[ this.trackNumber ] );    
                   //this.status = TransportMode.PLAYING;
                 }
                 //this.previousTrack();
@@ -205,7 +234,7 @@ export const TransportMode = {
                   this.eventQueue.push( TransportEvent.SEEK ); //*/
                   this.eventQueue.push( TransportEvent.PLAY ); //*/
                   this.scheduleNextEvent();
-                  //this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
+                  this.musicPlayer.decodeMusic( this.filenameList[ this.trackNumber ] );    
                   //this.status = TransportMode.PLAYING;
                 }
                 //this.nextTrack();
@@ -343,14 +372,27 @@ export const TransportMode = {
           break;
 
         case TransportEvent.SPINUP:
-          this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
+          switch( random(3) )
+          {
+            case 0: this.soundPlayer.playSound( SoundFilenames.CD_SPINUP1 ); break;
+            case 1: this.soundPlayer.playSound( SoundFilenames.CD_SPINUP2 ); break;
+            case 2: this.soundPlayer.playSound( SoundFilenames.CD_SPINUP3 ); break;
+          } //*/
+          //this.soundPlayer.playSound( SoundFilenames.CD_SPINUP1 );
+          
           this.status = TransportMode.STARTING_PLAY;
-          this.scheduleNextEvent( 3 );
+          this.scheduleNextEvent( 2 );
           break;
           
         case TransportEvent.SEEK:
-          this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
-          this.scheduleNextEvent( 0.75 );
+          switch( random(3) )
+          {
+            case 0: this.soundPlayer.playSound( SoundFilenames.CD_SEEK1 ); break;
+            case 1: this.soundPlayer.playSound( SoundFilenames.CD_SEEK2 ); break;
+            case 2: this.soundPlayer.playSound( SoundFilenames.CD_SEEK3 ); break;
+          } //*/
+          //this.soundPlayer.playSound( SoundFilenames.CD_SEEK1 );
+          this.scheduleNextEvent( 0.6 );
           this.status = TransportMode.SEEK;
           break;
           
@@ -387,9 +429,9 @@ export const TransportMode = {
           break;
 
         case TransportEvent.STARTUP:
-          this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
+          this.soundPlayer.playSound( SoundFilenames.CD_SPINUP1 );
           this.status = TransportMode.STARTUP;
-          this.scheduleNextEvent(2);
+          this.scheduleNextEvent(4);
           break;
 
         case TransportEvent.STANDBY:
