@@ -178,6 +178,7 @@ export default class P3dNumericDisplay
         break;
       }
       case TransportMode.PAUSED:
+      case TransportMode.SEEK:
       {
         if( Math.floor(this.frameCounter/20)%3 == 0 )
         {

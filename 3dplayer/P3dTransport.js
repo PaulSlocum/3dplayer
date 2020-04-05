@@ -158,17 +158,49 @@ export const TransportMode = {
         case ButtonEvent.BUTTON_DOWN_PREV:
               if( this.status == TransportMode.PLAYING || 
                   this.status == TransportMode.PAUSED || 
+                  this.status == TransportMode.SEEK || 
                   this.status == TransportMode.STOPPED )
               {
-                this.previousTrack();
+                if( this.trackNumber > 1 )
+                {
+                  this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
+                  this.trackNumber--;
+                  this.trackPlaying = false;
+                  this.musicPlayer.rewindMusic();    
+                  
+                  //this.eventQueue.push( TransportEvent.PAUSE ); //*/
+                  this.eventQueue = [];
+                  this.eventQueue.push( TransportEvent.SEEK ); //*/
+                  this.eventQueue.push( TransportEvent.PLAY ); //*/
+                  this.scheduleNextEvent();
+                  //this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
+                  //this.status = TransportMode.PLAYING;
+                }
+                //this.previousTrack();
               }
               break;
         case ButtonEvent.BUTTON_DOWN_NEXT:
               if( this.status == TransportMode.PLAYING || 
                   this.status == TransportMode.PAUSED || 
+                  this.status == TransportMode.SEEK || 
                   this.status == TransportMode.STOPPED )
               {
-                this.nextTrack();
+                if( this.trackNumber < this.filenameList.length-1 )
+                {
+                  this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
+                  this.trackNumber++;
+                  this.trackPlaying = false;
+                  this.musicPlayer.rewindMusic();    
+                  
+                  //this.eventQueue.push( TransportEvent.PAUSE ); //*/
+                  this.eventQueue = [];
+                  this.eventQueue.push( TransportEvent.SEEK ); //*/
+                  this.eventQueue.push( TransportEvent.PLAY ); //*/
+                  this.scheduleNextEvent();
+                  //this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
+                  //this.status = TransportMode.PLAYING;
+                }
+                //this.nextTrack();
               }
               break;
         case ButtonEvent.BUTTON_DOWN_FAST_FORWARD:
@@ -310,8 +342,8 @@ export const TransportMode = {
           
         case TransportEvent.SEEK:
           this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
+          this.scheduleNextEvent( 0.75 );
           this.status = TransportMode.SEEK;
-          this.scheduleNextEvent( 1 );
           break;
           
         /*case TransportEvent.PLAY_NEXT:
