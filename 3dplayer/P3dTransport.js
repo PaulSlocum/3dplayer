@@ -65,6 +65,7 @@ function random(max)
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+
 /**
  * Returns a random integer between min (inclusive) and max (inclusive).
  * The value is no lower than min (or the next integer greater than min
