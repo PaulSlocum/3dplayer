@@ -424,7 +424,7 @@ export const TransportMode = {
         case TransportEvent.STARTUP:
           this.soundPlayer.playSound( SoundFilenames.CD_SPINUP1 );
           this.status = TransportMode.STARTUP;
-          this.scheduleNextEvent(4);
+          this.scheduleNextEvent(3.2);
           break;
 
         case TransportEvent.STANDBY:

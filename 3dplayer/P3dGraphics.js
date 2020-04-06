@@ -135,6 +135,8 @@ export default class P3dGraphics
     // UPDATE LED DISPLAY
     this.numericDisplay.update();
 
+    
+
     // UPDATE "SWARM" 
     this.swarm.render();
 
@@ -144,9 +146,15 @@ export default class P3dGraphics
       this.backgroundSpinRate = 0.04;
     if( this.appController.getStatus() != TransportMode.PLAYING )
     { 
+      this.swarm.disable();  // <-----------------------
+      //this.swarm.enable(); // DEBUG!!! 
       this.backgroundSpinRate -= 0.0001;
       if( this.backgroundSpinRate < 0.0002 )
         this.backgroundSpinRate = 0.0002;
+    }
+    else
+    {
+      this.swarm.enable();
     }
     if( this.roomCube != null )
     {
@@ -154,7 +162,13 @@ export default class P3dGraphics
       this.roomCube.rotation.y += this.backgroundSpinRate;
     } //*/
 
+
+    /*if( this.frameCounter%2 == 0 )
+      this.spotLight.position.set(0, 1.2, 0.9);
+    else
+      this.spotLight.position.set(0.04, 1.2+0.04, 0.9*1.1); //*/
     
+
 
     // MODULATE CD PLAYER ORIENTATION...
     const rotationSpeed = 0.03; // NORMAL <-------------------
@@ -362,8 +376,9 @@ export default class P3dGraphics
     this.spotLight.position.set(-0, 1.2, 0.9);
     this.spotLight.angle = Math.PI / 3.0;
     this.spotLight.castShadow = true;
-    //spotLight.shadow.mapSize.width = 2048;
-    //spotLight.shadow.mapSize.height = 2048;
+    //this.spotLight.radius = 400;
+    this.spotLight.shadow.mapSize.width = 768;
+    this.spotLight.shadow.mapSize.height = 768;
     
     //spotLight.target = this.loadedModel;
     this.spotLight.target.position.z = -3;
