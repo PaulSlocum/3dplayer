@@ -7,7 +7,7 @@ import { random } from './P3dUtility.js'
 
 
 
-const MAX_OBJECTS = 28;
+const MAX_OBJECTS = 22;
 
 
 
@@ -44,7 +44,8 @@ export default class P3dSwarm
     var sphereGeometry = new THREE.BoxGeometry( objectSize, objectSize, objectSize );
     //TetrahedronGeometry  ConeGeometry  CylinderGeometry  IcosahedronGeometry  OctahedronGeometry  TextGeometry
     // TorusGeometry    TorusKnotGeometry
-    var sphereMaterial1 = new THREE.MeshStandardMaterial( {color: 0x22242A} );
+    var sphereMaterial1 = new THREE.MeshStandardMaterial( {color: 0x747A70} );
+    //var sphereMaterial2 = new THREE.MeshStandardMaterial( {color: 0x22242A} );
     //var sphereMaterial1 = new THREE.MeshStandardMaterial( {color: 0x777070} );
     var sphereMaterial2 = new THREE.MeshStandardMaterial( {color: 0x817060} );
     sphereMaterial1.metalness = 0.4;
