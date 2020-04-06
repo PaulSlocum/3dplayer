@@ -63,7 +63,7 @@ export default class P3dSwarm
     //var sphereMaterial2 = new THREE.MeshStandardMaterial( {color: 0x22242A} );
     //var sphereMaterial1 = new THREE.MeshStandardMaterial( {color: 0x777070} );
     var sphereMaterial1 = new THREE.MeshStandardMaterial( {color: 0x817060} );
-    sphereMaterial1.metalness = 0.4;
+    sphereMaterial1.metalness = 0.7;
     sphereMaterial1.roughness = 0.45;
     sphereMaterial2.metalness = 0.4;
     sphereMaterial2.roughness = 0.45;
@@ -91,6 +91,7 @@ export default class P3dSwarm
       //this.objectArray[i].scale.z = 0.5;
       this.scene.add( this.objectArray[i] );
       this.xSpeed[i] = random(20) * 0.00002 + 0.0037;
+      this.objectArray[i].visible = false;
     } //*/
     
   }
@@ -152,6 +153,7 @@ export default class P3dSwarm
         {
           this.objectEnabled[i] = true;
           this.sizeArray[i] = 1.0;
+          this.objectArray[i].visible = true;
         }
         let foundNearbyObject = false;
         let placementAttempts = 0;
@@ -163,6 +165,7 @@ export default class P3dSwarm
             this.objectArray[i].position.x = random(40)*0.16 - 1.5;
             foundNearbyObject = true;
             this.sizeArray[i] = 0.0;
+            this.objectArray[i].visible = false;
             this.objectEnabled[i] = false;
             break;
           }
