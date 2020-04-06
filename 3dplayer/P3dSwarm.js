@@ -7,7 +7,7 @@ import { random } from './P3dUtility.js'
 
 
 
-const MAX_OBJECTS = 10;
+const MAX_OBJECTS = 15;
 
 
 
@@ -24,6 +24,8 @@ export default class P3dSwarm
     
     this.objectArray = [];
     this.sizeArray = [];
+    this.objectEnabled = [];
+    
     this.xSpeed = [];
     this.ySpeed = [];
     this.zSpeed = [];
@@ -38,7 +40,8 @@ export default class P3dSwarm
     this.enabled = false;
     
     this.frameCounter = 0;
-    
+
+    this.disable();    
     this.load();
   }
   
@@ -48,7 +51,7 @@ export default class P3dSwarm
   {
     // ADD SPHERE
     //var sphereGeometry = new THREE.SphereGeometry( 0.3, 32, 32 );
-    const objectSize = 0.3;
+    const objectSize = 0.32;
     const circularSegments = 22;
     const coneSegments = 60;
     var sphereGeometry = new THREE.SphereGeometry( objectSize, circularSegments, circularSegments );
@@ -87,7 +90,7 @@ export default class P3dSwarm
       //this.objectArray[i].scale.x = 0.5;
       //this.objectArray[i].scale.z = 0.5;
       this.scene.add( this.objectArray[i] );
-      this.xSpeed[i] = random(20) * 0.0001 + 0.0035;
+      this.xSpeed[i] = random(20) * 0.00002 + 0.0037;
     } //*/
     
   }
@@ -113,35 +116,77 @@ export default class P3dSwarm
         this.currentSize = 0.0;
     }//*/
   
-    
+    /*if( frameCounter%180 == 0 )
+    {
+      this.windActive = true;
+    }//*/
   
   
     for( let i=0; i<MAX_OBJECTS; i++ )
     {
-      if( this.enabled == false )
+      if( this.objectEnabled[i] == false )
       {
         if( this.sizeArray[i] > 0.0 )
           this.sizeArray[i] -= 0.04;
         if( this.sizeArray[i] < 0.0 )
           this.sizeArray[i] = 0.0;
-        this.sizeArray[i] = 1.0; // DEBUG
+        //this.sizeArray[i] = 1.0; // DEBUG
       }
       this.objectArray[i].rotation.z += 0.02;
       this.objectArray[i].rotation.y += this.xSpeed[i];
       //this.objectArray[i].rotation.z += (i+1)*0.003;
       //this.objectArray[i].position.x += 0.005;
-      this.objectArray[i].position.x += this.xSpeed[i];
+      this.objectArray[i].position.x += this.xSpeed[i] + this.windAmountX;
+      this.objectArray[i].position.y += this.windAmountY;
       
       this.objectArray[i].scale.x = 1.0 * this.sizeArray[i];
       this.objectArray[i].scale.y = 1.0 * this.sizeArray[i];
       this.objectArray[i].scale.z = 1.0 * this.sizeArray[i];
+
       
-      if( this.objectArray[i].position.x > 7.0 )
+      const SCREEN_EDGE = 6.0;
+      if( this.objectArray[i].position.x > SCREEN_EDGE )
       {
-        this.objectArray[i].position.x = -7.1;
-        this.objectArray[i].position.y = random(40)*0.095 - 1.7;
+        this.objectArray[i].position.x = -SCREEN_EDGE;
+        if( this.enabled )
+        {
+          this.objectEnabled[i] = true;
+          this.sizeArray[i] = 1.0;
+        }
+        let foundNearbyObject = false;
+        let placementAttempts = 0;
+        do
+        {
+          placementAttempts++;
+          if( placementAttempts > 5 )
+          {
+            this.objectArray[i].position.x = random(40)*0.16 - 1.5;
+            foundNearbyObject = true;
+            this.sizeArray[i] = 0.0;
+            this.objectEnabled[i] = false;
+            break;
+          }
+            
+          this.objectArray[i].position.y = random(40)*0.095 - 1.7;
+          const PROXIMITY_LIMIT = 1.20;
+          foundNearbyObject = false;
+          for( let j=0; j<MAX_OBJECTS; j++ )
+          {
+            if( i != j )  
+            {
+              if( Math.abs( this.objectArray[j].position.x - this.objectArray[i].position.x ) < PROXIMITY_LIMIT  &&
+                  Math.abs( this.objectArray[j].position.y - this.objectArray[i].position.y ) < PROXIMITY_LIMIT  )
+              {
+                foundNearbyObject = true;
+                break; // FOR LOOP
+              }
+            }
+          }
+
+        }
+        while( foundNearbyObject == true );
         //this.sizeArray[i] = random(50) * 0.02 + 0.2;
-        this.sizeArray[i] = 1.0;
+  
       }
       //if( this.sphere.position.y > 6.0 )
       //  this.sphere.position.y = -6.1;
@@ -161,6 +206,10 @@ export default class P3dSwarm
   disable()
   {
     this.enabled = false;
+    for( let i=0; i<MAX_OBJECTS; i++ )
+    {
+      this.objectEnabled[i] = false;
+    }
   }
 
   
