@@ -41,8 +41,8 @@ export default class P3dSwarm
     
     this.frameCounter = 0;
 
-    this.disable();    
     this.load();
+    this.disable();    
   }
   
   
@@ -102,20 +102,6 @@ export default class P3dSwarm
   render()
   {
     this.frameCounter++;
-    /*if( this.enabled == true )
-    {
-      /*if( this.currentSize < 1.0 )
-        this.currentSize += 0.001;
-      if( this.currentSize > 1.0 )
-        this.currentSize = 1.0; 
-    }
-    else
-    {
-      if( this.currentSize > 0.0 )
-        this.currentSize -= 0.02;
-      if( this.currentSize < 0.0 )
-        this.currentSize = 0.0;
-    }//*/
   
     /*if( frameCounter%180 == 0 )
     {
@@ -125,6 +111,7 @@ export default class P3dSwarm
   
     for( let i=0; i<MAX_OBJECTS; i++ )
     {
+      // IF OBJECT IS DISABLED, THEN SCALE OBJECT SMALLER UNTIL IT IS GONE.
       if( this.objectEnabled[i] == false )
       {
         if( this.sizeArray[i] > 0.0 )
@@ -144,7 +131,7 @@ export default class P3dSwarm
       this.objectArray[i].scale.y = 1.0 * this.sizeArray[i];
       this.objectArray[i].scale.z = 1.0 * this.sizeArray[i];
 
-      
+      // IF OBJECT HAS REACHED SCREEN EDGE...      
       const SCREEN_EDGE = 6.0;
       if( this.objectArray[i].position.x > SCREEN_EDGE )
       {
@@ -155,6 +142,8 @@ export default class P3dSwarm
           this.sizeArray[i] = 1.0;
           this.objectArray[i].visible = true;
         }
+        
+        // ATTEMPT TO PLACE OBJECT ON LEFT SIDE WITHOUT BEING TOO CLOSE TO OTHER OBJECTS...
         let foundNearbyObject = false;
         let placementAttempts = 0;
         do
@@ -162,6 +151,7 @@ export default class P3dSwarm
           placementAttempts++;
           if( placementAttempts > 5 )
           {
+            // IF PLACEMENT FAILS MULTIPLE TIMES, THEN DISABLE OBJECT AND RANDOMLY PLACE BACK ON SCREEN...
             this.objectArray[i].position.x = random(40)*0.16 - 1.5;
             foundNearbyObject = true;
             this.sizeArray[i] = 0.0;
@@ -188,11 +178,8 @@ export default class P3dSwarm
 
         }
         while( foundNearbyObject == true );
-        //this.sizeArray[i] = random(50) * 0.02 + 0.2;
   
       }
-      //if( this.sphere.position.y > 6.0 )
-      //  this.sphere.position.y = -6.1;
     }
       
     //*/
@@ -212,6 +199,8 @@ export default class P3dSwarm
     for( let i=0; i<MAX_OBJECTS; i++ )
     {
       this.objectEnabled[i] = false;
+      if( this.objectArray[i] )
+        this.objectArray[i].visible = false;
     }
   }
 
