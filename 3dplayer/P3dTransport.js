@@ -204,21 +204,7 @@ export const TransportMode = {
                   this.status == TransportMode.SEEK || 
                   this.status == TransportMode.STOPPED )
               {
-                if( this.trackNumber > 1 )
-                {
-                  this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
-                  this.trackNumber--;
-                  this.trackPlaying = false;
-                  this.musicPlayer.rewindMusic();    
-                  
-                  //this.eventQueue.push( TransportEvent.PAUSE ); //*/
-                  this.eventQueue = [];
-                  this.eventQueue.push( TransportEvent.SEEK ); //*/
-                  this.eventQueue.push( TransportEvent.PLAY ); //*/
-                  this.scheduleNextEvent();
-                  this.musicPlayer.decodeMusic( this.filenameList[ this.trackNumber ] );    
-                }
-                //this.previousTrack();
+                this.previousTrack();
               }
               break;
         case ButtonEvent.BUTTON_DOWN_NEXT:
@@ -227,21 +213,7 @@ export const TransportMode = {
                   this.status == TransportMode.SEEK || 
                   this.status == TransportMode.STOPPED )
               {
-                if( this.trackNumber < this.filenameList.length-1 )
-                {
-                  this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
-                  this.trackNumber++;
-                  this.trackPlaying = false;
-                  this.musicPlayer.rewindMusic();    
-                  
-                  //this.eventQueue.push( TransportEvent.PAUSE ); //*/
-                  this.eventQueue = [];
-                  this.eventQueue.push( TransportEvent.SEEK ); //*/
-                  this.eventQueue.push( TransportEvent.PLAY ); //*/
-                  this.scheduleNextEvent();
-                  this.musicPlayer.decodeMusic( this.filenameList[ this.trackNumber ] );    
-                }
-                //this.nextTrack();
+                this.nextTrack();
               }
               break;
         case ButtonEvent.BUTTON_DOWN_FAST_FORWARD:
@@ -449,6 +421,49 @@ export const TransportMode = {
   
 
   // ~     -      ~     -      ~     -      ~     -      ~     -      ~     -      
+  
+  ////////////////////////////////////////////////////////////////////////////
+  // PRIVATE FUNCTION  
+  previousTrack()
+  {
+    if( this.trackNumber > 1 )
+    {
+      this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
+      this.trackNumber--;
+      this.trackPlaying = false;
+      this.musicPlayer.rewindMusic();    
+      
+      //this.eventQueue.push( TransportEvent.PAUSE ); //*/
+      this.eventQueue = [];
+      this.eventQueue.push( TransportEvent.SEEK ); //*/
+      this.eventQueue.push( TransportEvent.PLAY ); //*/
+      this.scheduleNextEvent();
+      this.musicPlayer.decodeMusic( this.filenameList[ this.trackNumber ] );    
+    }
+  }
+
+
+
+  ////////////////////////////////////////////////////////////////////////////
+  // PRIVATE FUNCTION  
+  nextTrack()
+  {
+    if( this.trackNumber < this.filenameList.length-1 )
+    {
+      this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
+      this.trackNumber++;
+      this.trackPlaying = false;
+      this.musicPlayer.rewindMusic();    
+      
+      //this.eventQueue.push( TransportEvent.PAUSE ); //*/
+      this.eventQueue = [];
+      this.eventQueue.push( TransportEvent.SEEK ); //*/
+      this.eventQueue.push( TransportEvent.PLAY ); //*/
+      this.scheduleNextEvent();
+      this.musicPlayer.decodeMusic( this.filenameList[ this.trackNumber ] );    
+    }
+  }
+  
   
   
   ////////////////////////////////////////////////////////////////////////////
