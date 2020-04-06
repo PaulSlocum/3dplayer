@@ -27,9 +27,17 @@ export default class P3dSwarm
     this.xSpeed = [];
     this.ySpeed = [];
     this.zSpeed = [];
+    
+    this.windTargetX = 0.0;
+    this.windAmountX = 0.0;
+    this.windTargetY = 0.0;
+    this.windAmountY = 0.0;
+    this.windActive = false;
 
     this.currentSize = 0.0;
     this.enabled = false;
+    
+    this.frameCounter = 0;
     
     this.load();
   }
@@ -40,11 +48,12 @@ export default class P3dSwarm
   {
     // ADD SPHERE
     //var sphereGeometry = new THREE.SphereGeometry( 0.3, 32, 32 );
-    const objectSize = 0.2;
-    const circularSegments = 25;
+    const objectSize = 0.3;
+    const circularSegments = 22;
+    const coneSegments = 60;
     var sphereGeometry = new THREE.SphereGeometry( objectSize, circularSegments, circularSegments );
     var boxGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
-    var coneGeometry = new THREE.ConeGeometry( objectSize*0.9, objectSize*1.5, circularSegments );
+    var coneGeometry = new THREE.ConeGeometry( objectSize*0.9, objectSize*1.5, coneSegments );
     //TetrahedronGeometry  ConeGeometry  CylinderGeometry  IcosahedronGeometry  OctahedronGeometry  TextGeometry
     // TorusGeometry    TorusKnotGeometry
     var sphereMaterial2 = new THREE.MeshStandardMaterial( {color: 0x747A70} );
@@ -71,6 +80,8 @@ export default class P3dSwarm
       this.objectArray[i].position.y = random(40)*0.1 - 1.6;
       this.objectArray[i].position.x = random(40)*0.16 - 1.5;
       this.objectArray[i].position.z = -2.7;
+      this.objectArray[i].rotation.x = random(360)*3.14/2.0
+      this.objectArray[i].rotation.y = random(360)*3.14/2.0
       //this.objectArray[i].scale.y = random(4)*0.2+1.0;
       //this.objectArray[i].scale.x = random(4)*0.2+1.0;
       //this.objectArray[i].scale.x = 0.5;
@@ -86,6 +97,7 @@ export default class P3dSwarm
   ////////////////////////////////////////////////////////////////////////
   render()
   {
+    this.frameCounter++;
     /*if( this.enabled == true )
     {
       /*if( this.currentSize < 1.0 )
@@ -101,6 +113,9 @@ export default class P3dSwarm
         this.currentSize = 0.0;
     }//*/
   
+    
+  
+  
     for( let i=0; i<MAX_OBJECTS; i++ )
     {
       if( this.enabled == false )
@@ -109,7 +124,7 @@ export default class P3dSwarm
           this.sizeArray[i] -= 0.04;
         if( this.sizeArray[i] < 0.0 )
           this.sizeArray[i] = 0.0;
-        //this.sizeArray[i] = 1.0; // DEBUG
+        this.sizeArray[i] = 1.0; // DEBUG
       }
       this.objectArray[i].rotation.z += 0.02;
       this.objectArray[i].rotation.y += this.xSpeed[i];
@@ -117,15 +132,16 @@ export default class P3dSwarm
       //this.objectArray[i].position.x += 0.005;
       this.objectArray[i].position.x += this.xSpeed[i];
       
-      //this.objectArray[i].scale.x = 1.5 * this.sizeArray[i];
-      //this.objectArray[i].scale.y = 1.5 * this.sizeArray[i];
-      //this.objectArray[i].scale.z = 1.5 * this.sizeArray[i];
+      this.objectArray[i].scale.x = 1.0 * this.sizeArray[i];
+      this.objectArray[i].scale.y = 1.0 * this.sizeArray[i];
+      this.objectArray[i].scale.z = 1.0 * this.sizeArray[i];
       
       if( this.objectArray[i].position.x > 7.0 )
       {
         this.objectArray[i].position.x = -7.1;
         this.objectArray[i].position.y = random(40)*0.095 - 1.7;
-        this.sizeArray[i] = random(50) * 0.02 + 0.2;
+        //this.sizeArray[i] = random(50) * 0.02 + 0.2;
+        this.sizeArray[i] = 1.0;
       }
       //if( this.sphere.position.y > 6.0 )
       //  this.sphere.position.y = -6.1;
