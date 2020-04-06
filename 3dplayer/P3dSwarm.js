@@ -2,7 +2,7 @@
 
 
 //---------------------------------------------------------------------------------
-import { random } from './P3dUtility.js'
+import { random, converge } from './P3dUtility.js'
 //---------------------------------------------------------------------------------
 
 
@@ -103,10 +103,20 @@ export default class P3dSwarm
   {
     this.frameCounter++;
   
-    /*if( frameCounter%180 == 0 )
+    if( this.frameCounter%180 == 0 )
     {
       this.windActive = true;
+      this.windTargetX = (random(100)-50) * 0.0001;
+      this.windTargetY = (random(100)-50) * 0.0001;
     }//*/
+    
+    if( this.windActive == true )
+    {
+      /*this.windTargetX = 0.0;
+      this.windAmountX = 0.0;
+      this.windTargetY = 0.0;
+      this.windAmountY = 0.0; //*/
+    }
   
   
     for( let i=0; i<MAX_OBJECTS; i++ )
@@ -114,10 +124,11 @@ export default class P3dSwarm
       // IF OBJECT IS DISABLED, THEN SCALE OBJECT SMALLER UNTIL IT IS GONE.
       if( this.objectEnabled[i] == false )
       {
-        if( this.sizeArray[i] > 0.0 )
+        this.sizeArray[i] = converge( this.sizeArray[i], 0.0, 0.04);
+        /*if( this.sizeArray[i] > 0.0 )
           this.sizeArray[i] -= 0.04;
         if( this.sizeArray[i] < 0.0 )
-          this.sizeArray[i] = 0.0;
+          this.sizeArray[i] = 0.0; //*/
         //this.sizeArray[i] = 1.0; // DEBUG
       }
       this.objectArray[i].rotation.z += 0.02;
@@ -199,8 +210,8 @@ export default class P3dSwarm
     for( let i=0; i<MAX_OBJECTS; i++ )
     {
       this.objectEnabled[i] = false;
-      if( this.objectArray[i] )
-        this.objectArray[i].visible = false;
+      //if( this.objectArray[i] )
+        //this.objectArray[i].visible = false;
     }
   }
 

@@ -83,9 +83,11 @@ export default class P3dGraphics
         colorB: {type: 'vec3', value: new THREE.Color(0x0A0B0A)},
         colorA: {type: 'vec3', value: new THREE.Color(0x060607)}
     };
+    
+    // THESE ARE CURRENTLY NOT USED...
     this.cdUniforms = {
-        colorC: {type: 'vec3', value: new THREE.Color(0x040302)},
-        colorD: {type: 'vec3', value: new THREE.Color(0x090806)}
+        colorC: {type: 'vec3', value: new THREE.Color(0x040303)},
+        colorD: {type: 'vec3', value: new THREE.Color(0x090807)}
     };
 
     this.targetRotationX = 0;
