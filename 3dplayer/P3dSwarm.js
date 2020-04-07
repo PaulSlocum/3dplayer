@@ -3,11 +3,12 @@
 
 //---------------------------------------------------------------------------------
 import { random, converge } from './P3dUtility.js'
+import { logger } from './P3dLog.js'
 //---------------------------------------------------------------------------------
 
 
 
-const MAX_OBJECTS = 15;
+const MAX_OBJECTS = 17;
 
 
 
@@ -30,11 +31,12 @@ export default class P3dSwarm
     this.ySpeed = [];
     this.zSpeed = [];
     
-    this.windTargetX = 0.0;
     this.windAmountX = 0.0;
-    this.windTargetY = 0.0;
     this.windAmountY = 0.0;
+    this.windScale = 0.0;
     this.windActive = false;
+    this.windBuilding = false;
+    
 
     this.currentSize = 0.0;
     this.enabled = false;
@@ -51,7 +53,7 @@ export default class P3dSwarm
   {
     // ADD SPHERE
     //var sphereGeometry = new THREE.SphereGeometry( 0.3, 32, 32 );
-    const objectSize = 0.32;
+    const objectSize = 0.33;
     const circularSegments = 22;
     const coneSegments = 60;
     var sphereGeometry = new THREE.SphereGeometry( objectSize, circularSegments, circularSegments );
@@ -103,20 +105,35 @@ export default class P3dSwarm
   {
     this.frameCounter++;
   
-    if( this.frameCounter%180 == 0 )
+    if( this.frameCounter%780 == 0 )
     {
       this.windActive = true;
-      this.windTargetX = (random(100)-50) * 0.0001;
-      this.windTargetY = (random(100)-50) * 0.0001;
+      this.windBuilding = true;
+      this.windScale = 0.0;
+      this.windAmountX = (random(100)-0) * 0.00014;
+      this.windAmountY = (random(100)-50) * 0.00014;
+      logger( "------> WIND BLOW!!", this.windAmountX, this.windAmountY );
     }//*/
     
     if( this.windActive == true )
     {
-      /*this.windTargetX = 0.0;
-      this.windAmountX = 0.0;
-      this.windTargetY = 0.0;
-      this.windAmountY = 0.0; //*/
-    }
+      if( this.windBuilding == true )
+      {
+        this.windScale = converge( this.windScale, 1.0, 0.01 );
+        logger( "--->WIND SCALE: ", this.windScale );
+        if( this.windScale == 1.0 )
+        {
+          this.windBuilding = false;
+          logger( "------> WIND SCALE MAX" );
+        }
+      }
+      else 
+      {
+        this.windScale = converge( this.windScale, 0.0, 0.005 );
+        if( this.windScale == 0.0 )
+          this.windActive = false;
+      }
+    }      
   
   
     for( let i=0; i<MAX_OBJECTS; i++ )
@@ -125,18 +142,14 @@ export default class P3dSwarm
       if( this.objectEnabled[i] == false )
       {
         this.sizeArray[i] = converge( this.sizeArray[i], 0.0, 0.04);
-        /*if( this.sizeArray[i] > 0.0 )
-          this.sizeArray[i] -= 0.04;
-        if( this.sizeArray[i] < 0.0 )
-          this.sizeArray[i] = 0.0; //*/
         //this.sizeArray[i] = 1.0; // DEBUG
       }
       this.objectArray[i].rotation.z += 0.02;
       this.objectArray[i].rotation.y += this.xSpeed[i];
       //this.objectArray[i].rotation.z += (i+1)*0.003;
       //this.objectArray[i].position.x += 0.005;
-      this.objectArray[i].position.x += this.xSpeed[i] + this.windAmountX;
-      this.objectArray[i].position.y += this.windAmountY;
+      this.objectArray[i].position.x += this.xSpeed[i] + this.windAmountX * this.windScale;
+      this.objectArray[i].position.y += this.windAmountY * this.windScale;
       
       this.objectArray[i].scale.x = 1.0 * this.sizeArray[i];
       this.objectArray[i].scale.y = 1.0 * this.sizeArray[i];
@@ -171,7 +184,7 @@ export default class P3dSwarm
             break;
           }
             
-          this.objectArray[i].position.y = random(40)*0.095 - 1.7;
+          this.objectArray[i].position.y = random(80)*0.062 - 2.1;
           const PROXIMITY_LIMIT = 1.20;
           foundNearbyObject = false;
           for( let j=0; j<MAX_OBJECTS; j++ )
