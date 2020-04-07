@@ -1,7 +1,7 @@
 // P3dSound.js
 //
-// WEB AUDIO API WRAPPER FOR SHORT SOUND EFFECTS THAT ALLOWS PRE-LOADING OF DECODED
-// AUDIO FILES INTO MEMORY AND PLAYBACK.
+// WEB AUDIO API WRAPPER FOR SHORT SOUND EFFECTS PLAYER THAT ALLOWS PRE-LOADING OF DECODED
+// AUDIO FILES INTO MEMORY.
 //
 //////////////////////////////////////////////////////////////////////////////
 
@@ -31,7 +31,6 @@ export default class P3dSoundPlayer
   }
   
   //   ~      -         ~      -         ~      -         ~      -         ~     
-  //   ~      -         ~      -         ~      -         ~      -         ~     
   
   //////////////////////////////////////////////////////////////////////////
   loadSound( soundFilename )
@@ -49,10 +48,6 @@ export default class P3dSoundPlayer
       if( this.audioContext == null )
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
       this.audioContext.decodeAudioData( request.response, function(buffer)  
-      
-      // Decode the audio once the require is complete
-      //this.contextArray[soundFilename] = new (window.AudioContext || window.webkitAudioContext)();
-      //this.contextArray[soundFilename].decodeAudioData( request.response, function(buffer)  
       { // DECODER CALLBACK:
 
         this.bufferArray[soundFilename] = buffer;

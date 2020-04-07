@@ -121,9 +121,7 @@ export default class P3dSwarm
       {
         this.windScale = converge( this.windScale, 1.0, 0.01 );
         if( this.windScale == 1.0 )
-        {
           this.windBuilding = false;
-        }
       }
       else 
       {
@@ -133,7 +131,7 @@ export default class P3dSwarm
       }
     }      
   
-  
+    // UPDATE POSITION, ROTATION, AND SCALE OF EACH OBJECT  
     for( let i=0; i<MAX_OBJECTS; i++ )
     {
       // IF OBJECT IS DISABLED, THEN SCALE OBJECT SMALLER UNTIL IT IS GONE.
@@ -144,8 +142,7 @@ export default class P3dSwarm
       }
       this.objectArray[i].rotation.z += 0.02;
       this.objectArray[i].rotation.y += this.xSpeed[i];
-      //this.objectArray[i].rotation.z += (i+1)*0.003;
-      //this.objectArray[i].position.x += 0.005;
+
       this.objectArray[i].position.x += this.xSpeed[i] + this.windAmountX * this.windScale;
       this.objectArray[i].position.y += this.windAmountY * this.windScale;
       
@@ -153,7 +150,7 @@ export default class P3dSwarm
       this.objectArray[i].scale.y = 1.0 * this.sizeArray[i];
       this.objectArray[i].scale.z = 1.0 * this.sizeArray[i];
 
-      // IF OBJECT HAS REACHED SCREEN EDGE...      
+      // IF OBJECT HAS REACHED SCREEN EDGE, THEN RESET TO THE OPPOSITE SIDE...
       const SCREEN_EDGE = 6.0;
       if( this.objectArray[i].position.x > SCREEN_EDGE )
       {
@@ -173,7 +170,8 @@ export default class P3dSwarm
           placementAttempts++;
           if( placementAttempts > 5 )
           {
-            // IF PLACEMENT FAILS MULTIPLE TIMES, THEN DISABLE OBJECT AND RANDOMLY PLACE BACK ON SCREEN...
+            // IF PLACEMENT FAILS MULTIPLE TIMES, THEN DISABLE OBJECT AND PLACE AT
+            // RANDOM X LOCATION TO BE PLACED LATER WHEN IT REACHES THE EDGE AGAIN
             this.objectArray[i].position.x = random(40)*0.16 - 1.5;
             foundNearbyObject = true;
             this.sizeArray[i] = 0.0;
@@ -181,10 +179,13 @@ export default class P3dSwarm
             this.objectEnabled[i] = false;
             break;
           }
-            
+          
+          // TRY A RANDOM Y LOCATION...
           this.objectArray[i].position.y = random(80)*0.062 - 2.1;
           const PROXIMITY_LIMIT = 1.20;
           foundNearbyObject = false;
+          
+          // CHECK IF IT'S TOO CLOSE TO ANY OTHER OBJECTS
           for( let j=0; j<MAX_OBJECTS; j++ )
           {
             if( i != j )  
@@ -214,6 +215,7 @@ export default class P3dSwarm
     this.enabled = true;
   }
 
+
   ////////////////////////////////////////////////////////////////////////////
   disable()
   {
@@ -221,8 +223,6 @@ export default class P3dSwarm
     for( let i=0; i<MAX_OBJECTS; i++ )
     {
       this.objectEnabled[i] = false;
-      //if( this.objectArray[i] )
-        //this.objectArray[i].visible = false;
     }
   }
 

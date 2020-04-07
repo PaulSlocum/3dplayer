@@ -1,6 +1,6 @@
 // P3dTransport.js
 //
-// SIMULATES CD PLAYER LOGIC, SOUNDS, AND PLAYBACK USING SOUND PLAYER CLASS (P3dSound).
+// SIMULATES CD PLAYER LOGIC, SOUNDS, AND PLAYBACK
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -31,7 +31,6 @@ export const SoundFilenames = {
     CD_SEEK4: '3dplayer/sounds/cdSeek4.wav'
 } //*/
 
-//    TRAY_CLOSE: '3dplayer/sounds/cdClose1.wav',
 
 const MAX_AUDIO_SETTING_VALUE = 9;
 const MIDDLE_AUDIO_SETTING_VALUE = 5;
@@ -58,27 +57,6 @@ export const TransportEvent = {
 
 
 
-//==============================================================================
-/*function random(max) 
-{
-    const min = 0;
-    max = Math.floor(max-1);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}//*/
-
-
-/**
- * Returns a random integer between min (inclusive) and max (inclusive).
- * The value is no lower than min (or the next integer greater than min
- * if min isn't an integer) and no greater than max (or the next integer
- * lower than max if max isn't an integer).
- * Using Math.round() will give you a non-uniform distribution!
- */
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 export default class P3dTransport {
 
@@ -130,19 +108,6 @@ export default class P3dTransport {
     this.status = TransportMode.TRAY_OPEN;
   }
   
-  
-  /*
-export const TransportMode = {
-  TRAY_OPEN:'TrayOpen',
-  TRAY_OPENING:'TrayOpening',
-  TRAY_CLOSING:'TrayClosing',
-  PLAYING:'Playing',
-  STARTING_PLAY:'StartingPlay',
-  PAUSED:'Paused',
-  STOPPED:'Stopped',
-  STANDBY:'Standby'
-}
-  //*/
 
 
   ///////////////////////////////////////////////////////////////////////
@@ -306,6 +271,7 @@ export const TransportMode = {
   
   
   //////////////////////////////////////////////////////////////////////////////////
+  // PRIVATE FUNCTION  
   scheduleNextEvent( delaySec = 0.0 )
   {
     this.nextEventTimeSec = performance.now() + delaySec;
@@ -317,6 +283,7 @@ export const TransportMode = {
   
   
   /////////////////////////////////////////////////////////////////////////
+  // PRIVATE FUNCTION  
   processEventQueue()
   {
     if( this.eventQueue.length > 0   &&  performance.now() >= this.nextEventTimeSec )

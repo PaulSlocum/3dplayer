@@ -75,10 +75,6 @@ export default class P3dGraphics
     
     this.loadedModel = null;
     this.shaders = new P3dShaders();
-    /*this.roomUniforms = {
-        colorB: {type: 'vec3', value: new THREE.Color(0x070507)},
-        colorA: {type: 'vec3', value: new THREE.Color(0x040410)}
-    }; //*/
     this.roomUniforms = {
         colorB: {type: 'vec3', value: new THREE.Color(0x0A0B0A)},
         colorA: {type: 'vec3', value: new THREE.Color(0x060607)}
@@ -120,7 +116,6 @@ export default class P3dGraphics
 
   ///////////////////////////////////////////////////////////////////////
   // NOTE: MUST BE CALLED EXTERNALLY TO START THE ANIMATION
-  // -----> THIS SHOULD BE MOVED TO A NEW CLASS
   run() 
   {
     requestAnimationFrame( this.run.bind(this) );
@@ -163,14 +158,6 @@ export default class P3dGraphics
       this.roomCube.rotation.x += this.backgroundSpinRate;
       this.roomCube.rotation.y += this.backgroundSpinRate;
     } //*/
-
-
-    /*if( this.frameCounter%2 == 0 )
-      this.spotLight.position.set(0, 1.2, 0.9);
-    else
-      this.spotLight.position.set(0.04, 1.2+0.04, 0.9*1.1); //*/
-    
-
 
     // MODULATE CD PLAYER ORIENTATION...
     const rotationSpeed = 0.03; // NORMAL <-------------------
@@ -278,7 +265,8 @@ export default class P3dGraphics
 
     // INSTANTIATE A LOADER
     const gltfLoader = new GLTFLoader();
-    const url = '3dplayer/model/chassis.glb';
+    const url = '3dplayer/model/saeCdPlayer.glb';
+    //const url = '3dplayer/model/saeCdReceiver.glb';
     gltfLoader.load(url, (gltf) => 
     { // GTLF LOADER CALLBACK...
       
