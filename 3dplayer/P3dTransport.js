@@ -159,6 +159,8 @@ export const TransportMode = {
   {
     logger( "------>BUTTON PRESS: ", buttonEvent );
   
+    this.musicPlayer.createContext();
+    
     // BUTTON CLICK SOUND EFFECT
     if( buttonEvent != ButtonEvent.BUTTON_UP  &&  buttonEvent != ButtonEvent.BUTTON_UP )
       this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN ); 
