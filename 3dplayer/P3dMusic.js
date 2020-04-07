@@ -138,10 +138,10 @@ export default class P3dMusicPlayer
   }
   
   
-
+  
   /////////////////////////////////////////////////////////////////////////////
-  // NOTE: THIS ALSO DOWNLOADS AND/OR DECODES IF NOT ALREADY DONE
-  playMusic( musicFilename, offsetSet )
+  // CREATES CONTEXT IF IT DOESN'T ALREADY EXIST
+  createContext()
   {
     if( this.musicContext == null )
     {
@@ -170,7 +170,16 @@ export default class P3dMusicPlayer
       this.gainNode = this.musicContext.createGain();
       this.gainNode.gain.value = this.volumeValue;
     }
+  }
+  
+  
 
+  /////////////////////////////////////////////////////////////////////////////
+  // NOTE: THIS ALSO DOWNLOADS AND/OR DECODES IF NOT ALREADY DONE
+  playMusic( musicFilename, offsetSet )
+  {
+    this.createContext();
+  
     this.decodeMusic( musicFilename );
     this.musicPlayingFilename = musicFilename;
     this.musicPlayPending = true;

@@ -4,7 +4,12 @@
 
 
 TODO:
-- Fix issue where pressing "Next" quickly after pressing "Play" breaks audio system
+- move light back to avoid objects moving out of light, but also adjust light's shadow camera to avoid 
+- fix audio start on mobile
+
+
+DONE:
+x Fix issue where pressing "Next" quickly after pressing "Play" breaks audio system
 
 
 --------------------------------------------------------------------------------

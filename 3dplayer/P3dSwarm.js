@@ -93,6 +93,7 @@ export default class P3dSwarm
       //this.objectArray[i].scale.z = 0.5;
       this.scene.add( this.objectArray[i] );
       this.xSpeed[i] = random(20) * 0.00002 + 0.0037;
+      //this.xSpeed[i] = random(20) * 0.00002 + 0.1137;
       this.objectArray[i].visible = false;
     } //*/
     
@@ -112,7 +113,6 @@ export default class P3dSwarm
       this.windScale = 0.0;
       this.windAmountX = (random(100)-0) * 0.00014;
       this.windAmountY = (random(100)-50) * 0.00014;
-      logger( "------> WIND BLOW!!", this.windAmountX, this.windAmountY );
     }//*/
     
     if( this.windActive == true )
@@ -120,11 +120,9 @@ export default class P3dSwarm
       if( this.windBuilding == true )
       {
         this.windScale = converge( this.windScale, 1.0, 0.01 );
-        logger( "--->WIND SCALE: ", this.windScale );
         if( this.windScale == 1.0 )
         {
           this.windBuilding = false;
-          logger( "------> WIND SCALE MAX" );
         }
       }
       else 
