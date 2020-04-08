@@ -318,6 +318,12 @@ export default class P3dMusicPlayer
       {
         logger( "----> PLAYBACK STARTING: MUSIC SOURCE: ", this.musicSource, this.musicFiles[this.musicPlayingFilename].decodedData );
 
+        // THIS IS TO POTENTIALLY FIX A BUG IN CHROME, NOT SURE IF IT WORKS YET...
+        if( this.musicContext.state === 'suspended'  &&  typeof this.musicContext.resume === 'function' ) 
+        {
+          this.musicContext.resume();
+        }
+
         // --> START PLAYBACK HERE <--
         // Create a buffer for the incoming sound content
         this.musicSource = this.musicContext.createBufferSource();

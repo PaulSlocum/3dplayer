@@ -8,7 +8,7 @@ import { logger } from './P3dLog.js'
 
 
 
-const MAX_OBJECTS = 17;
+const MAX_OBJECTS = 20;
 
 
 
@@ -189,7 +189,7 @@ export default class P3dSwarm
           
           // TRY A RANDOM Y LOCATION...
           this.objectArray[i].position.y = random(80)*0.062 - 2.1;
-          const PROXIMITY_LIMIT = 1.20;
+          const PROXIMITY_LIMIT = 1.35;
           foundNearbyObject = false;
           
           // CHECK IF IT'S TOO CLOSE TO ANY OTHER OBJECTS

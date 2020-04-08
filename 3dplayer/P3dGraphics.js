@@ -265,18 +265,18 @@ export default class P3dGraphics
     // CAMERA
     this.camera.position.z = 5.5+2.7;
     if( this.isMobileDevice == true )
-    {
+    { // ZOOM IN A LOT FOR PHONES
       this.camera.position.z = 2.5+2.7;
       this.camera.position.y = -0.1;
     }
     if( this.isTabletDevice == true )
-    {
+    { // ZOOM IN A LITTLE FOR TABLETS
       this.camera.position.z = 4.5+2.7; //*/
       this.camera.position.y = -0.1;
     }
     if( this.windowWidth/this.windowHeight > 3 )
-    {
-      this.camera.position.z = 4.5+2.7;
+    { // ZOOM IN A LITTLE IF THE SCREEN IS REALLY WIDE
+      this.camera.position.z = 4.9+2.7;
       this.camera.position.y = 0.0;
     }//*/
     
@@ -288,7 +288,7 @@ export default class P3dGraphics
             new THREE.Matrix4().multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse));  
     this.edgeOfWorld = 0;
 
-    // FIND X EDGE POSITION WHEN Z=0    
+    // FIND X EDGE POSITION WHEN Z=0 (USED FOR SWARM/PARTICLE EFFECTS)
     let edgePositionTest = 0;
     while( this.cameraFrustum.containsPoint( new THREE.Vector3( edgePositionTest, 0, 0 ) ) == true ) 
     {

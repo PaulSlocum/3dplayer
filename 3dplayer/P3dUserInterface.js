@@ -33,6 +33,8 @@ export default class P3dUserInterface
     this.windowWidth = windowWidth;
     this.windowHeight = windowHeight;
     this.renderer = renderer;
+    
+    window.onresize = this.resizeCallback.bind(this);
 
     this.graphics = new P3dGraphics( appController, windowWidth, windowHeight, renderer );
 
@@ -43,6 +45,16 @@ export default class P3dUserInterface
     document.addEventListener('touchcancel', this.touchUp.bind(this), false);
     document.addEventListener('touchend', this.touchUp.bind(this), false);
   }
+
+
+  //////////////////////////////////////////////////////////////////////////
+  resizeCallback()
+  {
+    logger( "!!!!!!!!!!!!!!!!!!!!!!!! WINDOWS RESIZED !!!!!!!!!!!!!!!!!!!!!!!" );
+    this.windowWidth = window.innerWidth;
+    this.windowHeight = window.innerHeight;
+  }
+
 
   //////////////////////////////////////////////////////////////////////////
   mouseDown( event )
@@ -76,6 +88,11 @@ export default class P3dUserInterface
   ///////////////////////////////////////////////////////////////////////
   touchMouseDown( event )
   {
+    logger( "---> PAGE X OFFSET: ", window.pageXOffset );
+    logger( "----> COORDS: ", event.clientX, event.clientY );
+    logger( "-----> WINDOW SIZE: ", this.windowWidth, this.windowHeight );
+    logger( "------> CANVAS SIZE: ", this.renderer.width, this.renderer.height );
+  
     let mouse = new THREE.Vector2();
     mouse.x = ( event.clientX / this.windowWidth ) * 2 - 1;
     mouse.y = - ( event.clientY / this.windowHeight ) * 2 + 1;
