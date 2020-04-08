@@ -67,6 +67,8 @@ export default class P3dGraphics
     // ---> PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
     //this.camera = new THREE.PerspectiveCamera( 75, windowWidth/windowHeight, 0.1, 1000 ); // <-- ORIGINAL
     this.camera = new THREE.PerspectiveCamera( 35, windowWidth/windowHeight, 0.1, 1000 );
+    this.cameraFrustum = null;
+    
 
     this.roomCube = null;
     this.roomMaterial = null;
@@ -272,6 +274,20 @@ export default class P3dGraphics
       this.camera.position.z = 4.5; //*/
       this.camera.position.y = -0.2;
     }
+    
+    // GET CAMERA FRUSTRUM
+    this.camera.updateMatrix();
+    this.camera.updateMatrixWorld();
+    this.cameraFrustum = new THREE.Frustum();
+    this.cameraFrustum.setFromProjectionMatrix(
+            new THREE.Matrix4().multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse));  
+    this.edgeOfWorld = 0;
+    if( this.cameraFrustum.containsPoint( new THREE.Vector3( 6, 0, 0 ) ) )
+      logger( "------------------ CONTAINS POINT------------- " )
+    else
+      logger( "------------------ DOES NOT CONTAIN POINT------------- " )
+    
+
 
     // INSTANTIATE A LOADER
     const gltfLoader = new GLTFLoader();
