@@ -37,6 +37,7 @@ export default class P3dSwarm
     this.windActive = false;
     this.windBuilding = false;
     
+    this.screenEdgePosition = 6.0;
 
     this.currentSize = 0.0;
     this.enabled = false;
@@ -47,6 +48,12 @@ export default class P3dSwarm
     this.disable();    
   }
   
+  ////////////////////////////////////////////////////////////////////////
+  setScreenEdgePosition( newEdge )
+  {
+    this.screenEdgePosition = newEdge + 0.7;
+  } 
+
   
   ////////////////////////////////////////////////////////////////////////
   load()
@@ -84,7 +91,8 @@ export default class P3dSwarm
       this.objectArray[i].castShadow = true;
       this.objectArray[i].position.y = random(40)*0.1 - 1.6;
       this.objectArray[i].position.x = random(40)*0.16 - 1.5;
-      this.objectArray[i].position.z = -2.7;
+      this.objectArray[i].position.z = 0.0;
+      //this.objectArray[i].position.z = -2.7;
       this.objectArray[i].rotation.x = random(360)*3.14/2.0
       this.objectArray[i].rotation.y = random(360)*3.14/2.0
       //this.objectArray[i].scale.y = random(4)*0.2+1.0;
@@ -151,10 +159,9 @@ export default class P3dSwarm
       this.objectArray[i].scale.z = 1.0 * this.sizeArray[i];
 
       // IF OBJECT HAS REACHED SCREEN EDGE, THEN RESET TO THE OPPOSITE SIDE...
-      const SCREEN_EDGE = 6.0;
-      if( this.objectArray[i].position.x > SCREEN_EDGE )
+      if( this.objectArray[i].position.x > this.screenEdgePosition )
       {
-        this.objectArray[i].position.x = -SCREEN_EDGE;
+        this.objectArray[i].position.x = -this.screenEdgePosition;
         if( this.enabled )
         {
           this.objectEnabled[i] = true;

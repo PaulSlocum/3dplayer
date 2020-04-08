@@ -100,11 +100,11 @@ export default class P3dGraphics
 
     this.backgroundSpinRate = 0;
     this.frameCounter = 0;
+    this.screenEdgePosition = 0;
 
     this.buildStructures();    
-
     this.swarm = new P3dSwarm( this.scene );
-
+    this.swarm.setScreenEdgePosition( this.screenEdgePosition );
     
     this.animationMixer = null;
     this.clock = new THREE.Clock();
@@ -263,17 +263,22 @@ export default class P3dGraphics
   buildStructures()
   {
     // CAMERA
-    this.camera.position.z = 5.5;
+    this.camera.position.z = 5.5+2.7;
     if( this.isMobileDevice == true )
     {
-      this.camera.position.z = 2.5;
+      this.camera.position.z = 2.5+2.7;
       this.camera.position.y = -0.1;
     }
     if( this.isTabletDevice == true )
     {
-      this.camera.position.z = 4.5; //*/
-      this.camera.position.y = -0.2;
+      this.camera.position.z = 4.5+2.7; //*/
+      this.camera.position.y = -0.1;
     }
+    if( this.windowWidth/this.windowHeight > 3 )
+    {
+      this.camera.position.z = 4.5+2.7;
+      this.camera.position.y = 0.0;
+    }//*/
     
     // GET CAMERA FRUSTRUM
     this.camera.updateMatrix();
@@ -282,11 +287,15 @@ export default class P3dGraphics
     this.cameraFrustum.setFromProjectionMatrix(
             new THREE.Matrix4().multiplyMatrices(this.camera.projectionMatrix, this.camera.matrixWorldInverse));  
     this.edgeOfWorld = 0;
-    if( this.cameraFrustum.containsPoint( new THREE.Vector3( 6, 0, 0 ) ) )
-      logger( "------------------ CONTAINS POINT------------- " )
-    else
-      logger( "------------------ DOES NOT CONTAIN POINT------------- " )
-    
+
+    // FIND X EDGE POSITION WHEN Z=0    
+    let edgePositionTest = 0;
+    while( this.cameraFrustum.containsPoint( new THREE.Vector3( edgePositionTest, 0, 0 ) ) == true ) 
+    {
+      edgePositionTest++;
+    }
+    logger( "------------------ EDGE POSITION:", edgePositionTest, " ------------- " )
+    this.screenEdgePosition = edgePositionTest;
 
 
     // INSTANTIATE A LOADER
@@ -298,7 +307,8 @@ export default class P3dGraphics
       
       this.loadedModel = gltf.scene;
       
-      this.loadedModel.position.z = -5.5; // DEFAULT DESKTOP SIZE
+      this.loadedModel.position.z = -2.8; // DEFAULT DESKTOP SIZE
+      //this.loadedModel.position.z = -5.5; // DEFAULT DESKTOP SIZE
       
       // THIS CAN BE REMOVED, NOW MOVING CAMERA TO ADJUST FOR MOBILE
       /*if( this.isMobileDevice == true )
@@ -392,7 +402,7 @@ export default class P3dGraphics
     spotLight.position.set(-0, 28, 30); //*/
 
     this.spotLight = new THREE.SpotLight(0xffffff); // <----------------------
-    this.spotLight.position.set(-0, 1.2, 0.9);
+    this.spotLight.position.set(-0, 1.2, 3.6);
     this.spotLight.angle = Math.PI / 3.0;
     this.spotLight.castShadow = true;
     //this.spotLight.radius = 400;
