@@ -198,7 +198,7 @@ export default class P3dMusicPlayer
       this.musicPlayPending = false;
       if( this.musicContext.state == "running" )
         this.musicSource.stop(); //*/
-      logger( "-----> MUSIC PAUSE TIME: ", this.musicPauseTime );
+      logger( "-----> MUSIC PAUSE TIME / CONTEXT: ", this.musicPauseTime, this.musicContext );
     }
   }
 
