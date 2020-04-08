@@ -36,8 +36,8 @@ export default class P3dMusicPlayer
     logger("---->MUSIC CLASS CONSTRUCTOR");
 
     // MUSIC PLAYER    
-    this.preloadContext = new (window.AudioContext || window.webkitAudioContext)();
-    this.musicContext = null;
+    //this.preloadContext = new (window.AudioContext || window.webkitAudioContext)();
+    this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
     this.musicSource = null;
     this.lowFilter = null;
     this.highFilter = null;
@@ -143,9 +143,9 @@ export default class P3dMusicPlayer
   // CREATES CONTEXT IF IT DOESN'T ALREADY EXIST
   createContext()
   {
-    if( this.musicContext == null )
+    if( this.lowFilter == null )
     {
-      this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
+      //this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
 
       console.log( "----->PLAY MUSIC: CREATING CONTEXT: ", this.musicContext );
 
@@ -258,7 +258,7 @@ export default class P3dMusicPlayer
     
       //logger( "-----> MUSIC UPDATE: DOWNLOADING: ", downloadFilename );
 
-      this.musicSource = this.preloadContext.createBufferSource();
+      this.musicSource = this.musicContext.createBufferSource();
 
       this.musicDownloading = true;
       
@@ -295,7 +295,7 @@ export default class P3dMusicPlayer
         let decodeFilename = this.musicDecodeQueue.shift();
         this.musicFiles[decodeFilename].decodeStarted = true;
         this.musicDecoding = true;
-        this.preloadContext.decodeAudioData( this.musicFiles[decodeFilename].fileData, function( decodeFilename, buffer)  
+        this.musicContext.decodeAudioData( this.musicFiles[decodeFilename].fileData, function( decodeFilename, buffer)  
         { // DECODER CALLBACK:
 
           logger( "-----> MUSIC DECODED, CONTEXT: ", this.musicContext, decodeFilename, buffer );
@@ -321,6 +321,7 @@ export default class P3dMusicPlayer
         // THIS IS TO POTENTIALLY FIX A BUG IN CHROME, NOT SURE IF IT WORKS YET...
         if( this.musicContext.state === 'suspended'  &&  typeof this.musicContext.resume === 'function' ) 
         {
+          logger( "-----------> MUSIC CONTEXT RESUMED" );
           this.musicContext.resume();
         }
 
