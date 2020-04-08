@@ -262,6 +262,16 @@ export default class P3dGraphics
   {
     // CAMERA
     this.camera.position.z = 5.5;
+    if( this.isMobileDevice == true )
+    {
+      this.camera.position.z = 2.5;
+      this.camera.position.y = -0.1;
+    }
+    if( this.isTabletDevice == true )
+    {
+      this.camera.position.z = 4.5; //*/
+      this.camera.position.y = -0.2;
+    }
 
     // INSTANTIATE A LOADER
     const gltfLoader = new GLTFLoader();
@@ -273,10 +283,13 @@ export default class P3dGraphics
       this.loadedModel = gltf.scene;
       
       this.loadedModel.position.z = -5.5; // DEFAULT DESKTOP SIZE
-      if( this.isMobileDevice == true )
+      
+      // THIS CAN BE REMOVED, NOW MOVING CAMERA TO ADJUST FOR MOBILE
+      /*if( this.isMobileDevice == true )
         this.loadedModel.position.z = -2.5;
       if( this.isTabletDevice == true )
-        this.loadedModel.position.z = -4.5;
+        this.loadedModel.position.z = -4.5; //*/
+        
       this.loadedModel.position.y = 0.4;
       this.scene.add( this.loadedModel );
       
