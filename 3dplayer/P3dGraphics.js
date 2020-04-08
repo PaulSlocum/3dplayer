@@ -269,16 +269,22 @@ export default class P3dGraphics
       this.camera.position.z = 2.5+2.7;
       this.camera.position.y = -0.1;
     }
-    if( this.isTabletDevice == true )
+    else
     { // ZOOM IN A LITTLE FOR TABLETS
-      this.camera.position.z = 4.5+2.7; //*/
-      this.camera.position.y = -0.1;
+      if( this.isTabletDevice == true )
+      { 
+        this.camera.position.z = 4.5+2.7; //*/
+        this.camera.position.y = -0.1;
+      }
+      else
+      { // ZOOM IN A LITTLE IF THE SCREEN IS REALLY WIDE
+        if( this.windowWidth/this.windowHeight > 3 )
+        { 
+          this.camera.position.z = 4.9+2.7;
+          this.camera.position.y = 0.0;
+        }//*/
+      }
     }
-    if( this.windowWidth/this.windowHeight > 3 )
-    { // ZOOM IN A LITTLE IF THE SCREEN IS REALLY WIDE
-      this.camera.position.z = 4.9+2.7;
-      this.camera.position.y = 0.0;
-    }//*/
     
     // GET CAMERA FRUSTRUM
     this.camera.updateMatrix();
