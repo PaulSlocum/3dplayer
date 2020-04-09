@@ -14,8 +14,25 @@ import { logger } from './P3dLog.js'
 //-----------------------------------------------------------------------------------
 
 
+//=====================================================================================
+function getRelativeMousePosition(event, target) {
+  target = target || event.target;
+  var rect = target.getBoundingClientRect();
+  return {
+    x: event.clientX - rect.left,
+    y: event.clientY - rect.top,
+  }
+}
 
-
+//=====================================================================================
+// assumes target or event.target is canvas
+function getNoPaddingNoBorderCanvasRelativeMousePosition(event, target) {
+  target = target || event.target;
+  var pos = getRelativeMousePosition(event, target);
+  pos.x = pos.x * target.width  / target.clientWidth;
+  pos.y = pos.y * target.height / target.clientHeight;
+  return pos;  
+}
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -93,9 +110,18 @@ export default class P3dUserInterface
     logger( "-----> WINDOW SIZE: ", this.windowWidth, this.windowHeight );
     logger( "------> CANVAS SIZE: ", this.renderer.width, this.renderer.height );
   
+    //To convert that to a WebGL coordinate
+    var pos = getRelativeMousePosition( event, this.renderer.domElement );
+    //const x = pos.x / gl.canvas.width  *  2 - 1;
+    //const y = pos.y / gl.canvas.height * -2 + 1;
     let mouse = new THREE.Vector2();
+    mouse.x = pos.x / this.renderer.domElement.width  *  2 - 1;
+    mouse.y = pos.y / this.renderer.domElement.height * -2 + 1;
+
+    // ORIGINAL
+    /*let mouse = new THREE.Vector2();
     mouse.x = ( event.clientX / this.windowWidth ) * 2 - 1;
-    mouse.y = - ( event.clientY / this.windowHeight ) * 2 + 1;
+    mouse.y = - ( event.clientY / this.windowHeight ) * 2 + 1; //*/
 
     // DEBUG
     //console.log( "---->DISPLAY MOUSE X: ", mouse.x );
