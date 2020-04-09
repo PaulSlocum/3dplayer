@@ -266,14 +266,14 @@ export default class P3dGraphics
     this.camera.position.z = 5.5+2.7;
     if( this.isMobileDevice == true )
     { // ZOOM IN A LOT FOR PHONES
-      this.camera.position.z = 1.5+2.7;
+      this.camera.position.z = 4.0+2.7;
       this.camera.position.y = -0.1;
     }
     else
     { // ZOOM IN A LITTLE FOR TABLETS
       if( this.isTabletDevice == true )
       { 
-        this.camera.position.z = 4.0+2.7; 
+        this.camera.position.z = 4.5+2.7; 
         this.camera.position.y = -0.1;
       }
       else
@@ -332,17 +332,11 @@ export default class P3dGraphics
       {
         // SET CD SURFACE AS CUSTOM MATERIAL 
         if( child.material  &&  child.material.name == "cd" )
-        {
-          //console.log( "---->LED DRIVER: 'ledOn' MATERIAL FOUND" );
           child.material = this.cdMaterial;
-        }
   
         // TURN ON SHADOWS FOR ALL MESHES      
         if ( child.isMesh ) 
-        {
-          //child.castShadow = true;
           child.receiveShadow = true;
-        }//*/
 
       }.bind(this) ); //*/
 
