@@ -205,7 +205,7 @@ export default class P3dTransport {
         case ButtonEvent.BUTTON_DOWN_OPEN:
               if( this.status == TransportMode.TRAY_OPEN )
               { // CLOSE TRAY
-                //this.trayOpen = false;
+                this.trayOpen = false;
                 this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
                 this.eventQueue.push( TransportEvent.STOP ); //*/
               }
