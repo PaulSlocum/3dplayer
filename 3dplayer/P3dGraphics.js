@@ -262,9 +262,8 @@ export default class P3dGraphics
   // -----> THIS SHOULD MAYBE BE MOVED TO A NEW CLASS
   buildStructures()
   {
-    // CAMERA
+    // SET CAMERA POSITION
     this.camera.position.z = 5.5+2.7;
-    
     if( this.isMobileDevice == true )
     { // ZOOM IN A LOT FOR PHONES
       this.camera.position.z = 1.5+2.7;
@@ -304,8 +303,7 @@ export default class P3dGraphics
     logger( "------------------ EDGE POSITION:", edgePositionTest, " ------------- " )
     this.screenEdgePosition = edgePositionTest;
 
-
-    // INSTANTIATE A LOADER
+    // INSTANTIATE A GLTF LOADER FOR THE PLAYER MODEL
     const gltfLoader = new GLTFLoader();
     const url = '3dplayer/model/saeCdPlayer.glb';
     //const url = '3dplayer/model/saeCdReceiver.glb';
@@ -317,12 +315,6 @@ export default class P3dGraphics
       this.loadedModel.position.z = -2.8; // DEFAULT DESKTOP SIZE
       //this.loadedModel.position.z = -5.5; // DEFAULT DESKTOP SIZE
       
-      // THIS CAN BE REMOVED, NOW MOVING CAMERA TO ADJUST FOR MOBILE
-      /*if( this.isMobileDevice == true )
-        this.loadedModel.position.z = -2.5;
-      if( this.isTabletDevice == true )
-        this.loadedModel.position.z = -4.5; //*/
-        
       this.loadedModel.position.y = 0.4;
       this.scene.add( this.loadedModel );
       
@@ -336,16 +328,16 @@ export default class P3dGraphics
         this.loadedAnimations[gltf.animations[i].name] = gltf.animations[i];
       }
       
-      
-      // FIND THE MATERIALS USED FOR THE LEDS...
       this.loadedModel.traverse( function(child) 
       {
+        // SET CD SURFACE AS CUSTOM MATERIAL 
         if( child.material  &&  child.material.name == "cd" )
         {
           //console.log( "---->LED DRIVER: 'ledOn' MATERIAL FOUND" );
           child.material = this.cdMaterial;
         }
-        
+  
+        // TURN ON SHADOWS FOR ALL MESHES      
         if ( child.isMesh ) 
         {
           //child.castShadow = true;
@@ -404,10 +396,6 @@ export default class P3dGraphics
     this.scene.add( this.roomCube ); //*/
 
     // SPOTLIGHT
-    /*let spotLight = new THREE.PointLight( 0xffffff ); // DEBUG!!!!!!!!!!!!!!!!
-    spotLight.intensity = 5.8;
-    spotLight.position.set(-0, 28, 30); //*/
-
     this.spotLight = new THREE.SpotLight(0xffffff); // <----------------------
     this.spotLight.position.set(-0, 1.2, 3.6);
     this.spotLight.angle = Math.PI / 3.0;
@@ -415,8 +403,6 @@ export default class P3dGraphics
     //this.spotLight.radius = 400;
     this.spotLight.shadow.mapSize.width = 768;
     this.spotLight.shadow.mapSize.height = 768;
-    
-    //spotLight.target = this.loadedModel;
     this.spotLight.target.position.z = -3;
     //spotLight.shadow.camera.fov = 60;
     //spotLight.shadow.radius = 8;
