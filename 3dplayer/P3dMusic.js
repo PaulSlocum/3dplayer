@@ -36,7 +36,7 @@ export default class P3dMusicPlayer
     logger("---->MUSIC CLASS CONSTRUCTOR");
 
     // MUSIC PLAYER    
-    //this.preloadContext = new (window.AudioContext || window.webkitAudioContext)();
+    this.preloadContext = new (window.AudioContext || window.webkitAudioContext)();
     //this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
     this.musicContext = null;
     this.musicSource = null;
@@ -296,10 +296,10 @@ export default class P3dMusicPlayer
         let decodeFilename = this.musicDecodeQueue.shift();
         this.musicFiles[decodeFilename].decodeStarted = true;
         this.musicDecoding = true;
-        this.musicContext.decodeAudioData( this.musicFiles[decodeFilename].fileData, function( decodeFilename, buffer)  
+        this.preloadContext.decodeAudioData( this.musicFiles[decodeFilename].fileData, function( decodeFilename, buffer)  
         { // DECODER CALLBACK:
 
-          logger( "-----> MUSIC DECODED, CONTEXT: ", this.musicContext, decodeFilename, buffer );
+          logger( "-----> MUSIC DECODED, CONTEXT: ", this.preloadContext, decodeFilename, buffer );
           this.musicFiles[decodeFilename].decodedData = buffer;
           this.musicDecoding = false;
    
