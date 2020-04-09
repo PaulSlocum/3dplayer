@@ -1,4 +1,8 @@
-
+// P3dSwarm.js
+//
+// SIMPLE PARTICLE/PHYSICS SYSTEM THAT DISPLAYS FIELD OF MOVING OBJECTS
+//
+////////////////////////////////////////////////////////////////////////////////////////
 
 
 //---------------------------------------------------------------------------------
@@ -17,6 +21,7 @@ const DEBUG_ALWAYS_ENABLE = false;
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 export default class P3dSwarm
 {
+
 
   ///////////////////////////////////////////////////////////////////////
   constructor( scene ) 
@@ -50,6 +55,7 @@ export default class P3dSwarm
     this.disable();    
   }
   
+
   ////////////////////////////////////////////////////////////////////////
   setScreenEdgePosition( newEdge )
   {
@@ -61,19 +67,19 @@ export default class P3dSwarm
   load()
   {
     // ADD SPHERE
-    //var sphereGeometry = new THREE.SphereGeometry( 0.3, 32, 32 );
     const objectSize = 0.33;
     const circularSegments = 22;
     const coneSegments = 60;
     var sphereGeometry = new THREE.SphereGeometry( objectSize, circularSegments, circularSegments );
     var boxGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
     var coneGeometry = new THREE.ConeGeometry( objectSize*0.9, objectSize*1.5, coneSegments );
-    //TetrahedronGeometry  ConeGeometry  CylinderGeometry  IcosahedronGeometry  OctahedronGeometry  TextGeometry
-    // TorusGeometry    TorusKnotGeometry
+    // OTHER GEOMETRIES TO CONSIDER:
+    //    TetrahedronGeometry   ConeGeometry   CylinderGeometry   IcosahedronGeometry  
+    //    OctahedronGeometry    TextGeometry    TorusGeometry     TorusKnotGeometry
     var sphereMaterial2 = new THREE.MeshStandardMaterial( {color: 0x747A70} );
+    var sphereMaterial1 = new THREE.MeshStandardMaterial( {color: 0x817060} );
     //var sphereMaterial2 = new THREE.MeshStandardMaterial( {color: 0x22242A} );
     //var sphereMaterial1 = new THREE.MeshStandardMaterial( {color: 0x777070} );
-    var sphereMaterial1 = new THREE.MeshStandardMaterial( {color: 0x817060} );
     sphereMaterial1.metalness = 0.7;
     sphereMaterial1.roughness = 0.45;
     sphereMaterial2.metalness = 0.4;
@@ -102,16 +108,10 @@ export default class P3dSwarm
       this.objectArray[i].position.y = random(40)*0.1 - 1.6;
       this.objectArray[i].position.x = random(40)*0.16 - 1.5;
       this.objectArray[i].position.z = 0.0;
-      //this.objectArray[i].position.z = -2.7;
       this.objectArray[i].rotation.x = random(360)*3.14/2.0
       this.objectArray[i].rotation.y = random(360)*3.14/2.0
-      //this.objectArray[i].scale.y = random(4)*0.2+1.0;
-      //this.objectArray[i].scale.x = random(4)*0.2+1.0;
-      //this.objectArray[i].scale.x = 0.5;
-      //this.objectArray[i].scale.z = 0.5;
       this.scene.add( this.objectArray[i] );
       this.xSpeed[i] = random(20) * 0.00002 + 0.0037;
-      //this.xSpeed[i] = random(20) * 0.00002 + 0.1137;
     } //*/
     
   }

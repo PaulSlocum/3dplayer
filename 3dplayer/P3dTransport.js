@@ -16,7 +16,7 @@ import { random } from './P3dUtility.js'
 
 
 
-export const SoundFilenames = {
+export const SoundFilename = {
     CLICK_DOWN: '3dplayer/sounds/clickDown.wav',
     TRAY_OPEN: '3dplayer/sounds/cdOpen1.wav',
     TRAY_CLOSE: '3dplayer/sounds/cdClose1.wav',
@@ -69,18 +69,18 @@ export default class P3dTransport {
     this.appController = appController;
     
     this.soundPlayer = new P3dSoundPlayer();
-    this.soundPlayer.loadSound( SoundFilenames.CLICK_DOWN );
-    this.soundPlayer.loadSound( SoundFilenames.TRAY_OPEN );
-    this.soundPlayer.loadSound( SoundFilenames.TRAY_CLOSE );
-    this.soundPlayer.loadSound( SoundFilenames.CD_SPINUP1 );
-    this.soundPlayer.loadSound( SoundFilenames.CD_SPINUP2 );
-    this.soundPlayer.loadSound( SoundFilenames.CD_SPINUP3 );
-    this.soundPlayer.loadSound( SoundFilenames.CD_SPINUP4 );
-    this.soundPlayer.loadSound( SoundFilenames.CD_SPINDOWN );
-    this.soundPlayer.loadSound( SoundFilenames.CD_SEEK1 );
-    this.soundPlayer.loadSound( SoundFilenames.CD_SEEK2 );
-    this.soundPlayer.loadSound( SoundFilenames.CD_SEEK3 );
-    this.soundPlayer.loadSound( SoundFilenames.CD_SEEK4 );
+    this.soundPlayer.loadSound( SoundFilename.CLICK_DOWN );
+    this.soundPlayer.loadSound( SoundFilename.TRAY_OPEN );
+    this.soundPlayer.loadSound( SoundFilename.TRAY_CLOSE );
+    this.soundPlayer.loadSound( SoundFilename.CD_SPINUP1 );
+    this.soundPlayer.loadSound( SoundFilename.CD_SPINUP2 );
+    this.soundPlayer.loadSound( SoundFilename.CD_SPINUP3 );
+    this.soundPlayer.loadSound( SoundFilename.CD_SPINUP4 );
+    this.soundPlayer.loadSound( SoundFilename.CD_SPINDOWN );
+    this.soundPlayer.loadSound( SoundFilename.CD_SEEK1 );
+    this.soundPlayer.loadSound( SoundFilename.CD_SEEK2 );
+    this.soundPlayer.loadSound( SoundFilename.CD_SEEK3 );
+    this.soundPlayer.loadSound( SoundFilename.CD_SEEK4 );
 
     this.eventQueue = [];
     this.nextEventTimeSec = performance.now();
@@ -91,15 +91,6 @@ export default class P3dTransport {
     if( filenameList.length > 1 )
       this.musicPlayer.decodeMusic( filenameList[2] );  // <-------------
 
-    //this.musicPlayer.downloadMusic( filenameList[1] );  // <-- DEBUG
-    
-    // PRE-DOWNLOAD THE OTHER MUSIC TRACKS
-    /*if( filenameList.length > 1 )
-    {
-      for( let i=2; i<filenameList.length; i++ )
-       this.musicPlayer.downloadMusic( filenameList[i] );
-    }//*/
-    
     this.filenameList = filenameList;
     this.trackNumber = 1; // FIRST TRACK IS ONE (NOT ZERO)
     this.trackPlaying = false;
@@ -118,8 +109,8 @@ export default class P3dTransport {
   ///////////////////////////////////////////////////////////////////////
   stopCdSounds()
   {
-    this.soundPlayer.stopSound( SoundFilenames.SEEK ); 
-    this.soundPlayer.stopSound( SoundFilenames.SPINUP ); 
+    this.soundPlayer.stopSound( SoundFilename.SEEK ); 
+    this.soundPlayer.stopSound( SoundFilename.SPINUP ); 
   }
 
 
@@ -133,7 +124,7 @@ export default class P3dTransport {
     
     // BUTTON CLICK SOUND EFFECT
     if( buttonEvent != ButtonEvent.BUTTON_UP  &&  buttonEvent != ButtonEvent.BUTTON_UP )
-      this.soundPlayer.playSound( SoundFilenames.CLICK_DOWN ); 
+      this.soundPlayer.playSound( SoundFilename.CLICK_DOWN ); 
 
     if( this.status == TransportMode.STANDBY )
     {
@@ -304,7 +295,7 @@ export default class P3dTransport {
         case TransportEvent.CLOSE_TRAY:
           this.appController.closeTray();
           this.status = TransportMode.TRAY_CLOSING;
-          this.soundPlayer.playSound( SoundFilenames.TRAY_CLOSE );  // <------------
+          this.soundPlayer.playSound( SoundFilename.TRAY_CLOSE );  // <------------
           this.scheduleNextEvent( 3 );
           break; //*/
           
@@ -312,7 +303,7 @@ export default class P3dTransport {
           logger( "START OPEN TRAY!!!!!!!!!!!!!!!!!!!!!!" );
           this.stop();
           //this.status = TransportMode.TRAY_OPENING;
-          this.soundPlayer.playSound( SoundFilenames.TRAY_OPEN ); 
+          this.soundPlayer.playSound( SoundFilename.TRAY_OPEN ); 
           this.scheduleNextEvent( 0.65 );
           break; //*/
 
@@ -329,10 +320,10 @@ export default class P3dTransport {
         case TransportEvent.SPINUP:
           switch( random(4) )
           {
-            case 0: this.soundPlayer.playSound( SoundFilenames.CD_SPINUP1 ); break;
-            case 1: this.soundPlayer.playSound( SoundFilenames.CD_SPINUP2 ); break;
-            case 2: this.soundPlayer.playSound( SoundFilenames.CD_SPINUP3 ); break;
-            case 3: this.soundPlayer.playSound( SoundFilenames.CD_SPINUP4 ); break;
+            case 0: this.soundPlayer.playSound( SoundFilename.CD_SPINUP1 ); break;
+            case 1: this.soundPlayer.playSound( SoundFilename.CD_SPINUP2 ); break;
+            case 2: this.soundPlayer.playSound( SoundFilename.CD_SPINUP3 ); break;
+            case 3: this.soundPlayer.playSound( SoundFilename.CD_SPINUP4 ); break;
           } //*/
           
           this.status = TransportMode.STARTING_PLAY;
@@ -342,12 +333,12 @@ export default class P3dTransport {
         case TransportEvent.SEEK:
           switch( random(4) )
           {
-            case 0: this.soundPlayer.playSound( SoundFilenames.CD_SEEK1 ); break;
-            case 1: this.soundPlayer.playSound( SoundFilenames.CD_SEEK2 ); break;
-            case 2: this.soundPlayer.playSound( SoundFilenames.CD_SEEK3 ); break;
-            case 3: this.soundPlayer.playSound( SoundFilenames.CD_SEEK4 ); break;
+            case 0: this.soundPlayer.playSound( SoundFilename.CD_SEEK1 ); break;
+            case 1: this.soundPlayer.playSound( SoundFilename.CD_SEEK2 ); break;
+            case 2: this.soundPlayer.playSound( SoundFilename.CD_SEEK3 ); break;
+            case 3: this.soundPlayer.playSound( SoundFilename.CD_SEEK4 ); break;
           } //*/
-          //this.soundPlayer.playSound( SoundFilenames.CD_SEEK1 );
+          //this.soundPlayer.playSound( SoundFilename.CD_SEEK1 );
           this.scheduleNextEvent( 0.65 );
           this.status = TransportMode.SEEK;
           break;
@@ -373,7 +364,7 @@ export default class P3dTransport {
           break;
 
         case TransportEvent.STARTUP:
-          this.soundPlayer.playSound( SoundFilenames.CD_SPINUP1 );
+          this.soundPlayer.playSound( SoundFilename.CD_SPINUP1 );
           this.status = TransportMode.STARTUP;
           this.scheduleNextEvent(3.2);
           break;
@@ -407,7 +398,7 @@ export default class P3dTransport {
   {
     if( this.trackNumber > 1 )
     {
-      this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
+      this.soundPlayer.playSound( SoundFilename.CD_SEEK );
       this.trackNumber--;
       this.trackPlaying = false;
       this.musicPlayer.rewindMusic();    
@@ -429,7 +420,7 @@ export default class P3dTransport {
   {
     if( this.trackNumber < this.filenameList.length-1 )
     {
-      this.soundPlayer.playSound( SoundFilenames.CD_SEEK );
+      this.soundPlayer.playSound( SoundFilename.CD_SEEK );
       this.trackNumber++;
       this.trackPlaying = false;
       this.musicPlayer.rewindMusic();    
@@ -459,7 +450,7 @@ export default class P3dTransport {
     this.musicPlayer.rewindMusic();    
     this.trackNumber = 1;
     if( this.status != TransportMode.STOPPED  &&  this.status != TransportMode.SHUTDOWN)
-      this.soundPlayer.playSound( SoundFilenames.CD_SPINDOWN );
+      this.soundPlayer.playSound( SoundFilename.CD_SPINDOWN );
     this.status = TransportMode.STOPPED;
   }
   

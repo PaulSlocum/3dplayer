@@ -142,13 +142,9 @@ export default class P3dNumericDisplay
       case TransportMode.PLAYING:
         // DEBUG - FLASH MINUS/COLON
         if( Math.floor(this.frameCounter/20)%3 == 0 )
-        {
           this.ledDriver.colonOn();
-        }
         else
-        {
           this.ledDriver.colonOff();
-        }
         break;
       default:
         this.ledDriver.colonOff();
