@@ -126,12 +126,12 @@ export default class P3dMusicPlayer
   {
     this.initMusicFile( musicFilename );
     
-    //logger( "-----> MUSIC: DECODE FILE: ", musicFilename );
+    logger( "-----> MUSIC: DECODE FILE: ", musicFilename );
 
     if( this.musicFiles[musicFilename].decodeStarted == false  &&  
         this.musicDecodeQueue.includes( musicFilename ) == false )
     {
-      //logger( "-----> MUSIC: ADDING TO DOWNLOAD QUEUE: ", musicFilename );
+      logger( "-----> MUSIC: ADDING TO DOWNLOAD QUEUE: ", musicFilename );
       this.downloadMusic( musicFilename ); // IN CASE MUSIC ISN'T ALREADY DOWNLOADED
       this.musicDecodeQueue.push( musicFilename );
       this.processMusicQueues();

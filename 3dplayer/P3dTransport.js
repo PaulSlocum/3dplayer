@@ -89,7 +89,7 @@ export default class P3dTransport {
     this.musicPlayer = new P3dMusicPlayer( this );
     this.musicPlayer.decodeMusic( filenameList[1] );  // <-------------
     if( filenameList.length > 1 )
-      this.musicPlayer.decodeMusic( filenameList[1] );  // <-------------
+      this.musicPlayer.decodeMusic( filenameList[2] );  // <-------------
 
     //this.musicPlayer.downloadMusic( filenameList[1] );  // <-- DEBUG
     

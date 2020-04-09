@@ -51,8 +51,6 @@ export default class P3dUserInterface
     this.windowHeight = windowHeight;
     this.renderer = renderer;
     
-    window.onresize = this.resizeCallback.bind(this);
-
     this.graphics = new P3dGraphics( appController, windowWidth, windowHeight, renderer );
 
     // MOUSE/TOUCH HANDLING
@@ -61,15 +59,6 @@ export default class P3dUserInterface
     document.addEventListener('touchstart', this.touchDown.bind(this), false);
     document.addEventListener('touchcancel', this.touchUp.bind(this), false);
     document.addEventListener('touchend', this.touchUp.bind(this), false);
-  }
-
-
-  //////////////////////////////////////////////////////////////////////////
-  resizeCallback()
-  {
-    logger( "!!!!!!!!!!!!!!!!!!!!!!!! WINDOWS RESIZED !!!!!!!!!!!!!!!!!!!!!!!" );
-    //this.windowWidth = window.innerWidth;
-    //this.windowHeight = window.innerHeight;
   }
 
 
@@ -105,11 +94,6 @@ export default class P3dUserInterface
   ///////////////////////////////////////////////////////////////////////
   touchMouseDown( event )
   {
-    logger( "---> PAGE X OFFSET: ", window.pageXOffset );
-    logger( "----> COORDS: ", event.clientX, event.clientY );
-    logger( "-----> WINDOW SIZE: ", this.windowWidth, this.windowHeight );
-    logger( "------> CANVAS SIZE: ", this.renderer.width, this.renderer.height );
-  
     //To convert that to a WebGL coordinate
     var pos = getRelativeMousePosition( event, this.renderer.domElement );
     //const x = pos.x / gl.canvas.width  *  2 - 1;
