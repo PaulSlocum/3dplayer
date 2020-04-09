@@ -10,6 +10,8 @@ import { logger } from './P3dLog.js'
 
 const MAX_OBJECTS = 20;
 
+const DEBUG_ALWAYS_ENABLE = false;
+
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -85,9 +87,17 @@ export default class P3dSwarm
         case 1: this.objectArray[i] = new THREE.Mesh( boxGeometry, sphereMaterial1 ); break;
         case 2: this.objectArray[i] = new THREE.Mesh( coneGeometry, sphereMaterial1 ); break;
       }
-      
-      this.sizeArray[i] = 0.0; // <--------------
-      //this.sizeArray[i] = 1.0; // DEBUG
+
+      if( DEBUG_ALWAYS_ENABLE == true )
+      {
+        this.sizeArray[i] = 1.0; // DEBUG
+        this.objectArray[i].visible = true;
+      }
+      else
+      {
+        this.sizeArray[i] = 0.0; // <--------------
+        this.objectArray[i].visible = false;
+      }
       this.objectArray[i].castShadow = true;
       this.objectArray[i].position.y = random(40)*0.1 - 1.6;
       this.objectArray[i].position.x = random(40)*0.16 - 1.5;
@@ -102,7 +112,6 @@ export default class P3dSwarm
       this.scene.add( this.objectArray[i] );
       this.xSpeed[i] = random(20) * 0.00002 + 0.0037;
       //this.xSpeed[i] = random(20) * 0.00002 + 0.1137;
-      this.objectArray[i].visible = false;
     } //*/
     
   }
@@ -145,8 +154,10 @@ export default class P3dSwarm
       // IF OBJECT IS DISABLED, THEN SCALE OBJECT SMALLER UNTIL IT IS GONE.
       if( this.objectEnabled[i] == false )
       {
-        this.sizeArray[i] = converge( this.sizeArray[i], 0.0, 0.04);
-        //this.sizeArray[i] = 1.0; // DEBUG
+        if( DEBUG_ALWAYS_ENABLE == true )
+          this.sizeArray[i] = 1.0; // DEBUG
+        else
+          this.sizeArray[i] = converge( this.sizeArray[i], 0.0, 0.04);
       }
       this.objectArray[i].rotation.z += 0.02;
       this.objectArray[i].rotation.y += this.xSpeed[i];

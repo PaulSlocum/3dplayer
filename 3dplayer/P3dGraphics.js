@@ -68,11 +68,9 @@ export default class P3dGraphics
     
     this.scene = new THREE.Scene();
     // ---> PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
-    //this.camera = new THREE.PerspectiveCamera( 75, windowWidth/windowHeight, 0.1, 1000 ); // <-- ORIGINAL
     this.camera = new THREE.PerspectiveCamera( 35, windowWidth/windowHeight, 0.1, 1000 );
     this.cameraFrustum = null;
     
-
     this.roomCube = null;
     this.roomMaterial = null;
     this.cdMaterial = null;
@@ -278,11 +276,11 @@ export default class P3dGraphics
       }
       else
       { // ZOOM IN A LITTLE IF THE SCREEN IS REALLY WIDE
-        if( this.windowWidth/this.windowHeight > 3 )
+        /*if( this.windowWidth/this.windowHeight > 3 )
         { 
           this.camera.position.z = 4.0+2.7;
           this.camera.position.y = 0.0;
-        }
+        } //*/
       }
     }//*/
     
@@ -391,14 +389,25 @@ export default class P3dGraphics
 
     // SPOTLIGHT
     this.spotLight = new THREE.SpotLight(0xffffff); // <----------------------
-    this.spotLight.position.set(-0, 1.2, 3.6);
+    const spotlightDistance = 1.5;
+    this.spotLight.position.set( -0, 1.2*spotlightDistance, 3.6*spotlightDistance );
     this.spotLight.angle = Math.PI / 3.0;
     this.spotLight.castShadow = true;
     //this.spotLight.radius = 400;
-    this.spotLight.shadow.mapSize.width = 768;
-    this.spotLight.shadow.mapSize.height = 768;
+    this.spotLight.shadow.mapSize.width = 420;
+    this.spotLight.shadow.mapSize.height = 420;
     this.spotLight.target.position.z = -3;
-    //spotLight.shadow.camera.fov = 60;
+    
+    // ---> OrthographicCamera( left : Number, right : Number, top : Number, bottom : Number, near : Number, far : Number )
+    this.spotLight.shadow.camera = new THREE.OrthographicCamera( -4, 4, 4, -4, 4, 8 ); 
+    
+    /*const side = 1;
+    this.spotLight.shadow.camera.top = side;
+    this.spotLight.shadow.camera.bottom = -side;
+    this.spotLight.shadow.camera.left = side;
+    this.spotLight.shadow.camera.right = -side; //*/
+    
+    //this.spotLight.shadow.camera.fov = 200;
     //spotLight.shadow.radius = 8;
 
 /*light.shadowCameraLeft = -d
