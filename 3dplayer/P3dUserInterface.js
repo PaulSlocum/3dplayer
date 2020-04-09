@@ -11,28 +11,10 @@ import P3dController from './P3dController.js'
 import P3dGraphics from './P3dGraphics.js'
 import { ButtonEvent } from './P3dController.js'
 import { logger } from './P3dLog.js'
+import { getCanvasMousePosition } from './P3dUtility.js'
 //-----------------------------------------------------------------------------------
 
 
-//=====================================================================================
-function getRelativeMousePosition(event, target) {
-  target = target || event.target;
-  var rect = target.getBoundingClientRect();
-  return {
-    x: event.clientX - rect.left,
-    y: event.clientY - rect.top,
-  }
-}
-
-//=====================================================================================
-// assumes target or event.target is canvas
-function getNoPaddingNoBorderCanvasRelativeMousePosition(event, target) {
-  target = target || event.target;
-  var pos = getRelativeMousePosition(event, target);
-  pos.x = pos.x * target.width  / target.clientWidth;
-  pos.y = pos.y * target.height / target.clientHeight;
-  return pos;  
-}
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -94,22 +76,11 @@ export default class P3dUserInterface
   ///////////////////////////////////////////////////////////////////////
   touchMouseDown( event )
   {
-    //To convert that to a WebGL coordinate
-    var pos = getRelativeMousePosition( event, this.renderer.domElement );
-    //const x = pos.x / gl.canvas.width  *  2 - 1;
-    //const y = pos.y / gl.canvas.height * -2 + 1;
+    // NEW CODE TO CONVERT TO WEBGL COORDS...
+    var pos = getCanvasMousePosition( event, this.renderer.domElement );
     let mouse = new THREE.Vector2();
     mouse.x = pos.x / this.renderer.domElement.width  *  2 - 1;
     mouse.y = pos.y / this.renderer.domElement.height * -2 + 1;
-
-    // ORIGINAL
-    /*let mouse = new THREE.Vector2();
-    mouse.x = ( event.clientX / this.windowWidth ) * 2 - 1;
-    mouse.y = - ( event.clientY / this.windowHeight ) * 2 + 1; //*/
-
-    // DEBUG
-    //console.log( "---->DISPLAY MOUSE X: ", mouse.x );
-    //this.graphics.debugIndicator( mouse.x );
 
     let intersects = this.graphics.getIntersectionsAtPixel( mouse );
     for ( let i = 0; i < intersects.length; i++ ) 
@@ -136,8 +107,6 @@ export default class P3dUserInterface
           break;
       }
     } //*/
-
-
 
   }
 
