@@ -265,7 +265,7 @@ export default class P3dGraphics
     // CAMERA
     this.camera.position.z = 5.5+2.7;
     
-     /*if( this.isMobileDevice == true )
+    if( this.isMobileDevice == true )
     { // ZOOM IN A LOT FOR PHONES
       this.camera.position.z = 1.5+2.7;
       this.camera.position.y = -0.1;
