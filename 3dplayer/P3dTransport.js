@@ -104,6 +104,8 @@ export default class P3dTransport {
     this.treble = MIDDLE_AUDIO_SETTING_VALUE;
     this.bass = MIDDLE_AUDIO_SETTING_VALUE;
     this.volume = MAX_AUDIO_SETTING_VALUE;
+
+    this.trayOpen = false;
     
     this.status = TransportMode.TRAY_OPEN;
   }
@@ -203,6 +205,7 @@ export default class P3dTransport {
         case ButtonEvent.BUTTON_DOWN_OPEN:
               if( this.status == TransportMode.TRAY_OPEN )
               { // CLOSE TRAY
+                //this.trayOpen = false;
                 this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
                 this.eventQueue.push( TransportEvent.STOP ); //*/
               }
@@ -214,9 +217,13 @@ export default class P3dTransport {
                     this.status == TransportMode.STARTING_PLAY )  
                 {
                   // OPEN TRAY
-                  this.eventQueue.push( TransportEvent.START_OPEN_TRAY ); //*/
-                  this.eventQueue.push( TransportEvent.OPEN_TRAY ); //*/
-                  this.eventQueue.push( TransportEvent.TRAY_OPENED );
+                  if( this.trayOpen == false )
+                  {
+                    this.eventQueue.push( TransportEvent.START_OPEN_TRAY ); //*/
+                    this.eventQueue.push( TransportEvent.OPEN_TRAY ); //*/
+                    this.eventQueue.push( TransportEvent.TRAY_OPENED );
+                    this.trayOpen = true;
+                  }
                 }
               }
               this.scheduleNextEvent();
