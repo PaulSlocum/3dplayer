@@ -37,7 +37,8 @@ export default class P3dMusicPlayer
 
     // MUSIC PLAYER    
     //this.preloadContext = new (window.AudioContext || window.webkitAudioContext)();
-    this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
+    //this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
+    this.musicContext = null;
     this.musicSource = null;
     this.lowFilter = null;
     this.highFilter = null;
@@ -143,9 +144,9 @@ export default class P3dMusicPlayer
   // CREATES CONTEXT IF IT DOESN'T ALREADY EXIST
   createContext()
   {
-    if( this.lowFilter == null )
+    if( this.musicContext == null )
     {
-      //this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
+      this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
 
       console.log( "----->PLAY MUSIC: CREATING CONTEXT: ", this.musicContext );
 
@@ -196,9 +197,9 @@ export default class P3dMusicPlayer
       this.musicSource.onended = null;
       this.musicPlaying = false;
       this.musicPlayPending = false;
+      logger( "-----> MUSIC PAUSE TIME / CONTEXT: ", this.musicPauseTime, this.musicContext, this.musicSource );
       if( this.musicContext.state == "running" )
         this.musicSource.stop(); //*/
-      logger( "-----> MUSIC PAUSE TIME / CONTEXT: ", this.musicPauseTime, this.musicContext );
     }
   }
 
@@ -258,7 +259,7 @@ export default class P3dMusicPlayer
     
       //logger( "-----> MUSIC UPDATE: DOWNLOADING: ", downloadFilename );
 
-      this.musicSource = this.musicContext.createBufferSource();
+      //this.musicSource = this.musicContext.createBufferSource();
 
       this.musicDownloading = true;
       

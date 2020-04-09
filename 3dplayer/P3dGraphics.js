@@ -264,27 +264,28 @@ export default class P3dGraphics
   {
     // CAMERA
     this.camera.position.z = 5.5+2.7;
-    if( this.isMobileDevice == true )
+    
+     /*if( this.isMobileDevice == true )
     { // ZOOM IN A LOT FOR PHONES
-      this.camera.position.z = 2.5+2.7;
+      this.camera.position.z = 1.5+2.7;
       this.camera.position.y = -0.1;
     }
     else
     { // ZOOM IN A LITTLE FOR TABLETS
       if( this.isTabletDevice == true )
       { 
-        this.camera.position.z = 4.5+2.7; //*/
+        this.camera.position.z = 4.0+2.7; 
         this.camera.position.y = -0.1;
       }
       else
       { // ZOOM IN A LITTLE IF THE SCREEN IS REALLY WIDE
         if( this.windowWidth/this.windowHeight > 3 )
         { 
-          this.camera.position.z = 4.9+2.7;
+          this.camera.position.z = 4.0+2.7;
           this.camera.position.y = 0.0;
-        }//*/
+        }
       }
-    }
+    }//*/
     
     // GET CAMERA FRUSTRUM
     this.camera.updateMatrix();

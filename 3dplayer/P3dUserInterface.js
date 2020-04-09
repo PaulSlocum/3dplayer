@@ -51,8 +51,8 @@ export default class P3dUserInterface
   resizeCallback()
   {
     logger( "!!!!!!!!!!!!!!!!!!!!!!!! WINDOWS RESIZED !!!!!!!!!!!!!!!!!!!!!!!" );
-    this.windowWidth = window.innerWidth;
-    this.windowHeight = window.innerHeight;
+    //this.windowWidth = window.innerWidth;
+    //this.windowHeight = window.innerHeight;
   }
 
 

@@ -5,9 +5,13 @@
 
 TODO:
 ~   -   ~   -   ~   -   ~   -   
-- move light back to avoid objects moving out of light, but also adjust light's shadow camera to avoid 
+- move light back to avoid objects moving out of light, but also adjust light's shadow camera to avoid issues with shadows
 - fix audio start on mobile
+- figure out how to deal with interface issues on mobile
+- fix pinch zoom on mobile
+- fix double-opening of disc tray on iPod touch
 ~   -   ~   -   ~   -   ~   -   
+- keep playing CD seeking sounds until music starts playing
 - get seek buttons working
 - make it possible to set 3D model from script call
 - build alternate blender model to decide which direction to go with the design
@@ -20,6 +24,22 @@ x Fix issue where pressing "Next" quickly after pressing "Play" breaks audio sys
 x fix issue with particles overlapping CD player model on mobile
 ~   -   ~   -   ~   -   ~   -   
 
+
+
+--------------------------------------------------------------------------------
+/\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
+--------------------------------------------------------------------------------
+
+WEB AUDIO BUG:
+
+Uncaught DOMException: Failed to execute 'stop' on 'AudioScheduledSourceNode': cannot call stop without calling start first.
+    at P3dMusicPlayer.pauseMusic (http://www.qotile.net/3dplayer/3dplayer/P3dMusic.js:200:26)
+    at P3dMusicPlayer.rewindMusic (http://www.qotile.net/3dplayer/3dplayer/P3dMusic.js:210:10)
+    at P3dTransport.nextTrack (http://www.qotile.net/3dplayer/3dplayer/P3dTransport.js:425:24)
+    at P3dTransport.processButtonEvent (http://www.qotile.net/3dplayer/3dplayer/P3dTransport.js:183:22)
+    at P3dController.processButtonEvent (http://www.qotile.net/3dplayer/3dplayer/P3dController.js:124:20)
+    at P3dUserInterface.touchMouseDown (http://www.qotile.net/3dplayer/3dplayer/P3dUserInterface.js:110:28)
+    at P3dUserInterface.mouseDown (http://www.qotile.net/3dplayer/3dplayer/P3dUserInterface.js:62:10)
 
 --------------------------------------------------------------------------------
 /\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
