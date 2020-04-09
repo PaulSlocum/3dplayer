@@ -88,14 +88,17 @@ export default class P3dTransport {
     // PRE-DECODE FIRST MUSIC TRACK
     this.musicPlayer = new P3dMusicPlayer( this );
     this.musicPlayer.decodeMusic( filenameList[1] );  // <-------------
+    if( filenameList.length > 1 )
+      this.musicPlayer.decodeMusic( filenameList[1] );  // <-------------
+
     //this.musicPlayer.downloadMusic( filenameList[1] );  // <-- DEBUG
     
     // PRE-DOWNLOAD THE OTHER MUSIC TRACKS
-    if( filenameList.length > 1 )
+    /*if( filenameList.length > 1 )
     {
       for( let i=2; i<filenameList.length; i++ )
        this.musicPlayer.downloadMusic( filenameList[i] );
-    }
+    }//*/
     
     this.filenameList = filenameList;
     this.trackNumber = 1; // FIRST TRACK IS ONE (NOT ZERO)
@@ -436,7 +439,13 @@ export default class P3dTransport {
       this.eventQueue.push( TransportEvent.SEEK ); //*/
       this.eventQueue.push( TransportEvent.PLAY ); //*/
       this.scheduleNextEvent();
-      this.musicPlayer.decodeMusic( this.filenameList[ this.trackNumber ] );    
+      
+      // START DECODING THE TRACK THAT'S ABOUT TO PLAY IF IT'S NOT ALREADY...
+      this.musicPlayer.decodeMusic( this.filenameList[ this.trackNumber ] );  
+      
+      // PRE-DECODE THE NEXT TRACK IF THERE IS ONE...
+      if( this.trackNumber < this.filenameList.length-1 )
+        this.musicPlayer.decodeMusic( this.filenameList[ this.trackNumber+1 ] );  
     }
   }
   
