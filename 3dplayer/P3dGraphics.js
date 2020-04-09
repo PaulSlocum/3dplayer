@@ -60,6 +60,9 @@ export default class P3dGraphics
     this.windowWidth = windowWidth;
     this.windowHeight = windowHeight;
     this.renderer = renderer;
+
+    this.isMobileDevice = window.mobilecheck();
+    this.isTabletDevice = window.mobileAndTabletcheck();
     
     this.trayOpen = true;
     
@@ -110,9 +113,6 @@ export default class P3dGraphics
     this.clock = new THREE.Clock();
 
     this.numericDisplay = new P3dNumericDisplay( appController, this.scene );
-    
-    this.isMobileDevice = window.mobilecheck();
-    this.isTabletDevice = window.mobileAndTabletcheck();
   }
 
 
