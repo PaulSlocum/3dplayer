@@ -5,13 +5,14 @@
 
 TODO:
 ~   -   ~   -   ~   -   ~   -   
-- move light back to avoid objects moving out of light, but also adjust light's shadow camera to avoid issues with shadows
-- fix audio start on mobile
 - figure out how to deal with interface issues on mobile
 - fix pinch zoom on mobile
-- fix double-opening of disc tray on iPod touch
+~   -   ~   -   ~   -   ~   -   
+- figure out transport timing issue with iPod touch
 ~   -   ~   -   ~   -   ~   -   
 - keep playing CD seeking sounds until music starts playing
+- make music pre-loading smarter (preload next track, avoid downloading so many tracks at once)
+~   -   ~   -   ~   -   ~   -   
 - get seek buttons working
 - make it possible to set 3D model from script call
 - build alternate blender model to decide which direction to go with the design
@@ -22,6 +23,9 @@ DONE:
 ~   -   ~   -   ~   -   ~   -   
 x Fix issue where pressing "Next" quickly after pressing "Play" breaks audio system
 x fix issue with particles overlapping CD player model on mobile
+x fix double-opening of disc tray on iPod touch
+x fix audio start on mobile and Chrome
+x move light back to avoid objects moving out of light, but also adjust light's shadow camera to avoid issues with shadows
 ~   -   ~   -   ~   -   ~   -   
 
 
