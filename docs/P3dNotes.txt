@@ -6,14 +6,15 @@
 TODO:
 ~   -   ~   -   ~   -   ~   -   
 - figure out how to deal with interface issues on mobile
-- fix pinch zoom on mobile
+- implement memory management for music files
 ~   -   ~   -   ~   -   ~   -   
 - figure out transport timing issue with iPod touch
 ~   -   ~   -   ~   -   ~   -   
-- keep playing CD seeking sounds until music starts playing
-- make music pre-loading smarter (preload next track, avoid downloading so many tracks at once)
+- keep playing CD seeking sounds until music starts playing (or just lengthn CD sounds)
 ~   -   ~   -   ~   -   ~   -   
 - get seek buttons working
+- add repeat/time/shuffle buttons
+~   -   ~   -   ~   -   ~   -   
 - make it possible to set 3D model from script call
 - build alternate blender model to decide which direction to go with the design
 ~   -   ~   -   ~   -   ~   -   
@@ -26,6 +27,8 @@ x fix issue with particles overlapping CD player model on mobile
 x fix double-opening of disc tray on iPod touch
 x fix audio start on mobile and Chrome
 x move light back to avoid objects moving out of light, but also adjust light's shadow camera to avoid issues with shadows
+x fix pinch zoom on mobile
+x make music pre-loading smarter (preload next track, avoid downloading so many tracks at once)
 ~   -   ~   -   ~   -   ~   -   
 
 
