@@ -5,13 +5,17 @@
 
 TODO:
 ~   -   ~   -   ~   -   ~   -   
+- add reverb, delay, and secondary EQ
+- add preset effect system to music player (or should this be added elsewhere?)
+- implement effect preset interface in transport
+- implement effect mode display
+~   -   ~   -   ~   -   ~   -   
+- refactor graphics class to separate out different graphics components
+- refactor transport class to separate event system from button processor
+~   -   ~   -   ~   -   ~   -   
 - implement memory management for music files
 ~   -   ~   -   ~   -   ~   -   
-- figure out why buttons are being sent twice on iPod touch
-~   -   ~   -   ~   -   ~   -   
-- figure out transport timing issue with iPod touch
-~   -   ~   -   ~   -   ~   -   
-- keep playing CD seeking sounds until music starts playing (or just lengthn CD sounds)
+- keep playing CD seeking sounds until music starts playing (or maybe just lengthn CD sounds)
 ~   -   ~   -   ~   -   ~   -   
 - get seek buttons working
 - implement time/repeat buttons
@@ -39,6 +43,8 @@ x fix pinch zoom on mobile
 x make music pre-loading smarter (preload next track, avoid downloading so many tracks at once)
 x figure out how to deal with interface issues on mobile
 x add repeat/time buttons
+x figure out why buttons are being sent twice on iPod touch
+x figure out transport timing issue with iPod touch
 ~   -   ~   -   ~   -   ~   -   
 
 
