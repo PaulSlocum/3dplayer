@@ -398,28 +398,10 @@ export default class P3dGraphics
     
     // ---> OrthographicCamera( left : Number, right : Number, top : Number, bottom : Number, near : Number, far : Number )
     this.spotLight.shadow.camera = new THREE.OrthographicCamera( -4, 4, 4, -4, 4, 8 ); 
-    
-    /*const side = 1;
-    this.spotLight.shadow.camera.top = side;
-    this.spotLight.shadow.camera.bottom = -side;
-    this.spotLight.shadow.camera.left = side;
-    this.spotLight.shadow.camera.right = -side; //*/
-    
-    //this.spotLight.shadow.camera.fov = 200;
-    //spotLight.shadow.radius = 8;
 
-/*light.shadowCameraLeft = -d
-light.shadowCameraRight = d
-light.shadowCameraTop = d
-light.shadowCameraBottom = -d    //*/
-
-   //spotLight.shadow.camera.near = 1; 
-    //spotLight.shadow.camera.far = 60;
-    //spotLight.shadow.bias = - 0.005; // reduces self-shadowing on double-sided objects //*/
     this.spotLight.intensity = 1.0;
     this.scene.add( this.spotLight );
     this.scene.add( this.spotLight.target );
-    //spotLight.target.position = new THREE.Object3D( 0, 5, 0 );
 
   }
 

@@ -14,7 +14,7 @@ import { logger } from './P3dLog.js'
 
 const MAX_OBJECTS = 20;
 
-const DEBUG_ALWAYS_ENABLE = false;
+const DEBUG_ALWAYS_ENABLE = true;
 
 
 
@@ -37,6 +37,8 @@ export default class P3dSwarm
     this.xSpeed = [];
     this.ySpeed = [];
     this.zSpeed = [];
+    
+    this.xBaseSpeed = 0.0;
     
     this.windAmountX = 0.0;
     this.windAmountY = 0.0;
@@ -123,6 +125,8 @@ export default class P3dSwarm
   {
     this.frameCounter++;
   
+    this.xBaseSpeed += 0.000002;
+  
     if( this.frameCounter%780 == 0 )
     {
       this.windActive = true;
@@ -162,7 +166,7 @@ export default class P3dSwarm
       this.objectArray[i].rotation.z += 0.02;
       this.objectArray[i].rotation.y += this.xSpeed[i];
 
-      this.objectArray[i].position.x += this.xSpeed[i] + this.windAmountX * this.windScale;
+      this.objectArray[i].position.x += this.xSpeed[i] + this.windAmountX * this.windScale + this.xBaseSpeed;
       this.objectArray[i].position.y += this.windAmountY * this.windScale;
       
       this.objectArray[i].scale.x = 1.0 * this.sizeArray[i];
