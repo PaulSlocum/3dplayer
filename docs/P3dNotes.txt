@@ -20,6 +20,9 @@ TODO:
 - get seek buttons working
 - implement time/repeat buttons
 ~   -   ~   -   ~   -   ~   -   
+- check for situations where I'm copying RAM instead of copying a reference (especially in audio code)
+- convert double equals to triple equals
+~   -   ~   -   ~   -   ~   -   
 - adjust camera FOV to make CD drawer not stick out so much
 ~   -   ~   -   ~   -   ~   -   
 - make the LED display work with songs longer than 10 minutes 

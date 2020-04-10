@@ -43,6 +43,10 @@ export default class P3dMusicPlayer
     this.lowFilter = null;
     this.highFilter = null;
     this.gainNode = null;
+    this.delay = null;
+    //this.reverb = null;
+    this.feedbackGainNode = null;
+    this.wetGainNode = null;
 
     this.musicPauseTime = 0.0;
     this.musicStartTime = 0.0;
@@ -163,6 +167,9 @@ export default class P3dMusicPlayer
       this.mid.Q.value = 0.5;
       this.mid.gain.value = 0.0; //*/
 
+      this.delay = this.musicContext.createDelay(5.0);
+      this.delay.delayTime.value = 0.3;
+
       this.highFilter = this.musicContext.createBiquadFilter();
       this.highFilter.type = "highshelf";
       this.highFilter.frequency.value = 3200.0;
@@ -170,6 +177,12 @@ export default class P3dMusicPlayer
       
       this.gainNode = this.musicContext.createGain();
       this.gainNode.gain.value = this.volumeValue;
+      
+      this.feedbackGainNode = this.musicContext.createGain();
+      this.feedbackGainNode.gain.value = 0.5;
+      this.wetGainNode = this.musicContext.createGain();
+      this.wetGainNode.gain.value = 0.0;
+      
     }
   }
   
@@ -335,8 +348,14 @@ export default class P3dMusicPlayer
         this.musicSource.connect( this.lowFilter );
         this.lowFilter.connect( this.highFilter );
         this.highFilter.connect( this.gainNode );
+        this.highFilter.connect( this.delay );
         //this.low.connect( this.xfadeGain ); //*/
+        this.delay.connect( this.wetGainNode );
+        this.wetGainNode.connect( this.gainNode );
+        // ~    -   ~    -   ~    -   ~    -   
         this.gainNode.connect( this.musicContext.destination );
+        // ~    -   ~    -   ~    -   ~    -   
+        //this.gainNode.connect( this.delay );
         // Simple setting for the buffer
         this.musicSource.loop = false;
         this.musicSource.onended = this.musicEndedCallback.bind(this);
