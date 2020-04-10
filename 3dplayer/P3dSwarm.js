@@ -14,7 +14,7 @@ import { logger } from './P3dLog.js'
 
 const MAX_OBJECTS = 20;
 
-const DEBUG_ALWAYS_ENABLE = true;
+const DEBUG_ALWAYS_ENABLE = false;
 
 
 

@@ -166,7 +166,7 @@ export default class P3dGraphics
       if( this.trayOpen == true )
         this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.01  + 0.10;
       else 
-        this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.01;
+        this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 + 0.01;
       
       this.targetRotationY = Math.cos( this.frameCounter * rotationSpeed ) * 0.08;
 
@@ -311,7 +311,7 @@ export default class P3dGraphics
       this.loadedModel.position.z = -2.8; // DEFAULT DESKTOP SIZE
       //this.loadedModel.position.z = -5.5; // DEFAULT DESKTOP SIZE
       
-      this.loadedModel.position.y = 0.4;
+      this.loadedModel.position.y = 0.25;
       this.scene.add( this.loadedModel );
       
       this.modelLoadComplete();
