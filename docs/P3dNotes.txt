@@ -7,6 +7,8 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 - implement memory management for music files
 ~   -   ~   -   ~   -   ~   -   
+- figure out why buttons are being sent twice on iPod touch
+~   -   ~   -   ~   -   ~   -   
 - figure out transport timing issue with iPod touch
 ~   -   ~   -   ~   -   ~   -   
 - keep playing CD seeking sounds until music starts playing (or just lengthn CD sounds)
