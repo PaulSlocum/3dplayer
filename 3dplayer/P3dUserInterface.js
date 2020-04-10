@@ -47,12 +47,14 @@ export default class P3dUserInterface
   //////////////////////////////////////////////////////////////////////////
   mouseDown( event )
   {
+    event.preventDefault();
     this.touchMouseDown( event );
   }
   
   /////////////////////////////////////////////////////////////////////////
   mouseUp( event )
   {
+    event.preventDefault();
     this.touchMouseUp( event );
   }
 
@@ -60,16 +62,18 @@ export default class P3dUserInterface
   //////////////////////////////////////////////////////////////////////////
   touchDown( event )
   {
+    event.preventDefault();
     this.touchMouseDown( event.targetTouches[0] );
-    event.targetTouches[0].preventDefault();
+    //event.targetTouches[0].preventDefault();
   }
   
   
   /////////////////////////////////////////////////////////////////////////
   touchUp( event )
   {
+    event.preventDefault();
     this.touchMouseUp( event.targetTouches[0] );
-    event.targetTouches[0].preventDefault();
+    //event.targetTouches[0].preventDefault();
   }
 
 
