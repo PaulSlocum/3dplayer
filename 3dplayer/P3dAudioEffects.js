@@ -2,18 +2,22 @@
 
 
 
+
+/*
+
 var OfflineAudioContext = window.OfflineAudioContext || window.webkitOfflineAudioContext;
 
 
 
 class SimpleReverb extends Effect 
 {
-	constructor (context) {
+	constructor( context ) 
+	{
 		super(context);
 		this.name = "SimpleReverb";
 	}
 
-	setup (reverbTime=1) 
+	setup( reverbTime=1 ) 
 	{
 		this.effect = this.context.createConvolver();
 
@@ -201,4 +205,4 @@ document.getElementById("combined").addEventListener("mousedown",(e)=>{
 })
 
 
-
+//*/
