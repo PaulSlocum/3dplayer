@@ -16,7 +16,7 @@ import { logger } from './P3dLog.js'
 //-----------------------------------------
 
 
-const TOTAL_LED_DIGITS = 6;
+const TOTAL_LED_DIGITS = 7;
 const TOTAL_LED_SEGMENTS = 7;
 const SEGMENT_TABLE = 
 { 
@@ -73,9 +73,9 @@ export default class P3dLEDDriver
     this.displayGlassMaterial = null;
     
     this.mainLedArray = [ [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], 
-                          [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0] ];
+                          [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0] ];
     this.highlightLedArray = [ [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], 
-                               [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0] ];
+                               [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0] ];
     this.colonObject = null;
     this.colonHighlight = null;
     this.minusObject = null;
@@ -122,10 +122,12 @@ export default class P3dLEDDriver
     {
       for( let ledSegment=0; ledSegment<TOTAL_LED_SEGMENTS; ledSegment++ )
       {
-        var mainObjectName = "Seg1".concat( String.fromCharCode(ledSegment+97), "100", ledDigit+1 );
+        var mainObjectName = "Seg1".concat( String.fromCharCode(ledSegment+97), "100", ledDigit );
+        //logger( ">>>>>>>>>>>>> MAIN OBJECT NAME: ", mainObjectName );
         this.mainLedArray[ledDigit][ledSegment] = this.scene.getObjectByName( mainObjectName, true );
         
-        var highlightObjectName = "Seg1".concat( String.fromCharCode(ledSegment+97), "200", ledDigit+1 );
+        var highlightObjectName = "Seg1".concat( String.fromCharCode(ledSegment+97), "200", ledDigit );
+        //logger( ">>>>>>>>>>>>> HIGHLIGHT OBJECT NAME: ", highlightObjectName );
         this.highlightLedArray[ledDigit][ledSegment] = this.scene.getObjectByName( highlightObjectName, true );
       }
     } //*/
@@ -159,6 +161,7 @@ export default class P3dLEDDriver
   {
     //console.log( "---->LED DRIVER->SET: ", SEGMENT_TABLE[character] );
     let segmentArray = SEGMENT_TABLE[character];
+    
     for( let ledSegment=0; ledSegment<TOTAL_LED_SEGMENTS; ledSegment++ )
     {
       if( segmentArray[ledSegment] == 0 )

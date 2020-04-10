@@ -80,16 +80,16 @@ export default class P3dNumericDisplay
           this._updateStandardDisplay( appMode );
           break;
         case LedMode.VOLUME:
-          this.ledDriver.setString( 'XvolX5' );
-          this.ledDriver.setDigitCharacter( 5, this.appController.getVolume() );
+          this.ledDriver.setString( 'XXvolX5' );
+          this.ledDriver.setDigitCharacter( 6, this.appController.getVolume() );
           break;
         case LedMode.TREBLE:
-          this.ledDriver.setString( 'trebX5' );
-          this.ledDriver.setDigitCharacter( 5, this.appController.getTreble() );
+          this.ledDriver.setString( 'trebLX5' );
+          this.ledDriver.setDigitCharacter( 6, this.appController.getTreble() );
           break;
         case LedMode.BASS:
-          this.ledDriver.setString( 'bassX5' );
-          this.ledDriver.setDigitCharacter( 5, this.appController.getBass() );
+          this.ledDriver.setString( 'XbassX5' );
+          this.ledDriver.setDigitCharacter( 6, this.appController.getBass() );
           break;
       }
     }
@@ -156,7 +156,7 @@ export default class P3dNumericDisplay
     switch( appMode )
     {
       case TransportMode.STARTING_PLAY:
-          this.ledDriver.setString( 'pLayXX' );
+          this.ledDriver.setString( 'XpLayXX' );
           break;
       
       case TransportMode.PLAYING:
@@ -165,12 +165,13 @@ export default class P3dNumericDisplay
         let minutes = Math.floor( playbackTimeInt / 60 );
         let seconds = playbackTimeInt % 60;
         this.ledDriver.setDigitCharacter( 0, 'blank' );
-        this.ledDriver.setDigitCharacter( 1, minutes%10 );
-        this.ledDriver.setDigitCharacter( 2, Math.floor( seconds / 10 )%10 );
-        this.ledDriver.setDigitCharacter( 3, seconds%10 );
+        this.ledDriver.setDigitCharacter( 1, 'blank' );
+        this.ledDriver.setDigitCharacter( 2, minutes%10 );
+        this.ledDriver.setDigitCharacter( 3, Math.floor( seconds / 10 )%10 );
+        this.ledDriver.setDigitCharacter( 4, seconds%10 );
         
-        this.ledDriver.setDigitCharacter( 4, 'blank' );
-        this.ledDriver.setDigitCharacter( 5, trackNumber%10 ); //*/
+        this.ledDriver.setDigitCharacter( 5, 'blank' );
+        this.ledDriver.setDigitCharacter( 6, trackNumber%10 ); //*/
         break;
       }
       case TransportMode.PAUSED:
@@ -178,7 +179,7 @@ export default class P3dNumericDisplay
       {
         if( Math.floor(this.frameCounter/20)%3 == 0 )
         {
-          this.ledDriver.setString( 'XXXXXX' );
+          this.ledDriver.setString( 'XXXXXXX' );
         }
         else
         {
@@ -186,21 +187,22 @@ export default class P3dNumericDisplay
           let minutes = Math.floor( playbackTimeInt / 60 );
           let seconds = playbackTimeInt % 60;
           this.ledDriver.setDigitCharacter( 0, 'blank' );
-          this.ledDriver.setDigitCharacter( 1, minutes%10 );
-          this.ledDriver.setDigitCharacter( 2, Math.floor( seconds / 10 )%10 );
-          this.ledDriver.setDigitCharacter( 3, seconds%10 );
+          this.ledDriver.setDigitCharacter( 1, 'blank' );
+          this.ledDriver.setDigitCharacter( 2, minutes%10 );
+          this.ledDriver.setDigitCharacter( 3, Math.floor( seconds / 10 )%10 );
+          this.ledDriver.setDigitCharacter( 4, seconds%10 );
         }
-        this.ledDriver.setDigitCharacter( 4, 'blank' );
-        this.ledDriver.setDigitCharacter( 5, trackNumber%10 ); //*/
+        this.ledDriver.setDigitCharacter( 5, 'blank' );
+        this.ledDriver.setDigitCharacter( 6, trackNumber%10 ); //*/
         break;
       }
         
       case TransportMode.STOPPED:
         let numberOfTracks = this.appController.getNumberOfTracks();
-        this.ledDriver.setString( 'XXXXXX' );
+        this.ledDriver.setString( 'XXXXXXX' );
         //this.ledDriver.setString( 'stopXX' );
-        this.ledDriver.setDigitCharacter( 4, 'blank' );
-        this.ledDriver.setDigitCharacter( 5, numberOfTracks%10 ); //*/
+        this.ledDriver.setDigitCharacter( 5, 'blank' );
+        this.ledDriver.setDigitCharacter( 6, numberOfTracks%10 ); //*/
         break;
 
         // STANDBY DOESN'T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
@@ -211,19 +213,19 @@ export default class P3dNumericDisplay
         // STANDBY DOESN'T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
       case TransportMode.TRAY_OPEN:
       case TransportMode.TRAY_OPENING:
-        this.ledDriver.setString( 'OpeNXX' );
+        this.ledDriver.setString( 'XOpeNXX' );
         break;
 
         // STANDBY DOESN'T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
       case TransportMode.TRAY_CLOSING:
-        this.ledDriver.setString( 'LOadXX' );
+        this.ledDriver.setString( 'XLOadXX' );
         break;
 
       case TransportMode.SHUTDOWN:
-        this.ledDriver.setString( 'XOffXX' );
+        this.ledDriver.setString( 'XXOffXX' );
         break;
       case TransportMode.STARTUP:
-        this.ledDriver.setString( '888888' );
+        this.ledDriver.setString( '8888888' );
         break;
     }
 

@@ -276,7 +276,7 @@ export default class P3dGraphics
       { // ZOOM IN A LITTLE IF THE SCREEN IS REALLY WIDE
         if( this.windowWidth/this.windowHeight > 3 )
         { 
-          this.camera.position.z = 4.0+2.7;
+          this.camera.position.z = 3.9+2.7;
           this.camera.position.y = 0.0;
         } //*/
       }
