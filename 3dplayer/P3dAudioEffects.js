@@ -1,5 +1,66 @@
 
 
+//||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+export default class P3dAudioEffects
+{
+
+  ///////////////////////////////////////////////////////////////////////
+  constructor( audioContext )
+  {
+    this.audioContext = audioContext;
+    
+    this.lowFilter = this.audioContext.createBiquadFilter();
+    this.lowFilter.type = "lowshelf";
+    this.lowFilter.frequency.value = 320.0;
+    this.lowFilter.gain.value = this.bassValue;
+
+    this.highFilter = this.audioContext.createBiquadFilter();
+    this.highFilter.type = "highshelf";
+    this.highFilter.frequency.value = 3200.0;
+    this.highFilter.gain.value = this.trebleValue;
+  
+    this.gainNode = this.audioContext.createGain();
+    this.gainNode.gain.value = this.volumeValue;
+  
+    this.delay = this.audioContext.createDelay(5.0);
+    this.delay.delayTime.value = 0.3;
+
+    this.feedbackGainNode = this.audioContext.createGain();
+    this.feedbackGainNode.gain.value = 0.5;
+    this.wetGainNode = this.audioContext.createGain();
+    this.wetGainNode.gain.value = 0.6;
+
+    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
+
+    this.lowFilter.connect( this.highFilter );
+    this.highFilter.connect( this.gainNode );
+    this.highFilter.connect( this.delay );
+    this.delay.connect( this.wetGainNode );
+    this.wetGainNode.connect( this.gainNode );  //*/
+
+  }
+  
+  
+  ///////////////////////////////////////////////////////////////////////
+  connect( nodeToConnect )
+  {
+    this.gainNode.connect( nodeToConnect );
+  }
+  
+  
+  ///////////////////////////////////////////////////////////////////////
+  getInput()
+  {
+    return( this.lowFilter );
+  }
+  
+  
+
+}
+
+
+
+
 
 
 

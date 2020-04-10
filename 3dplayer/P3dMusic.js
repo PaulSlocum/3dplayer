@@ -7,6 +7,7 @@
 
 //-----------------------------------------------------------------------------------
 import { logger } from './P3dLog.js'
+import P3dAudioEffects from './P3dAudioEffects.js'
 //-----------------------------------------------------------------------------------
 
 
@@ -40,13 +41,6 @@ export default class P3dMusicPlayer
     //this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
     this.musicContext = null;
     this.musicSource = null;
-    this.lowFilter = null;
-    this.highFilter = null;
-    this.gainNode = null;
-    this.delay = null;
-    //this.reverb = null;
-    this.feedbackGainNode = null;
-    this.wetGainNode = null;
 
     this.musicPauseTime = 0.0;
     this.musicStartTime = 0.0;
@@ -64,6 +58,8 @@ export default class P3dMusicPlayer
     this.volumeValue = 1.0;
 
     this.delegate = delegate;
+   
+    this.effects = null;
     
     this.musicFiles = []; // ARRAY OF "MusicFile" CLASS/STRUCT
 
@@ -151,38 +147,9 @@ export default class P3dMusicPlayer
     if( this.musicContext == null )
     {
       this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
-
+      this.effects = new P3dAudioEffects( this.musicContext );
+      this.effects.connect( this.musicContext.destination ); //*/
       console.log( "----->PLAY MUSIC: CREATING CONTEXT: ", this.musicContext );
-
-      // LOW FILTER    
-      this.lowFilter = this.musicContext.createBiquadFilter();
-      this.lowFilter.type = "lowshelf";
-      this.lowFilter.frequency.value = 320.0;
-      this.lowFilter.gain.value = this.bassValue;
-
-      // MID RANGE FILTER (NOT CURRENTLY USED)
-      /*this.mid = audioCtx.createBiquadFilter();
-      this.mid.type = "peaking";
-      this.mid.frequency.value = 1000.0;
-      this.mid.Q.value = 0.5;
-      this.mid.gain.value = 0.0; //*/
-
-      this.delay = this.musicContext.createDelay(5.0);
-      this.delay.delayTime.value = 0.3;
-
-      this.highFilter = this.musicContext.createBiquadFilter();
-      this.highFilter.type = "highshelf";
-      this.highFilter.frequency.value = 3200.0;
-      this.highFilter.gain.value = this.trebleValue;
-      
-      this.gainNode = this.musicContext.createGain();
-      this.gainNode.gain.value = this.volumeValue;
-      
-      this.feedbackGainNode = this.musicContext.createGain();
-      this.feedbackGainNode.gain.value = 0.5;
-      this.wetGainNode = this.musicContext.createGain();
-      this.wetGainNode.gain.value = 0.0;
-      
     }
   }
   
@@ -340,26 +307,13 @@ export default class P3dMusicPlayer
         }
 
         // --> START PLAYBACK HERE <--
-        // Create a buffer for the incoming sound content
         this.musicSource = this.musicContext.createBufferSource();
         this.musicSource.buffer = this.musicFiles[this.musicPlayingFilename].decodedData;
-
-        // Connect the audio to source (multiple audio buffers can be connected!)
-        this.musicSource.connect( this.lowFilter );
-        this.lowFilter.connect( this.highFilter );
-        this.highFilter.connect( this.gainNode );
-        this.highFilter.connect( this.delay );
-        //this.low.connect( this.xfadeGain ); //*/
-        this.delay.connect( this.wetGainNode );
-        this.wetGainNode.connect( this.gainNode );
+        this.musicSource.connect( this.effects.getInput() );
         // ~    -   ~    -   ~    -   ~    -   
-        this.gainNode.connect( this.musicContext.destination );
-        // ~    -   ~    -   ~    -   ~    -   
-        //this.gainNode.connect( this.delay );
-        // Simple setting for the buffer
         this.musicSource.loop = false;
         this.musicSource.onended = this.musicEndedCallback.bind(this);
-        // Play the sound!
+        // ~    -   ~    -   ~    -   ~    -   
         this.musicSource.start( 0.0, this.musicPauseTime ); //*/
         this.musicPlaying = true;  
         this.musicStartTime = this.musicContext.currentTime;        

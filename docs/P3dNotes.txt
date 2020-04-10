@@ -12,6 +12,7 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 - refactor graphics class to separate out different graphics components
 - refactor transport class to separate event system from button processor
+- refactor music class to separate queuing system
 ~   -   ~   -   ~   -   ~   -   
 - implement memory management for music files
 ~   -   ~   -   ~   -   ~   -   
