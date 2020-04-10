@@ -5,7 +5,6 @@
 
 TODO:
 ~   -   ~   -   ~   -   ~   -   
-- figure out how to deal with interface issues on mobile
 - implement memory management for music files
 ~   -   ~   -   ~   -   ~   -   
 - figure out transport timing issue with iPod touch
@@ -13,10 +12,17 @@ TODO:
 - keep playing CD seeking sounds until music starts playing (or just lengthn CD sounds)
 ~   -   ~   -   ~   -   ~   -   
 - get seek buttons working
-- add repeat/time/shuffle buttons
+- implement time/repeat buttons
+~   -   ~   -   ~   -   ~   -   
+- adjust camera FOV to make CD drawer not stick out so much
+~   -   ~   -   ~   -   ~   -   
+- make the LED display work with songs longer than 10 minutes 
+- make the LED display work with albums with more than 9 tracks
+- change vol/treb/bass scale to 1-10 (or 0-10)
 ~   -   ~   -   ~   -   ~   -   
 - make it possible to set 3D model from script call
-- build alternate blender model to decide which direction to go with the design
+- build alternate blender model for mobile
+- make code automatically load mobile 3D model for mobile users
 ~   -   ~   -   ~   -   ~   -   
 
 
@@ -29,24 +35,11 @@ x fix audio start on mobile and Chrome
 x move light back to avoid objects moving out of light, but also adjust light's shadow camera to avoid issues with shadows
 x fix pinch zoom on mobile
 x make music pre-loading smarter (preload next track, avoid downloading so many tracks at once)
+x figure out how to deal with interface issues on mobile
+x add repeat/time buttons
 ~   -   ~   -   ~   -   ~   -   
 
 
-
---------------------------------------------------------------------------------
-/\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
---------------------------------------------------------------------------------
-
-WEB AUDIO BUG:
-
-Uncaught DOMException: Failed to execute 'stop' on 'AudioScheduledSourceNode': cannot call stop without calling start first.
-    at P3dMusicPlayer.pauseMusic (http://www.qotile.net/3dplayer/3dplayer/P3dMusic.js:200:26)
-    at P3dMusicPlayer.rewindMusic (http://www.qotile.net/3dplayer/3dplayer/P3dMusic.js:210:10)
-    at P3dTransport.nextTrack (http://www.qotile.net/3dplayer/3dplayer/P3dTransport.js:425:24)
-    at P3dTransport.processButtonEvent (http://www.qotile.net/3dplayer/3dplayer/P3dTransport.js:183:22)
-    at P3dController.processButtonEvent (http://www.qotile.net/3dplayer/3dplayer/P3dController.js:124:20)
-    at P3dUserInterface.touchMouseDown (http://www.qotile.net/3dplayer/3dplayer/P3dUserInterface.js:110:28)
-    at P3dUserInterface.mouseDown (http://www.qotile.net/3dplayer/3dplayer/P3dUserInterface.js:62:10)
 
 --------------------------------------------------------------------------------
 /\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
