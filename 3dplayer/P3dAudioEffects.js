@@ -105,13 +105,13 @@ export class P3dAudioEffects
                               /      \
                        FX_INPUT_GAIN  \  
                            |           \
-        ____________  FX_EQ_FILTER_1    \
+        ____________  (FX_EQ_FILTER_1)  \
        /            \     |              \
       /              FX_EQ_FILTER_2       \
      /              /          \           \
     /           DELAY1         REVERB       \  
    /           /      \            |         |
-  | FEEDBACK_GAIN1  DELAY_GAIN   REVERB_GAIN |
+  |(FEEDBACK_GAIN1) DELAY_GAIN   REVERB_GAIN |
   |_______|               \        |        /
                            \       |       /        
                             MAIN_BASS_FILTER       
@@ -135,7 +135,37 @@ Tight Ambience (1/4 Note) 	3.91 ms   496.09 ms   500 ms
   ///////////////////////////////////////////////////////////////////////
   setupNodes()
   {
-    /*this.mainEqLow = this.audioContext.createBiquadFilter();
+    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
+    // CREATE INPUT GAINS
+
+    this.inputGain = this.audioContext.createGain();
+    this.inputGain.gain.value = 1.0;
+  
+    this.effectsInputGain = this.audioContext.createGain();
+    this.effectsInputGain.gain.value = 0.8;
+    
+    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
+    // CREATE DELAY CHAIN
+
+    const MAX_DELAY_SEC = 5.0;
+    this.delay = this.audioContext.createDelay( MAX_DELAY_SEC );
+    this.delay.delayTime.value = 0.06;
+
+    this.delayGain = this.audioContext.createGain();
+    this.delayGain.gain.value = 0.3;
+
+    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
+    // CREATE REVERB CHAIN
+
+    this.reverb = new P3dReverb( this.audioContext );
+
+    this.reverbGain = this.audioContext.createGain();
+    this.reverbGain.gain.value = 0.05;
+  
+    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
+    // CREATE OUTPUT CHAIN
+
+    this.mainEqLow = this.audioContext.createBiquadFilter();
     this.mainEqLow.type = "lowshelf";
     this.mainEqLow.frequency.value = 320.0;
     this.mainEqLow.gain.value = this.bassValue;
@@ -145,23 +175,6 @@ Tight Ambience (1/4 Note) 	3.91 ms   496.09 ms   500 ms
     this.mainEqHigh.frequency.value = 3200.0;
     this.mainEqHigh.gain.value = this.trebleValue;
   
-    const MAX_DELAY_SEC = 5.0;
-    this.delay = this.audioContext.createDelay( MAX_DELAY_SEC );
-    this.delay.delayTime.value = 0.3;
-
-    this.delayGain = this.audioContext.createGain();
-    this.delayGain.gain.value = 0.5; //*/
-
-    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
-
-    this.inputGain = this.audioContext.createGain();
-    this.inputGain.gain.value = 1.0;
-  
-    this.effectsInputGain = this.audioContext.createGain();
-    this.effectsInputGain.gain.value = 0.2;
-    
-    this.reverb = new P3dReverb( this.audioContext );
-  
     this.compressor = this.audioContext.createDynamicsCompressor();
     this.compressor.threshold.setValueAtTime( -24, this.audioContext.currentTime );
     this.compressor.knee.setValueAtTime( 40, this.audioContext.currentTime );
@@ -170,19 +183,21 @@ Tight Ambience (1/4 Note) 	3.91 ms   496.09 ms   500 ms
     this.compressor.release.setValueAtTime( 0.25, this.audioContext.currentTime );
 
     // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
+    // LINK EVERYTHING TOGETHER
 
-    this.inputGain.connect( this.compressor );
+    this.inputGain.connect( this.mainEqLow );
     this.inputGain.connect( this.effectsInputGain );
+    
     this.effectsInputGain.connect( this.reverb.getInput() );
-    this.reverb.connect( this.compressor ); 
+    this.reverb.connect( this.reverbGain ); 
+    this.reverbGain.connect( this.mainEqLow );
 
-    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
-
-    /*this.mainEqLow.connect( this.mainEqHigh );
-    this.mainEqHigh.connect( this.inputGain );
-    this.mainEqHigh.connect( this.delay );
+    this.effectsInputGain.connect( this.delay );
     this.delay.connect( this.delayGain );
-    this.delayGain.connect( this.mainVolume );  //*/
+    this.delayGain.connect( this.mainEqLow );  //*/
+
+    this.mainEqLow.connect( this.mainEqHigh );
+    this.mainEqHigh.connect( this.compressor );
 
   }
   

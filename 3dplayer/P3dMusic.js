@@ -285,7 +285,7 @@ export default class P3dMusicPlayer
     {
       if( this.musicFiles[this.musicPlayingFilename].decodedData != null )
       {
-        logger( "----> PLAYBACK STARTING: MUSIC SOURCE: ", this.musicSource, this.musicFiles[this.musicPlayingFilename].decodedData );
+        //logger( "----> PLAYBACK STARTING: MUSIC SOURCE: ", this.musicSource, this.musicFiles[this.musicPlayingFilename].decodedData );
 
         // THIS IS TO POTENTIALLY FIX A BUG IN CHROME, NOT SURE IF IT WORKS...
         // DISABLED FOR NOW BECAUSE I'M NOT SURE IT'S NECESSARY
