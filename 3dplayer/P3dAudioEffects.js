@@ -98,6 +98,40 @@ export class P3dAudioEffects
     this.setupNodes();    
   }
   
+/*
+                               (input)
+                                /  \
+                               /    \
+                              /      \
+                       FX_INPUT_GAIN  \  
+                           |           \
+        ____________  FX_EQ_FILTER_1    \
+       /            \     |              \
+      /              FX_EQ_FILTER_2       \
+     /              /          \         DRY_GAIN
+    /           DELAY1         REVERB         |
+   /           /      \            |          |
+  | FEEDBACK_GAIN  DELAY_GAIN   REVERB_GAIN   |
+  |________|              \        |         /
+                           \_______|________/        
+                                   |
+                            MAIN_BASS_FILTER       
+                                   |
+                            MAIN_TREBLE_FILTER       
+                                   |
+                               COMPRESSOR
+                                   |
+                                   *
+                                (output)
+                                
+                                
+REVERB TIMINGS             PRE_DELAY  DECAY_TIME  TOTAL_TIME                              
+Hall (2 Bars)	             62.5 ms    3937.50 ms  4000 ms
+Large Room (1 Bar)	       31.25 ms   1968.75 ms  2000 ms
+Small Room (1/2 Note)      15.63 ms   984.37 ms   1000 ms
+Tight Ambience (1/4 Note) 	3.91 ms   496.09 ms   500 ms
+
+//*/  
   
   ///////////////////////////////////////////////////////////////////////
   setupNodes()
@@ -123,7 +157,7 @@ export class P3dAudioEffects
     //this.feedbackGainNode.gain.value = 0.5;
     
     this.delayGain = this.audioContext.createGain();
-    this.delayGain.gain.value = 0.0;
+    this.delayGain.gain.value = 0.5;
 
     // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
 

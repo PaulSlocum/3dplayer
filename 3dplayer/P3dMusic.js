@@ -150,8 +150,8 @@ export default class P3dMusicPlayer
       this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
 
 	  	logger( "----->MUSIC: CREATING EFFECTS" );
-      //this.effects = new P3dAudioEffects( this.musicContext );
-      this.effects = new P3dReverb( this.musicContext );
+      this.effects = new P3dAudioEffects( this.musicContext );
+      //this.effects = new P3dReverb( this.musicContext );
       this.effects.connect( this.musicContext.destination ); //*/
       console.log( "----->PLAY MUSIC: CREATING CONTEXT: ", this.musicContext );
     }
