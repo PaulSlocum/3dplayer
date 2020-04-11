@@ -15,116 +15,74 @@ export class P3dReverb
 	{
 		logger( "----->REVERB: CONSTRUCTOR" );
 		
-		//super(context);
-		//this.name = "SimpleReverb";
 		this.context = context;
 		this.setup();
 	}
 
+
 	///////////////////////////////////////////////////////////////////////////////
-	setup( reverbTime = 1.0 ) 
+	setup() 
 	{
 		this.effect = this.context.createConvolver();
 
-		//this.reverbTime = reverbTime;
-
-		//this.attack = 0.0001;
-		//this.decay = 0.1;
-		//this.release = reverbTime;
-
-		this.wet = this.context.createGain();
-    this.wet.gain.value = 0.7;
-    this.wet.connect( this.effect );
+		this.inputGain = this.context.createGain();
+    this.inputGain.gain.value = 0.7;
+    this.inputGain.connect( this.effect );
 
 		this.outputGain = this.context.createGain();
     this.outputGain.gain.value = 10.0;
     this.effect.connect( this.outputGain );
 		
-		//this.renderTail();
-		
 		logger( "----->REVERB: LOADING IMPULSE FILE" );
-		
-		let ajaxRequest = new XMLHttpRequest();
-    ajaxRequest.open('GET', '3dplayer/sounds/reverb1500ms1c.wav', true);
-    //ajaxRequest.open('GET', '3dplayer/sounds/cdSpinup1.wav', true);
-    //ajaxRequest.open('GET', 'https://mdn.github.io/voice-change-o-matic/audio/concert-crowd.ogg', true);
+		let fileRequest = new XMLHttpRequest();
+    //fileRequest.open('GET', '3dplayer/sounds/reverb1500ms1a.wav', true);
+    //fileRequest.open('GET', '3dplayer/sounds/reverb1500ms1b.wav', true);
+    fileRequest.open('GET', '3dplayer/sounds/reverb1500ms1c.wav', true);
     
-    ajaxRequest.responseType = 'arraybuffer';
-    ajaxRequest.onload = function() 
+    fileRequest.responseType = 'arraybuffer';
+    fileRequest.onload = function() 
     {
-		  logger( "----->REVERB: IMPULSE FILE LOADED. DECODING...", this, ajaxRequest );
-      let audioData = ajaxRequest.response;
+		  logger( "----->REVERB: IMPULSE FILE LOADED. DECODING...", this, fileRequest );
+      let audioData = fileRequest.response;
       this.context.decodeAudioData( audioData, function(buffer) 
       { // DECODE SUCCESS
   		  logger( "----->REVERB: DECODED.", buffer );
-        //soundSource = audioCtx.createBufferSource();
-        //convolver.buffer = buffer;
         this.effect.buffer = buffer;
-      }.bind(this)
-      , function(e)
+      }.bind(this), function(e)
       { // ERROR HANDLER
         console.log("Error with decoding audio data" + e.err);
       } //*/
       ); 
 
-      //soundSource.connect(audioCtx.destination);
-      //soundSource.loop = true;
-      //soundSource.start();
     }.bind(this);
 
-    ajaxRequest.send();
-    
-	}
-
-	///////////////////////////////////////////////////////////////////////////////
-	/*renderTail () 
-	{
-	  console.log( "renderTail", this.context.sampleRate, this.reverbTime, this.context.sampleRate )
-    const tailContext = new OfflineAudioContext( 2, this.context.sampleRate * this.reverbTime, this.context.sampleRate );
-					tailContext.oncomplete = (buffer) => {
-						this.effect.buffer = buffer.renderedBuffer;
-					}
-		
-    const tailOsc = new Noise(tailContext, 1);
-          tailOsc.init();
-          tailOsc.connect(tailContext.destination);
-          tailOsc.attack = this.attack;
-          tailOsc.decay = this.decay;
-          tailOsc.release = this.release;
-		
-      
-      tailOsc.on({frequency: 500, velocity: 1});
-			tailContext.startRendering();
-		setTimeout(()=>{
-			tailOsc.off(); 
-		},1);
-	} //*/
-
-
-  ///////////////////////////////////////////////////////////////////////
-	set decayTime(value) 
-	{
-		let dc = value/3;
-		this.reverbTime = value;
-		this.release = dc;
-    return this.renderTail();
+    fileRequest.send();
 	}
 
   ///////////////////////////////////////////////////////////////////////
   connect( inputToConnect )
   {
-    //this.wet.connect( inputToConnect );
     this.outputGain.connect( inputToConnect );
   }
 	
 	///////////////////////////////////////////////////////////////////////////////
 	getInput()
 	{
-	  //return( this.effect );
-	  return( this.wet );
+	  return( this.inputGain );
 	}
 
 }
+
+
+// -   ~    -   ~    -   ~    - 
+// COMPONENTS TO ADD:
+// - dry mix gain
+// - predelays (2-3?)
+// - predelay feedback gain
+// - compressor
+// -   ~    -   ~    -   ~    - 
+// - wet filter (maybe 2?)
+// -   ~    -   ~    -   ~    - 
 
 
 
@@ -137,35 +95,43 @@ export class P3dAudioEffects
   constructor( audioContext )
   {
     this.audioContext = audioContext;
-    
-    this.lowFilter = this.audioContext.createBiquadFilter();
-    this.lowFilter.type = "lowshelf";
-    this.lowFilter.frequency.value = 320.0;
-    this.lowFilter.gain.value = this.bassValue;
+    this.setupNodes();    
+  }
+  
+  
+  ///////////////////////////////////////////////////////////////////////
+  setupNodes()
+  {
+    this.mainEqLow = this.audioContext.createBiquadFilter();
+    this.mainEqLow.type = "lowshelf";
+    this.mainEqLow.frequency.value = 320.0;
+    this.mainEqLow.gain.value = this.bassValue;
 
-    this.highFilter = this.audioContext.createBiquadFilter();
-    this.highFilter.type = "highshelf";
-    this.highFilter.frequency.value = 3200.0;
-    this.highFilter.gain.value = this.trebleValue;
+    this.mainEqHigh = this.audioContext.createBiquadFilter();
+    this.mainEqHigh.type = "highshelf";
+    this.mainEqHigh.frequency.value = 3200.0;
+    this.mainEqHigh.gain.value = this.trebleValue;
   
-    this.gainNode = this.audioContext.createGain();
-    this.gainNode.gain.value = this.volumeValue;
+    this.mainVolume = this.audioContext.createGain();
+    this.mainVolume.gain.value = this.volumeValue;
   
-    this.delay = this.audioContext.createDelay(5.0);
+    const MAX_DELAY_SEC = 5.0;
+    this.delay = this.audioContext.createDelay( MAX_DELAY_SEC );
     this.delay.delayTime.value = 0.3;
 
-    this.feedbackGainNode = this.audioContext.createGain();
-    this.feedbackGainNode.gain.value = 0.5;
-    this.wetGainNode = this.audioContext.createGain();
-    this.wetGainNode.gain.value = 0.0;
+    //this.feedbackGainNode = this.audioContext.createGain();
+    //this.feedbackGainNode.gain.value = 0.5;
+    
+    this.delayGain = this.audioContext.createGain();
+    this.delayGain.gain.value = 0.0;
 
     // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
 
-    this.lowFilter.connect( this.highFilter );
-    this.highFilter.connect( this.gainNode );
-    this.highFilter.connect( this.delay );
-    this.delay.connect( this.wetGainNode );
-    this.wetGainNode.connect( this.gainNode );  //*/
+    this.mainEqLow.connect( this.mainEqHigh );
+    this.mainEqHigh.connect( this.mainVolume );
+    this.mainEqHigh.connect( this.delay );
+    this.delay.connect( this.delayGain );
+    this.delayGain.connect( this.mainVolume );  //*/
 
   }
   
@@ -173,14 +139,14 @@ export class P3dAudioEffects
   ///////////////////////////////////////////////////////////////////////
   connect( inputToConnect )
   {
-    this.gainNode.connect( inputToConnect );
+    this.mainVolume.connect( inputToConnect );
   }
   
   
   ///////////////////////////////////////////////////////////////////////
   getInput()
   {
-    return( this.lowFilter );
+    return( this.mainEqLow );
   }
   
   
