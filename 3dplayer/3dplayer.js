@@ -31,7 +31,7 @@ for( let i=1; endOfList==false; i++ )
   else
     endOfList = true;
 }
-logger( "--->FILE LIST: ", filenameList );
+//logger( "--->FILE LIST: ", filenameList );
 
 // GET WINDOW SIZE FROM HTML PARAMETERS
 let windowWidth = script.getAttribute('width');

@@ -10,6 +10,7 @@ TODO:
 - implement effect preset interface in transport
 - implement effect mode display
 ~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
 - refactor graphics class to separate out different graphics components
 - refactor transport class to separate event system from button processor
 - refactor music class to separate queuing system
@@ -51,6 +52,7 @@ x figure out how to deal with interface issues on mobile
 x add repeat/time buttons
 x figure out why buttons are being sent twice on iPod touch
 x figure out transport timing issue with iPod touch
+x figure out where HTTP result 0 is coming from
 ~   -   ~   -   ~   -   ~   -   
 
 

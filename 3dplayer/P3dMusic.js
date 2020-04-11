@@ -70,7 +70,6 @@ export default class P3dMusicPlayer
   ///////////////////////////////////////////////////////////////////////////
   setVolume( value )
   {
-    logger( "------> MUSIC PLAYER: SETTING VOLUME: ", value );
     this.volumeValue = value;
     if( this.musicPlaying == true )
       this.gainNode.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
@@ -81,7 +80,6 @@ export default class P3dMusicPlayer
   ///////////////////////////////////////////////////////////////////////////
   setBass( value )
   {
-    logger( "------> MUSIC PLAYER: SETTING BASS: ", value );
     this.bassValue = value * TREBLE_BASS_MULTIPLIER;
     if( this.musicPlaying == true )
       this.lowFilter.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
@@ -91,7 +89,6 @@ export default class P3dMusicPlayer
   ///////////////////////////////////////////////////////////////////////////
   setTreble( value )
   {
-    logger( "------> MUSIC PLAYER: SETTING TREBLE: ", value );
     this.trebleValue = value * TREBLE_BASS_MULTIPLIER;
     if( this.musicPlaying == true )
       this.highFilter.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
@@ -127,12 +124,12 @@ export default class P3dMusicPlayer
   {
     this.initMusicFile( musicFilename );
     
-    logger( "-----> MUSIC: DECODE FILE: ", musicFilename );
+    //logger( "-----> MUSIC: DECODE FILE: ", musicFilename );
 
     if( this.musicFiles[musicFilename].decodeStarted == false  &&  
         this.musicDecodeQueue.includes( musicFilename ) == false )
     {
-      logger( "-----> MUSIC: ADDING TO DOWNLOAD QUEUE: ", musicFilename );
+      //logger( "-----> MUSIC: ADDING TO DOWNLOAD QUEUE: ", musicFilename );
       this.downloadMusic( musicFilename ); // IN CASE MUSIC ISN'T ALREADY DOWNLOADED
       this.musicDecodeQueue.push( musicFilename );
       this.processMusicQueues();
@@ -149,7 +146,6 @@ export default class P3dMusicPlayer
     {
       this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
 
-	  	logger( "----->MUSIC: CREATING EFFECTS" );
       this.effects = new P3dAudioEffects( this.musicContext );
       //this.effects = new P3dReverb( this.musicContext );
       this.effects.connect( this.musicContext.destination ); //*/
@@ -239,32 +235,20 @@ export default class P3dMusicPlayer
     if( this.musicDownloading == false  &&  this.musicDownloadQueue.length > 0 )
     {
       let downloadFilename = this.musicDownloadQueue.shift();
-      this.musicFiles[downloadFilename].downloadStarted = true;
-    
       //logger( "-----> MUSIC UPDATE: DOWNLOADING: ", downloadFilename );
-
-      //this.musicSource = this.musicContext.createBufferSource();
-
+      this.musicFiles[downloadFilename].downloadStarted = true;
       this.musicDownloading = true;
       
-      // Create the XHR which will grab the audio contents
       let request = new XMLHttpRequest();
-      // Set the audio file src here
       request.open('GET', downloadFilename, true);
-      //this.request.open('GET', '3dplayer/sounds/clickDown.wav', true);
-      // Setting the responseType to arraybuffer sets up the audio decoding
       request.responseType = 'arraybuffer';
       request.onload = function() 
       { // FILE LOADER CALLBACK:
       
-        // Decode the audio once the require is complete
-        logger( "-----> MUSIC DOWNLOADED: ", downloadFilename, request );
+        //logger( "-----> MUSIC DOWNLOADED: ", downloadFilename, request );
         this.musicFiles[downloadFilename].fileData = request.response;
         this.musicDownloading = false;
         this.processMusicQueues();
-        
-        //this.musicContext.decodeAudioData( request.response, function(buffer)  
-      // Send the request which kicks off 
       }.bind(this,request,downloadFilename)
       
       request.send(); 
@@ -276,14 +260,14 @@ export default class P3dMusicPlayer
       // MAKE SURE FILE IS FINISHED DOWNLOADING
       if( this.musicFiles[this.musicDecodeQueue[0]].fileData != null )
       {
-        logger( "------> PROCESS MUSIC: DECODE QUEUE 0: ", this.musicDecodeQueue[0] );
+        //logger( "------> PROCESS MUSIC: DECODE QUEUE 0: ", this.musicDecodeQueue[0] );
         let decodeFilename = this.musicDecodeQueue.shift();
         this.musicFiles[decodeFilename].decodeStarted = true;
         this.musicDecoding = true;
         this.preloadContext.decodeAudioData( this.musicFiles[decodeFilename].fileData, function( decodeFilename, buffer)  
         { // DECODER CALLBACK:
 
-          logger( "-----> MUSIC DECODED, CONTEXT: ", this.preloadContext, decodeFilename, buffer );
+          //logger( "-----> MUSIC DECODED, CONTEXT: ", this.preloadContext, decodeFilename, buffer );
           this.musicFiles[decodeFilename].decodedData = buffer;
           this.musicDecoding = false;
    
@@ -303,12 +287,13 @@ export default class P3dMusicPlayer
       {
         logger( "----> PLAYBACK STARTING: MUSIC SOURCE: ", this.musicSource, this.musicFiles[this.musicPlayingFilename].decodedData );
 
-        // THIS IS TO POTENTIALLY FIX A BUG IN CHROME, NOT SURE IF IT WORKS YET...
-        if( this.musicContext.state === 'suspended'  &&  typeof this.musicContext.resume === 'function' ) 
+        // THIS IS TO POTENTIALLY FIX A BUG IN CHROME, NOT SURE IF IT WORKS...
+        // DISABLED FOR NOW BECAUSE I'M NOT SURE IT'S NECESSARY
+        /*if( this.musicContext.state === 'suspended'  &&  typeof this.musicContext.resume === 'function' ) 
         {
           logger( "-----------> MUSIC CONTEXT RESUMED" );
           this.musicContext.resume();
-        }
+        } //*/
 
         // --> START PLAYBACK HERE <--
         this.musicSource = this.musicContext.createBufferSource();
@@ -333,7 +318,7 @@ export default class P3dMusicPlayer
   {
     if( this.musicPlaying == true )
     {
-      logger( "------> MUSIC PLAYER: MUSIC ENDED CALLBACK" );
+      //logger( "------> MUSIC PLAYER: MUSIC ENDED CALLBACK" );
       this.delegate.musicEndedCallback();
     }//*/
   }

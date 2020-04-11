@@ -193,10 +193,10 @@ export default class P3dGraphics
     if( this.currentClip )
     {
       //var clip1 = this.loadedAnimations[ 'ButtonPause' ];
-      logger("---->CLIP: ", this.currentClip, this.currentClip.name );
+      //logger("---->CLIP: ", this.currentClip, this.currentClip.name );
       this.currentAction = this.animationMixer.clipAction( this.currentClip );
       //var action1 = this.animationMixer.clipAction( this.loadedAnimations[ 'TrayOpen' ] );
-      logger("---->ACTION: ", this.currentAction );
+      //logger("---->ACTION: ", this.currentAction );
       this.currentAction.clampWhenFinished = true;
       this.currentAction.setLoop( THREE.LoopOnce );
       //if( rate < 0.0 )
@@ -296,13 +296,14 @@ export default class P3dGraphics
     {
       edgePositionTest++;
     }
-    logger( "------------------ EDGE POSITION:", edgePositionTest, " ------------- " )
+    //logger( "------------------ EDGE POSITION:", edgePositionTest, " ------------- " )
     this.screenEdgePosition = edgePositionTest;
 
     // INSTANTIATE GLTF LOADER FOR THE PLAYER MODEL
     const gltfLoader = new GLTFLoader();
     const url = '3dplayer/model/saeCdPlayer.glb';
-    //const url = '3dplayer/model/saeCdReceiver.glb';
+
+    // NOTE: THIS RESULTS IN A "HTTP Status 0 received" MESSAGE WHEN IT WORKS CORRECTLY
     gltfLoader.load(url, (gltf) => 
     { // GTLF LOADER CALLBACK...
       
@@ -320,7 +321,7 @@ export default class P3dGraphics
       this.animationMixer = new THREE.AnimationMixer( this.loadedModel );
       for( let i=0; i<gltf.animations.length; i++ )
       {
-        logger( "SCANNING ANIMATIONS: ", i, gltf.animations[i].name );
+        //logger( "SCANNING ANIMATIONS: ", i, gltf.animations[i].name );
         this.loadedAnimations[gltf.animations[i].name] = gltf.animations[i];
       }
       
@@ -372,14 +373,6 @@ export default class P3dGraphics
       vertexShader: this.shaders.cdVertexShader(),
     })
 
-    
-    // OTHER MATERIAL OPTIONS (DEBUG)    
-    //const material = new THREE.MeshBasicMaterial( { color: 0xFFFFFF } );
-    //const material = new THREE.MeshBasicMaterial( { color: 0x101030 } );
-    //const material = new THREE.MeshPhongMaterial();
-    //const material = new THREE.MeshStandardMaterial();
-    //material.flatShading = true; //*/
-    
     this.roomCube = new THREE.Mesh( geometry, this.roomMaterial );
     this.roomCube.rotation.x = 200;
     this.roomCube.rotation.y = 120;
