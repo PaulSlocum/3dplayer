@@ -100,21 +100,20 @@ export class P3dAudioEffects
   
 /*
                                (input)
-                                /  \
-                               /    \
+                                 |
+                             INPUT_GAIN
                               /      \
                        FX_INPUT_GAIN  \  
                            |           \
         ____________  FX_EQ_FILTER_1    \
        /            \     |              \
       /              FX_EQ_FILTER_2       \
-     /              /          \         DRY_GAIN
-    /           DELAY1         REVERB         |
-   /           /      \            |          |
-  | FEEDBACK_GAIN  DELAY_GAIN   REVERB_GAIN   |
-  |________|              \        |         /
-                           \_______|________/        
-                                   |
+     /              /          \           \
+    /           DELAY1         REVERB       \  
+   /           /      \            |         |
+  | FEEDBACK_GAIN1  DELAY_GAIN   REVERB_GAIN |
+  |_______|               \        |        /
+                           \       |       /        
                             MAIN_BASS_FILTER       
                                    |
                             MAIN_TREBLE_FILTER       
@@ -158,6 +157,16 @@ Tight Ambience (1/4 Note) 	3.91 ms   496.09 ms   500 ms
     
     this.delayGain = this.audioContext.createGain();
     this.delayGain.gain.value = 0.5;
+
+    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
+
+    this.compressor = this.audioContext.createDynamicsCompressor();
+    this.compressor.threshold.setValueAtTime( -24, this.audioContext.currentTime );
+    this.compressor.knee.setValueAtTime( 40, this.audioContext.currentTime );
+    this.compressor.ratio.setValueAtTime( 12, this.audioContext.currentTime );
+    this.compressor.attack.setValueAtTime( 0, this.audioContext.currentTime );
+    this.compressor.release.setValueAtTime( 0.25, this.audioContext.currentTime );
+    //this.compressor.connect( Audio.destination );
 
     // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
 
