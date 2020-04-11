@@ -16,6 +16,8 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 - implement memory management for music files
 ~   -   ~   -   ~   -   ~   -   
+- figure out correct way to export, probably without using "default"
+~   -   ~   -   ~   -   ~   -   
 - keep playing CD seeking sounds until music starts playing (or maybe just lengthn CD sounds)
 ~   -   ~   -   ~   -   ~   -   
 - get seek buttons working

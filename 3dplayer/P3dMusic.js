@@ -7,7 +7,8 @@
 
 //-----------------------------------------------------------------------------------
 import { logger } from './P3dLog.js'
-import P3dAudioEffects from './P3dAudioEffects.js'
+import { P3dAudioEffects } from './P3dAudioEffects.js'
+import { P3dReverb } from './P3dAudioEffects.js'
 //-----------------------------------------------------------------------------------
 
 
@@ -147,7 +148,10 @@ export default class P3dMusicPlayer
     if( this.musicContext == null )
     {
       this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
-      this.effects = new P3dAudioEffects( this.musicContext );
+
+	  	logger( "----->MUSIC: CREATING EFFECTS" );
+      //this.effects = new P3dAudioEffects( this.musicContext );
+      this.effects = new P3dReverb( this.musicContext );
       this.effects.connect( this.musicContext.destination ); //*/
       console.log( "----->PLAY MUSIC: CREATING CONTEXT: ", this.musicContext );
     }

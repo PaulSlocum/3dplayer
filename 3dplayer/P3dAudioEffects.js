@@ -1,7 +1,136 @@
 
+//-----------------------------------------------------------------------------------
+import { logger } from './P3dLog.js'
+//-----------------------------------------------------------------------------------
+
+
+
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-export default class P3dAudioEffects
+export class P3dReverb 
+{
+
+	///////////////////////////////////////////////////////////////////////////////
+	constructor( context ) 
+	{
+		logger( "----->REVERB: CONSTRUCTOR" );
+		
+		//super(context);
+		//this.name = "SimpleReverb";
+		this.context = context;
+		this.setup();
+	}
+
+	///////////////////////////////////////////////////////////////////////////////
+	setup( reverbTime = 1.0 ) 
+	{
+		this.effect = this.context.createConvolver();
+
+		//this.reverbTime = reverbTime;
+
+		//this.attack = 0.0001;
+		//this.decay = 0.1;
+		//this.release = reverbTime;
+
+		this.wet = this.context.createGain();
+    this.wet.gain.value = 0.7;
+    this.wet.connect( this.effect );
+
+		this.outputGain = this.context.createGain();
+    this.outputGain.gain.value = 10.0;
+    this.effect.connect( this.outputGain );
+		
+		//this.renderTail();
+		
+		logger( "----->REVERB: LOADING IMPULSE FILE" );
+		
+		let ajaxRequest = new XMLHttpRequest();
+    ajaxRequest.open('GET', '3dplayer/sounds/reverb1500ms1c.wav', true);
+    //ajaxRequest.open('GET', '3dplayer/sounds/cdSpinup1.wav', true);
+    //ajaxRequest.open('GET', 'https://mdn.github.io/voice-change-o-matic/audio/concert-crowd.ogg', true);
+    
+    ajaxRequest.responseType = 'arraybuffer';
+    ajaxRequest.onload = function() 
+    {
+		  logger( "----->REVERB: IMPULSE FILE LOADED. DECODING...", this, ajaxRequest );
+      let audioData = ajaxRequest.response;
+      this.context.decodeAudioData( audioData, function(buffer) 
+      { // DECODE SUCCESS
+  		  logger( "----->REVERB: DECODED.", buffer );
+        //soundSource = audioCtx.createBufferSource();
+        //convolver.buffer = buffer;
+        this.effect.buffer = buffer;
+      }.bind(this)
+      , function(e)
+      { // ERROR HANDLER
+        console.log("Error with decoding audio data" + e.err);
+      } //*/
+      ); 
+
+      //soundSource.connect(audioCtx.destination);
+      //soundSource.loop = true;
+      //soundSource.start();
+    }.bind(this);
+
+    ajaxRequest.send();
+    
+	}
+
+	///////////////////////////////////////////////////////////////////////////////
+	/*renderTail () 
+	{
+	  console.log( "renderTail", this.context.sampleRate, this.reverbTime, this.context.sampleRate )
+    const tailContext = new OfflineAudioContext( 2, this.context.sampleRate * this.reverbTime, this.context.sampleRate );
+					tailContext.oncomplete = (buffer) => {
+						this.effect.buffer = buffer.renderedBuffer;
+					}
+		
+    const tailOsc = new Noise(tailContext, 1);
+          tailOsc.init();
+          tailOsc.connect(tailContext.destination);
+          tailOsc.attack = this.attack;
+          tailOsc.decay = this.decay;
+          tailOsc.release = this.release;
+		
+      
+      tailOsc.on({frequency: 500, velocity: 1});
+			tailContext.startRendering();
+		setTimeout(()=>{
+			tailOsc.off(); 
+		},1);
+	} //*/
+
+
+  ///////////////////////////////////////////////////////////////////////
+	set decayTime(value) 
+	{
+		let dc = value/3;
+		this.reverbTime = value;
+		this.release = dc;
+    return this.renderTail();
+	}
+
+  ///////////////////////////////////////////////////////////////////////
+  connect( inputToConnect )
+  {
+    //this.wet.connect( inputToConnect );
+    this.outputGain.connect( inputToConnect );
+  }
+	
+	///////////////////////////////////////////////////////////////////////////////
+	getInput()
+	{
+	  //return( this.effect );
+	  return( this.wet );
+	}
+
+}
+
+
+
+
+//||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+export class P3dAudioEffects
 {
 
   ///////////////////////////////////////////////////////////////////////
@@ -28,7 +157,7 @@ export default class P3dAudioEffects
     this.feedbackGainNode = this.audioContext.createGain();
     this.feedbackGainNode.gain.value = 0.5;
     this.wetGainNode = this.audioContext.createGain();
-    this.wetGainNode.gain.value = 0.6;
+    this.wetGainNode.gain.value = 0.0;
 
     // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
 
@@ -42,9 +171,9 @@ export default class P3dAudioEffects
   
   
   ///////////////////////////////////////////////////////////////////////
-  connect( nodeToConnect )
+  connect( inputToConnect )
   {
-    this.gainNode.connect( nodeToConnect );
+    this.gainNode.connect( inputToConnect );
   }
   
   
