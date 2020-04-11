@@ -135,7 +135,7 @@ Tight Ambience (1/4 Note) 	3.91 ms   496.09 ms   500 ms
   ///////////////////////////////////////////////////////////////////////
   setupNodes()
   {
-    this.mainEqLow = this.audioContext.createBiquadFilter();
+    /*this.mainEqLow = this.audioContext.createBiquadFilter();
     this.mainEqLow.type = "lowshelf";
     this.mainEqLow.frequency.value = 320.0;
     this.mainEqLow.gain.value = this.bassValue;
@@ -145,33 +145,41 @@ Tight Ambience (1/4 Note) 	3.91 ms   496.09 ms   500 ms
     this.mainEqHigh.frequency.value = 3200.0;
     this.mainEqHigh.gain.value = this.trebleValue;
   
-    this.mainVolume = this.audioContext.createGain();
-    this.mainVolume.gain.value = this.volumeValue;
-  
     const MAX_DELAY_SEC = 5.0;
     this.delay = this.audioContext.createDelay( MAX_DELAY_SEC );
     this.delay.delayTime.value = 0.3;
 
-    //this.feedbackGainNode = this.audioContext.createGain();
-    //this.feedbackGainNode.gain.value = 0.5;
-    
     this.delayGain = this.audioContext.createGain();
-    this.delayGain.gain.value = 0.5;
+    this.delayGain.gain.value = 0.5; //*/
 
     // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
 
+    this.inputGain = this.audioContext.createGain();
+    this.inputGain.gain.value = 1.0;
+  
+    this.effectsInputGain = this.audioContext.createGain();
+    this.effectsInputGain.gain.value = 0.2;
+    
+    this.reverb = new P3dReverb( this.audioContext );
+  
     this.compressor = this.audioContext.createDynamicsCompressor();
     this.compressor.threshold.setValueAtTime( -24, this.audioContext.currentTime );
     this.compressor.knee.setValueAtTime( 40, this.audioContext.currentTime );
     this.compressor.ratio.setValueAtTime( 12, this.audioContext.currentTime );
     this.compressor.attack.setValueAtTime( 0, this.audioContext.currentTime );
     this.compressor.release.setValueAtTime( 0.25, this.audioContext.currentTime );
-    //this.compressor.connect( Audio.destination );
 
     // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
 
-    this.mainEqLow.connect( this.mainEqHigh );
-    this.mainEqHigh.connect( this.mainVolume );
+    this.inputGain.connect( this.compressor );
+    this.inputGain.connect( this.effectsInputGain );
+    this.effectsInputGain.connect( this.reverb.getInput() );
+    this.reverb.connect( this.compressor ); 
+
+    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
+
+    /*this.mainEqLow.connect( this.mainEqHigh );
+    this.mainEqHigh.connect( this.inputGain );
     this.mainEqHigh.connect( this.delay );
     this.delay.connect( this.delayGain );
     this.delayGain.connect( this.mainVolume );  //*/
@@ -182,14 +190,14 @@ Tight Ambience (1/4 Note) 	3.91 ms   496.09 ms   500 ms
   ///////////////////////////////////////////////////////////////////////
   connect( inputToConnect )
   {
-    this.mainVolume.connect( inputToConnect );
+    this.compressor.connect( inputToConnect );
   }
   
   
   ///////////////////////////////////////////////////////////////////////
   getInput()
   {
-    return( this.mainEqLow );
+    return( this.inputGain );
   }
   
   
