@@ -10,6 +10,7 @@ TODO:
 - implement effect preset interface in transport
 - implement effect mode display
 ~   -   ~   -   ~   -   ~   -   
+- re-enable volume control
 ~   -   ~   -   ~   -   ~   -   
 - refactor graphics class to separate out different graphics components
 - refactor transport class to separate event system from button processor

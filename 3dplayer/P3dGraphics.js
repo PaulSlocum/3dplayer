@@ -380,9 +380,9 @@ export default class P3dGraphics
 
     // SPOTLIGHT
     this.spotLight = new THREE.SpotLight(0xffffff); // <----------------------
-    const spotlightDistance = 1.5;
+    const spotlightDistance = 1.5; // <------------
     this.spotLight.position.set( -0, 1.2*spotlightDistance, 3.6*spotlightDistance );
-    this.spotLight.angle = Math.PI / 3.0;
+    this.spotLight.angle = Math.PI / 3.0; // <----------------------
     this.spotLight.castShadow = true;
     //this.spotLight.radius = 400;
     this.spotLight.shadow.mapSize.width = 420;
@@ -395,7 +395,7 @@ export default class P3dGraphics
     this.spotLight.intensity = 1.0;
     this.scene.add( this.spotLight );
     this.scene.add( this.spotLight.target );
-
+    
   }
 
 

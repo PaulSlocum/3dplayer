@@ -168,6 +168,7 @@ export default class P3dSwarm
 
       this.objectArray[i].position.x += this.xSpeed[i] + this.windAmountX * this.windScale + this.xBaseSpeed;
       this.objectArray[i].position.y += this.windAmountY * this.windScale;
+      //this.objectArray[i].position.z += 0.001; // DEBUG - TESTING CONCEPT OF OBJECTS CHANGING DEPTCH
       
       this.objectArray[i].scale.x = 1.0 * this.sizeArray[i];
       this.objectArray[i].scale.y = 1.0 * this.sizeArray[i];
