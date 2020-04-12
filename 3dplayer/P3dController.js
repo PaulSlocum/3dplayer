@@ -32,12 +32,14 @@ export const ButtonEvent = {
   BUTTON_DOWN_TREBLE_UP: 'ButtonTrebUp',
   BUTTON_DOWN_VOL_DOWN: 'ButtonVolDown',
   BUTTON_DOWN_VOL_UP: 'ButtonVolUp',
+  BUTTON_DOWN_FX_DOWN: 'ButtonFxDown',
+  BUTTON_DOWN_FX_UP: 'ButtonFxUp', 
   BUTTON_UP: 'ButtonUp'
 }
 
 
 // THIS MAY NOT BE USED, STILL DECIDING IF BUTTON ANIMATIONS ARE WORTH IT...
-export const Animation = {
+/*export const Animation = {
   ANIMATION_TRAY_OPEN: 'TrayOpen',
   ANIMATION_BUTTON_PLAY: 'ButtonPlay',
   ANIMATION_BUTTON_PAUSE: 'ButtonPause',
@@ -53,7 +55,7 @@ export const Animation = {
   ANIMATION_BUTTON_TREBLE_UP: 'ButtonTrebUp',
   ANIMATION_BUTTON_VOL_DOWN: 'ButtonVolDown',
   ANIMATION_BUTTON_VOL_UP: 'ButtonVolUp'
-}
+}  //*/
 
 
 

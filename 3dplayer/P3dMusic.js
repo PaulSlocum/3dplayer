@@ -39,7 +39,6 @@ export default class P3dMusicPlayer
 
     // MUSIC PLAYER    
     this.preloadContext = new (window.AudioContext || window.webkitAudioContext)();
-    //this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
     this.musicContext = null;
     this.musicSource = null;
 
@@ -54,13 +53,15 @@ export default class P3dMusicPlayer
     this.musicDownloading = false;
     this.musicDecoding = false;
 
-    this.bassValue = 0.0;
-    this.trebleValue = 0.0;
     this.volumeValue = 1.0;
+
+    //this.bassValue = 0.0;
+    //this.trebleValue = 0.0;
 
     this.delegate = delegate;
    
     this.effects = null;
+    this.mainVolumeGain = null;
     
     this.musicFiles = []; // ARRAY OF "MusicFile" CLASS/STRUCT
 
@@ -70,9 +71,10 @@ export default class P3dMusicPlayer
   ///////////////////////////////////////////////////////////////////////////
   setVolume( value )
   {
+    // THIS IS DISABLED PENDING REWORKING OF EFFECTS SYSTEM
     this.volumeValue = value;
     if( this.musicPlaying == true )
-      this.gainNode.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
+      this.mainVolumeGain.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 ); //*/
   }
 
 
@@ -80,18 +82,20 @@ export default class P3dMusicPlayer
   ///////////////////////////////////////////////////////////////////////////
   setBass( value )
   {
-    this.bassValue = value * TREBLE_BASS_MULTIPLIER;
+    // THIS IS DISABLED PENDING REWORKING OF EFFECTS SYSTEM
+    /*this.bassValue = value * TREBLE_BASS_MULTIPLIER;
     if( this.musicPlaying == true )
-      this.lowFilter.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
+      this.lowFilter.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 ); //*/
   }
 
 
   ///////////////////////////////////////////////////////////////////////////
   setTreble( value )
   {
-    this.trebleValue = value * TREBLE_BASS_MULTIPLIER;
+    // THIS IS DISABLED PENDING REWORKING OF EFFECTS SYSTEM
+    /*this.trebleValue = value * TREBLE_BASS_MULTIPLIER;
     if( this.musicPlaying == true )
-      this.highFilter.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 );
+      this.highFilter.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 ); //*/
   }
 
 
@@ -138,23 +142,6 @@ export default class P3dMusicPlayer
   
   
   
-  /////////////////////////////////////////////////////////////////////////////
-  // CREATES CONTEXT IF IT DOESN'T ALREADY EXIST
-  createContext()
-  {
-    if( this.musicContext == null )
-    {
-      this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
-
-      this.effects = new P3dAudioEffects( this.musicContext );
-      //this.effects = new P3dReverb( this.musicContext );
-      this.effects.connect( this.musicContext.destination ); //*/
-      console.log( "----->PLAY MUSIC: CREATING CONTEXT: ", this.musicContext );
-    }
-  }
-  
-  
-
   /////////////////////////////////////////////////////////////////////////////
   // NOTE: THIS ALSO DOWNLOADS AND/OR DECODES IF NOT ALREADY DONE
   playMusic( musicFilename, offsetSet )
@@ -210,6 +197,27 @@ export default class P3dMusicPlayer
 
   //   ~      -         ~      -         ~      -         ~      -         ~     
   //   ~      -         ~      -         ~      -         ~      -         ~     
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  // PRIVATE FUNCTION
+  // CREATES CONTEXT IF IT DOESN'T ALREADY EXIST
+  createContext()
+  {
+    if( this.musicContext == null )
+    {
+      this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
+
+      this.effects = new P3dAudioEffects( this.musicContext );
+      
+      this.mainVolumeGain = this.musicContext.createGain();
+      this.mainVolumeGain.gain.value = 1.0;
+
+      this.effects.connect( this.mainVolumeGain );
+      this.mainVolumeGain.connect( this.musicContext.destination );
+    }
+  }
+
 
 
   /////////////////////////////////////////////////////////////////////////////
