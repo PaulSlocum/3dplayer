@@ -61,6 +61,209 @@ x figure out where HTTP result 0 is coming from
 /\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
 --------------------------------------------------------------------------------
 
+NOTES ON REVERB: 
+(source: https://valhalladsp.com/2018/05/14/effect-o-pedia-reverb-types/)  5/14/2018
+
+ACOUSTIC:
+Ambience: often refers to a reverb that is mainly early reflections / early energy. 
+Short decay time (0.5 seconds or less), fairly colorless. Ambience algorithms are useful 
+for creating a reverb sound that is felt rather than heard, or a “dry” sound that isn’t 
+as dry as you think that it is. Ambience reverbs often are used to glue a mix together, 
+with various parts fed into the same ambient reverb.
+
+Room: usually used for shorter reverbs, that have more audible reverb than an Ambience 
+algorithm. Room algorithms tend to have some prominent early reflections / early energy, 
+and sound best with a fairly short decay. These algorithms quickly build up echo density. 
+A bit of coloration is expected, as real rooms tend to be a bit colored. Room reverbs work 
+well for drums and acoustic instruments.
+
+Chamber: similar to Room algorithms, but usually with less coloration. Reverb chambers 
+were found in many of the most esteemed recording studios, with each studio noted for 
+its own reverb sound. A chamber reverb will have a fast attack, and a quick build of 
+echo density, but without the distinctive early reflections and resonances found in a 
+room reverb. Some chambers could have fairly long decay times, which tended to be a 
+factor of the size of the chamber and the plaster used in finishing the walls. Chamber 
+reverbs are a good “neutral” verb that can be applied to most anything, but sound 
+especially good on vocals and acoustic instruments.
+
+Hall: bigger and longer than a Room reverb. Real-world concert halls tend to have a 
+decay time in the 1.8 to 2.2 second range, with “slow” early reflections, and a reverb 
+envelope that gradually builds in time and density. The hall algorithms in digital 
+reverbs often have much longer decay times than real-world halls, but they retain the 
+slow build of reverb, as well as the wider, more spacious feel of a concert hall. Hall 
+reverbs are useful for orchestral mixes, vocals in slower songs (and ballads), 
+instrumental solos, synthesizers, and other instruments that sound good with long reverbs.
+
+Cathedral: like a Hall reverb, but much longer attack and decay times. Real-world 
+cathedralss often had a VERY long reverb decay (8 to 13 seconds!), with a slow attack 
+to the reverb – up to 1/2 second. In a real cathedral, you don’t hear any discrete 
+early reflections, as the various nooks and crannies do a great job of diffusing the 
+reverb. Cathedral reverbs are useful for the types of music you would hear in cathedrals, 
+as well as any vocals or instruments that work with extended reverb decay times. Remember 
+that really long reverb times will blur together fast notes, so cathedrals work better 
+with music on the adagio side. Think ambient, or Gregorian chant.
+
+Cave, Stadium: usually synonymous with Cathedral reverbs. Stadium reverbs often have the 
+same sort of annoying slapback echo you would hear from speakers on the opposite side of 
+a station in a stadium.
+
+MECHANICAL:
+Spring: a short to medium length reverb, with a sproingy sound. Real world springs tend to 
+have metallic resonances, tend to be fairly dark, and have a pronounced “DWIP!” sound 
+caused by dispersion. Digital springs often don’t capture the “DWIP” sound of real springs. 
+Springs are useful for making things sound awesomely crappy. Surf guitar, old school 
+electronic music, dub, spaghetti western footsteps, etc.
+
+Plate: a shortish to fairly long reverb. Real world plates are fairly dark, but with a 
+brighter, almost instant attack. Physical plates also have dispersion, which can create 
+a “PEW!” ray gun sound on sharp transients. I have gone into ridiculous levels of detail 
+about physical plate physics and sound, but suffice it to say that plates sound cool on 
+almost anything.
+
+UNNATURAL:
+“Digital” Plate: Yeah, I know I just talked about plates. However, most digital reverbs 
+have “plate” algorithms that don’t really sound like physical plates (i.e. EMT140). The 
+typical digital plate has a fast attack, are BRIGHT, and tend towards a metallic decay, 
+with none of the dispersion found in physical plates. This puts the digital plate into a 
+different category than a mechanical plate, but the digital plates sound great in their 
+own right. Digital plates are great for vocals, drums. and sounding like the 80s in general.
+
+Shimmer: the term commonly used for reverberation that also incorporates pitch shifting. 
+This sound dates back to the early 1980s, when Brian Eno and Daniel Lanois would set up 
+complicated feedback paths using Lexicon hall reverbs, AMS pitch shifters, and Lexicon 
+delays. Nowadays, you can find variants of this algorithm in reverb pedals, as well as 
+ValhallaShimmer, which was purpose built for this sound. Shimmer reverbs are amazing for
+pads, or for making any instrument sound like an ethereal pad. A little bit of Shimmer 
+goes a long way – this sound tends to dominate a mix!
+
+Bloom: A term used by Keith Barr in the Midiverb II, for a reverb with a VERY slow build 
+time, and an even slower decay. This type of algorithm exploits the artifacts of multiple 
+allpass delays in series (unsurprisingly, I go into some fairly nerdy detail in an older 
+blog post). Bloom reverbs are useful for synths, for ambient music, and any other sort of 
+music where you want time to slow down like it is on the edge of a black hole.
+
+Reverse: Emulates a reverb that has been reversed in time. In the old days, this sound was 
+achieved by recording a track, flipping the tape, playing the tape in reverse while 
+sending it to a chamber or plate, and then reversing the results. Starting in the 1980s, 
+this sound was emulated in real time, using multitap delays in conjunction with short 
+allpass delays to smear things out. Use reverse reverbs when you want to turn a guitar 
+into a shoegazer wall of sound, or to sound like Carrie Anne stuck behind the TV set in 
+Poltergeist.
+
+Gated: A reverb that sounds like a longish room reverb, that is then abruptly cut off. 
+This sound was originally obtained by recording drums in a stone room, compressing the 
+room mikes, and then using a noise gate to truncate the decay once the close-miked drum 
+signals fell below a certain level. Today, this is replicated using digital reverbs, 
+with built in threshold and decay times to control the level at which the reverb cuts 
+out. This is mainly useful for drums, or for putting any sound in the 1980s.
+
+Nonlin: A similar sound to Gated, but obtained via a multitap delay and short diffusors, 
+instead of via actual noise gating. Nonlin reverbs aren’t volume dependent, and can be 
+easier to dial in than a true gated reverb. In many cases, the slope of the Nonlin reverb 
+can be varied, to get sound ranging from a natural room that dies away a bit quickly, to 
+huge gated Phil Collins drums, to reverse reverbs. Nonlin can be used on a wide variety 
+of inputs – vocals, drums, other instruments. Still pretty darned 80s sounding, if you 
+overdo it.
+
+ 
+
+
+--------------------------------------------------------------------------------
+/\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
+--------------------------------------------------------------------------------
+
+
+WEB AUDIO GOTHCAS
+
+from https://github.com/Jam3/web-audio-player#webaudio-gotchas  Last updated in 2018
+
+There are currently a lot of challenges with cross-platform WebAudio playback. This is 
+likely to change soon as vendors continue fixing bugs.
+
+- Most browsers only support a limited number of AudioContext instances; re-use them where possible.
+- When using a buffer source that doesn't loop, the audio file will only be playable once! You will 
+   need to create another buffer source to re-play it. This module handles this for you.
+- Browsers/devices which do not support createMediaElementSource will need to download and decode 
+   the entire audio file before it can be played.
+- There is no means of getting progress callback for the decodeAudioData (this is in discussion)
+- In iOS 9.2 Chrome (v45.0.2454.89), there is a bug where opening the app directly to the demo 
+   will not play any audio. The user will need to refresh the page in order to hear audio.
+- iOS Safari has a bug with sampleRate causing playback to be distorted sometimes
+- To solve, use ios-safe-audio-context
+- Also ensure all audio/video across your site uses the same sampleRate
+- In Chrome Android, using buffer and "Add to Home Screen", you can auto-play music 
+   without the need for user gesture. This is not the case with iOS "Add to Home Screen."
+- In iOS Safari, the <audio> tag's load() method needs to be called; however, this just 
+   causes a second (superfluous) request for the file in most other browsers.
+- In Chrome, if audioElement.load() is called immediately after audioElement.play(), 
+   no sound will occur until the next play() is called.
+- In iOS Safari, audio playback must be triggered on a 'touchend' that isn't part of a 
+   drag action. One solution is to attempt audio playback only when the distance and 
+  time since 'touchstart' is less than a certain threshold; see tap-event.
+- In Safari 9+, AudioContext state might default to "suspended" — to get around this, 
+   we resume the context when play() is called
+- In recent Chrome, you can't use datauri with crossOrigin: 'Anonymous'
+- If multiple sources are provided to Safari and the first has an error, the browser 
+   will not attempt to load any subsequent sources
+
+
+--------------------------------------------------------------------------------
+/\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
+--------------------------------------------------------------------------------
+
+
+
+https://robert.ocallahan.org/2017/09/some-opinions-on-history-of-web-audio.html
+
+SOME OPINIONS ON THE HISTORY OF WEB AUDIO
+
+By Robert O'Callahan   9/14/2017
+
+People complain that Web Audio provides implementations of numerous canned processing features, 
+but they very often don't do exactly what you want, and working around those limitations by 
+writing your own audio processing code in JS is difficult or impossible.
+
+This was an obvious pitfall from the moment the Web Audio API was proposed by Chris Rogers 
+(at Google, at that time). I personally fought pretty hard in the Audio WG for an API that
+ would be based on JS audio processing (with allowance for popular effects to be replaced 
+ with browser-implemented modules). I invested enough to write a draft spec for my alternative 
+ and implement a lot of that spec in Firefox, including Worker-based JS sample processing.
+
+My efforts went nowhere for several reasons. My views on making JS sample manipulation a 
+priority were not shared by the Audio WG. Here's my very first response to Chris Rogers' 
+reveal of the Web Audio draft; you can read the resulting discussion there. The main arguments 
+against prioritizing JS sample processing were that JS sample manipulation would be too slow, 
+and JS GC (or other non-realtime behaviour) would make audio too glitchy. Furthermore, audio 
+professionals like Chris Rogers assured me they had identified a set of primitives that would 
+suffice for most use cases. Since most of the Audio WG were audio professionals and I wasn't, 
+I didn't have much defense against "audio professionals say..." arguments.
+
+The Web Audio API proceeded mostly unchanged because there wasn't anyone other than me trying 
+to make significant changes. After an initial burst of interest Apple's WG participation 
+declined dramatically, perhaps because they were getting Chris Rogers' Webkit implementation 
+"for free" and had nothing to gain from further discussion. I begged Microsoft people to get 
+involved but they never did; in this and other areas they were (are?) apparently content for 
+Mozilla and Google to spend energy to thrash out a decent spec that they later implement.
+
+However, the main reason that Web Audio was eventually standardized without major changes 
+is because Google and Apple shipped it long before the spec was done. They shipped it with 
+a "webkit" prefix, but they evangelized it to developers who of course started using it, and 
+so pretty soon Mozilla had to cave.
+
+Ironically, soon after Web Audio won, the "extensible Web" become a hot buzzword. Web Audio 
+had a TAG review at which it was clear Web Audio was pretty much the antithesis of "extensible 
+Web", but by then it was too late to do anything about it.
+
+What could I have done better? I probably should have reduced the scope of my spec proposal 
+to exclude MediaStream/HTMLMediaElement integration. But I don't think that, or anything 
+else I can think of, would have changed the outcome.
+
+
+
+--------------------------------------------------------------------------------
+/\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
+--------------------------------------------------------------------------------
+
 
 BUTTONS AND BUTTON LAYOUT PLANNING:
 
@@ -132,98 +335,5 @@ GOOD REFERENCE PROJECT -- WebGL turntables with pitch control:
 
 https://github.com/cwilso/wubwubwub
 
-
-
---------------------------------------------------------------------------------
-/\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
---------------------------------------------------------------------------------
-
-
-WEB AUDIO GOTHCAS
-
-from https://github.com/Jam3/web-audio-player#webaudio-gotchas
-
-There are currently a lot of challenges with cross-platform WebAudio playback. This is likely to change soon as vendors continue fixing bugs.
-
-- Most browsers only support a limited number of AudioContext instances; re-use them where possible.
-- When using a buffer source that doesn't loop, the audio file will only be playable once! You will 
-   need to create another buffer source to re-play it. This module handles this for you.
-- Browsers/devices which do not support createMediaElementSource will need to download and decode 
-   the entire audio file before it can be played.
-- There is no means of getting progress callback for the decodeAudioData (this is in discussion)
-- In iOS 9.2 Chrome (v45.0.2454.89), there is a bug where opening the app directly to the demo 
-   will not play any audio. The user will need to refresh the page in order to hear audio.
-- iOS Safari has a bug with sampleRate causing playback to be distorted sometimes
-- To solve, use ios-safe-audio-context
-- Also ensure all audio/video across your site uses the same sampleRate
-- In Chrome Android, using buffer and "Add to Home Screen", you can auto-play music 
-   without the need for user gesture. This is not the case with iOS "Add to Home Screen."
-- In iOS Safari, the <audio> tag's load() method needs to be called; however, this just 
-   causes a second (superfluous) request for the file in most other browsers.
-- In Chrome, if audioElement.load() is called immediately after audioElement.play(), 
-   no sound will occur until the next play() is called.
-- In iOS Safari, audio playback must be triggered on a 'touchend' that isn't part of a 
-   drag action. One solution is to attempt audio playback only when the distance and 
-  time since 'touchstart' is less than a certain threshold; see tap-event.
-- In Safari 9+, AudioContext state might default to "suspended" — to get around this, 
-   we resume the context when play() is called
-- In recent Chrome, you can't use datauri with crossOrigin: 'Anonymous'
-- If multiple sources are provided to Safari and the first has an error, the browser 
-   will not attempt to load any subsequent sources
-
-
------------------------------------------------------------------------------------------
-
-
-https://robert.ocallahan.org/2017/09/some-opinions-on-history-of-web-audio.html
-
-SOME OPINIONS ON THE HISTORY OF WEB AUDIO
-
-By Robert O'Callahan   9/14/2017
-
-People complain that Web Audio provides implementations of numerous canned processing features, 
-but they very often don't do exactly what you want, and working around those limitations by 
-writing your own audio processing code in JS is difficult or impossible.
-
-This was an obvious pitfall from the moment the Web Audio API was proposed by Chris Rogers 
-(at Google, at that time). I personally fought pretty hard in the Audio WG for an API that
- would be based on JS audio processing (with allowance for popular effects to be replaced 
- with browser-implemented modules). I invested enough to write a draft spec for my alternative 
- and implement a lot of that spec in Firefox, including Worker-based JS sample processing.
-
-My efforts went nowhere for several reasons. My views on making JS sample manipulation a 
-priority were not shared by the Audio WG. Here's my very first response to Chris Rogers' 
-reveal of the Web Audio draft; you can read the resulting discussion there. The main arguments 
-against prioritizing JS sample processing were that JS sample manipulation would be too slow, 
-and JS GC (or other non-realtime behaviour) would make audio too glitchy. Furthermore, audio 
-professionals like Chris Rogers assured me they had identified a set of primitives that would 
-suffice for most use cases. Since most of the Audio WG were audio professionals and I wasn't, 
-I didn't have much defense against "audio professionals say..." arguments.
-
-The Web Audio API proceeded mostly unchanged because there wasn't anyone other than me trying 
-to make significant changes. After an initial burst of interest Apple's WG participation 
-declined dramatically, perhaps because they were getting Chris Rogers' Webkit implementation 
-"for free" and had nothing to gain from further discussion. I begged Microsoft people to get 
-involved but they never did; in this and other areas they were (are?) apparently content for 
-Mozilla and Google to spend energy to thrash out a decent spec that they later implement.
-
-However, the main reason that Web Audio was eventually standardized without major changes 
-is because Google and Apple shipped it long before the spec was done. They shipped it with 
-a "webkit" prefix, but they evangelized it to developers who of course started using it, and 
-so pretty soon Mozilla had to cave.
-
-Ironically, soon after Web Audio won, the "extensible Web" become a hot buzzword. Web Audio 
-had a TAG review at which it was clear Web Audio was pretty much the antithesis of "extensible 
-Web", but by then it was too late to do anything about it.
-
-What could I have done better? I probably should have reduced the scope of my spec proposal 
-to exclude MediaStream/HTMLMediaElement integration. But I don't think that, or anything 
-else I can think of, would have changed the outcome.
-
-
-
---------------------------------------------------------------------------------
-/\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
---------------------------------------------------------------------------------
 
 

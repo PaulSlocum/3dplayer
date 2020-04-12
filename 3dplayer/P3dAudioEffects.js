@@ -23,17 +23,8 @@ export class P3dReverb
 	///////////////////////////////////////////////////////////////////////////////
 	setup() 
 	{
-		this.effect = this.context.createConvolver();
+		this.reverb = this.context.createConvolver();
 
-		this.inputGain = this.context.createGain();
-    this.inputGain.gain.value = 0.7;
-    this.inputGain.connect( this.effect );
-
-		this.outputGain = this.context.createGain();
-    this.outputGain.gain.value = 10.0;
-    this.effect.connect( this.outputGain );
-		
-		logger( "----->REVERB: LOADING IMPULSE FILE" );
 		let fileRequest = new XMLHttpRequest();
     //fileRequest.open('GET', '3dplayer/sounds/reverb1500ms1a.wav', true);
     //fileRequest.open('GET', '3dplayer/sounds/reverb1500ms1b.wav', true);
@@ -47,7 +38,7 @@ export class P3dReverb
       this.context.decodeAudioData( audioData, function(buffer) 
       { // DECODE SUCCESS
   		  logger( "----->REVERB: DECODED.", buffer );
-        this.effect.buffer = buffer;
+        this.reverb.buffer = buffer;
       }.bind(this), function(e)
       { // ERROR HANDLER
         console.log("Error with decoding audio data" + e.err);
@@ -62,13 +53,13 @@ export class P3dReverb
   ///////////////////////////////////////////////////////////////////////
   connect( inputToConnect )
   {
-    this.outputGain.connect( inputToConnect );
+    this.reverb.connect( inputToConnect );
   }
 	
 	///////////////////////////////////////////////////////////////////////////////
 	getInput()
 	{
-	  return( this.inputGain );
+	  return( this.reverb );
 	}
 
 }
@@ -76,14 +67,25 @@ export class P3dReverb
 
 // -   ~    -   ~    -   ~    - 
 // COMPONENTS TO ADD:
-// - dry mix gain
+// x compressor
+// x dry mix gain
 // - predelays (2-3?)
 // - predelay feedback gain
-// - compressor
 // -   ~    -   ~    -   ~    - 
 // - wet filter (maybe 2?)
 // -   ~    -   ~    -   ~    - 
 
+
+export const EffectPreset = {
+  CLEAN: 'EffectClean',
+  CHURCH: 'EffectChurch',
+  CLUB: 'EffectClub',
+  PLATE: 'EffectPlate', 
+  LOFI: 'EffectLofi',
+  SLAPBACK: 'EffectSlapback',
+  CAVE: 'EffectCave',
+  ROOM: 'EffectRoom'
+}
 
 
 
@@ -95,7 +97,8 @@ export class P3dAudioEffects
   constructor( audioContext )
   {
     this.audioContext = audioContext;
-    this.setupNodes();    
+    this.setupNodes();  
+    this.loadPreset( EffectPreset.PLATE );  
   }
   
 /*
@@ -107,7 +110,7 @@ export class P3dAudioEffects
                            |           \
         ____________  (FX_EQ_FILTER_1)  \
        /            \     |              \
-      /              FX_EQ_FILTER_2       \
+      /              (FX_EQ_FILTER_2)     \
      /              /          \           \
     /           DELAY1         REVERB       \  
    /           /      \            |         |
@@ -132,7 +135,35 @@ Tight Ambience (1/4 Note) 	3.91 ms   496.09 ms   500 ms
 
 //*/  
   
-  ///////////////////////////////////////////////////////////////////////
+  
+  /////////////////////////////////////////////////////////////////////////
+  loadPreset( preset )
+  {
+    switch( preset )
+    {
+      case EffectPreset.CLEAN: 
+        this.inputGain.gain.value = 1.0;
+        this.effectsInputGain.gain.value = 0.0;
+        this.delayGain.gain.value = 0.0;
+        this.reverbGain.gain.value = 0.0;
+        break;
+      case EffectPreset.CHURCH: break;
+      case EffectPreset.CLUB: break;
+      case EffectPreset.PLATE: 
+        this.inputGain.gain.value = 1.0;
+        this.effectsInputGain.gain.value = 0.8;
+        this.delayGain.gain.value = 0.0;
+        this.reverbGain.gain.value = 0.5;
+        break;
+      case EffectPreset.LOFI: break;
+      case EffectPreset.SLAPBACK: break;
+      case EffectPreset.CAVE: break;
+      case EffectPreset.ROOM: break;
+    }
+  }
+  
+  
+  //////////////////////////////////////////////////////////////////////////
   setupNodes()
   {
     // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
