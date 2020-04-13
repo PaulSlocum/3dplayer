@@ -6,6 +6,7 @@ import { P3dController } from './P3dController.js'
 import { P3dLEDDriver } from './P3dLEDDriver.js'
 import { TransportMode } from './P3dController.js'
 import { logger } from './P3dLog.js'
+import { EffectsPreset } from './P3dAudioEffects.js'
 //-----------------------------------------------------------------------------------
 
 
@@ -14,7 +15,8 @@ const LedMode = {
   NORMAL: 'DisplayModeNormal',
   VOLUME: 'DisplayModeVolume',
   TREBLE: 'DisplayModeTreble',
-  DISPLAY_MODE_BASS: 'DisplayModeBass'
+  BASS: 'DisplayModeBass',
+  FX_MODE: 'DisplayModeFx'
 }
 
 
@@ -36,8 +38,8 @@ export class P3dNumericDisplay
     
     this.displayMode = LedMode.NORMAL;
     
-    this.altDisplayStartSec = 0.0;
-    this.altDisplayWaitSec = 2000.0;
+    this.altDisplayStartMSec = 0.0;
+    this.altDisplayWaitMSec = 3000.0;
   }
   
   //////////////////////////////////////////////////////////////////////////////
@@ -68,7 +70,7 @@ export class P3dNumericDisplay
       {
         this.ledDriver.colonOff();
         this.ledDriver.minusOff();
-        if( this.altDisplayStartSec + this.altDisplayWaitSec < performance.now() )
+        if( this.altDisplayStartMSec + this.altDisplayWaitMSec < performance.now() )
         {
           this.displayMode = LedMode.NORMAL;
         }
@@ -80,7 +82,7 @@ export class P3dNumericDisplay
           this._updateStandardDisplay( appMode );
           break;
         case LedMode.VOLUME:
-          this.ledDriver.setString( 'XXvolX5' );
+          this.ledDriver.setString( 'XXVOLX5' );
           this.ledDriver.setDigitCharacter( 6, this.appController.getVolume() );
           break;
         case LedMode.TREBLE:
@@ -90,6 +92,16 @@ export class P3dNumericDisplay
         case LedMode.BASS:
           this.ledDriver.setString( 'XbassX5' );
           this.ledDriver.setDigitCharacter( 6, this.appController.getBass() );
+          break;
+        case LedMode.FX_MODE:
+          switch( this.appController.getFxMode() )
+          { 
+            case EffectsPreset.CLEAN: this.ledDriver.setString( 'CLEANXX' ); break;
+            case EffectsPreset.CHURCH: this.ledDriver.setString( 'CHRCHXX' ); break;
+            case EffectsPreset.CLUB: this.ledDriver.setString( 'CLUBXXX' ); break;
+            case EffectsPreset.LOFI: this.ledDriver.setString( 'LOWFIXX' ); break;
+            case EffectsPreset.STADIUM: this.ledDriver.setString( 'CAVEXXX' ); break;
+          }
           break;
       }
     }
@@ -107,7 +119,7 @@ export class P3dNumericDisplay
   showVolume()
   {
     this.displayMode = LedMode.VOLUME;
-    this.altDisplayStartSec = performance.now();
+    this.altDisplayStartMSec = performance.now();
   }
   
 
@@ -115,7 +127,7 @@ export class P3dNumericDisplay
   showBass()
   {
     this.displayMode = LedMode.BASS;
-    this.altDisplayStartSec = performance.now();
+    this.altDisplayStartMSec = performance.now();
   }
   
 
@@ -123,9 +135,15 @@ export class P3dNumericDisplay
   showTreble()
   {
     this.displayMode = LedMode.TREBLE;
-    this.altDisplayStartSec = performance.now();
+    this.altDisplayStartMSec = performance.now();
   }
   
+
+  showFxMode()
+  {
+    this.displayMode = LedMode.FX_MODE;
+    this.altDisplayStartMSec = performance.now();
+  }
 
 
   ////////////////////////////////////////////////////////////////////////////////

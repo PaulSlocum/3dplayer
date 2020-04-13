@@ -10,6 +10,7 @@ import { P3dController } from './P3dController.js'
 import { TransportMode, ButtonEvent } from './P3dController.js'
 import { P3dSoundPlayer } from './P3dSound.js'
 import { P3dMusicPlayer } from './P3dMusic.js'
+import { EffectsPreset } from './P3dAudioEffects.js'
 import { logger } from './P3dLog.js'
 import { random } from './P3dUtility.js'
 ///-----------------------------------------------------------------------------------
@@ -35,6 +36,7 @@ export const TransportEvent = {
 
 const MAX_AUDIO_SETTING_VALUE = 9;
 const MIDDLE_AUDIO_SETTING_VALUE = 5;
+const NUMBER_OF_EFFECTS = 5;
 
 
 export const SoundFilename = {
@@ -53,6 +55,9 @@ export const SoundFilename = {
 } //*/
 
 
+
+//const EffectModeByNumber = {
+  //0: 
 
 
 
@@ -99,6 +104,9 @@ export class P3dTransport {
     this.treble = MIDDLE_AUDIO_SETTING_VALUE;
     this.bass = MIDDLE_AUDIO_SETTING_VALUE;
     this.volume = MAX_AUDIO_SETTING_VALUE;
+
+    this.fxModeNumber = 0;
+    this.fxMode = null;
 
     this.status = TransportMode.TRAY_OPEN;
   }
@@ -263,20 +271,43 @@ export class P3dTransport {
               break;
 
         case ButtonEvent.BUTTON_DOWN_FX_DOWN:
-              this.volume -= 1;
-              if( this.volume < 0 )
-                this.volume = 0;
-              this.musicPlayer.setVolume( (this.volume + 1) / 10.0 );
+              this.fxModeNumber -= 1;
+              if( this.fxModeNumber < 0 )
+                this.fxModeNumber = NUMBER_OF_EFFECTS-1;  // <-- LOOP AROUND
+              this.setFxModeByNumber( this.fxModeNumber )         
               break;
         case ButtonEvent.BUTTON_DOWN_FX_UP:
-              this.volume += 1;
-              if( this.volume > MAX_AUDIO_SETTING_VALUE )
-                this.volume = MAX_AUDIO_SETTING_VALUE;
-              this.musicPlayer.setVolume( (this.volume + 1) / 10.0 );
+              this.fxModeNumber += 1;
+              if( this.fxModeNumber >= NUMBER_OF_EFFECTS )
+                this.fxModeNumber = 0; // <-- LOOP AROUND
+              this.setFxModeByNumber( this.fxModeNumber )         
               break;
       } // SWITCH
     }
    
+  }
+  
+  
+  
+  //////////////////////////////////////////////////////////////////////////////////
+  setFxModeByNumber( fxModeNumber )
+  { 
+    switch( fxModeNumber )
+    { 
+      case 0: this.fxMode = EffectsPreset.CLEAN; break;
+      case 1: this.fxMode = EffectsPreset.CHURCH; break;
+      case 2: this.fxMode = EffectsPreset.CLUB; break;
+      case 3: this.fxMode = EffectsPreset.LOFI; break;
+      case 4: this.fxMode = EffectsPreset.STADIUM; break;
+    }
+    this.musicPlayer.setFxMode( this.fxMode );
+  }
+  
+  
+  ////////////////////////////////////////////////////////////////////////////////////
+  getFxMode()
+  {
+    return( this.fxMode );
   }
   
   

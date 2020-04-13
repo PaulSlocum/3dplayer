@@ -98,6 +98,12 @@ export class P3dMusicPlayer
   }
 
 
+  //////////////////////////////////////////////////////////////////////////////
+  setFxMode( fxMode )
+  {
+    this.effects.loadPreset( fxMode );
+  }
+
   
   //   ~      -         ~      -         ~      -         ~      -         ~     
   //   ~      -         ~      -         ~      -         ~      -         ~     

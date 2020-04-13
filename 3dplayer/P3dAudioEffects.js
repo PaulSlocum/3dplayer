@@ -67,13 +67,13 @@ import { P3dReverb } from './P3dReverb.js'
 
 export const EffectsPreset = {
   CLEAN: 'EffectClean',
-  CHURCH: 'EffectChurch',
+  ROOM: 'EffectRoom',
   CLUB: 'EffectClub',
+  CHURCH: 'EffectChurch',
+  STADIUM: 'EffectStadium', 
   PLATE: 'EffectPlate', 
   LOFI: 'EffectLofi',
-  SLAPBACK: 'EffectSlapback',
-  CAVE: 'EffectCave',
-  ROOM: 'EffectRoom'
+  SLAPBACK: 'EffectSlapback'
 }
 
 
@@ -87,6 +87,8 @@ export class P3dAudioEffects
   ///////////////////////////////////////////////////////////////////////
   constructor( audioContext )
   {
+    logger( "----->AUDIOEFFECTS CONSTRUCTOR" );
+  
     this.audioContext = audioContext;
     this.setupNodes();  
     this.loadPreset( EffectsPreset.PLATE );  
@@ -95,6 +97,8 @@ export class P3dAudioEffects
   /////////////////////////////////////////////////////////////////////////
   loadPreset( preset )
   {
+    logger( "----->AUDIOEFFECTS: LOAD PRESET: ", preset );
+  
     switch( preset )
     {
       case EffectsPreset.CLEAN: 

@@ -167,6 +167,11 @@ export class P3dController {
   {
     return this.transport.getBass();
   }
+  
+  getFxMode()
+  {
+    return this.transport.getFxMode();
+  }
 
 
   ////////////////////////////////////////////////////////////////////////////
@@ -177,7 +182,6 @@ export class P3dController {
   {
     this.userInterface.closeTray();
   }
-  
   ////////////////////////////////////////////////////////////////////////////
   openTray()
   {

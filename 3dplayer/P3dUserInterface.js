@@ -109,6 +109,12 @@ export class P3dUserInterface
         case ButtonEvent.BUTTON_DOWN_VOL_UP:
           this.graphics.numericDisplay.showVolume();
           break;
+        case ButtonEvent.BUTTON_DOWN_FX_DOWN:
+        case ButtonEvent.BUTTON_DOWN_FX_UP:
+          this.graphics.numericDisplay.showFxMode();
+          break;
+        default:
+          this.graphics.numericDisplay.showNormalDisplay();
       }
     } //*/
 
