@@ -119,6 +119,11 @@ export const EffectPreset = {
   Tight Ambience (1/4 Note) 	3.91 ms   496.09 ms   500 ms
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  CONSUMER REVERB NAMES:
+    "Jazz Club", "Hall", "Church", "Stadium", "News"
+    
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //*/  
   
   
