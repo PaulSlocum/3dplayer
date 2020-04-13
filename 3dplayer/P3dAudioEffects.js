@@ -71,6 +71,7 @@ export const EffectsPreset = {
   CLUB: 'EffectClub',
   CHURCH: 'EffectChurch',
   STADIUM: 'EffectStadium', 
+  CAVE: 'EffectCave', 
   PLATE: 'EffectPlate', 
   LOFI: 'EffectLofi',
   SLAPBACK: 'EffectSlapback'
@@ -91,7 +92,7 @@ export class P3dAudioEffects
   
     this.audioContext = audioContext;
     this.setupNodes();  
-    this.loadPreset( EffectsPreset.PLATE );  
+    this.loadPreset( EffectsPreset.CLEAN );  
   }
   
   /////////////////////////////////////////////////////////////////////////
@@ -106,19 +107,73 @@ export class P3dAudioEffects
         this.effectsInputGain.gain.value = 0.0;
         this.delayGain.gain.value = 0.0;
         this.reverbGain.gain.value = 0.0;
+        this.mainEqHigh.gain.value = 0.0;
+        this.mainEqLow.gain.value = 0.0;
         break;
-      case EffectsPreset.CHURCH: break;
-      case EffectsPreset.CLUB: break;
+      case EffectsPreset.ROOM:
+        this.inputGain.gain.value = 1.0;
+        this.effectsInputGain.gain.value = 0.8;
+        this.delayGain.gain.value = 0.2;
+        this.reverbGain.gain.value = 0.4;
+        this.mainEqHigh.gain.value = 0.0;
+        this.mainEqLow.gain.value = 0.0;
+        break;
+      case EffectsPreset.CLUB:
+        this.inputGain.gain.value = 0.9;
+        this.effectsInputGain.gain.value = 0.8;
+        this.delayGain.gain.value = 0.2;
+        this.reverbGain.gain.value = 0.5;
+        this.mainEqHigh.gain.value = 2.0;
+        this.mainEqLow.gain.value = 2.0;
+        break;
+      case EffectsPreset.CHURCH: 
+        this.inputGain.gain.value = 1.0;
+        this.effectsInputGain.gain.value = 0.8;
+        this.delayGain.gain.value = 0.2;
+        this.reverbGain.gain.value = 1.0;
+        this.mainEqHigh.gain.value = -5.0;
+        this.mainEqLow.gain.value = -5.0;
+        break;
+      case EffectsPreset.STADIUM:
+        this.inputGain.gain.value = 1.0;
+        this.effectsInputGain.gain.value = 0.8;
+        this.delayGain.gain.value = 0.3;
+        this.reverbGain.gain.value = 0.6;
+        this.mainEqHigh.gain.value = -5.0;
+        this.mainEqLow.gain.value = -5.0;
+        break;
+      case EffectsPreset.CAVE:
+        this.inputGain.gain.value = 1.2;
+        this.effectsInputGain.gain.value = 0.8;
+        this.delayGain.gain.value = 0.5;
+        this.reverbGain.gain.value = 0.8;
+        this.mainEqHigh.gain.value = -5.0;
+        this.mainEqLow.gain.value = -5.0;
+        break;
       case EffectsPreset.PLATE: 
         this.inputGain.gain.value = 1.0;
         this.effectsInputGain.gain.value = 0.8;
-        this.delayGain.gain.value = 0.0;
+        this.delayGain.gain.value = 0.3;
         this.reverbGain.gain.value = 0.5;
+        this.mainEqHigh.gain.value = 0.0;
+        this.mainEqLow.gain.value = 0.0;
         break;
-      case EffectsPreset.LOFI: break;
-      case EffectsPreset.SLAPBACK: break;
-      case EffectsPreset.CAVE: break;
-      case EffectsPreset.ROOM: break;
+      case EffectsPreset.LOFI:
+        this.inputGain.gain.value = 2.1;
+        this.effectsInputGain.gain.value = 0.8;
+        this.delayGain.gain.value = 0.1;
+        this.reverbGain.gain.value = 0.1;
+        this.mainEqHigh.gain.value = -20.0;
+        this.mainEqLow.gain.value = -7.0;
+        break;
+      case EffectsPreset.SLAPBACK:
+        this.inputGain.gain.value = 1.0;
+        this.effectsInputGain.gain.value = 0.8;
+        this.delayGain.gain.value = 0.4;
+        this.reverbGain.gain.value = 0.0;
+        this.mainEqHigh.gain.value = 0.0;
+        this.mainEqLow.gain.value = 0.0;
+        break;
     }
   }
   
@@ -159,12 +214,12 @@ export class P3dAudioEffects
     this.mainEqLow = this.audioContext.createBiquadFilter();
     this.mainEqLow.type = "lowshelf";
     this.mainEqLow.frequency.value = 320.0;
-    this.mainEqLow.gain.value = 1.0;
+    this.mainEqLow.gain.value = 0.0;
 
     this.mainEqHigh = this.audioContext.createBiquadFilter();
     this.mainEqHigh.type = "highshelf";
     this.mainEqHigh.frequency.value = 3200.0;
-    this.mainEqHigh.gain.value = 1.0;
+    this.mainEqHigh.gain.value = 0.0;
   
     this.compressor = this.audioContext.createDynamicsCompressor();
     this.compressor.threshold.setValueAtTime( -24, this.audioContext.currentTime );

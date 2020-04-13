@@ -100,7 +100,7 @@ export class P3dNumericDisplay
             case EffectsPreset.CHURCH: this.ledDriver.setString( 'CHRCHXX' ); break;
             case EffectsPreset.CLUB: this.ledDriver.setString( 'CLUBXXX' ); break;
             case EffectsPreset.LOFI: this.ledDriver.setString( 'LOWFIXX' ); break;
-            case EffectsPreset.STADIUM: this.ledDriver.setString( 'CAVEXXX' ); break;
+            case EffectsPreset.CAVE: this.ledDriver.setString( 'CAVEXXX' ); break;
           }
           break;
       }

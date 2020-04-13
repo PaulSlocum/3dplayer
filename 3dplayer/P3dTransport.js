@@ -298,7 +298,7 @@ export class P3dTransport {
       case 1: this.fxMode = EffectsPreset.CHURCH; break;
       case 2: this.fxMode = EffectsPreset.CLUB; break;
       case 3: this.fxMode = EffectsPreset.LOFI; break;
-      case 4: this.fxMode = EffectsPreset.STADIUM; break;
+      case 4: this.fxMode = EffectsPreset.CAVE; break;
     }
     this.musicPlayer.setFxMode( this.fxMode );
   }
