@@ -14,28 +14,6 @@ import { logger } from './P3dLog.js'
 import { random } from './P3dUtility.js'
 ///-----------------------------------------------------------------------------------
 
-//3dplayer/sounds/reverbConcertCrowd.ogg
-//    CLICK_DOWN: '3dplayer/sounds/clickDown.wav',
-
-export const SoundFilename = {
-    CLICK_DOWN: '3dplayer/sounds/clickDown.wav',
-    TRAY_OPEN: '3dplayer/sounds/cdOpen1.wav',
-    TRAY_CLOSE: '3dplayer/sounds/cdClose1.wav',
-    CD_SPINUP1: '3dplayer/sounds/cdSpinup1.wav',
-    CD_SPINUP2: '3dplayer/sounds/cdSpinup2.wav',
-    CD_SPINUP3: '3dplayer/sounds/cdSpinup3.wav',
-    CD_SPINUP4: '3dplayer/sounds/cdSpinup4.wav',
-    CD_SPINDOWN: '3dplayer/sounds/cdSpindown1.wav',
-    CD_SEEK1: '3dplayer/sounds/cdSeek1.wav',
-    CD_SEEK2: '3dplayer/sounds/cdSeek2.wav',
-    CD_SEEK3: '3dplayer/sounds/cdSeek3.wav',
-    CD_SEEK4: '3dplayer/sounds/cdSeek4.wav'
-} //*/
-
-
-const MAX_AUDIO_SETTING_VALUE = 9;
-const MIDDLE_AUDIO_SETTING_VALUE = 5;
-
 
 
 export const TransportEvent = {
@@ -53,6 +31,28 @@ export const TransportEvent = {
   STARTUP: 'TransportPowerUp', 
   SEEK: 'TransportSeek'
 }
+
+
+const MAX_AUDIO_SETTING_VALUE = 9;
+const MIDDLE_AUDIO_SETTING_VALUE = 5;
+
+
+export const SoundFilename = {
+    CLICK_DOWN: '3dplayer/sounds/clickDown.wav',
+    TRAY_OPEN: '3dplayer/sounds/cdOpen1.wav',
+    TRAY_CLOSE: '3dplayer/sounds/cdClose1.wav',
+    CD_SPINUP1: '3dplayer/sounds/cdSpinup1.wav',
+    CD_SPINUP2: '3dplayer/sounds/cdSpinup2.wav',
+    CD_SPINUP3: '3dplayer/sounds/cdSpinup3.wav',
+    CD_SPINUP4: '3dplayer/sounds/cdSpinup4.wav',
+    CD_SPINDOWN: '3dplayer/sounds/cdSpindown1.wav',
+    CD_SEEK1: '3dplayer/sounds/cdSeek1.wav',
+    CD_SEEK2: '3dplayer/sounds/cdSeek2.wav',
+    CD_SEEK3: '3dplayer/sounds/cdSeek3.wav',
+    CD_SEEK4: '3dplayer/sounds/cdSeek4.wav'
+} //*/
+
+
 
 
 

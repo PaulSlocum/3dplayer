@@ -170,6 +170,9 @@ export class P3dController {
 
 
   ////////////////////////////////////////////////////////////////////////////
+  // THERE TWO TRAY ANIMATION FUNCTIONS ARE CONFUSING...
+  // THESE CAN BE ELIMINATED BY CREATING A "GET_TRAY_STATUS()" FUNCTION THAT 
+  // RETURNS WHETHER THE TRAY IS OPEN OR CLOSED
   closeTray()
   {
     this.userInterface.closeTray();

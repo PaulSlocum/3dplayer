@@ -18,12 +18,12 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 - implement memory management for music files
 ~   -   ~   -   ~   -   ~   -   
-- figure out correct way to export, probably without using "default"
-~   -   ~   -   ~   -   ~   -   
 - keep playing CD seeking sounds until music starts playing (or maybe just lengthn CD sounds)
 ~   -   ~   -   ~   -   ~   -   
 - get seek buttons working
 - implement time/repeat buttons
+~   -   ~   -   ~   -   ~   -  
+- change tray open/close animation communication to be done by a getTrayStatus() call to the transport 
 ~   -   ~   -   ~   -   ~   -   
 - check for situations where I'm copying RAM instead of copying a reference (especially in audio code)
 - convert double equals to triple equals
@@ -54,6 +54,7 @@ x add repeat/time buttons
 x figure out why buttons are being sent twice on iPod touch
 x figure out transport timing issue with iPod touch
 x figure out where HTTP result 0 is coming from
+x figure out correct way to export, probably without using "default"
 ~   -   ~   -   ~   -   ~   -   
 
 

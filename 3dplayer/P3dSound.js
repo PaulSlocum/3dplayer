@@ -22,12 +22,8 @@ export class P3dSoundPlayer
 
     // SOUND EFFECT PLAYER
     this.bufferArray = {};
-    //this.contextArray = {};
     this.sourceArray = {};
-
-    //this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
     this.audioContext = null;
-
   }
   
   //   ~      -         ~      -         ~      -         ~      -         ~     
@@ -35,15 +31,12 @@ export class P3dSoundPlayer
   //////////////////////////////////////////////////////////////////////////
   loadSound( soundFilename )
   {
-    // Create the XHR which will grab the audio contents
+    // REQUEST FILE...
     let request = new XMLHttpRequest();
-    // Set the audio file src here
     request.open('GET', soundFilename, true);
-    //this.request.open('GET', '3dplayer/sounds/clickDown.wav', true);
-    // Setting the responseType to arraybuffer sets up the audio decoding
     request.responseType = 'arraybuffer';
     request.onload = function() 
-    { // FILE LOADER CALLBACK:
+    { // FILE LOADER CALLBACK
       
       if( this.audioContext == null )
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -56,7 +49,7 @@ export class P3dSoundPlayer
         console.log('Audio error! ', e);
       } );  
     }.bind(this,request)
-    // Send the request which kicks off 
+
     request.send();
   }
 
@@ -64,17 +57,10 @@ export class P3dSoundPlayer
   //////////////////////////////////////////////////////////////////////////
   playSound( soundFilename )
   {
-    // Create a buffer for the incoming sound content
     this.sourceArray[soundFilename] = this.audioContext.createBufferSource();
-    //this.sourceArray[soundFilename] = this.contextArray[soundFilename].createBufferSource();
     this.sourceArray[soundFilename].buffer = this.bufferArray[ soundFilename ];
-
-    // Connect the audio to source (multiple audio buffers can be connected!)
     this.sourceArray[soundFilename].connect( this.audioContext.destination );
-    //this.sourceArray[soundFilename].connect( this.contextArray[soundFilename].destination );
-    // Simple setting for the buffer
     this.sourceArray[soundFilename].loop = false;
-    // Play the sound!
     this.sourceArray[soundFilename].start(0); //*/
   }
   
