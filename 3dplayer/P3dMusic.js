@@ -7,8 +7,7 @@
 
 //-----------------------------------------------------------------------------------
 import { logger } from './P3dLog.js'
-import { P3dAudioEffects } from './P3dAudioEffects.js'
-import { P3dReverb } from './P3dAudioEffects.js'
+import { P3dAudioEffects, EffectsPreset } from './P3dAudioEffects.js'
 //-----------------------------------------------------------------------------------
 
 
@@ -29,7 +28,7 @@ const TREBLE_BASS_MULTIPLIER = 2.0;
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-export default class P3dMusicPlayer
+export class P3dMusicPlayer
 {
 
   ///////////////////////////////////////////////////////////////////////

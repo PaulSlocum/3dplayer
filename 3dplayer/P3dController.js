@@ -7,8 +7,8 @@
 
 
 //-----------------------------------------------------------------------------------
-import P3dUserInterface from './P3dUserInterface.js'
-import P3dTransport from './P3dTransport.js'
+import { P3dUserInterface } from './P3dUserInterface.js'
+import { P3dTransport } from './P3dTransport.js'
 import { logger } from './P3dLog.js'
 //-----------------------------------------------------------------------------------
 
@@ -79,7 +79,7 @@ export const TransportMode = {
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-export default class P3dController {
+export class P3dController {
 
 
   ///////////////////////////////////////////////////////////////////////

@@ -7,10 +7,11 @@
 
 //-----------------------------------------------------------------------------------
 import { GLTFLoader } from './three/examples/jsm/loaders/GLTFLoader.js';
-import P3dController from './P3dController.js'
-import P3dSwarm from './P3dSwarm.js'
-import P3dNumericDisplay from './P3dNumericDisplay.js'
-import P3dShaders from './P3dShaders.js'
+// ~   -   ~   -   ~   -   ~   -   ~   -   ~   -   
+import { P3dController } from './P3dController.js'
+import { P3dSwarm } from './P3dSwarm.js'
+import { P3dNumericDisplay } from './P3dNumericDisplay.js'
+import { P3dShaders } from './P3dShaders.js'
 import { logger } from './P3dLog.js'
 import { TransportMode } from './P3dController.js'
 import { random, converge } from './P3dUtility.js'
@@ -40,16 +41,8 @@ window.mobileAndTabletcheck = function()
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-export default class P3dGraphics
+export class P3dGraphics
 {
-
-  ///////////////////////////////////////////////////////////////////////////
-  setBackgroundColor( color )
-  {
-    this.uniforms['colorA'] = { type: 'vec3', value: new THREE.Color( color ) };
-    this.uniforms['colorB'] = { type: 'vec3', value: new THREE.Color( color ) };
-  }
-  
 
   ///////////////////////////////////////////////////////////////////////
   constructor( appController, windowWidth, windowHeight, renderer ) 
@@ -238,6 +231,14 @@ export default class P3dGraphics
   }
 
 
+
+  ///////////////////////////////////////////////////////////////////////////
+  setBackgroundColor( color )
+  {
+    this.uniforms['colorA'] = { type: 'vec3', value: new THREE.Color( color ) };
+    this.uniforms['colorB'] = { type: 'vec3', value: new THREE.Color( color ) };
+  }
+  
 
 
   //////////////////////////////////////////////////////////////////////////////

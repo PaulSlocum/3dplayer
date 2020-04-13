@@ -2,8 +2,8 @@
 
 
 //-----------------------------------------------------------------------------------
-import P3dController from './P3dController.js'
-import P3dLEDDriver from './P3dLEDDriver.js'
+import { P3dController } from './P3dController.js'
+import { P3dLEDDriver } from './P3dLEDDriver.js'
 import { TransportMode } from './P3dController.js'
 import { logger } from './P3dLog.js'
 //-----------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ const LedMode = {
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-export default class P3dNumericDisplay
+export class P3dNumericDisplay
 {
 
   ///////////////////////////////////////////////////////////////////////

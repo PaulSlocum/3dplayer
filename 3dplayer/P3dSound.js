@@ -12,7 +12,7 @@ import { logger } from './P3dLog.js'
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-export default class P3dSoundPlayer
+export class P3dSoundPlayer
 {
 
   ///////////////////////////////////////////////////////////////////////

@@ -6,10 +6,10 @@
 
 
 //-----------------------------------------------------------------------------------
-import P3dController from './P3dController.js'
+import { P3dController } from './P3dController.js'
 import { TransportMode, ButtonEvent } from './P3dController.js'
-import P3dSoundPlayer from './P3dSound.js'
-import P3dMusicPlayer from './P3dMusic.js'
+import { P3dSoundPlayer } from './P3dSound.js'
+import { P3dMusicPlayer } from './P3dMusic.js'
 import { logger } from './P3dLog.js'
 import { random } from './P3dUtility.js'
 ///-----------------------------------------------------------------------------------
@@ -59,7 +59,7 @@ export const TransportEvent = {
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-export default class P3dTransport {
+export class P3dTransport {
 
 
   ///////////////////////////////////////////////////////////////////////
@@ -125,17 +125,18 @@ export default class P3dTransport {
     if( buttonEvent != ButtonEvent.BUTTON_UP  &&  buttonEvent != ButtonEvent.BUTTON_UP )
       this.soundPlayer.playSound( SoundFilename.CLICK_DOWN ); 
 
+    // BUTTONS ARE DISABLED WHEN IN STANDBY MODE...
     if( this.status == TransportMode.STANDBY )
     {
       if( buttonEvent == ButtonEvent.BUTTON_DOWN_STANDBY )
-      {
+      { // TURN PLAYER BACK ON...
         this.eventQueue.push( TransportEvent.STARTUP ); //*/
         this.eventQueue.push( TransportEvent.STOP ); //*/
         this.scheduleNextEvent();
       }
       
     }
-    else
+    else // ELSE - NOT IN STANDBY...
     {
       // BUTON FUNCTIONS...
       switch( buttonEvent )
@@ -247,6 +248,7 @@ export default class P3dTransport {
                 this.treble = MAX_AUDIO_SETTING_VALUE;
               this.musicPlayer.setTreble( this.treble - MIDDLE_AUDIO_SETTING_VALUE );
               break;
+
         case ButtonEvent.BUTTON_DOWN_VOL_DOWN:
               this.volume -= 1;
               if( this.volume < 0 )
@@ -254,6 +256,19 @@ export default class P3dTransport {
               this.musicPlayer.setVolume( (this.volume + 1) / 10.0 );
               break;
         case ButtonEvent.BUTTON_DOWN_VOL_UP:
+              this.volume += 1;
+              if( this.volume > MAX_AUDIO_SETTING_VALUE )
+                this.volume = MAX_AUDIO_SETTING_VALUE;
+              this.musicPlayer.setVolume( (this.volume + 1) / 10.0 );
+              break;
+
+        case ButtonEvent.BUTTON_DOWN_FX_DOWN:
+              this.volume -= 1;
+              if( this.volume < 0 )
+                this.volume = 0;
+              this.musicPlayer.setVolume( (this.volume + 1) / 10.0 );
+              break;
+        case ButtonEvent.BUTTON_DOWN_FX_UP:
               this.volume += 1;
               if( this.volume > MAX_AUDIO_SETTING_VALUE )
                 this.volume = MAX_AUDIO_SETTING_VALUE;

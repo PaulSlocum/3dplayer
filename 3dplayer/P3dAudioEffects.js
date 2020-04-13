@@ -66,7 +66,7 @@ export class P3dReverb
 
 
 
-export const EffectPreset = {
+export const EffectsPreset = {
   CLEAN: 'EffectClean',
   CHURCH: 'EffectChurch',
   CLUB: 'EffectClub',
@@ -137,7 +137,7 @@ export class P3dAudioEffects
   {
     this.audioContext = audioContext;
     this.setupNodes();  
-    this.loadPreset( EffectPreset.PLATE );  
+    this.loadPreset( EffectsPreset.PLATE );  
   }
   
   /////////////////////////////////////////////////////////////////////////
@@ -145,24 +145,24 @@ export class P3dAudioEffects
   {
     switch( preset )
     {
-      case EffectPreset.CLEAN: 
+      case EffectsPreset.CLEAN: 
         this.inputGain.gain.value = 1.0;
         this.effectsInputGain.gain.value = 0.0;
         this.delayGain.gain.value = 0.0;
         this.reverbGain.gain.value = 0.0;
         break;
-      case EffectPreset.CHURCH: break;
-      case EffectPreset.CLUB: break;
-      case EffectPreset.PLATE: 
+      case EffectsPreset.CHURCH: break;
+      case EffectsPreset.CLUB: break;
+      case EffectsPreset.PLATE: 
         this.inputGain.gain.value = 1.0;
         this.effectsInputGain.gain.value = 0.8;
         this.delayGain.gain.value = 0.0;
         this.reverbGain.gain.value = 0.5;
         break;
-      case EffectPreset.LOFI: break;
-      case EffectPreset.SLAPBACK: break;
-      case EffectPreset.CAVE: break;
-      case EffectPreset.ROOM: break;
+      case EffectsPreset.LOFI: break;
+      case EffectsPreset.SLAPBACK: break;
+      case EffectsPreset.CAVE: break;
+      case EffectsPreset.ROOM: break;
     }
   }
   

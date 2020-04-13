@@ -19,7 +19,7 @@ const DEBUG_ALWAYS_ENABLE = false;
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-export default class P3dSwarm
+export class P3dSwarm
 {
 
 

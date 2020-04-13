@@ -8,7 +8,7 @@
 
 //-----------------------------------------------------------------------------------
 import './three/build/three.js'
-import P3dController from './P3dController.js'
+import { P3dController } from './P3dController.js'
 import { logger } from './P3dLog.js'
 //-----------------------------------------------------------------------------------
 
