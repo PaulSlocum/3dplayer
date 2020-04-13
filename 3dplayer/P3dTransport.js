@@ -275,11 +275,8 @@ export class P3dTransport {
               this.setFxModeByNumber( this.fxModeNumber )         
               break;
 
-        case ButtonEvent.BUTTON_REPEAT_ALL_ON:
-              this.repeatAll = true;
-              break;
-        case ButtonEvent.BUTTON_REPEAT_ALL_OFF:
-              this.repeatAll = false;
+        case ButtonEvent.BUTTON_DOWN_REPEAT_ALL:
+              this.repeatAll = !this.repeatAll; // TOGGLE BUTTON
               break;
 
       } // SWITCH
@@ -547,6 +544,14 @@ export class P3dTransport {
   {
     return this.musicPlayer.getMusicTime();
   }
+  
+  
+  /////////////////////////////////////////////////////////////////////////
+  getTrackLength()
+  {
+    //TBI
+  }
+  
   
 
   /////////////////////////////////////////////////////////////////////////
