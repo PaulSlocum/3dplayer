@@ -18,31 +18,31 @@ import { P3dReverb } from './P3dReverb.js'
   SIGNAL PATH:                              (nodes in parenthesis are TBI)
  
   
-                                <input>
-                                   *
-                                   |
-                               INPUT_GAIN
-                                /      \
-                         FX_INPUT_GAIN  \  
-                             |           \
-        ______________  (FX_EQ_FILTER_1)  \
-       /              \     |              \
-      /                (FX_EQ_FILTER_2)     \
-     /                /          \           \
-    /             DELAY1        (PRE_DELAY)   \  
-   /             /      \            |         |
-  | (FEEDBACK_GAIN1) (DELAY_PAN)   REVERB      |
-  |_______|               \          |         |
-                     DELAY_GAIN  REVERB_GAIN   |
-                             \       |        /        
-                              MAIN_BASS_FILTER       
-                                     |
-                              MAIN_TREBLE_FILTER       
-                                     |
-                                 COMPRESSOR
-                                     |
-                                     *
-                                  <output>
+                                           <input>
+                                              *
+                                              |
+ note: there are two delay               INPUT_GAIN
+ sections but only one is shown            /      \
+                                    FX_INPUT_GAIN  \  
+                                        |           \
+        _________________________  (FX_EQ_FILTER_1)  \
+      /                          \      |             \
+     /                            (FX_EQ_FILTER_2)     \
+    /                   _________/          \           \
+   /             DELAY1+2                  (PRE_DELAY)   \  
+  /             /       \                       |         |
+ | (FEEDBACK_GAIN1+2) (DELAY_PAN1+2)          REVERB      |
+ |______|                 \                     |         |
+                     DELAY_GAIN1+2          REVERB_GAIN   |
+                             \___________       |        /        
+                                         MAIN_BASS_FILTER       
+                                                |
+                                         MAIN_TREBLE_FILTER       
+                                                |
+                                            COMPRESSOR
+                                                |
+                                                *
+                                             <output>
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   REVERB NOTES:                   
@@ -132,7 +132,7 @@ export class P3dAudioEffects
         this.delayGain.gain.value = 0.2;
         this.reverbGain.gain.value = 1.0;
         this.mainEqHigh.gain.value = -5.0;
-        this.mainEqLow.gain.value = -5.0;
+        this.mainEqLow.gain.value = -2.0;
         break;
       case EffectsPreset.STADIUM:
         this.inputGain.gain.value = 1.0;

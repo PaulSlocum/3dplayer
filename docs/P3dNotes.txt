@@ -5,13 +5,9 @@
 
 TODO:
 ~   -   ~   -   ~   -   ~   -   
-- add reverb, delay, and secondary EQ
-- add preset effect system to music player (or should this be added elsewhere?)
-- implement effect preset interface in transport
-- implement effect mode display
-~   -   ~   -   ~   -   ~   -   
-- re-enable volume control
-~   -   ~   -   ~   -   ~   -   
+- get seek buttons working
+- implement time/repeat buttons
+~   -   ~   -   ~   -   ~   -  
 - refactor graphics class to separate out different graphics components
 - refactor transport class to separate event system from button processor
 - refactor music class to separate queuing system
@@ -20,9 +16,6 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 - keep playing CD seeking sounds until music starts playing (or maybe just lengthn CD sounds)
 ~   -   ~   -   ~   -   ~   -   
-- get seek buttons working
-- implement time/repeat buttons
-~   -   ~   -   ~   -   ~   -  
 - change tray open/close animation communication to be done by a getTrayStatus() call to the transport 
 ~   -   ~   -   ~   -   ~   -   
 - check for situations where I'm copying RAM instead of copying a reference (especially in audio code)
@@ -37,6 +30,8 @@ TODO:
 - make it possible to set 3D model from script call
 - build alternate blender model for mobile
 - make code automatically load mobile 3D model for mobile users
+~   -   ~   -   ~   -   ~   -   
+- add secondary effect eq, pre-delay, and delay feedback
 ~   -   ~   -   ~   -   ~   -   
 
 
@@ -55,6 +50,11 @@ x figure out why buttons are being sent twice on iPod touch
 x figure out transport timing issue with iPod touch
 x figure out where HTTP result 0 is coming from
 x figure out correct way to export, probably without using "default"
+x add reverb, delay, and secondary EQ
+x add preset effect system to music player (or should this be added elsewhere?)
+x implement effect preset interface in transport
+x implement effect mode display
+x re-enable volume control
 ~   -   ~   -   ~   -   ~   -   
 
 

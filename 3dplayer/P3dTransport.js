@@ -104,9 +104,11 @@ export class P3dTransport {
     this.treble = MIDDLE_AUDIO_SETTING_VALUE;
     this.bass = MIDDLE_AUDIO_SETTING_VALUE;
     this.volume = MAX_AUDIO_SETTING_VALUE;
+    this.repeatAll = false;
 
     this.fxModeNumber = 0;
     this.fxMode = null;
+    
 
     this.status = TransportMode.TRAY_OPEN;
   }
@@ -150,17 +152,7 @@ export class P3dTransport {
       switch( buttonEvent )
       {
         case ButtonEvent.BUTTON_DOWN_PLAY:
-              if( this.status == TransportMode.TRAY_OPEN || 
-                  this.status == TransportMode.PAUSED || 
-                  this.status == TransportMode.STOPPED )
-              {
-                if( this.status == TransportMode.TRAY_OPEN )
-                  this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
-                if( this.status != TransportMode.PAUSED )
-                  this.eventQueue.push( TransportEvent.SPINUP ); //*/
-                this.eventQueue.push( TransportEvent.PLAY ); //*/
-                this.scheduleNextEvent();
-              } //*/
+              this.play();
               break;
         case ButtonEvent.BUTTON_DOWN_PAUSE:
               if( this.status == TransportMode.PLAYING )
@@ -282,6 +274,14 @@ export class P3dTransport {
                 this.fxModeNumber = 0; // <-- LOOP AROUND
               this.setFxModeByNumber( this.fxModeNumber )         
               break;
+
+        case ButtonEvent.BUTTON_REPEAT_ALL_ON:
+              this.repeatAll = true;
+              break;
+        case ButtonEvent.BUTTON_REPEAT_ALL_OFF:
+              this.repeatAll = false;
+              break;
+
       } // SWITCH
     }
    
@@ -481,6 +481,22 @@ export class P3dTransport {
   }
   
   
+  ////////////////////////////////////////////////////////////////////////////
+  // PRIVATE FUNCTION
+  play()
+  {
+    if( this.status == TransportMode.TRAY_OPEN || 
+        this.status == TransportMode.PAUSED || 
+        this.status == TransportMode.STOPPED )
+    {
+      if( this.status == TransportMode.TRAY_OPEN )
+        this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
+      if( this.status != TransportMode.PAUSED )
+        this.eventQueue.push( TransportEvent.SPINUP ); //*/
+      this.eventQueue.push( TransportEvent.PLAY ); //*/
+      this.scheduleNextEvent();
+    } //*/
+  }
   
   ////////////////////////////////////////////////////////////////////////////
   // PRIVATE FUNCTION
@@ -499,14 +515,25 @@ export class P3dTransport {
   
   
   //////////////////////////////////////////////////////////////////////////
-  // CALLED BY MUSIC PLAYER
+  // CALLBACK FROM MUSIC PLAYER
   musicEndedCallback()
   {
     logger( "----->TRANSPORT: SONG ENDED CALLBACK" );
-    if( this.trackNumber < this.filenameList.length-1 )
-      this.nextTrack();
-    else
+
+    // IF THAT WAS THE LAST TRACK...
+    if( this.trackNumber >= this.filenameList.length-1 )
+    {
       this.stop();
+      if( this.repeatAll === true )
+      {
+        this.trackNumber = 1;
+      }
+      else
+      {
+      }
+    }
+    else
+      this.nextTrack();
 
   }
   
@@ -561,6 +588,11 @@ export class P3dTransport {
     return this.bass;
   }
 
+
+  getRepeatAll()
+  {
+    return this.repeatAll;
+  }
   
   
   

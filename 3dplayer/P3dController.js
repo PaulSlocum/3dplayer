@@ -138,7 +138,7 @@ export class P3dController {
     return this.transport.getTrackNumber();
   }
   
-  
+  /////////////////////////////////////////////////////////////////////////////
   getNumberOfTracks()
   {
     return this.transport.getNumberOfTracks();
@@ -168,6 +168,7 @@ export class P3dController {
     return this.transport.getBass();
   }
   
+  /////////////////////////////////////////////////////////////////////////////
   getFxMode()
   {
     return this.transport.getFxMode();
