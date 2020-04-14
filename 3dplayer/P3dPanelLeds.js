@@ -57,25 +57,10 @@ export class P3dPanelLeds
       //console.log("---->LED DRIVER->CHILD: ", child.material);
     }.bind(this) ); //*/
   
-    // FIND AND LOAD ALL THE SEGMENT OBJECTS INTO ARRAYS...
-    /*for( let ledDigit=0; ledDigit<TOTAL_LED_DIGITS; ledDigit++ )
-    {
-      for( let ledSegment=0; ledSegment<TOTAL_LED_SEGMENTS; ledSegment++ )
-      {
-        var mainObjectName = "Seg1".concat( String.fromCharCode(ledSegment+97), "100", ledDigit );
-        //logger( ">>>>>>>>>>>>> MAIN OBJECT NAME: ", mainObjectName );
-        this.mainLedArray[ledDigit][ledSegment] = this.scene.getObjectByName( mainObjectName, true );
-      
-        var highlightObjectName = "Seg1".concat( String.fromCharCode(ledSegment+97), "200", ledDigit );
-        //logger( ">>>>>>>>>>>>> HIGHLIGHT OBJECT NAME: ", highlightObjectName );
-        this.highlightLedArray[ledDigit][ledSegment] = this.scene.getObjectByName( highlightObjectName, true );
-      }
-    } //*/
-
     this.repeatAllLed = this.scene.getObjectByName( "RepeatAllLed" );
-    /*this.timeModeLed = this.scene.getObjectByName( "timeModeLed" );
-    this.playLed = this.scene.getObjectByName( "playLed" );
-    this.pauseLed = this.scene.getObjectByName( "pauseLed" ); //*/
+    this.timeModeLed = this.scene.getObjectByName( "TimeModeLed" );
+    this.playLed = this.scene.getObjectByName( "PlayLed" );
+    this.pauseLed = this.scene.getObjectByName( "PauseLed" );
 
     logger( "---->PANEL LEDS: repeatAllLed: ", this.repeatAllLed );
 
@@ -88,16 +73,53 @@ export class P3dPanelLeds
   {
     this.frameCounter += 1;
   
-    let appMode = this.appController.getStatus();
+    if( this.playLed != null  &&  this.pauseLed != null )
+    {
+      switch( this.appController.getStatus() )
+      {
+        case TransportMode.PLAYING:
+        case TransportMode.STARTING_PLAY:
+        case TransportMode.SEEK:
+          this.playLed.material = this.ledOnMaterial;
+          this.pauseLed.material = this.ledOffMaterial;
+          break;
+        case TransportMode.PAUSED:
+          this.playLed.material = this.ledOffMaterial;
+          this.pauseLed.material = this.ledOnMaterial;
+          break;
+        case TransportMode.STOPPED:
+        case TransportMode.SHUTDOWN:
+        case TransportMode.STARTUP:
+        case TransportMode.STANDBY:
+        case TransportMode.TRAY_OPEN:
+        case TransportMode.TRAY_OPENING:
+        case TransportMode.TRAY_CLOSING:
+          this.playLed.material = this.ledOffMaterial;
+          this.pauseLed.material = this.ledOffMaterial;
+          break;
+      }
+    }
+
+    
 
     //logger( "---->PANEL LEDS: repeatAllLed: ", this.repeatAllLed );
     
     if( this.repeatAllLed != null )
     {
       if( Math.floor(this.frameCounter/60)%2 == 0 )
+      {
         this.repeatAllLed.material = this.ledOffMaterial;
+        this.playLed.material = this.ledOffMaterial;
+        this.pauseLed.material = this.ledOffMaterial;
+        this.timeModeLed.material = this.ledOffMaterial;
+      }
       else
+      {
         this.repeatAllLed.material = this.ledOnMaterial;
+        this.pauseLed.material = this.ledOnMaterial;
+        this.playLed.material = this.ledOnMaterial;
+        this.timeModeLed.material = this.ledOnMaterial;
+      }
     } //*/
       
   }
