@@ -44,9 +44,8 @@ if( (windowWidth > 0  &&  windowHeight > 0) == false )
 }
 
 // CREATE RENDERER
-//const renderer = new THREE.WebGLRenderer( {preserveDrawingBuffer:false} );
-const renderer = new THREE.WebGLRenderer( {preserveDrawingBuffer:false,  antialias: true} );
-//renderer.antialias = true; // <--- PROBABLY SHOULD BE SELECTABLE THROUGH A SCRIPT PARAMETER
+const renderer = new THREE.WebGLRenderer( {preserveDrawingBuffer:false} );
+//const renderer = new THREE.WebGLRenderer( {preserveDrawingBuffer:false,  antialias: true} );
 renderer.setSize( windowWidth, windowHeight );
 
 // ADD THE RENDERER TO THE DOCUMENT AT THE LOCATION WHERE THE SCRIPT WAS PLACED

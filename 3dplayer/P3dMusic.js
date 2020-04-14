@@ -202,7 +202,15 @@ export class P3dMusicPlayer
   /////////////////////////////////////////////////////////////////////////////
   getTrackLengthSec()
   {
-    
+    if( this.musicContext == null )
+      return 0.0;
+    else
+    {
+      if( this.musicPlaying == true )
+        return this.musicContext.currentTime - this.musicStartTime + this.musicPauseTime;
+      else
+        return this.musicPauseTime;
+    }
   }
 
 

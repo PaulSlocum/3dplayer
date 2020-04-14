@@ -105,7 +105,7 @@ export class P3dTransport {
     this.treble = MIDDLE_AUDIO_SETTING_VALUE;
     this.bass = MIDDLE_AUDIO_SETTING_VALUE;
     this.volume = MAX_AUDIO_SETTING_VALUE;
-    this.repeatAll = false;
+    this.repeatAll = true;
     this.remainingTimeMode = false;
 
     this.fxModeNumber = 0;

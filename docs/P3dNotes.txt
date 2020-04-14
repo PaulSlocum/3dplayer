@@ -8,30 +8,38 @@ TODO:
 - get seek buttons working
 - implement time/repeat buttons
 ~   -   ~   -   ~   -   ~   -  
+- implement memory management for music files
+~   -   ~   -   ~   -   ~   -   
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~   -   ~   -   ~   -   ~   -   
+- add units (seconds) to getPlaybackTime calls and usage
+~   -   ~   -   ~   -   ~   -   
 - refactor graphics class to separate out different graphics components
 - refactor transport class to separate event system from button processor
 - refactor music class to separate queuing system
 ~   -   ~   -   ~   -   ~   -   
-- implement memory management for music files
+- change LED off materials to not be emissions so they don't glow in shadows
+~   -   ~   -   ~   -   ~   -   
+- fix issue where volume changes don't have any effect if made before playback is started
 ~   -   ~   -   ~   -   ~   -   
 - keep playing CD seeking sounds until music starts playing (or maybe just lengthn CD sounds)
 ~   -   ~   -   ~   -   ~   -   
 - change tray open/close animation communication to be done by a getTrayStatus() call to the transport 
 ~   -   ~   -   ~   -   ~   -   
+- add secondary effect eq, pre-delay, and delay feedback
+~   -   ~   -   ~   -   ~   -   
 - check for situations where I'm copying RAM instead of copying a reference (especially in audio code)
 - convert double equals to triple equals
-~   -   ~   -   ~   -   ~   -   
-- adjust camera FOV to make CD drawer not stick out so much
 ~   -   ~   -   ~   -   ~   -   
 - make the LED display work with songs longer than 10 minutes 
 - make the LED display work with albums with more than 9 tracks
 - change vol/treb/bass scale to 1-10 (or 0-10)
 ~   -   ~   -   ~   -   ~   -   
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~   -   ~   -   ~   -   ~   -   
 - make it possible to set 3D model from script call
 - build alternate blender model for mobile
 - make code automatically load mobile 3D model for mobile users
-~   -   ~   -   ~   -   ~   -   
-- add secondary effect eq, pre-delay, and delay feedback
 ~   -   ~   -   ~   -   ~   -   
 
 
@@ -55,6 +63,7 @@ x add preset effect system to music player (or should this be added elsewhere?)
 x implement effect preset interface in transport
 x implement effect mode display
 x re-enable volume control
+x adjust camera FOV to make CD drawer not stick out so much
 ~   -   ~   -   ~   -   ~   -   
 
 
