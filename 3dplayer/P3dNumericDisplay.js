@@ -144,6 +144,52 @@ export class P3dNumericDisplay
   }
 
 
+
+  ////////////////////////////////////////////////////////////////////////////////
+  _showTimeAndTrack( playbackTimeInt, trackNumber )
+  {
+    if( playbackTimeInt != null )
+    {
+      let firstCharacter = 'blank'
+      if( this.appController.getRemainingTimeMode() == true )
+      {
+        playbackTimeInt = Math.floor( this.appController.getTrackLengthSec() ) - playbackTimeInt;
+        firstCharacter = 'W'; // DASH
+      }
+      let minutes = Math.floor( playbackTimeInt / 60 );
+      let seconds = playbackTimeInt % 60;
+      //logger( "TRACK LENGTH: ", minutes, seconds ); // DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!
+      this.ledDriver.setDigitCharacter( 0, firstCharacter );
+      if( minutes < 10 )
+        this.ledDriver.setDigitCharacter( 1, 'blank' );
+      else
+        this.ledDriver.setDigitCharacter( 1, Math.floor(minutes/10)%10 );
+        //this.ledDriver.setDigitCharacter( 1, (minutes/10)%10 );
+      this.ledDriver.setDigitCharacter( 2, minutes%10 );
+      this.ledDriver.setDigitCharacter( 3, Math.floor( seconds / 10 )%10 );
+      this.ledDriver.setDigitCharacter( 4, seconds%10 );
+    }
+    else
+    {
+      this.ledDriver.setString( 'XXXXX' );
+    }
+    
+    this._showTrackNumber( trackNumber );    
+  }
+
+
+  ////////////////////////////////////////////////////////////////////////////////
+  _showTrackNumber( trackNumber )
+  {
+    if( trackNumber < 10 )
+      this.ledDriver.setDigitCharacter( 5, 'blank' );
+    else
+      this.ledDriver.setDigitCharacter( 5, Math.floor( trackNumber/10 )%10 );
+    this.ledDriver.setDigitCharacter( 6, trackNumber%10 ); //*/
+  }
+
+
+
   ////////////////////////////////////////////////////////////////////////////////
   _updateStandardDisplay( appMode )
   {
@@ -176,24 +222,7 @@ export class P3dNumericDisplay
       
       case TransportMode.PLAYING:
       {
-        // SHOW TIME AND TRACK NUMBER
-        let firstCharacter = 'blank'
-        if( this.appController.getRemainingTimeMode() == true )
-        {
-          playbackTimeInt = Math.floor( this.appController.getTrackLengthSec() ) - playbackTimeInt;
-          logger( "TRACK LENGTH: ", playbackTimeInt ); // DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!
-          firstCharacter = 'W'; // DASH
-        }
-        let minutes = Math.floor( playbackTimeInt / 60 );
-        let seconds = playbackTimeInt % 60;
-        this.ledDriver.setDigitCharacter( 0, firstCharacter );
-        this.ledDriver.setDigitCharacter( 1, 'blank' );
-        this.ledDriver.setDigitCharacter( 2, minutes%10 );
-        this.ledDriver.setDigitCharacter( 3, Math.floor( seconds / 10 )%10 );
-        this.ledDriver.setDigitCharacter( 4, seconds%10 );
-        
-        this.ledDriver.setDigitCharacter( 5, 'blank' );
-        this.ledDriver.setDigitCharacter( 6, trackNumber%10 ); //*/
+        this._showTimeAndTrack( playbackTimeInt, trackNumber );
         break;
       }
       case TransportMode.PAUSED:
@@ -202,28 +231,18 @@ export class P3dNumericDisplay
         if( Math.floor(this.frameCounter/20)%3 == 0 )
         {
           this.ledDriver.setString( 'XXXXXXX' );
+          this._showTrackNumber( trackNumber );    
         }
         else
-        {
-          // SHOW TIME AND TRACK NUMBER
-          let minutes = Math.floor( playbackTimeInt / 60 );
-          let seconds = playbackTimeInt % 60;
-          this.ledDriver.setDigitCharacter( 0, 'blank' );
-          this.ledDriver.setDigitCharacter( 1, 'blank' );
-          this.ledDriver.setDigitCharacter( 2, minutes%10 );
-          this.ledDriver.setDigitCharacter( 3, Math.floor( seconds / 10 )%10 );
-          this.ledDriver.setDigitCharacter( 4, seconds%10 );
-        }
-        this.ledDriver.setDigitCharacter( 5, 'blank' );
-        this.ledDriver.setDigitCharacter( 6, trackNumber%10 ); //*/
+          this._showTimeAndTrack( playbackTimeInt, trackNumber );
+
         break;
       }
         
       case TransportMode.STOPPED:
         let numberOfTracks = this.appController.getNumberOfTracks();
         this.ledDriver.setString( 'XXXXXXX' );
-        this.ledDriver.setDigitCharacter( 5, 'blank' );
-        this.ledDriver.setDigitCharacter( 6, numberOfTracks%10 ); //*/
+        this._showTrackNumber( trackNumber );    
         break;
 
         // STANDBY DOESN'T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL

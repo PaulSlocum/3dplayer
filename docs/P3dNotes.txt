@@ -18,6 +18,8 @@ TODO:
 - refactor transport class to separate event system from button processor
 - refactor music class to separate queuing system
 ~   -   ~   -   ~   -   ~   -   
+- look into fixing issue where WebGL adapts to the zoom level when it's loaded (or maybe this shouldn't be fixed?)
+~   -   ~   -   ~   -   ~   -   
 - change LED off materials to not be emissions so they don't glow in shadows
 ~   -   ~   -   ~   -   ~   -   
 - fix issue where volume changes don't have any effect if made before playback is started
