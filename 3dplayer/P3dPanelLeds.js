@@ -80,6 +80,7 @@ export class P3dPanelLeds
         case TransportMode.PLAYING:
         case TransportMode.STARTING_PLAY:
         case TransportMode.SEEK:
+        case TransportMode.TRAY_CLOSING_PLAY:
           this.playLed.material = this.ledOnMaterial;
           this.pauseLed.material = this.ledOffMaterial;
           break;

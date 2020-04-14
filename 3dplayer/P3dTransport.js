@@ -22,6 +22,7 @@ export const TransportEvent = {
   PAUSE: 'TransportPause',
   STOP: 'TransportStop', 
   CLOSE_TRAY: 'TransportClose',
+  CLOSE_TRAY_PLAY: 'TransportClosePlay',
   OPEN_TRAY: 'TransportOpen',
   START_TRAY_OPEN: 'TransportStartTrayOpen',
   TRAY_OPENED: 'TransportOpened', 
@@ -342,6 +343,13 @@ export class P3dTransport {
           this.scheduleNextEvent( 3 );
           break; //*/
           
+        case TransportEvent.CLOSE_TRAY_PLAY:
+          this.appController.closeTray();
+          this.status = TransportMode.TRAY_CLOSING_PLAY;
+          this.soundPlayer.playSound( SoundFilename.TRAY_CLOSE );  // <------------
+          this.scheduleNextEvent( 3 );
+          break; //*/
+          
         case TransportEvent.START_OPEN_TRAY:
           logger( "START OPEN TRAY!!!!!!!!!!!!!!!!!!!!!!" );
           this.stop();
@@ -493,7 +501,7 @@ export class P3dTransport {
         this.status == TransportMode.STOPPED )
     {
       if( this.status == TransportMode.TRAY_OPEN )
-        this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
+        this.eventQueue.push( TransportEvent.CLOSE_TRAY_PLAY ); //*/
       if( this.status != TransportMode.PAUSED )
         this.eventQueue.push( TransportEvent.SPINUP ); //*/
       this.eventQueue.push( TransportEvent.PLAY ); //*/

@@ -236,6 +236,7 @@ export class P3dNumericDisplay
 
         // STANDBY DOESN'T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
       case TransportMode.TRAY_CLOSING:
+      case TransportMode.TRAY_CLOSING_PLAY:
         this.ledDriver.setString( 'XLOadXX' );
         break;
 

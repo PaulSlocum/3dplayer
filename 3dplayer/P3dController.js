@@ -65,6 +65,7 @@ export const TransportMode = {
   TRAY_OPEN:'TrayOpen',
   TRAY_OPENING:'TrayOpening',
   TRAY_CLOSING:'TrayClosing',
+  TRAY_CLOSING_PLAY:'TrayClosingPlay',
   PLAYING:'Playing',
   STARTING_PLAY:'StartingPlay',
   PAUSED:'Paused',
