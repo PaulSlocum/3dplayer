@@ -48,7 +48,6 @@ export class P3dNumericDisplay
     this.ledDriver.load();
 
     this.ledDriver.colonOff();
-    this.ledDriver.minusOff();
   }
   
   //////////////////////////////////////////////////////////////////////////////
@@ -69,7 +68,6 @@ export class P3dNumericDisplay
       if( this.displayMode != LedMode.NORMAL )
       {
         this.ledDriver.colonOff();
-        this.ledDriver.minusOff();
         if( this.altDisplayStartMSec + this.altDisplayWaitMSec < performance.now() )
         {
           this.displayMode = LedMode.NORMAL;
@@ -158,7 +156,7 @@ export class P3dNumericDisplay
     {
       case TransportMode.PAUSED:
       case TransportMode.PLAYING:
-        // DEBUG - FLASH MINUS/COLON
+        // DEBUG - FLASH COLON
         if( Math.floor(this.frameCounter/20)%3 == 0 )
           this.ledDriver.colonOn();
         else
@@ -166,7 +164,6 @@ export class P3dNumericDisplay
         break;
       default:
         this.ledDriver.colonOff();
-        this.ledDriver.minusOff();
         break;
     }
     
@@ -180,9 +177,16 @@ export class P3dNumericDisplay
       case TransportMode.PLAYING:
       {
         // SHOW TIME AND TRACK NUMBER
+        let firstCharacter = 'blank'
+        if( this.appController.getRemainingTimeMode() == true )
+        {
+          playbackTimeInt = Math.floor( this.appController.getTrackLengthSec() ) - playbackTimeInt;
+          logger( "TRACK LENGTH: ", playbackTimeInt ); // DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!
+          firstCharacter = 'W'; // DASH
+        }
         let minutes = Math.floor( playbackTimeInt / 60 );
         let seconds = playbackTimeInt % 60;
-        this.ledDriver.setDigitCharacter( 0, 'blank' );
+        this.ledDriver.setDigitCharacter( 0, firstCharacter );
         this.ledDriver.setDigitCharacter( 1, 'blank' );
         this.ledDriver.setDigitCharacter( 2, minutes%10 );
         this.ledDriver.setDigitCharacter( 3, Math.floor( seconds / 10 )%10 );

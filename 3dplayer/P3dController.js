@@ -40,26 +40,6 @@ export const ButtonEvent = {
 }
 
 
-// THIS MAY NOT BE USED, STILL DECIDING IF BUTTON ANIMATIONS ARE WORTH IT...
-/*export const Animation = {
-  ANIMATION_TRAY_OPEN: 'TrayOpen',
-  ANIMATION_BUTTON_PLAY: 'ButtonPlay',
-  ANIMATION_BUTTON_PAUSE: 'ButtonPause',
-  ANIMATION_BUTTON_NEXT: 'ButtonNext',
-  ANIMATION_BUTTON_PREV: 'ButtonPrev',
-  ANIMATION_BUTTON_STOP: 'ButtonStop',
-  ANIMATION_BUTTON_STANDBY: 'ButtonStandby',
-  ANIMATION_BUTTON_REWIND: 'ButtonRewind',
-  ANIMATION_BUTTON_FAST_FORWARD: 'ButtonFastForward',
-  ANIMATION_BUTTON_BASS_DOWN: 'ButtonBassDown',
-  ANIMATION_BUTTON_BASS_UP: 'ButtonBassUp',
-  ANIMATION_BUTTON_TREBLE_DOWN: 'ButtonTrebDown',
-  ANIMATION_BUTTON_TREBLE_UP: 'ButtonTrebUp',
-  ANIMATION_BUTTON_VOL_DOWN: 'ButtonVolDown',
-  ANIMATION_BUTTON_VOL_UP: 'ButtonVolUp'
-}  //*/
-
-
 
 export const TransportMode = {
   TRAY_OPEN:'TrayOpen',
@@ -94,7 +74,6 @@ export class P3dController {
     this.width = windowHeight;
 
     this.transport = new P3dTransport( this, filenameList );
-
     this.userInterface = new P3dUserInterface( this, windowWidth, windowHeight, renderer );
   }
 
@@ -187,6 +166,18 @@ export class P3dController {
   getRemainingTimeMode()
   {
     return this.transport.getRemainingTimeMode();
+  }
+  
+  /////////////////////////////////////////////////////////////////////////////
+  getRemainingTrackTimeSec()
+  {
+    return this.transport.getTrackLengthSec();
+  }
+
+  /////////////////////////////////////////////////////////////////////////////
+  getTrackLengthSec()
+  {
+    return this.transport.getTrackLengthSec();
   }
   
 

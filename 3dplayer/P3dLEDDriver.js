@@ -110,8 +110,6 @@ export class P3dLEDDriver
                                [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0] ];
     this.colonObject = null;
     this.colonHighlight = null;
-    this.minusObject = null;
-    this.minusHighlight = null;
                                
     this.objectsLoaded = false;
     
@@ -166,8 +164,6 @@ export class P3dLEDDriver
 
     this.colonObject = this.scene.getObjectByName( "Colon1a" );
     this.colonHighlight = this.scene.getObjectByName( "Colon1b" );
-    this.minusObject = this.scene.getObjectByName( "Minus1a" );
-    this.minusHighlight = this.scene.getObjectByName( "Minus1b" );
     
     //console.log( "------->LED DRIVER: COLON AND MINUS: ", this.colonObject, this.colonHighlight, 
     //                                                      this.minusObject, this.minusHighlight );
@@ -225,27 +221,6 @@ export class P3dLEDDriver
     }
   }  
   
-  //////////////////////////////////////////////////////////////////////////
-  minusOn()
-  {
-    if( this.objectsLoaded == true )
-    {
-      this.minusObject.material = this.ledOnMaterial;
-      this.minusHighlight.material = this.ledDimMaterial;
-    }
-  }  
-  
-  //////////////////////////////////////////////////////////////////////////
-  minusOff()
-  {
-    if( this.objectsLoaded == true )
-    {
-      this.minusObject.material = this.ledOffMaterial;
-      this.minusHighlight.material = this.displayGlassMaterial;
-    }
-  }  
-
-
   //  -    ~       -    ~       -    ~       -    ~       -    ~       -    ~        
   
   

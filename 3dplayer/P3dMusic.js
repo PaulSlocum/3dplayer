@@ -206,10 +206,10 @@ export class P3dMusicPlayer
       return 0.0;
     else
     {
-      if( this.musicPlaying == true )
-        return this.musicContext.currentTime - this.musicStartTime + this.musicPauseTime;
+      if( this.musicPlayingFilename != null )
+        return this.musicFiles[this.musicPlayingFilename].decodedData.duration
       else
-        return this.musicPauseTime;
+        return 0.0;
     }
   }
 
