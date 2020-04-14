@@ -31,6 +31,7 @@ export const TransportEvent = {
   STANDBY: 'Standby', 
   SHUTDOWN: 'TransportPowerDown',
   STARTUP: 'TransportPowerUp', 
+  SKIP_TRACK: 'TransportSkipTrack',
   SEEK: 'TransportSeek'
 }
 
@@ -107,10 +108,10 @@ export class P3dTransport {
     this.volume = MAX_AUDIO_SETTING_VALUE;
     this.repeatAll = true;
     this.remainingTimeMode = false;
+    this.seekVelocity = 0;
 
     this.fxModeNumber = 0;
     this.fxMode = null;
-    
 
     this.status = TransportMode.TRAY_OPEN;
   }
@@ -175,15 +176,27 @@ export class P3dTransport {
         case ButtonEvent.BUTTON_DOWN_NEXT:
               if( this.status == TransportMode.PLAYING || 
                   this.status == TransportMode.PAUSED || 
-                  this.status == TransportMode.SEEK || 
+                  this.status == TransportMode.SEEK  || 
                   this.status == TransportMode.STOPPED )
               {
                 this.nextTrack();
               }
               break;
         case ButtonEvent.BUTTON_DOWN_FAST_FORWARD:
+              if( this.status == TransportMode.PLAYING )
+              {
+                this.seekVelocity = 10;
+                this.eventQueue.push( TransportEvent.SEEK );
+                this.scheduleNextEvent();
+              }
               break;
         case ButtonEvent.BUTTON_DOWN_REWIND:
+              if( this.status == TransportMode.PLAYING )
+              {
+                this.seekVelocity = -10;
+                this.eventQueue.push( TransportEvent.SEEK );
+                this.scheduleNextEvent();
+              }
               break;
         case ButtonEvent.BUTTON_DOWN_STOP:
               if( this.status == TransportMode.TRAY_OPEN )
@@ -336,6 +349,10 @@ export class P3dTransport {
       let event = this.eventQueue.shift();
       switch( event )
       {
+        case TransportEvent.SEEK:
+          logger( "----->TRANSPORT: S E E K !" );
+          break; //*/
+          
         case TransportEvent.CLOSE_TRAY:
           this.appController.closeTray();
           this.status = TransportMode.TRAY_CLOSING;
@@ -381,7 +398,7 @@ export class P3dTransport {
           this.scheduleNextEvent( 2 );
           break;
           
-        case TransportEvent.SEEK:
+        case TransportEvent.SKIP_TRACK:
           switch( random(4) )
           {
             case 0: this.soundPlayer.playSound( SoundFilename.CD_SEEK1 ); break;
@@ -456,7 +473,7 @@ export class P3dTransport {
       
       //this.eventQueue.push( TransportEvent.PAUSE ); //*/
       this.eventQueue = [];
-      this.eventQueue.push( TransportEvent.SEEK ); //*/
+      this.eventQueue.push( TransportEvent.SKIP_TRACK ); //*/
       this.eventQueue.push( TransportEvent.PLAY ); //*/
       this.scheduleNextEvent();
       this.musicPlayer.decodeMusic( this.filenameList[ this.trackNumber ] );    
@@ -478,7 +495,7 @@ export class P3dTransport {
       
       //this.eventQueue.push( TransportEvent.PAUSE ); //*/
       this.eventQueue = [];
-      this.eventQueue.push( TransportEvent.SEEK ); //*/
+      this.eventQueue.push( TransportEvent.SKIP_TRACK ); //*/
       this.eventQueue.push( TransportEvent.PLAY ); //*/
       this.scheduleNextEvent();
       
