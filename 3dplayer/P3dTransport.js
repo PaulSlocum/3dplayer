@@ -105,6 +105,7 @@ export class P3dTransport {
     this.bass = MIDDLE_AUDIO_SETTING_VALUE;
     this.volume = MAX_AUDIO_SETTING_VALUE;
     this.repeatAll = false;
+    this.remainingTimeMode = false;
 
     this.fxModeNumber = 0;
     this.fxMode = null;
@@ -277,6 +278,11 @@ export class P3dTransport {
 
         case ButtonEvent.BUTTON_DOWN_REPEAT_ALL:
               this.repeatAll = !this.repeatAll; // TOGGLE BUTTON
+              break;
+
+        case ButtonEvent.BUTTON_DOWN_REMAINING_TIME_MODE:
+              logger( "------> TRANSPORT: REMAINING TIME MODE BUTTON DOWN", this.remainingTimeMode );
+              this.remainingTimeMode = !this.remainingTimeMode; // TOGGLE BUTTON
               break;
 
       } // SWITCH
@@ -598,6 +604,12 @@ export class P3dTransport {
   {
     return this.repeatAll;
   }
+  
+  getRemainingTimeMode()
+  {
+    return this.remainingTimeMode;
+  }
+  
   
   
   

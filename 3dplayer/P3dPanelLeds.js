@@ -100,28 +100,25 @@ export class P3dPanelLeds
       }
     }
 
-    
-
-    //logger( "---->PANEL LEDS: repeatAllLed: ", this.repeatAllLed );
-    
     if( this.repeatAllLed != null )
     {
-      if( Math.floor(this.frameCounter/60)%2 == 0 )
-      {
-        this.repeatAllLed.material = this.ledOffMaterial;
-        this.playLed.material = this.ledOffMaterial;
-        this.pauseLed.material = this.ledOffMaterial;
-        this.timeModeLed.material = this.ledOffMaterial;
-      }
-      else
-      {
+      if( this.appController.getRepeatAll() == true )
         this.repeatAllLed.material = this.ledOnMaterial;
-        this.pauseLed.material = this.ledOnMaterial;
-        this.playLed.material = this.ledOnMaterial;
+      else
+        this.repeatAllLed.material = this.ledOffMaterial;
+    } 
+  
+    if( this.timeModeLed != null )
+    {
+      if( this.appController.getRemainingTimeMode() == true )
         this.timeModeLed.material = this.ledOnMaterial;
-      }
-    } //*/
+      else
+        this.timeModeLed.material = this.ledOffMaterial;
+    } 
+  
+  
       
   }
+  
 
 }

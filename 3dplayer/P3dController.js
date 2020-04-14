@@ -35,6 +35,7 @@ export const ButtonEvent = {
   BUTTON_DOWN_FX_DOWN: 'ButtonFxDown',
   BUTTON_DOWN_FX_UP: 'ButtonFxUp', 
   BUTTON_DOWN_REPEAT_ALL: 'ButtonRepeatAll',
+  BUTTON_DOWN_REMAINING_TIME_MODE: 'ButtonTimeMode',
   BUTTON_UP: 'ButtonUp'
 }
 
@@ -180,6 +181,15 @@ export class P3dController {
   {
     return this.transport.getRepeatAll();
   }
+
+  ////////////////////////////////////////////////////////////////////////////
+  getRemainingTimeMode()
+  {
+    return this.transport.getRemainingTimeMode();
+  }
+  
+
+
 
   ////////////////////////////////////////////////////////////////////////////
   // THERE TWO TRAY ANIMATION FUNCTIONS ARE CONFUSING...
