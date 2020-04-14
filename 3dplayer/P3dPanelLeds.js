@@ -26,6 +26,8 @@ export class P3dPanelLeds
     
     this.ledOnMaterial = null;
     this.ledOffMaterial = null;
+    this.ledOnMaterialPlay = null;
+    this.ledOffMaterialPlay = null;
    
     this.repeatAllLed = null;
     this.timeModeLed = null;
@@ -52,6 +54,16 @@ export class P3dPanelLeds
       {
         console.log( "---->PANEL LEDS: 'ledOffPanel' MATERIAL FOUND" );
         this.ledOffMaterial = child.material;
+      }
+      if( this.ledOnMaterialPlay == null  &&  child.material  &&  child.material.name == "LedOnPanelPlay" )
+      {
+        console.log( "---->PANEL LEDS: 'ledOnPanel' MATERIAL FOUND" );
+        this.ledOnMaterialPlay = child.material;
+      }
+      if( this.ledOffMaterialPlay == null  &&  child.material  &&  child.material.name == "LedOffPanelPlay" )
+      {
+        console.log( "---->PANEL LEDS: 'ledOffPanel' MATERIAL FOUND" );
+        this.ledOffMaterialPlay = child.material;
       }
 
       //console.log("---->LED DRIVER->CHILD: ", child.material);
@@ -81,11 +93,11 @@ export class P3dPanelLeds
         case TransportMode.STARTING_PLAY:
         case TransportMode.SEEK:
         case TransportMode.TRAY_CLOSING_PLAY:
-          this.playLed.material = this.ledOnMaterial;
+          this.playLed.material = this.ledOnMaterialPlay;
           this.pauseLed.material = this.ledOffMaterial;
           break;
         case TransportMode.PAUSED:
-          this.playLed.material = this.ledOffMaterial;
+          this.playLed.material = this.ledOffMaterialPlay;
           this.pauseLed.material = this.ledOnMaterial;
           break;
         case TransportMode.STOPPED:
@@ -95,11 +107,11 @@ export class P3dPanelLeds
         case TransportMode.TRAY_OPEN:
         case TransportMode.TRAY_OPENING:
         case TransportMode.TRAY_CLOSING:
-          this.playLed.material = this.ledOffMaterial;
+          this.playLed.material = this.ledOffMaterialPlay;
           this.pauseLed.material = this.ledOffMaterial;
           break;
       }
-    }
+    } //*/
 
     if( this.repeatAllLed != null )
     {
