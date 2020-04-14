@@ -538,9 +538,7 @@ export class P3dTransport {
       if( this.repeatAll === true )
       {
         this.trackNumber = 1;
-      }
-      else
-      {
+        this.play();
       }
     }
     else

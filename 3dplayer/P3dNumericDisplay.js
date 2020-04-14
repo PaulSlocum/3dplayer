@@ -107,6 +107,7 @@ export class P3dNumericDisplay
   }
 
   ////////////////////////////////////////////////////////////////////////////////
+  // GOES BACK TO SHOWING PLAYBACK TIME/STATUS
   showNormalDisplay()
   {
     this.displayMode = LedMode.NORMAL;
@@ -114,6 +115,7 @@ export class P3dNumericDisplay
 
 
   ////////////////////////////////////////////////////////////////////////////////
+  // NOTE: THIS AUTOMATICALLY TIMES OUT AFTER "this.altDisplayWaitMSec"
   showVolume()
   {
     this.displayMode = LedMode.VOLUME;
@@ -122,6 +124,7 @@ export class P3dNumericDisplay
   
 
   ////////////////////////////////////////////////////////////////////////////////
+  // NOTE: THIS AUTOMATICALLY TIMES OUT AFTER "this.altDisplayWaitMSec"
   showBass()
   {
     this.displayMode = LedMode.BASS;
@@ -130,13 +133,17 @@ export class P3dNumericDisplay
   
 
   ////////////////////////////////////////////////////////////////////////////////
+  // NOTE: THIS AUTOMATICALLY TIMES OUT AFTER "this.altDisplayWaitMSec"
   showTreble()
   {
     this.displayMode = LedMode.TREBLE;
     this.altDisplayStartMSec = performance.now();
   }
   
-
+  
+  ////////////////////////////////////////////////////////////////////////////////
+  // SHOWS THE FX MODE TEXT
+  // NOTE: THIS AUTOMATICALLY TIMES OUT AFTER "this.altDisplayWaitMSec"
   showFxMode()
   {
     this.displayMode = LedMode.FX_MODE;
@@ -161,10 +168,9 @@ export class P3dNumericDisplay
       //logger( "TRACK LENGTH: ", minutes, seconds ); // DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!
       this.ledDriver.setDigitCharacter( 0, firstCharacter );
       if( minutes < 10 )
-        this.ledDriver.setDigitCharacter( 1, 'blank' );
+        this.ledDriver.setDigitCharacter( 1, 'blank' ); // <-- ELIMINATE LEADING ZERO
       else
         this.ledDriver.setDigitCharacter( 1, Math.floor(minutes/10)%10 );
-        //this.ledDriver.setDigitCharacter( 1, (minutes/10)%10 );
       this.ledDriver.setDigitCharacter( 2, minutes%10 );
       this.ledDriver.setDigitCharacter( 3, Math.floor( seconds / 10 )%10 );
       this.ledDriver.setDigitCharacter( 4, seconds%10 );
@@ -242,7 +248,7 @@ export class P3dNumericDisplay
       case TransportMode.STOPPED:
         let numberOfTracks = this.appController.getNumberOfTracks();
         this.ledDriver.setString( 'XXXXXXX' );
-        this._showTrackNumber( trackNumber );    
+        this._showTrackNumber( numberOfTracks );    
         break;
 
         // STANDBY DOESN'T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
