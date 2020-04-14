@@ -35,6 +35,8 @@ export class P3dPanelLeds
     this.pauseLed = null;
    
     this.frameCounter = 0;
+    
+    this.ledsLoaded = false;
   }
 
   
@@ -76,7 +78,7 @@ export class P3dPanelLeds
 
     logger( "---->PANEL LEDS: repeatAllLed: ", this.repeatAllLed );
 
-    this.repeatAllLed.material = this.ledOffMaterial;
+    this.ledsLoaded = true;
   }
 
   
@@ -85,8 +87,9 @@ export class P3dPanelLeds
   {
     this.frameCounter += 1;
   
-    if( this.playLed != null  &&  this.pauseLed != null )
+    if( this.ledsLoaded == true )
     {
+
       switch( this.appController.getStatus() )
       {
         case TransportMode.PLAYING:
@@ -103,33 +106,35 @@ export class P3dPanelLeds
         case TransportMode.STOPPED:
         case TransportMode.SHUTDOWN:
         case TransportMode.STARTUP:
-        case TransportMode.STANDBY:
         case TransportMode.TRAY_OPEN:
         case TransportMode.TRAY_OPENING:
+        case TransportMode.STANDBY:
         case TransportMode.TRAY_CLOSING:
           this.playLed.material = this.ledOffMaterialPlay;
           this.pauseLed.material = this.ledOffMaterial;
           break;
       }
-    } //*/
 
-    if( this.repeatAllLed != null )
-    {
-      if( this.appController.getRepeatAll() == true )
-        this.repeatAllLed.material = this.ledOnMaterial;
-      else
+      if( this.appController.getStatus() == TransportMode.STANDBY )
+      {
+        // ALL LEDS SHOULD BE OFF IN STANDBY MODE
         this.repeatAllLed.material = this.ledOffMaterial;
-    } 
-  
-    if( this.timeModeLed != null )
-    {
-      if( this.appController.getRemainingTimeMode() == true )
-        this.timeModeLed.material = this.ledOnMaterial;
-      else
         this.timeModeLed.material = this.ledOffMaterial;
+      }
+      else
+      {
+        if( this.appController.getRepeatAll() == true )
+          this.repeatAllLed.material = this.ledOnMaterial;
+        else
+          this.repeatAllLed.material = this.ledOffMaterial;
+
+        if( this.appController.getRemainingTimeMode() == true )
+          this.timeModeLed.material = this.ledOnMaterial;
+        else
+          this.timeModeLed.material = this.ledOffMaterial;
+      }
+
     } 
-  
-  
       
   }
   

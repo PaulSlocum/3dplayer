@@ -264,7 +264,7 @@ export class P3dGraphics
   buildStructures()
   {
     // SET CAMERA POSITION
-    const cameraZOffset = 2.1;
+    const cameraZOffset = 1.9;
     //const cameraZOffset = 2.7; // <------------
     
     this.camera.position.z = 5.5+cameraZOffset;

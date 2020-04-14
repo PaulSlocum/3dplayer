@@ -218,7 +218,6 @@ export class P3dNumericDisplay
       case TransportMode.STOPPED:
         let numberOfTracks = this.appController.getNumberOfTracks();
         this.ledDriver.setString( 'XXXXXXX' );
-        //this.ledDriver.setString( 'stopXX' );
         this.ledDriver.setDigitCharacter( 5, 'blank' );
         this.ledDriver.setDigitCharacter( 6, numberOfTracks%10 ); //*/
         break;

@@ -618,7 +618,10 @@ export class P3dTransport {
     return this.remainingTimeMode;
   }
   
-  
+  getRemainingTrackTimeSec()
+  {
+    
+  }
   
   
 }

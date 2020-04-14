@@ -198,6 +198,12 @@ export class P3dMusicPlayer
         return this.musicPauseTime;
     }
   }
+  
+  /////////////////////////////////////////////////////////////////////////////
+  getTrackLengthSec()
+  {
+    
+  }
 
 
   //   ~      -         ~      -         ~      -         ~      -         ~     
