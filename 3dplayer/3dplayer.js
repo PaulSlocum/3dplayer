@@ -44,8 +44,8 @@ if( (windowWidth > 0  &&  windowHeight > 0) == false )
 }
 
 // CREATE RENDERER
-const renderer = new THREE.WebGLRenderer( {preserveDrawingBuffer:false} );
-//const renderer = new THREE.WebGLRenderer( {preserveDrawingBuffer:false,  antialias: true} );
+//const renderer = new THREE.WebGLRenderer( {preserveDrawingBuffer:false} );
+const renderer = new THREE.WebGLRenderer( {preserveDrawingBuffer:false,  antialias: true} );
 //renderer.antialias = true; // <--- PROBABLY SHOULD BE SELECTABLE THROUGH A SCRIPT PARAMETER
 renderer.setSize( windowWidth, windowHeight );
 

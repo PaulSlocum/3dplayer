@@ -11,6 +11,7 @@ import { GLTFLoader } from './three/examples/jsm/loaders/GLTFLoader.js';
 import { P3dController } from './P3dController.js'
 import { P3dSwarm } from './P3dSwarm.js'
 import { P3dNumericDisplay } from './P3dNumericDisplay.js'
+import { P3dPanelLeds } from './P3dPanelLeds.js'
 import { P3dShaders } from './P3dShaders.js'
 import { logger } from './P3dLog.js'
 import { TransportMode } from './P3dController.js'
@@ -61,7 +62,7 @@ export class P3dGraphics
     
     this.scene = new THREE.Scene();
     // ---> PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
-    this.camera = new THREE.PerspectiveCamera( 35, windowWidth/windowHeight, 0.1, 1000 );
+    this.camera = new THREE.PerspectiveCamera( 38, windowWidth/windowHeight, 0.1, 1000 );
     this.cameraFrustum = null;
     
     this.roomCube = null;
@@ -104,6 +105,7 @@ export class P3dGraphics
     this.clock = new THREE.Clock();
 
     this.numericDisplay = new P3dNumericDisplay( appController, this.scene );
+    this.panelLeds = new P3dPanelLeds( appController, this.scene );
   }
 
 
@@ -124,6 +126,7 @@ export class P3dGraphics
 
     // UPDATE LED DISPLAY
     this.numericDisplay.update();
+    this.panelLeds.update();
 
     // UPDATE "SWARM" 
     this.swarm.render();
@@ -252,6 +255,7 @@ export class P3dGraphics
   modelLoadComplete()
   {
     this.numericDisplay.load();
+    this.panelLeds.load();
   }
 
 
@@ -260,24 +264,27 @@ export class P3dGraphics
   buildStructures()
   {
     // SET CAMERA POSITION
-    this.camera.position.z = 5.5+2.7;
+    const cameraZOffset = 2.1;
+    //const cameraZOffset = 2.7; // <------------
+    
+    this.camera.position.z = 5.5+cameraZOffset;
     if( this.isMobileDevice == true )
     { // ZOOM IN A LOT FOR PHONES
-      this.camera.position.z = 4.0+2.7;
+      this.camera.position.z = 4.0+cameraZOffset;
       this.camera.position.y = -0.1;
     }
     else
     { // ZOOM IN A LITTLE FOR TABLETS
       if( this.isTabletDevice == true )
       { 
-        this.camera.position.z = 4.5+2.7; 
+        this.camera.position.z = 4.5+cameraZOffset; 
         this.camera.position.y = -0.1;
       }
       else
       { // ZOOM IN A LITTLE IF THE SCREEN IS REALLY WIDE
         if( this.windowWidth/this.windowHeight > 3 )
         { 
-          this.camera.position.z = 3.9+2.7;
+          this.camera.position.z = 3.9+cameraZOffset;
           this.camera.position.y = 0.0;
         } //*/
       }

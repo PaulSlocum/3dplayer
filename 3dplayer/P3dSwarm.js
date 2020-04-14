@@ -125,7 +125,8 @@ export class P3dSwarm
   {
     this.frameCounter++;
   
-    this.xBaseSpeed += 0.000002;
+    // TEST: CONSTANT GRADUAL ACCERLERATION
+    //this.xBaseSpeed += 0.000002;
   
     if( this.frameCounter%780 == 0 )
     {
