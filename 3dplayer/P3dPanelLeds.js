@@ -23,6 +23,14 @@ export class P3dPanelLeds
 
     this.appController = appController;
     this.scene = scene;
+    
+    this.ledOnMaterial = null;
+    this.ledOffMaterial = null;
+   
+    this.repeatAllLed = null;
+    this.timeModeLed = null;
+    this.playLed = null;
+    this.pauseLed = null;
    
     this.frameCounter = 0;
   }
@@ -33,27 +41,17 @@ export class P3dPanelLeds
   {
   
     // FIND THE MATERIALS USED FOR THE LEDS...
-    /*this.scene.traverse( function(child) 
+    this.scene.traverse( function(child) 
     {
-      if( this.ledOnMaterial == null  &&  child.material  &&  child.material.name == "ledOn" )
+      if( this.ledOnMaterial == null  &&  child.material  &&  child.material.name == "LedOnPanel" )
       {
-        //console.log( "---->LED DRIVER: 'ledOn' MATERIAL FOUND" );
+        console.log( "---->PANEL LEDS: 'ledOnPanel' MATERIAL FOUND" );
         this.ledOnMaterial = child.material;
       }
-      if( this.ledDimMaterial == null  &&  child.material  &&  child.material.name == "ledDim" )
+      if( this.ledOffMaterial == null  &&  child.material  &&  child.material.name == "LedOffPanel" )
       {
-        //console.log( "---->LED DRIVER: 'ledDim' MATERIAL FOUND" );
-        this.ledDimMaterial = child.material;
-      }
-      if( this.ledOffMaterial == null  &&  child.material  &&  child.material.name == "ledOff" )
-      {
-        //console.log( "---->LED DRIVER: 'ledOff' MATERIAL FOUND" );
+        console.log( "---->PANEL LEDS: 'ledOffPanel' MATERIAL FOUND" );
         this.ledOffMaterial = child.material;
-      }
-      if( this.displayGlassMaterial == null  &&  child.material  &&  child.material.name == "displayGlass" )
-      {
-        //console.log( "---->LED DRIVER: 'displayGlass' MATERIAL FOUND" );
-        this.displayGlassMaterial = child.material;
       }
 
       //console.log("---->LED DRIVER->CHILD: ", child.material);
@@ -74,19 +72,14 @@ export class P3dPanelLeds
       }
     } //*/
 
-    /*this.colonObject = this.scene.getObjectByName( "Colon1a" );
-    this.colonHighlight = this.scene.getObjectByName( "Colon1b" );
-    this.minusObject = this.scene.getObjectByName( "Minus1a" );
-    this.minusHighlight = this.scene.getObjectByName( "Minus1b" );
-  
-    //console.log( "------->LED DRIVER: COLON AND MINUS: ", this.colonObject, this.colonHighlight, 
-    //                                                      this.minusObject, this.minusHighlight );
+    this.repeatAllLed = this.scene.getObjectByName( "RepeatAllLed" );
+    /*this.timeModeLed = this.scene.getObjectByName( "timeModeLed" );
+    this.playLed = this.scene.getObjectByName( "playLed" );
+    this.pauseLed = this.scene.getObjectByName( "pauseLed" ); //*/
 
-    this.objectsLoaded = true;
+    logger( "---->PANEL LEDS: repeatAllLed: ", this.repeatAllLed );
 
-    // CLEAR ALL SEGMENTS
-    this.setString( 'XXXXXX' );   //*/
-  
+    this.repeatAllLed.material = this.ledOffMaterial;
   }
 
   
@@ -96,6 +89,17 @@ export class P3dPanelLeds
     this.frameCounter += 1;
   
     let appMode = this.appController.getStatus();
+
+    //logger( "---->PANEL LEDS: repeatAllLed: ", this.repeatAllLed );
+    
+    if( this.repeatAllLed != null )
+    {
+      if( Math.floor(this.frameCounter/60)%2 == 0 )
+        this.repeatAllLed.material = this.ledOffMaterial;
+      else
+        this.repeatAllLed.material = this.ledOnMaterial;
+    } //*/
+      
   }
 
 }
