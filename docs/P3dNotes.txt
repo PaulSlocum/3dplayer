@@ -43,6 +43,8 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
+- figure out why the CD players glass display comes out dark gray instead of black
+~   -   ~   -   ~   -   ~   -   
 - make it possible to set 3D model from script call
 - build alternate blender model for mobile
 - make code automatically load mobile 3D model for mobile users
