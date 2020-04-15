@@ -24,6 +24,31 @@ class MusicFile
 }
 
 
+//|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+/*class QueueStack
+{
+  constructor()
+  {
+    this.stack = [];
+  }
+  
+  // PUSHES ITEM ON TOP, OR MOVES ITEM TO TOP IF ALREADY IN STACK...
+  pushToTop( item )
+  {
+    //this.stack 
+  }
+  
+  popFromBottom()
+  {
+  }
+   
+  remove( item )
+  {
+  }
+}//*/
+
+
+
 const TREBLE_BASS_MULTIPLIER = 2.0;
 
 
@@ -125,6 +150,34 @@ export class P3dMusicPlayer
       this.processMusicQueues();
     }
   }
+
+
+
+  ///////////////////////////////////////////////////////////////////////////////
+  manageMemory()
+  {
+    let totalSamples = 0;
+    for( let musicFile in this.musicFiles )
+    {
+      logger( "=======> MUSIC FILE: ", musicFile, this.musicFiles[musicFile] );
+      if( this.musicFiles[musicFile].decodedData != null )
+        totalSamples += this.musicFiles[musicFile].decodedData.length;
+        // NOTE: SHOULD BE MULTIPLIED BY NUMBER OF CHANNELS X 2 (FOR 16 BITS)
+    }
+    const BYTES_PER_SAMPLE = 2;  // <-- NOTE: ASSUMES 16 BIT SAMPLES
+    let totalMemoryUsedMb = Math.floor( totalSamples / 1024 / 1024 * BYTES_PER_SAMPLE );
+    logger( "=======> TOTAL AUDIO MEMORY USED (MB): ", totalMemoryUsedMb );
+    const MAX_MEMORY_USAGE_MB = 200;
+    
+    
+    /*for( let musicFile in this.musicFiles )
+    {
+      
+    }
+
+
+    while( totalMemoryUsedMb > MAX_MEMORY_USAGE_MB  &&   //*/
+  }
   
   
   ///////////////////////////////////////////////////////////////////////////////
@@ -133,6 +186,8 @@ export class P3dMusicPlayer
   {
     this.initMusicFile( musicFilename );
     
+    this.manageMemory();
+      
     //logger( "-----> MUSIC: DECODE FILE: ", musicFilename );
 
     if( this.musicFiles[musicFilename].decodeStarted == false  &&  

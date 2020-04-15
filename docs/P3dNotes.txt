@@ -5,11 +5,29 @@
 
 TODO:
 ~   -   ~   -   ~   -   ~   -   
+- implement memory management for music files
+- figure out how to work around issue of file buffers being consumed so that files don't need to be re-downloaded
+~   -   ~   -   ~   -   ~   -   
+- implement PNG image map on CD surface
+- make it so that image map rotates each time CD is ejected
+~   -   ~   -   ~   -   ~   -   
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~   -   ~   -   ~   -   ~   -   
+- create model for CD jewel case
+- add image mapped CD case edge and back
+- create flip-down animation
+- make it so that flip-down animation occurs if you click CD
+- make it so that the CD flips back if it's clicked again
+~   -   ~   -   ~   -   ~   -   
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~   -   ~   -   ~   -   ~   -   
 - make it so that seek buttons can skip between tracks (also add a max seek rate)
 ~   -   ~   -   ~   -   ~   -  
 - use a flag instead of "seekVelocity" to keep track of whether buttons are down so that quick presses still skip correctly
 ~   -   ~   -   ~   -   ~   -  
-- implement memory management for music files
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~   -   ~   -   ~   -   ~   -   
+- make it so that particles are repelled by the mouse pointer
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
@@ -19,6 +37,8 @@ TODO:
 - refactor transport class to separate event system from button processor
 - refactor music class to separate queuing system
 - refactor "playbackTimeInt" with units in numeric display
+~   -   ~   -   ~   -   ~   -   
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
 - look into fixing issue where WebGL adapts to the zoom level when it's loaded (or maybe this shouldn't be fixed?)
 ~   -   ~   -   ~   -   ~   -   
@@ -31,8 +51,6 @@ TODO:
 - change tray open/close animation communication to be done by a getTrayStatus() call to the transport 
 ~   -   ~   -   ~   -   ~   -   
 - add secondary effect eq, pre-delay, and delay feedback
-~   -   ~   -   ~   -   ~   -   
-- make it so that particles are repelled by the mouse pointer
 ~   -   ~   -   ~   -   ~   -   
 - check for situations where I'm copying RAM instead of copying a reference (especially in audio code)
 - convert double equals to triple equals
