@@ -20,12 +20,13 @@ class MusicFile
     this.fileData = null;
     this.decodeStarted = false;
     this.decodedData = null;
+    
   }
 }
 
 
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-/*class QueueStack
+class SmartQueue
 {
   constructor()
   {
@@ -33,17 +34,20 @@ class MusicFile
   }
   
   // PUSHES ITEM ON TOP, OR MOVES ITEM TO TOP IF ALREADY IN STACK...
-  pushToTop( item )
+  push( item )
   {
-    //this.stack 
+    this.remove( item );
+    this.stack.push( item );
   }
   
-  popFromBottom()
+  pullFromBottom()
   {
+    return this.stack.shift();
   }
    
   remove( item )
   {
+    this.stack = this.stack.filter( function(i) { return i != item } )
   }
 }//*/
 
@@ -60,6 +64,23 @@ export class P3dMusicPlayer
   constructor( delegate ) 
   {
     logger("---->MUSIC CLASS CONSTRUCTOR");
+
+    logger( "======> QUEUE TEST ======================================" );
+    
+    this.usageQueue = new SmartQueue();
+    this.usageQueue.push( "audio1.mp3" );
+    this.usageQueue.push( "audio2.mp3" );
+    this.usageQueue.push( "audio3.mp3" );
+    logger( "QUEUE: ", this.usageQueue.stack );
+    this.usageQueue.push( "audio1.mp3" );
+    logger( "QUEUE: ", this.usageQueue.stack );
+    this.usageQueue.pullFromBottom();
+    logger( "QUEUE: ", this.usageQueue.stack );
+    
+    logger( "======> QUEUE TEST ======================================" );
+    
+    
+
 
     // MUSIC PLAYER    
     this.preloadContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -159,7 +180,7 @@ export class P3dMusicPlayer
     let totalSamples = 0;
     for( let musicFile in this.musicFiles )
     {
-      logger( "=======> MUSIC FILE: ", musicFile, this.musicFiles[musicFile] );
+      //logger( "=======> MUSIC FILE: ", musicFile, this.musicFiles[musicFile] );
       if( this.musicFiles[musicFile].decodedData != null )
         totalSamples += this.musicFiles[musicFile].decodedData.length * this.musicFiles[musicFile].decodedData.numberOfChannels;
     }
