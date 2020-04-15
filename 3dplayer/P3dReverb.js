@@ -40,11 +40,11 @@ export class P3dReverb
     fileRequest.responseType = 'arraybuffer';
     fileRequest.onload = function() 
     {
-		  logger( "----->REVERB: IMPULSE FILE LOADED. DECODING...", this, fileRequest );
+		  //logger( "----->REVERB: IMPULSE FILE LOADED. DECODING...", this, fileRequest );
       let audioData = fileRequest.response;
       this.context.decodeAudioData( audioData, function(buffer) 
       { // DECODE SUCCESS
-  		  logger( "----->REVERB: DECODED.", buffer );
+  		  //logger( "----->REVERB: DECODED.", buffer );
         this.reverb.buffer = buffer;
       }.bind(this), function(e)
       { // ERROR HANDLER

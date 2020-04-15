@@ -124,13 +124,7 @@ export class P3dUserInterface
   ///////////////////////////////////////////////////////////////////////
   touchMouseUp( event )
   {
-    //this.graphics.resetAnimation(); // STILL DECIDING ABOUT BUTTON ANIMATIONS
-
-    if( this.buttonDown == true )
-    {
-      this.buttonDown = false;
-      this.appController.processButtonEvent( ButtonEvent.BUTTON_UP ); 
-    }
+    this.appController.processButtonEvent( ButtonEvent.BUTTON_UP ); 
   }
 
 

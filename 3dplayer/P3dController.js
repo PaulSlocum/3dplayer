@@ -169,12 +169,6 @@ export class P3dController {
   }
   
   /////////////////////////////////////////////////////////////////////////////
-  getRemainingTrackTimeSec()
-  {
-    return this.transport.getTrackLengthSec();
-  }
-
-  /////////////////////////////////////////////////////////////////////////////
   getTrackLengthSec()
   {
     return this.transport.getTrackLengthSec();

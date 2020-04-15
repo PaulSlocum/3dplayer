@@ -54,6 +54,7 @@ export class P3dMusicPlayer
 
     this.volumeValue = 1.0;
 
+    // THIS IS DISABLED PENDING REWORKING OF EFFECTS SYSTEM
     //this.bassValue = 0.0;
     //this.trebleValue = 0.0;
 
@@ -70,7 +71,6 @@ export class P3dMusicPlayer
   ///////////////////////////////////////////////////////////////////////////
   setVolume( value )
   {
-    // THIS IS DISABLED PENDING REWORKING OF EFFECTS SYSTEM
     this.volumeValue = value;
     if( this.musicPlaying == true )
       this.mainVolumeGain.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 ); //*/
@@ -198,9 +198,10 @@ export class P3dMusicPlayer
         return this.musicPauseTime;
     }
   }
+
   
   /////////////////////////////////////////////////////////////////////////////
-  getTrackLengthSec()
+  getCurrentTrackLengthSec()
   {
     if( this.musicContext == null )
       return 0.0;
@@ -211,6 +212,16 @@ export class P3dMusicPlayer
       else
         return 0.0;
     }
+  }
+
+
+  /////////////////////////////////////////////////////////////////////////////
+  getTrackLengthSec( filename )
+  {
+    if( this.musicFiles[filename].decodedData != null )
+      return this.musicFiles[filename].decodedData.duration;
+    else
+      return 0.0;
   }
 
 

@@ -32,7 +32,8 @@ export const TransportEvent = {
   SHUTDOWN: 'TransportPowerDown',
   STARTUP: 'TransportPowerUp', 
   SKIP_TRACK: 'TransportSkipTrack',
-  SEEK: 'TransportSeek'
+  SEEK: 'TransportSeek',
+  SEEK_PLAY: 'TransportSeekPlay'
 }
 
 
@@ -53,7 +54,8 @@ export const SoundFilename = {
     CD_SEEK1: '3dplayer/sounds/cdSeek1.wav',
     CD_SEEK2: '3dplayer/sounds/cdSeek2.wav',
     CD_SEEK3: '3dplayer/sounds/cdSeek3.wav',
-    CD_SEEK4: '3dplayer/sounds/cdSeek4.wav'
+    CD_SEEK4: '3dplayer/sounds/cdSeek4.wav',
+    CD_SHORT_SEEK1: '3dplayer/sounds/cdShortSeek1.wav'
 } //*/
 
 
@@ -89,6 +91,7 @@ export class P3dTransport {
     this.soundPlayer.loadSound( SoundFilename.CD_SEEK2 );
     this.soundPlayer.loadSound( SoundFilename.CD_SEEK3 );
     this.soundPlayer.loadSound( SoundFilename.CD_SEEK4 );
+    this.soundPlayer.loadSound( SoundFilename.CD_SHORT_SEEK1 );
 
     this.eventQueue = [];
     this.nextEventTimeSec = performance.now();
@@ -109,6 +112,10 @@ export class P3dTransport {
     this.repeatAll = true;
     this.remainingTimeMode = false;
     this.seekVelocity = 0;
+
+    // PROBABLY WON'T USE THESE
+    //this.rewindButtonDown = false;
+    //this.fastForwardButtonDown = false;
 
     this.fxModeNumber = 0;
     this.fxMode = null;
@@ -137,6 +144,10 @@ export class P3dTransport {
     // BUTTON CLICK SOUND EFFECT
     if( buttonEvent != ButtonEvent.BUTTON_UP  &&  buttonEvent != ButtonEvent.BUTTON_UP )
       this.soundPlayer.playSound( SoundFilename.CLICK_DOWN ); 
+
+    // END SEEK WHEN ANY BUTTON IS RELEASED...
+    if( buttonEvent == ButtonEvent.BUTTON_UP )
+      this.seekVelocity = 0;
 
     // BUTTONS ARE DISABLED WHEN IN STANDBY MODE...
     if( this.status == TransportMode.STANDBY )
@@ -300,8 +311,9 @@ export class P3dTransport {
               break;
 
       } // SWITCH
-    }
-   
+      
+    } // ELSE NOT IN STANDBY
+    
   }
   
   
@@ -351,19 +363,43 @@ export class P3dTransport {
       {
         case TransportEvent.SEEK:
           logger( "----->TRANSPORT: S E E K !" );
+          if( this.seekVelocity != 0 )
+          {
+            let currentTrackTime = this.musicPlayer.getMusicTime();
+            this.soundPlayer.playSound( SoundFilename.CD_SHORT_SEEK1 );
+            this.eventQueue.push( TransportEvent.SEEK_PLAY );
+            this.scheduleNextEvent( 0.25 );
+          }
           break; //*/
           
+        case TransportEvent.SEEK_PLAY:
+          logger( "----->TRANSPORT: S E E K   P L A Y !" );
+          if( this.seekVelocity != 0 )
+          {
+            let currentTrackTime = this.musicPlayer.getMusicTime();
+            this.soundPlayer.playSound( SoundFilename.CD_SHORT_SEEK1 );
+            this.eventQueue.push( TransportEvent.SEEK );
+            this.scheduleNextEvent( 0.25 );
+          }
+          /*if( this.trackPlaying == false )
+          {
+            this.trackPlaying = true;
+            this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
+            this.status = TransportMode.PLAYING;
+          } //*/
+          break;
+
         case TransportEvent.CLOSE_TRAY:
           this.appController.closeTray();
           this.status = TransportMode.TRAY_CLOSING;
-          this.soundPlayer.playSound( SoundFilename.TRAY_CLOSE );  // <------------
+          this.soundPlayer.playSound( SoundFilename.TRAY_CLOSE ); 
           this.scheduleNextEvent( 3 );
           break; //*/
           
         case TransportEvent.CLOSE_TRAY_PLAY:
           this.appController.closeTray();
           this.status = TransportMode.TRAY_CLOSING_PLAY;
-          this.soundPlayer.playSound( SoundFilename.TRAY_CLOSE );  // <------------
+          this.soundPlayer.playSound( SoundFilename.TRAY_CLOSE ); 
           this.scheduleNextEvent( 3 );
           break; //*/
           
@@ -635,15 +671,9 @@ export class P3dTransport {
   }
   
   /////////////////////////////////////////////////////////////////////////////
-  getRemainingTrackTimeSec()
-  {
-    return this.musicPlayer.getTrackLengthSec();
-  }
-
-  /////////////////////////////////////////////////////////////////////////////
   getTrackLengthSec()
   {
-    return this.musicPlayer.getTrackLengthSec();
+    return this.musicPlayer.getCurrentTrackLengthSec();
   }
   
   
