@@ -149,10 +149,11 @@ export class P3dMusicPlayer
   
   /////////////////////////////////////////////////////////////////////////////
   // NOTE: THIS ALSO DOWNLOADS AND/OR DECODES IF NOT ALREADY DONE
-  playMusic( musicFilename, offsetSet )
+  playMusic( musicFilename, offsetSec )
   {
     this.createContext();
-  
+    if( offsetSec != null )
+      this.musicPauseTime = offsetSec;
     this.decodeMusic( musicFilename );
     this.musicPlayingFilename = musicFilename;
     this.musicPlayPending = true;

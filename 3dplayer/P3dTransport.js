@@ -55,7 +55,11 @@ export const SoundFilename = {
     CD_SEEK2: '3dplayer/sounds/cdSeek2.wav',
     CD_SEEK3: '3dplayer/sounds/cdSeek3.wav',
     CD_SEEK4: '3dplayer/sounds/cdSeek4.wav',
-    CD_SHORT_SEEK1: '3dplayer/sounds/cdShortSeek1.wav'
+    CD_SHORT_SEEK1: '3dplayer/sounds/cdShortSeek1.wav',
+    CD_SHORT_SEEK2: '3dplayer/sounds/cdShortSeek2.wav',
+    CD_SHORT_SEEK3: '3dplayer/sounds/cdShortSeek3.wav',
+    CD_SHORT_SEEK4: '3dplayer/sounds/cdShortSeek4.wav',
+    CD_SHORT_SEEK5: '3dplayer/sounds/cdShortSeek5.wav'
 } //*/
 
 
@@ -92,6 +96,10 @@ export class P3dTransport {
     this.soundPlayer.loadSound( SoundFilename.CD_SEEK3 );
     this.soundPlayer.loadSound( SoundFilename.CD_SEEK4 );
     this.soundPlayer.loadSound( SoundFilename.CD_SHORT_SEEK1 );
+    this.soundPlayer.loadSound( SoundFilename.CD_SHORT_SEEK2 );
+    this.soundPlayer.loadSound( SoundFilename.CD_SHORT_SEEK3 );
+    this.soundPlayer.loadSound( SoundFilename.CD_SHORT_SEEK4 );
+    this.soundPlayer.loadSound( SoundFilename.CD_SHORT_SEEK5 );
 
     this.eventQueue = [];
     this.nextEventTimeSec = performance.now();
@@ -363,30 +371,49 @@ export class P3dTransport {
       {
         case TransportEvent.SEEK:
           logger( "----->TRANSPORT: S E E K !" );
-          if( this.seekVelocity != 0 )
+          this.currentTrackTime = this.musicPlayer.getMusicTime();
+          this.musicPlayer.pauseMusic();
+          switch( random(3) )
           {
-            let currentTrackTime = this.musicPlayer.getMusicTime();
-            this.soundPlayer.playSound( SoundFilename.CD_SHORT_SEEK1 );
-            this.eventQueue.push( TransportEvent.SEEK_PLAY );
-            this.scheduleNextEvent( 0.25 );
-          }
+            case 0: this.soundPlayer.playSound( SoundFilename.CD_SHORT_SEEK1 ); break;
+            case 1: this.soundPlayer.playSound( SoundFilename.CD_SHORT_SEEK2 ); break;
+            case 2: this.soundPlayer.playSound( SoundFilename.CD_SHORT_SEEK3 ); break;
+            case 3: this.soundPlayer.playSound( SoundFilename.CD_SHORT_SEEK4 ); break;
+            case 4: this.soundPlayer.playSound( SoundFilename.CD_SHORT_SEEK5 ); break;
+          } //*/
+          this.eventQueue.push( TransportEvent.SEEK_PLAY );
+          this.scheduleNextEvent( 0.25 );
           break; //*/
           
         case TransportEvent.SEEK_PLAY:
           logger( "----->TRANSPORT: S E E K   P L A Y !" );
+          // IF SEEKING BEFORE THE START OF THE TRACK...
+          if( this.currentTrackTime + this.seekVelocity < 0 )
+          { // PLAY FROM START OF TRACK...
+            this.musicPlayer.rewindMusic();
+            this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );
+            this.seekVelocity = 0;
+          }
+          else
+          { // IF SEEKING BEYOND END OF TRACK...
+            if( this.currentTrackTime + this.seekVelocity > this.musicPlayer.getCurrentTrackLengthSec() )
+            {
+              // PLAY AND END SEEKING...
+              this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );
+              this.seekVelocity = 0;
+            }
+            else // ELSE - DO SEEK...
+            { 
+              this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ], this.currentTrackTime + this.seekVelocity );
+            }
+          }
+          // CONTINUE SEEKING IF SEEK IS STILL ACTIVE...
           if( this.seekVelocity != 0 )
           {
-            let currentTrackTime = this.musicPlayer.getMusicTime();
-            this.soundPlayer.playSound( SoundFilename.CD_SHORT_SEEK1 );
+            this.seekVelocity *= 1.10;  // <---- INCREASE RATE BY A PERECENTAGE EACH TIME
             this.eventQueue.push( TransportEvent.SEEK );
             this.scheduleNextEvent( 0.25 );
           }
-          /*if( this.trackPlaying == false )
-          {
-            this.trackPlaying = true;
-            this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );    
-            this.status = TransportMode.PLAYING;
-          } //*/
           break;
 
         case TransportEvent.CLOSE_TRAY:
