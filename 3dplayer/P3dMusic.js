@@ -161,8 +161,7 @@ export class P3dMusicPlayer
     {
       logger( "=======> MUSIC FILE: ", musicFile, this.musicFiles[musicFile] );
       if( this.musicFiles[musicFile].decodedData != null )
-        totalSamples += this.musicFiles[musicFile].decodedData.length;
-        // NOTE: SHOULD BE MULTIPLIED BY NUMBER OF CHANNELS X 2 (FOR 16 BITS)
+        totalSamples += this.musicFiles[musicFile].decodedData.length * this.musicFiles[musicFile].decodedData.numberOfChannels;
     }
     const BYTES_PER_SAMPLE = 2;  // <-- NOTE: ASSUMES 16 BIT SAMPLES
     let totalMemoryUsedMb = Math.floor( totalSamples / 1024 / 1024 * BYTES_PER_SAMPLE );
