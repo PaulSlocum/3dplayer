@@ -5,8 +5,9 @@
 
 TODO:
 ~   -   ~   -   ~   -   ~   -   
-- get seek buttons working
-- implement time/repeat buttons
+- make it so that seek buttons can skip between tracks (also add a max seek rate)
+~   -   ~   -   ~   -   ~   -  
+- use a flag instead of "seekVelocity" to keep track of whether buttons are down so that quick presses still skip correctly
 ~   -   ~   -   ~   -   ~   -  
 - implement memory management for music files
 ~   -   ~   -   ~   -   ~   -   
@@ -69,6 +70,8 @@ x implement effect preset interface in transport
 x implement effect mode display
 x re-enable volume control
 x adjust camera FOV to make CD drawer not stick out so much
+x get seek buttons working
+x implement time/repeat buttons
 ~   -   ~   -   ~   -   ~   -   
 
 
