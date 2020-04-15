@@ -26,31 +26,33 @@ class MusicFile
 
 
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-class SmartQueue
+class SmartQueue extends Array
 {
-  constructor()
+  /*constructor()
   {
     this.stack = [];
-  }
+  } //*/
   
   // PUSHES ITEM ON TOP, OR MOVES ITEM TO TOP IF ALREADY IN STACK...
-  push( item )
+  pushWithoutDuplicate( item )
   {
-    this.remove( item );
-    this.stack.push( item );
+    this.removeItem( item );
+    this.push( item );
   }
   
-  pullFromBottom()
+  /*pullFromBottom()
   {
     return this.stack.shift();
-  }
-   
-  remove( item )
+  } //*/
+    
+  removeItem( item )
   {
-    this.stack = this.stack.filter( function(i) { return i != item } )
+    let newArray = this.filter( function(i) { return i != item } );
+    this.length = 0;
+    this.push( ...newArray );
   }
   
-  getQueue()
+  /*getQueue()
   {
     return this.stack;
   }
@@ -58,7 +60,7 @@ class SmartQueue
   getLength()
   {
     return this.stack.length;
-  }
+  } //*/
   
 }//*/
 
@@ -76,10 +78,10 @@ export class P3dMusicPlayer
   manageMemory()
   {
     let totalSamples = 0;
-    let usageQueue = this.usageQueue.getQueue();
+    //let usageQueue = this.usageQueue.getQueue();
     //for( let musicFile in this.musicFiles )
-    logger( "=============> MANAGE MEMORY: USAGE QUEUE: ", usageQueue );
-    for( let musicFile of usageQueue )
+    logger( "=============> MANAGE MEMORY: USAGE QUEUE: ", this.usageQueue );
+    for( let musicFile of this.usageQueue )
     {
       logger( "=======> MANAGE MEMORY: MUSIC FILE: ", musicFile, this.musicFiles[musicFile] );
       if( this.musicFiles[musicFile].decodedData != null )
@@ -393,7 +395,7 @@ export class P3dMusicPlayer
           this.musicFiles[decodeFilename].decodedData = buffer;
           this.musicDecoding = false;
           logger( "===========> push( decodeFilename ) USAGE QUEUE: ", this.usageQueue );
-          this.usageQueue.push( decodeFilename );
+          this.usageQueue.pushWithoutDuplicate( decodeFilename );
           logger( "===========> push( decodeFilename ) \\_ USAGE QUEUE: ", this.usageQueue );
    
           this.musicPauseTime = 0.0;
@@ -417,7 +419,7 @@ export class P3dMusicPlayer
         this.musicSource.buffer = this.musicFiles[this.musicPlayingFilename].decodedData;
         this.musicSource.connect( this.effects.getInput() );
         logger( "===========> push( decodeFilename ) USAGE QUEUE: ", this.usageQueue );
-        this.usageQueue.push( this.musicPlayingFilename );
+        this.usageQueue.pushWithoutDuplicate( this.musicPlayingFilename );
         logger( "===========> push( decodeFilename ) \\_ USAGE QUEUE: ", this.usageQueue );
         // ~    -   ~    -   ~    -   ~    -   
         this.musicSource.loop = false;
