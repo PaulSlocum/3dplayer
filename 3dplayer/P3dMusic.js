@@ -49,6 +49,17 @@ class SmartQueue
   {
     this.stack = this.stack.filter( function(i) { return i != item } )
   }
+  
+  getQueue()
+  {
+    return this.stack;
+  }
+  
+  getLength()
+  {
+    return this.stack.length;
+  }
+  
 }//*/
 
 
@@ -60,27 +71,48 @@ const TREBLE_BASS_MULTIPLIER = 2.0;
 export class P3dMusicPlayer
 {
 
+
+  ///////////////////////////////////////////////////////////////////////////////
+  manageMemory()
+  {
+    let totalSamples = 0;
+    let usageQueue = this.usageQueue.getQueue();
+    //for( let musicFile in this.musicFiles )
+    logger( "=============> MANAGE MEMORY: USAGE QUEUE: ", usageQueue );
+    for( let musicFile of usageQueue )
+    {
+      logger( "=======> MANAGE MEMORY: MUSIC FILE: ", musicFile, this.musicFiles[musicFile] );
+      if( this.musicFiles[musicFile].decodedData != null )
+        totalSamples += this.musicFiles[musicFile].decodedData.length * this.musicFiles[musicFile].decodedData.numberOfChannels;
+    }
+    const BYTES_PER_SAMPLE = 2;  // <-- NOTE: ASSUMES 16 BIT SAMPLES
+    let totalMemoryUsedMb = Math.floor( totalSamples / 1024 / 1024 * BYTES_PER_SAMPLE );
+    logger( "=======> MANAGE MEMORY: TOTAL AUDIO MEMORY USED (MB): ", totalMemoryUsedMb );
+    const MAX_MEMORY_USAGE_MB = 150;
+    
+    /*if( totalMemoryUsedMb > MAX_MEMORY_USAGE_MB )
+    {
+      for( int i=0; i<this.usageQueue.getLength(); i++ )
+      {
+        
+      }
+    }
+    /*for( let musicFile in this.musicFiles )
+    {
+      
+    }
+
+
+    while( totalMemoryUsedMb > MAX_MEMORY_USAGE_MB  &&   //*/
+  }
+  
+
+
+
   ///////////////////////////////////////////////////////////////////////
   constructor( delegate ) 
   {
     logger("---->MUSIC CLASS CONSTRUCTOR");
-
-    logger( "======> QUEUE TEST ======================================" );
-    
-    this.usageQueue = new SmartQueue();
-    this.usageQueue.push( "audio1.mp3" );
-    this.usageQueue.push( "audio2.mp3" );
-    this.usageQueue.push( "audio3.mp3" );
-    logger( "QUEUE: ", this.usageQueue.stack );
-    this.usageQueue.push( "audio1.mp3" );
-    logger( "QUEUE: ", this.usageQueue.stack );
-    this.usageQueue.pullFromBottom();
-    logger( "QUEUE: ", this.usageQueue.stack );
-    
-    logger( "======> QUEUE TEST ======================================" );
-    
-    
-
 
     // MUSIC PLAYER    
     this.preloadContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -91,9 +123,10 @@ export class P3dMusicPlayer
     this.musicStartTime = 0.0;
     this.musicPlaying = false;
     this.musicPlayPending = false;
-    this.musicPlayingFilename = null; // NEW!
-    this.musicDownloadQueue = []; // NEW!
-    this.musicDecodeQueue = []; // NEW!
+    this.musicPlayingFilename = null;
+    this.musicDownloadQueue = [];
+    this.musicDecodeQueue = []; 
+    this.usageQueue = new SmartQueue();
     
     this.musicDownloading = false;
     this.musicDecoding = false;
@@ -174,31 +207,6 @@ export class P3dMusicPlayer
 
 
 
-  ///////////////////////////////////////////////////////////////////////////////
-  manageMemory()
-  {
-    let totalSamples = 0;
-    for( let musicFile in this.musicFiles )
-    {
-      //logger( "=======> MUSIC FILE: ", musicFile, this.musicFiles[musicFile] );
-      if( this.musicFiles[musicFile].decodedData != null )
-        totalSamples += this.musicFiles[musicFile].decodedData.length * this.musicFiles[musicFile].decodedData.numberOfChannels;
-    }
-    const BYTES_PER_SAMPLE = 2;  // <-- NOTE: ASSUMES 16 BIT SAMPLES
-    let totalMemoryUsedMb = Math.floor( totalSamples / 1024 / 1024 * BYTES_PER_SAMPLE );
-    logger( "=======> TOTAL AUDIO MEMORY USED (MB): ", totalMemoryUsedMb );
-    const MAX_MEMORY_USAGE_MB = 200;
-    
-    
-    /*for( let musicFile in this.musicFiles )
-    {
-      
-    }
-
-
-    while( totalMemoryUsedMb > MAX_MEMORY_USAGE_MB  &&   //*/
-  }
-  
   
   ///////////////////////////////////////////////////////////////////////////////
   // NOTE: THIS ALSO DOWNLOADS IF NOT ALREADY DONE
@@ -384,6 +392,9 @@ export class P3dMusicPlayer
           //logger( "-----> MUSIC DECODED, CONTEXT: ", this.preloadContext, decodeFilename, buffer );
           this.musicFiles[decodeFilename].decodedData = buffer;
           this.musicDecoding = false;
+          logger( "===========> push( decodeFilename ) USAGE QUEUE: ", this.usageQueue );
+          this.usageQueue.push( decodeFilename );
+          logger( "===========> push( decodeFilename ) \\_ USAGE QUEUE: ", this.usageQueue );
    
           this.musicPauseTime = 0.0;
           this.processMusicQueues();
@@ -401,18 +412,13 @@ export class P3dMusicPlayer
       {
         //logger( "----> PLAYBACK STARTING: MUSIC SOURCE: ", this.musicSource, this.musicFiles[this.musicPlayingFilename].decodedData );
 
-        // THIS IS TO POTENTIALLY FIX A BUG IN CHROME, NOT SURE IF IT WORKS...
-        // DISABLED FOR NOW BECAUSE I'M NOT SURE IT'S NECESSARY
-        /*if( this.musicContext.state === 'suspended'  &&  typeof this.musicContext.resume === 'function' ) 
-        {
-          logger( "-----------> MUSIC CONTEXT RESUMED" );
-          this.musicContext.resume();
-        } //*/
-
         // --> START PLAYBACK HERE <--
         this.musicSource = this.musicContext.createBufferSource();
         this.musicSource.buffer = this.musicFiles[this.musicPlayingFilename].decodedData;
         this.musicSource.connect( this.effects.getInput() );
+        logger( "===========> push( decodeFilename ) USAGE QUEUE: ", this.usageQueue );
+        this.usageQueue.push( this.musicPlayingFilename );
+        logger( "===========> push( decodeFilename ) \\_ USAGE QUEUE: ", this.usageQueue );
         // ~    -   ~    -   ~    -   ~    -   
         this.musicSource.loop = false;
         this.musicSource.onended = this.musicEndedCallback.bind(this);
