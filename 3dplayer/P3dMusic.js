@@ -28,39 +28,19 @@ class MusicFile
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 class SmartQueue extends Array
 {
-  /*constructor()
-  {
-    this.stack = [];
-  } //*/
-  
-  // PUSHES ITEM ON TOP, OR MOVES ITEM TO TOP IF ALREADY IN STACK...
+  // PUSHES ITEM AT END, OR MOVES ITEM TO END IF ALREADY IN STACK...
   pushWithoutDuplicate( item )
   {
     this.removeItem( item );
     this.push( item );
   }
   
-  /*pullFromBottom()
-  {
-    return this.stack.shift();
-  } //*/
-    
   removeItem( item )
   {
     let newArray = this.filter( function(i) { return i != item } );
     this.length = 0;
     this.push( ...newArray );
   }
-  
-  /*getQueue()
-  {
-    return this.stack;
-  }
-  
-  getLength()
-  {
-    return this.stack.length;
-  } //*/
   
 }//*/
 
@@ -74,29 +54,40 @@ export class P3dMusicPlayer
 {
 
 
+  /////////////////////////////////////////////////////////////////////////////////
+  samplesToMegabytes( numberOfSamples, numberOfChannels )
+  {
+    const BYTES_PER_SAMPLE = 2;  // <-- NOTE: ASSUMES 16 BIT SAMPLES
+    return Math.round( numberOfSamples * numberOfChannels * BYTES_PER_SAMPLE / 1024 / 1024 );
+  } 
+  
+
+
   ///////////////////////////////////////////////////////////////////////////////
   manageMemory()
   {
-    let totalSamples = 0;
-    //let usageQueue = this.usageQueue.getQueue();
+    let totalMemoryUsedMb = 0;
     //for( let musicFile in this.musicFiles )
     logger( "=============> MANAGE MEMORY: USAGE QUEUE: ", this.usageQueue );
     for( let musicFile of this.usageQueue )
     {
       logger( "=======> MANAGE MEMORY: MUSIC FILE: ", musicFile, this.musicFiles[musicFile] );
       if( this.musicFiles[musicFile].decodedData != null )
-        totalSamples += this.musicFiles[musicFile].decodedData.length * this.musicFiles[musicFile].decodedData.numberOfChannels;
+        totalMemoryUsedMb += this.samplesToMegabytes( this.musicFiles[musicFile].decodedData.length, 
+                                            this.musicFiles[musicFile].decodedData.numberOfChannels );
+        //totalSamples += this.musicFiles[musicFile].decodedData.length * this.musicFiles[musicFile].decodedData.numberOfChannels;
     }
-    const BYTES_PER_SAMPLE = 2;  // <-- NOTE: ASSUMES 16 BIT SAMPLES
-    let totalMemoryUsedMb = Math.floor( totalSamples / 1024 / 1024 * BYTES_PER_SAMPLE );
+    //const BYTES_PER_SAMPLE = 2;  // <-- NOTE: ASSUMES 16 BIT SAMPLES
+    //let totalMemoryUsedMb = totalSamples;
+    //let totalMemoryUsedMb = Math.floor( totalSamples / 1024 / 1024 * BYTES_PER_SAMPLE );
     logger( "=======> MANAGE MEMORY: TOTAL AUDIO MEMORY USED (MB): ", totalMemoryUsedMb );
     const MAX_MEMORY_USAGE_MB = 150;
     
     /*if( totalMemoryUsedMb > MAX_MEMORY_USAGE_MB )
     {
-      for( int i=0; i<this.usageQueue.getLength(); i++ )
+      for( int i=0; i<this.usageQueue.length-2; i++ )
       {
-        
+        totalMemoryUsedMb -= 
       }
     }
     /*for( let musicFile in this.musicFiles )
