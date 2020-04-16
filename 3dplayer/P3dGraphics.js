@@ -45,6 +45,39 @@ window.mobileAndTabletcheck = function()
 export class P3dGraphics
 {
 
+  /////////////////////////////////////////////////////////////////////////////
+  textureTest()
+  {
+    // create a geometry
+    const geometry = new THREE.BoxBufferGeometry( 2, 2, 2 );
+
+    // create a texture loader.
+    const textureLoader = new THREE.TextureLoader();
+
+    // Load a texture. See the note in chapter 4 on working locally, or the page
+    // https://threejs.org/docs/#manual/introduction/How-to-run-things-locally
+    // if you run into problems here
+    const texture = textureLoader.load( '3dplayer/model/test_1024x1024_1a.png' );
+
+    // set the "color space" of the texture
+    texture.encoding = THREE.sRGBEncoding;
+
+    // reduce blurring at glancing angles
+    texture.anisotropy = 16;
+
+    // create a Standard material using the texture we just loaded as a color map
+    const material = new THREE.MeshStandardMaterial( {
+      map: texture,
+    } );
+
+    // create a Mesh containing the geometry and material
+    let mesh = new THREE.Mesh( geometry, material );
+    mesh.rotation.y = 2.2;
+    
+    this.scene.add( mesh );
+  }
+
+
   ///////////////////////////////////////////////////////////////////////
   constructor( appController, windowWidth, windowHeight, renderer ) 
   {
@@ -106,6 +139,8 @@ export class P3dGraphics
 
     this.numericDisplay = new P3dNumericDisplay( appController, this.scene );
     this.panelLeds = new P3dPanelLeds( appController, this.scene );
+    
+    this.textureTest();
   }
 
 
