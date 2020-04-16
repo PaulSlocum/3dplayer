@@ -140,7 +140,7 @@ export class P3dGraphics
     this.numericDisplay = new P3dNumericDisplay( appController, this.scene );
     this.panelLeds = new P3dPanelLeds( appController, this.scene );
     
-    this.textureTest();
+    //this.textureTest();
   }
 
 
