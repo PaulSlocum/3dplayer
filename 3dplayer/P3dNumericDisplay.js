@@ -80,16 +80,16 @@ export class P3dNumericDisplay
           this._updateStandardDisplay( appMode );
           break;
         case LedMode.VOLUME:
-          this.ledDriver.setString( "XXVOLX5" );
-          this.ledDriver.setDigitCharacter( 6, this.appController.getVolume() );
+          this.ledDriver.setString( "XXVOLXX" );
+          this._showTrackNumber( this.appController.getVolume() + 1 );
           break;
         case LedMode.TREBLE:
-          this.ledDriver.setString( "trebLX5" );
-          this.ledDriver.setDigitCharacter( 6, this.appController.getTreble() );
+          this.ledDriver.setString( "trebLXX" );
+          this._showTrackNumber( this.appController.getTreble() + 1 );
           break;
         case LedMode.BASS:
-          this.ledDriver.setString( "XbassX5" );
-          this.ledDriver.setDigitCharacter( 6, this.appController.getBass() );
+          this.ledDriver.setString( "XbassXX" );
+          this._showTrackNumber( this.appController.getBass() + 1 );
           break;
         case LedMode.FX_MODE:
           switch( this.appController.getFxMode() )

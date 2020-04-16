@@ -99,7 +99,7 @@ export class P3dTransport {
     this.eventQueue = [];
     this.nextEventTimeSec = performance.now();
 
-    // PRE-DECODE FIRST MUSIC TRACK
+    // PRE-DECODE FIRST 2 MUSIC TRACKS
     this.musicPlayer = new P3dMusicPlayer( this );
     this.musicPlayer.decodeMusic( filenameList[1] );  // <-------------
     if( filenameList.length > 1 )
@@ -535,6 +535,10 @@ export class P3dTransport {
       this.eventQueue.push( TransportEvent.PLAY ); //*/
       this.scheduleNextEvent();
       this.musicPlayer.decodeMusic( this.filenameList[ this.trackNumber ] );    
+
+      // PRE-DECODE THE PREVIOUS TRACK IF THERE IS ONE...
+      if( this.trackNumber > 1 )
+        this.musicPlayer.decodeMusic( this.filenameList[ this.trackNumber-1 ] );  
     }
   }
 
