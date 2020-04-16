@@ -6,16 +6,16 @@
 
 
 //-----------------------------------------------------------------------------------
-import { GLTFLoader } from './three/examples/jsm/loaders/GLTFLoader.js';
+import { GLTFLoader } from "./three/examples/jsm/loaders/GLTFLoader.js";
 // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -   
-import { P3dController } from './P3dController.js'
-import { P3dSwarm } from './P3dSwarm.js'
-import { P3dNumericDisplay } from './P3dNumericDisplay.js'
-import { P3dPanelLeds } from './P3dPanelLeds.js'
-import { P3dShaders } from './P3dShaders.js'
-import { logger } from './P3dLog.js'
-import { TransportMode } from './P3dController.js'
-import { random, converge } from './P3dUtility.js'
+//import { P3dController } from "./P3dController.js";
+import { P3dSwarm } from "./P3dSwarm.js";
+import { P3dNumericDisplay } from "./P3dNumericDisplay.js";
+import { P3dPanelLeds } from "./P3dPanelLeds.js";
+import { P3dShaders } from "./P3dShaders.js";
+import { logger } from "./P3dLog.js";
+import { TransportMode } from "./P3dController.js";
+import { converge } from "./P3dUtility.js";
 //-----------------------------------------------------------------------------------
 
 
@@ -73,14 +73,14 @@ export class P3dGraphics
     this.loadedModel = null;
     this.shaders = new P3dShaders();
     this.roomUniforms = {
-        colorB: {type: 'vec3', value: new THREE.Color(0x0A0B0A)},
-        colorA: {type: 'vec3', value: new THREE.Color(0x060607)}
+        colorB: {type: "vec3", value: new THREE.Color(0x0A0B0A)},
+        colorA: {type: "vec3", value: new THREE.Color(0x060607)}
     };
     
     // THESE ARE CURRENTLY NOT USED...
     this.cdUniforms = {
-        colorC: {type: 'vec3', value: new THREE.Color(0x040303)},
-        colorD: {type: 'vec3', value: new THREE.Color(0x090807)}
+        colorC: {type: "vec3", value: new THREE.Color(0x040303)},
+        colorD: {type: "vec3", value: new THREE.Color(0x090807)}
     };
 
     this.targetRotationX = 0;
@@ -120,7 +120,7 @@ export class P3dGraphics
     // UPDATE ANIMATIONS..
     if( this.animationMixer != null )
     {
-      var dt = this.clock.getDelta()
+      var dt = this.clock.getDelta();
       this.animationMixer.update(dt);
     }
 
@@ -172,7 +172,7 @@ export class P3dGraphics
     
     this.renderer.render( this.scene, this.camera );
 
-  };
+  }
   
   
   
@@ -188,10 +188,10 @@ export class P3dGraphics
     this.currentClip = this.loadedAnimations[ animationName ];
     if( this.currentClip )
     {
-      //var clip1 = this.loadedAnimations[ 'ButtonPause' ];
+      //var clip1 = this.loadedAnimations[ "ButtonPause" ];
       //logger("---->CLIP: ", this.currentClip, this.currentClip.name );
       this.currentAction = this.animationMixer.clipAction( this.currentClip );
-      //var action1 = this.animationMixer.clipAction( this.loadedAnimations[ 'TrayOpen' ] );
+      //var action1 = this.animationMixer.clipAction( this.loadedAnimations[ "TrayOpen" ] );
       //logger("---->ACTION: ", this.currentAction );
       this.currentAction.clampWhenFinished = true;
       this.currentAction.setLoop( THREE.LoopOnce );
@@ -218,7 +218,7 @@ export class P3dGraphics
   ////////////////////////////////////////////////////////////////////////
   openTray( rate = 1.0 )
   {
-    this.playAnimation( 'TrayOpen', rate );
+    this.playAnimation( "TrayOpen", rate );
     this.trayOpen = true;
   }
 
@@ -238,8 +238,8 @@ export class P3dGraphics
   ///////////////////////////////////////////////////////////////////////////
   setBackgroundColor( color )
   {
-    this.uniforms['colorA'] = { type: 'vec3', value: new THREE.Color( color ) };
-    this.uniforms['colorB'] = { type: 'vec3', value: new THREE.Color( color ) };
+    this.uniforms["colorA"] = { type: "vec3", value: new THREE.Color( color ) };
+    this.uniforms["colorB"] = { type: "vec3", value: new THREE.Color( color ) };
   }
   
 
@@ -309,7 +309,7 @@ export class P3dGraphics
 
     // INSTANTIATE GLTF LOADER FOR THE PLAYER MODEL
     const gltfLoader = new GLTFLoader();
-    const url = '3dplayer/model/saeCdPlayer.glb';
+    const url = "3dplayer/model/saeCdPlayer.glb";
 
     // NOTE: THIS RESULTS IN A "HTTP Status 0 received" MESSAGE WHEN IT WORKS CORRECTLY
     gltfLoader.load(url, (gltf) => 
@@ -373,13 +373,13 @@ export class P3dGraphics
       uniforms: this.roomUniforms,
       fragmentShader: this.shaders.roomFragmentShader(),
       vertexShader: this.shaders.roomVertexShader(),
-    })
+    });
 
     this.cdMaterial =  new THREE.ShaderMaterial({
       uniforms: this.cdUniforms,
       fragmentShader: this.shaders.cdFragmentShader(),
       vertexShader: this.shaders.cdVertexShader(),
-    })
+    });
 
     this.roomCube = new THREE.Mesh( geometry, this.roomMaterial );
     this.roomCube.rotation.x = 200;

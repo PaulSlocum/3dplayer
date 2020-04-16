@@ -6,35 +6,35 @@
 
 
 //-----------------------------------------------------------------------------------
-import { P3dController } from './P3dController.js'
-import { TransportMode, ButtonEvent } from './P3dController.js'
-import { P3dSoundPlayer } from './P3dSound.js'
-import { P3dMusicPlayer } from './P3dMusic.js'
-import { EffectsPreset } from './P3dAudioEffects.js'
-import { logger } from './P3dLog.js'
-import { random } from './P3dUtility.js'
+//import { P3dController } from "./P3dController.js";
+import { TransportMode, ButtonEvent } from "./P3dController.js";
+import { P3dSoundPlayer } from "./P3dSound.js";
+import { P3dMusicPlayer } from "./P3dMusic.js";
+import { EffectsPreset } from "./P3dAudioEffects.js";
+import { logger } from "./P3dLog.js";
+import { random } from "./P3dUtility.js";
 ///-----------------------------------------------------------------------------------
 
 
 
 export const TransportEvent = {
-  PLAY: 'TransportPlay',
-  PAUSE: 'TransportPause',
-  STOP: 'TransportStop', 
-  CLOSE_TRAY: 'TransportClose',
-  CLOSE_TRAY_PLAY: 'TransportClosePlay',
-  OPEN_TRAY: 'TransportOpen',
-  START_TRAY_OPEN: 'TransportStartTrayOpen',
-  TRAY_OPENED: 'TransportOpened', 
-  SPINUP: 'TransportSpinUp',
-  SPINDOWN: 'TransportSpinDown',
-  STANDBY: 'Standby', 
-  SHUTDOWN: 'TransportPowerDown',
-  STARTUP: 'TransportPowerUp', 
-  SKIP_TRACK: 'TransportSkipTrack',
-  SEEK: 'TransportSeek',
-  SEEK_PLAY: 'TransportSeekPlay'
-}
+  PLAY: "TransportPlay",
+  PAUSE: "TransportPause",
+  STOP: "TransportStop", 
+  CLOSE_TRAY: "TransportClose",
+  CLOSE_TRAY_PLAY: "TransportClosePlay",
+  OPEN_TRAY: "TransportOpen",
+  START_TRAY_OPEN: "TransportStartTrayOpen",
+  TRAY_OPENED: "TransportOpened", 
+  SPINUP: "TransportSpinUp",
+  SPINDOWN: "TransportSpinDown",
+  STANDBY: "Standby", 
+  SHUTDOWN: "TransportPowerDown",
+  STARTUP: "TransportPowerUp", 
+  SKIP_TRACK: "TransportSkipTrack",
+  SEEK: "TransportSeek",
+  SEEK_PLAY: "TransportSeekPlay"
+};
 
 
 const MAX_AUDIO_SETTING_VALUE = 9;
@@ -43,29 +43,24 @@ const NUMBER_OF_EFFECTS = 5;
 
 
 export const SoundFilename = {
-    CLICK_DOWN: '3dplayer/sounds/clickDown.wav',
-    TRAY_OPEN: '3dplayer/sounds/cdOpen1.wav',
-    TRAY_CLOSE: '3dplayer/sounds/cdClose1.wav',
-    CD_SPINUP1: '3dplayer/sounds/cdSpinup1.wav',
-    CD_SPINUP2: '3dplayer/sounds/cdSpinup2.wav',
-    CD_SPINUP3: '3dplayer/sounds/cdSpinup3.wav',
-    CD_SPINUP4: '3dplayer/sounds/cdSpinup4.wav',
-    CD_SPINDOWN: '3dplayer/sounds/cdSpindown1.wav',
-    CD_SEEK1: '3dplayer/sounds/cdSeek1.wav',
-    CD_SEEK2: '3dplayer/sounds/cdSeek2.wav',
-    CD_SEEK3: '3dplayer/sounds/cdSeek3.wav',
-    CD_SEEK4: '3dplayer/sounds/cdSeek4.wav',
-    CD_SHORT_SEEK1: '3dplayer/sounds/cdShortSeek1.wav',
-    CD_SHORT_SEEK2: '3dplayer/sounds/cdShortSeek2.wav',
-    CD_SHORT_SEEK3: '3dplayer/sounds/cdShortSeek3.wav',
-    CD_SHORT_SEEK4: '3dplayer/sounds/cdShortSeek4.wav',
-    CD_SHORT_SEEK5: '3dplayer/sounds/cdShortSeek5.wav'
-} //*/
-
-
-
-//const EffectModeByNumber = {
-  //0: 
+    CLICK_DOWN: "3dplayer/sounds/clickDown.wav",
+    TRAY_OPEN: "3dplayer/sounds/cdOpen1.wav",
+    TRAY_CLOSE: "3dplayer/sounds/cdClose1.wav",
+    CD_SPINUP1: "3dplayer/sounds/cdSpinup1.wav",
+    CD_SPINUP2: "3dplayer/sounds/cdSpinup2.wav",
+    CD_SPINUP3: "3dplayer/sounds/cdSpinup3.wav",
+    CD_SPINUP4: "3dplayer/sounds/cdSpinup4.wav",
+    CD_SPINDOWN: "3dplayer/sounds/cdSpindown1.wav",
+    CD_SEEK1: "3dplayer/sounds/cdSeek1.wav",
+    CD_SEEK2: "3dplayer/sounds/cdSeek2.wav",
+    CD_SEEK3: "3dplayer/sounds/cdSeek3.wav",
+    CD_SEEK4: "3dplayer/sounds/cdSeek4.wav",
+    CD_SHORT_SEEK1: "3dplayer/sounds/cdShortSeek1.wav",
+    CD_SHORT_SEEK2: "3dplayer/sounds/cdShortSeek2.wav",
+    CD_SHORT_SEEK3: "3dplayer/sounds/cdShortSeek3.wav",
+    CD_SHORT_SEEK4: "3dplayer/sounds/cdShortSeek4.wav",
+    CD_SHORT_SEEK5: "3dplayer/sounds/cdShortSeek5.wav"
+};
 
 
 
@@ -121,7 +116,7 @@ export class P3dTransport {
     this.remainingTimeMode = false;
     this.seekVelocity = 0;
 
-    // PROBABLY WON'T USE THESE
+    // PROBABLY WON"T USE THESE
     //this.rewindButtonDown = false;
     //this.fastForwardButtonDown = false;
 
@@ -300,13 +295,13 @@ export class P3dTransport {
               this.fxModeNumber -= 1;
               if( this.fxModeNumber < 0 )
                 this.fxModeNumber = NUMBER_OF_EFFECTS-1;  // <-- LOOP AROUND
-              this.setFxModeByNumber( this.fxModeNumber )         
+              this.setFxModeByNumber( this.fxModeNumber );
               break;
         case ButtonEvent.BUTTON_DOWN_FX_UP:
               this.fxModeNumber += 1;
               if( this.fxModeNumber >= NUMBER_OF_EFFECTS )
                 this.fxModeNumber = 0; // <-- LOOP AROUND
-              this.setFxModeByNumber( this.fxModeNumber )         
+              this.setFxModeByNumber( this.fxModeNumber );
               break;
 
         case ButtonEvent.BUTTON_DOWN_REPEAT_ALL:
@@ -562,7 +557,7 @@ export class P3dTransport {
       this.eventQueue.push( TransportEvent.PLAY ); //*/
       this.scheduleNextEvent();
       
-      // START DECODING THE TRACK THAT'S ABOUT TO PLAY IF IT'S NOT ALREADY...
+      // START DECODING THE TRACK THAT"S ABOUT TO PLAY IF IT"S NOT ALREADY...
       this.musicPlayer.decodeMusic( this.filenameList[ this.trackNumber ] );  
       
       // PRE-DECODE THE NEXT TRACK IF THERE IS ONE...

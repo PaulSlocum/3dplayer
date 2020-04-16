@@ -6,8 +6,8 @@
 
 
 //---------------------------------------------------------------------------------
-import { random, converge } from './P3dUtility.js'
-import { logger } from './P3dLog.js'
+import { random, converge } from "./P3dUtility.js";
+import { logger } from "./P3dLog.js";
 //---------------------------------------------------------------------------------
 
 
@@ -110,8 +110,8 @@ export class P3dSwarm
       this.objectArray[i].position.y = random(40)*0.1 - 1.6;
       this.objectArray[i].position.x = random(40)*0.16 - 1.5;
       this.objectArray[i].position.z = 0.0;
-      this.objectArray[i].rotation.x = random(360)*3.14/2.0
-      this.objectArray[i].rotation.y = random(360)*3.14/2.0
+      this.objectArray[i].rotation.x = random(360)*3.14/2.0;
+      this.objectArray[i].rotation.y = random(360)*3.14/2.0;
       this.scene.add( this.objectArray[i] );
       this.xSpeed[i] = random(20) * 0.00002 + 0.0037;
     } //*/
@@ -209,7 +209,7 @@ export class P3dSwarm
           const PROXIMITY_LIMIT = 1.35;
           foundNearbyObject = false;
           
-          // CHECK IF IT'S TOO CLOSE TO ANY OTHER OBJECTS
+          // CHECK IF IT"S TOO CLOSE TO ANY OTHER OBJECTS
           for( let j=0; j<MAX_OBJECTS; j++ )
           {
             if( i != j )  

@@ -8,8 +8,8 @@
 
 
 //-----------------------------------------------------------------------------------
-import { logger } from './P3dLog.js'
-import { P3dReverb } from './P3dReverb.js'
+import { logger } from "./P3dLog.js";
+import { P3dReverb } from "./P3dReverb.js";
 //-----------------------------------------------------------------------------------
 
 
@@ -56,7 +56,7 @@ import { P3dReverb } from './P3dReverb.js'
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   CONSUMER REVERB NAMES:
   
-    90'S GENERAL MOTORS CARS: "Jazz Club", "Hall", "Church", "Stadium", "News"
+    90"S GENERAL MOTORS CARS: "Jazz Club", "Hall", "Church", "Stadium", "News"
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //*/  
@@ -66,16 +66,16 @@ import { P3dReverb } from './P3dReverb.js'
 
 
 export const EffectsPreset = {
-  CLEAN: 'EffectClean',
-  ROOM: 'EffectRoom',
-  CLUB: 'EffectClub',
-  CHURCH: 'EffectChurch',
-  STADIUM: 'EffectStadium', 
-  CAVE: 'EffectCave', 
-  PLATE: 'EffectPlate', 
-  LOFI: 'EffectLofi',
-  SLAPBACK: 'EffectSlapback'
-}
+  CLEAN: "EffectClean",
+  ROOM: "EffectRoom",
+  CLUB: "EffectClub",
+  CHURCH: "EffectChurch",
+  STADIUM: "EffectStadium", 
+  CAVE: "EffectCave", 
+  PLATE: "EffectPlate", 
+  LOFI: "EffectLofi",
+  SLAPBACK: "EffectSlapback"
+};
 
 
   

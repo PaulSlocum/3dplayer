@@ -7,7 +7,7 @@
 
 
 //-----------------------------------------------------------------------------------
-import { logger } from './P3dLog.js'
+import { logger } from "./P3dLog.js";
 ///-----------------------------------------------------------------------------------
 
 
@@ -33,8 +33,8 @@ export class P3dSoundPlayer
   {
     // REQUEST FILE...
     let request = new XMLHttpRequest();
-    request.open('GET', soundFilename, true);
-    request.responseType = 'arraybuffer';
+    request.open("GET", soundFilename, true);
+    request.responseType = "arraybuffer";
     request.onload = function() 
     { // FILE LOADER CALLBACK
       
@@ -46,9 +46,9 @@ export class P3dSoundPlayer
         this.bufferArray[soundFilename] = buffer;
 
       }.bind(this), function(e) {
-        console.log('Audio error! ', e);
+        console.log("Audio error! ", e);
       } );  
-    }.bind(this,request)
+    }.bind(this,request);
 
     request.send();
   }

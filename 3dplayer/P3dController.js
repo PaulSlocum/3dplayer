@@ -7,54 +7,54 @@
 
 
 //-----------------------------------------------------------------------------------
-import { P3dUserInterface } from './P3dUserInterface.js'
-import { P3dTransport } from './P3dTransport.js'
-import { logger } from './P3dLog.js'
+import { P3dUserInterface } from "./P3dUserInterface.js";
+import { P3dTransport } from "./P3dTransport.js";
+import { logger } from "./P3dLog.js";
 //-----------------------------------------------------------------------------------
 
 
 
 
 export const ButtonEvent = {
-  NONE: 'ButtonNone',
-  BUTTON_DOWN_PLAY: 'ButtonPlay',
-  BUTTON_DOWN_PAUSE: 'ButtonPause',
-  BUTTON_DOWN_NEXT: 'ButtonNext',
-  BUTTON_DOWN_PREV: 'ButtonPrev',
-  BUTTON_DOWN_STOP: 'ButtonStop',
-  BUTTON_DOWN_OPEN: 'ButtonOpen',
-  BUTTON_DOWN_STANDBY: 'ButtonStandby',
-  BUTTON_DOWN_REWIND: 'ButtonRewind',
-  BUTTON_DOWN_FAST_FORWARD: 'ButtonFastForward',
-  BUTTON_DOWN_BASS_DOWN: 'ButtonBassDown',
-  BUTTON_DOWN_BASS_UP: 'ButtonBassUp',
-  BUTTON_DOWN_TREBLE_DOWN: 'ButtonTrebDown',
-  BUTTON_DOWN_TREBLE_UP: 'ButtonTrebUp',
-  BUTTON_DOWN_VOL_DOWN: 'ButtonVolDown',
-  BUTTON_DOWN_VOL_UP: 'ButtonVolUp',
-  BUTTON_DOWN_FX_DOWN: 'ButtonFxDown',
-  BUTTON_DOWN_FX_UP: 'ButtonFxUp', 
-  BUTTON_DOWN_REPEAT_ALL: 'ButtonRepeatAll',
-  BUTTON_DOWN_REMAINING_TIME_MODE: 'ButtonTimeMode',
-  BUTTON_UP: 'ButtonUp'
-}
+  NONE: "ButtonNone",
+  BUTTON_DOWN_PLAY: "ButtonPlay",
+  BUTTON_DOWN_PAUSE: "ButtonPause",
+  BUTTON_DOWN_NEXT: "ButtonNext",
+  BUTTON_DOWN_PREV: "ButtonPrev",
+  BUTTON_DOWN_STOP: "ButtonStop",
+  BUTTON_DOWN_OPEN: "ButtonOpen",
+  BUTTON_DOWN_STANDBY: "ButtonStandby",
+  BUTTON_DOWN_REWIND: "ButtonRewind",
+  BUTTON_DOWN_FAST_FORWARD: "ButtonFastForward",
+  BUTTON_DOWN_BASS_DOWN: "ButtonBassDown",
+  BUTTON_DOWN_BASS_UP: "ButtonBassUp",
+  BUTTON_DOWN_TREBLE_DOWN: "ButtonTrebDown",
+  BUTTON_DOWN_TREBLE_UP: "ButtonTrebUp",
+  BUTTON_DOWN_VOL_DOWN: "ButtonVolDown",
+  BUTTON_DOWN_VOL_UP: "ButtonVolUp",
+  BUTTON_DOWN_FX_DOWN: "ButtonFxDown",
+  BUTTON_DOWN_FX_UP: "ButtonFxUp", 
+  BUTTON_DOWN_REPEAT_ALL: "ButtonRepeatAll",
+  BUTTON_DOWN_REMAINING_TIME_MODE: "ButtonTimeMode",
+  BUTTON_UP: "ButtonUp"
+};
 
 
 
 export const TransportMode = {
-  TRAY_OPEN:'TrayOpen',
-  TRAY_OPENING:'TrayOpening',
-  TRAY_CLOSING:'TrayClosing',
-  TRAY_CLOSING_PLAY:'TrayClosingPlay',
-  PLAYING:'Playing',
-  STARTING_PLAY:'StartingPlay',
-  PAUSED:'Paused',
-  SEEK:'Seek',
-  STOPPED:'Stopped',
-  SHUTDOWN:'Shutdown',
-  STARTUP: 'Startup',
-  STANDBY:'Standby'
-}
+  TRAY_OPEN:"TrayOpen",
+  TRAY_OPENING:"TrayOpening",
+  TRAY_CLOSING:"TrayClosing",
+  TRAY_CLOSING_PLAY:"TrayClosingPlay",
+  PLAYING:"Playing",
+  STARTING_PLAY:"StartingPlay",
+  PAUSED:"Paused",
+  SEEK:"Seek",
+  STOPPED:"Stopped",
+  SHUTDOWN:"Shutdown",
+  STARTUP: "Startup",
+  STANDBY:"Standby"
+};
 
 
 

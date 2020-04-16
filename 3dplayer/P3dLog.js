@@ -31,7 +31,7 @@ export function logger( arg1, arg2, arg3, arg4 )
         else
           console.log( arg1, arg2, arg3, arg4 );
       }
-    } //*/
+    } 
   }
 }
 

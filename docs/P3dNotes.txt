@@ -5,11 +5,15 @@
 
 TODO:
 ~   -   ~   -   ~   -   ~   -   
-- implement memory management for music files
-- figure out how to work around issue of file buffers being consumed so that files don't need to be re-downloaded
+- make transport also pre-load previous track
 ~   -   ~   -   ~   -   ~   -   
 - implement PNG image map on CD surface
 - make it so that image map rotates each time CD is ejected
+~   -   ~   -   ~   -   ~   -   
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~   -   ~   -   ~   -   ~   -   
+- run memory analysis
+- find/run error detection tool
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
@@ -92,6 +96,8 @@ x re-enable volume control
 x adjust camera FOV to make CD drawer not stick out so much
 x get seek buttons working
 x implement time/repeat buttons
+x implement memory management for music files
+x avoid file buffers being consumed so that files don't need to be re-downloaded (decided not to worry about this for now because of cache)
 ~   -   ~   -   ~   -   ~   -   
 
 

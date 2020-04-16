@@ -2,9 +2,9 @@
 
 
 //-----------------------------------------------------------------------------------
-import { P3dController } from './P3dController.js'
-import { TransportMode } from './P3dController.js'
-import { logger } from './P3dLog.js'
+//import { P3dController } from "./P3dController.js";
+import { TransportMode } from "./P3dController.js";
+import { logger } from "./P3dLog.js";
 //-----------------------------------------------------------------------------------
 
 
@@ -49,22 +49,22 @@ export class P3dPanelLeds
     {
       if( this.ledOnMaterial == null  &&  child.material  &&  child.material.name == "LedOnPanel" )
       {
-        //console.log( "---->PANEL LEDS: 'ledOnPanel' MATERIAL FOUND" );
+        //console.log( "---->PANEL LEDS: "ledOnPanel" MATERIAL FOUND" );
         this.ledOnMaterial = child.material;
       }
       if( this.ledOffMaterial == null  &&  child.material  &&  child.material.name == "LedOffPanel" )
       {
-        //console.log( "---->PANEL LEDS: 'ledOffPanel' MATERIAL FOUND" );
+        //console.log( "---->PANEL LEDS: "ledOffPanel" MATERIAL FOUND" );
         this.ledOffMaterial = child.material;
       }
       if( this.ledOnMaterialPlay == null  &&  child.material  &&  child.material.name == "LedOnPanelPlay" )
       {
-        //console.log( "---->PANEL LEDS: 'ledOnPanel' MATERIAL FOUND" );
+        //console.log( "---->PANEL LEDS: "ledOnPanel" MATERIAL FOUND" );
         this.ledOnMaterialPlay = child.material;
       }
       if( this.ledOffMaterialPlay == null  &&  child.material  &&  child.material.name == "LedOffPanelPlay" )
       {
-        //console.log( "---->PANEL LEDS: 'ledOffPanel' MATERIAL FOUND" );
+        //console.log( "---->PANEL LEDS: "ledOffPanel" MATERIAL FOUND" );
         this.ledOffMaterialPlay = child.material;
       }
 

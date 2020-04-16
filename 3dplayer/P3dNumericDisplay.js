@@ -2,22 +2,22 @@
 
 
 //-----------------------------------------------------------------------------------
-import { P3dController } from './P3dController.js'
-import { P3dLEDDriver } from './P3dLEDDriver.js'
-import { TransportMode } from './P3dController.js'
-import { logger } from './P3dLog.js'
-import { EffectsPreset } from './P3dAudioEffects.js'
+//import { P3dController } from "./P3dController.js";
+import { P3dLEDDriver } from "./P3dLEDDriver.js";
+import { TransportMode } from "./P3dController.js";
+import { logger } from "./P3dLog.js";
+import { EffectsPreset } from "./P3dAudioEffects.js";
 //-----------------------------------------------------------------------------------
 
 
 
 const LedMode = {
-  NORMAL: 'DisplayModeNormal',
-  VOLUME: 'DisplayModeVolume',
-  TREBLE: 'DisplayModeTreble',
-  BASS: 'DisplayModeBass',
-  FX_MODE: 'DisplayModeFx'
-}
+  NORMAL: "DisplayModeNormal",
+  VOLUME: "DisplayModeVolume",
+  TREBLE: "DisplayModeTreble",
+  BASS: "DisplayModeBass",
+  FX_MODE: "DisplayModeFx"
+};
 
 
 
@@ -60,7 +60,7 @@ export class P3dNumericDisplay
     if( appMode == TransportMode.STANDBY )
     {
       // HIGHEST PRIORITY IN THE LOGIC IS STANDBY MODE WHICH TURNS OFF DISPLAY COMPLETELY
-      this.ledDriver.setString( 'XXXXXX' );
+      this.ledDriver.setString( "XXXXXX" );
       this.showNormalDisplay();
     }
     else
@@ -80,25 +80,25 @@ export class P3dNumericDisplay
           this._updateStandardDisplay( appMode );
           break;
         case LedMode.VOLUME:
-          this.ledDriver.setString( 'XXVOLX5' );
+          this.ledDriver.setString( "XXVOLX5" );
           this.ledDriver.setDigitCharacter( 6, this.appController.getVolume() );
           break;
         case LedMode.TREBLE:
-          this.ledDriver.setString( 'trebLX5' );
+          this.ledDriver.setString( "trebLX5" );
           this.ledDriver.setDigitCharacter( 6, this.appController.getTreble() );
           break;
         case LedMode.BASS:
-          this.ledDriver.setString( 'XbassX5' );
+          this.ledDriver.setString( "XbassX5" );
           this.ledDriver.setDigitCharacter( 6, this.appController.getBass() );
           break;
         case LedMode.FX_MODE:
           switch( this.appController.getFxMode() )
           { 
-            case EffectsPreset.CLEAN: this.ledDriver.setString( 'CLEANXX' ); break;
-            case EffectsPreset.CHURCH: this.ledDriver.setString( 'CHRCHXX' ); break;
-            case EffectsPreset.CLUB: this.ledDriver.setString( 'CLUBXXX' ); break;
-            case EffectsPreset.LOFI: this.ledDriver.setString( 'LOWFIXX' ); break;
-            case EffectsPreset.CAVE: this.ledDriver.setString( 'CAVEXXX' ); break;
+            case EffectsPreset.CLEAN: this.ledDriver.setString( "CLEANXX" ); break;
+            case EffectsPreset.CHURCH: this.ledDriver.setString( "CHRCHXX" ); break;
+            case EffectsPreset.CLUB: this.ledDriver.setString( "CLUBXXX" ); break;
+            case EffectsPreset.LOFI: this.ledDriver.setString( "LOWFIXX" ); break;
+            case EffectsPreset.CAVE: this.ledDriver.setString( "CAVEXXX" ); break;
           }
           break;
       }
@@ -157,18 +157,18 @@ export class P3dNumericDisplay
   {
     if( playbackTimeInt != null )
     {
-      let firstCharacter = 'blank'
+      let firstCharacter = "blank";
       if( this.appController.getRemainingTimeMode() == true )
       {
         playbackTimeInt = Math.floor( this.appController.getTrackLengthSec() ) - playbackTimeInt;
-        firstCharacter = 'W'; // DASH
+        firstCharacter = "W"; // DASH
       }
       let minutes = Math.floor( playbackTimeInt / 60 );
       let seconds = playbackTimeInt % 60;
       //logger( "TRACK LENGTH: ", minutes, seconds ); // DEBUG!!!!!!!!!!!!!!!!!!!!!!!!!
       this.ledDriver.setDigitCharacter( 0, firstCharacter );
       if( minutes < 10 )
-        this.ledDriver.setDigitCharacter( 1, 'blank' ); // <-- ELIMINATE LEADING ZERO
+        this.ledDriver.setDigitCharacter( 1, "blank" ); // <-- ELIMINATE LEADING ZERO
       else
         this.ledDriver.setDigitCharacter( 1, Math.floor(minutes/10)%10 );
       this.ledDriver.setDigitCharacter( 2, minutes%10 );
@@ -177,7 +177,7 @@ export class P3dNumericDisplay
     }
     else
     {
-      this.ledDriver.setString( 'XXXXX' );
+      this.ledDriver.setString( "XXXXX" );
     }
     
     this._showTrackNumber( trackNumber );    
@@ -188,7 +188,7 @@ export class P3dNumericDisplay
   _showTrackNumber( trackNumber )
   {
     if( trackNumber < 10 )
-      this.ledDriver.setDigitCharacter( 5, 'blank' );
+      this.ledDriver.setDigitCharacter( 5, "blank" );
     else
       this.ledDriver.setDigitCharacter( 5, Math.floor( trackNumber/10 )%10 );
     this.ledDriver.setDigitCharacter( 6, trackNumber%10 ); //*/
@@ -223,7 +223,7 @@ export class P3dNumericDisplay
     switch( appMode )
     {
       case TransportMode.STARTING_PLAY:
-          this.ledDriver.setString( 'XpLayXX' );
+          this.ledDriver.setString( "XpLayXX" );
           break;
       
       case TransportMode.PLAYING:
@@ -236,7 +236,7 @@ export class P3dNumericDisplay
       {
         if( Math.floor(this.frameCounter/20)%3 == 0 )
         {
-          this.ledDriver.setString( 'XXXXXXX' );
+          this.ledDriver.setString( "XXXXXXX" );
           this._showTrackNumber( trackNumber );    
         }
         else
@@ -247,32 +247,32 @@ export class P3dNumericDisplay
         
       case TransportMode.STOPPED:
         let numberOfTracks = this.appController.getNumberOfTracks();
-        this.ledDriver.setString( 'XXXXXXX' );
+        this.ledDriver.setString( "XXXXXXX" );
         this._showTrackNumber( numberOfTracks );    
         break;
 
-        // STANDBY DOESN'T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
+        // STANDBY DOESN"T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
       case TransportMode.STANDBY:
         break;
 
 
-        // STANDBY DOESN'T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
+        // STANDBY DOESN"T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
       case TransportMode.TRAY_OPEN:
       case TransportMode.TRAY_OPENING:
-        this.ledDriver.setString( 'XOpeNXX' );
+        this.ledDriver.setString( "XOpeNXX" );
         break;
 
-        // STANDBY DOESN'T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
+        // STANDBY DOESN"T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
       case TransportMode.TRAY_CLOSING:
       case TransportMode.TRAY_CLOSING_PLAY:
-        this.ledDriver.setString( 'XLOadXX' );
+        this.ledDriver.setString( "XLOadXX" );
         break;
 
       case TransportMode.SHUTDOWN:
-        this.ledDriver.setString( 'XXOffXX' );
+        this.ledDriver.setString( "XXOffXX" );
         break;
       case TransportMode.STARTUP:
-        this.ledDriver.setString( '8888888' );
+        this.ledDriver.setString( "8888888" );
         break;
     }
 

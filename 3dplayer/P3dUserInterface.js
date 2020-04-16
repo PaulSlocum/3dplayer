@@ -7,11 +7,11 @@
 
 
 //-----------------------------------------------------------------------------------
-import { P3dController } from './P3dController.js'
-import { P3dGraphics } from './P3dGraphics.js'
-import { ButtonEvent } from './P3dController.js'
-import { logger } from './P3dLog.js'
-import { getCanvasMousePosition } from './P3dUtility.js'
+//import { P3dController } from "./P3dController.js";
+import { P3dGraphics } from "./P3dGraphics.js";
+import { ButtonEvent } from "./P3dController.js";
+import { logger } from "./P3dLog.js";
+import { getCanvasMousePosition } from "./P3dUtility.js";
 //-----------------------------------------------------------------------------------
 
 
@@ -36,11 +36,11 @@ export class P3dUserInterface
     this.graphics = new P3dGraphics( appController, windowWidth, windowHeight, renderer );
 
     // MOUSE/TOUCH HANDLING
-    document.addEventListener( 'mousedown', this.mouseDown.bind(this), false );
-    document.addEventListener( 'mouseup', this.mouseUp.bind(this), false );
-    document.addEventListener('touchstart', this.touchDown.bind(this), false);
-    document.addEventListener('touchcancel', this.touchUp.bind(this), false);
-    document.addEventListener('touchend', this.touchUp.bind(this), false);
+    document.addEventListener( "mousedown", this.mouseDown.bind(this), false );
+    document.addEventListener( "mouseup", this.mouseUp.bind(this), false );
+    document.addEventListener( "touchstart", this.touchDown.bind(this), false);
+    document.addEventListener( "touchcancel", this.touchUp.bind(this), false);
+    document.addEventListener( "touchend", this.touchUp.bind(this), false);
   }
 
 

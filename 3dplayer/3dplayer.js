@@ -7,9 +7,9 @@
 
 
 //-----------------------------------------------------------------------------------
-import './three/build/three.js'
-import { P3dController } from './P3dController.js'
-import { logger } from './P3dLog.js'
+import "./three/build/three.js";
+import { P3dController } from "./P3dController.js";
+import { logger } from "./P3dLog.js";
 //-----------------------------------------------------------------------------------
 
 
@@ -33,8 +33,8 @@ for( let i=1; endOfList==false; i++ )
 }
 
 // GET WINDOW SIZE FROM HTML PARAMETERS
-let windowWidth = script.getAttribute('width');
-let windowHeight = script.getAttribute('height');
+let windowWidth = script.getAttribute("width");
+let windowHeight = script.getAttribute("height");
 
 // USE ENTIRE WINDOW IF NO SIZE WAS SPECIFIED...
 if( (windowWidth > 0  &&  windowHeight > 0) == false )

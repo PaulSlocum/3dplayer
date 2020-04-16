@@ -9,7 +9,7 @@
 
 
 //-----------------------------------------------------------------------------------
-import { logger } from './P3dLog.js'
+import { logger } from "./P3dLog.js";
 //-----------------------------------------------------------------------------------
 
 
@@ -33,11 +33,11 @@ export class P3dReverb
 		this.reverb = this.context.createConvolver();
 
 		let fileRequest = new XMLHttpRequest();
-    //fileRequest.open('GET', '3dplayer/sounds/reverb1500ms1a.wav', true);
-    //fileRequest.open('GET', '3dplayer/sounds/reverb1500ms1b.wav', true);
-    fileRequest.open('GET', '3dplayer/sounds/reverb1500ms1c.wav', true);
+    //fileRequest.open("GET", "3dplayer/sounds/reverb1500ms1a.wav", true);
+    //fileRequest.open("GET", "3dplayer/sounds/reverb1500ms1b.wav", true);
+    fileRequest.open("GET", "3dplayer/sounds/reverb1500ms1c.wav", true);
     
-    fileRequest.responseType = 'arraybuffer';
+    fileRequest.responseType = "arraybuffer";
     fileRequest.onload = function() 
     {
 		  //logger( "----->REVERB: IMPULSE FILE LOADED. DECODING...", this, fileRequest );
