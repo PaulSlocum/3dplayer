@@ -75,20 +75,31 @@ export class P3dMusicPlayer
       if( this.musicFiles[musicFile].decodedData != null )
         totalMemoryUsedMb += this.samplesToMegabytes( this.musicFiles[musicFile].decodedData.length, 
                                             this.musicFiles[musicFile].decodedData.numberOfChannels );
-        //totalSamples += this.musicFiles[musicFile].decodedData.length * this.musicFiles[musicFile].decodedData.numberOfChannels;
     }
-    //const BYTES_PER_SAMPLE = 2;  // <-- NOTE: ASSUMES 16 BIT SAMPLES
-    //let totalMemoryUsedMb = totalSamples;
-    //let totalMemoryUsedMb = Math.floor( totalSamples / 1024 / 1024 * BYTES_PER_SAMPLE );
     logger( "=======> MANAGE MEMORY: TOTAL AUDIO MEMORY USED (MB): ", totalMemoryUsedMb );
     const MAX_MEMORY_USAGE_MB = 150;
     
-    /*if( totalMemoryUsedMb > MAX_MEMORY_USAGE_MB )
+    if( totalMemoryUsedMb > MAX_MEMORY_USAGE_MB )
     {
-      for( int i=0; i<this.usageQueue.length-2; i++ )
+      logger( "=============> MANAGE MEMORY: STARTING MEMORY CLEANUP: ", this.usageQueue );
+      for( let i=0; i<this.usageQueue.length-2; i++ )
       {
-        totalMemoryUsedMb -= 
+        let filename = this.usageQueue[i];
+        logger( "=============> MANAGE MEMORY: FREEING FILE: ", filename );
+
+        totalMemoryUsedMb -= this.samplesToMegabytes( this.musicFiles[filename].decodedData.length, 
+                                            this.musicFiles[filename].decodedData.numberOfChannels );
+
+        this.musicFiles[filename].fileData = null;
+        this.musicFiles[filename].decodedData = null;
+        this.musicFiles[filename].downloadStarted = false;
+        this.musicFiles[filename].decodeStarted = false;
+        this.usageQueue.removeItem( filename );
+
+        if( totalMemoryUsedMb < MAX_MEMORY_USAGE_MB )
+          break; // <-- FOR LOOP
       }
+      logger( "=============> MANAGE MEMORY: \\__ FINISHING MEMORY CLEANUP: ", this.usageQueue );
     }
     /*for( let musicFile in this.musicFiles )
     {
