@@ -362,7 +362,7 @@ export class P3dGraphics
       this.modelLoadComplete();
       
       // LOAD ANIMATIONS INTO DICTIONARY INDEXED BY NAME...
-      this.animationMixer = new THREE.AnimationMixer( this.loadedModel );
+      this.animationMixer = new THREE.AnimationMixer( this.scene.getObjectByName( "cdTray" ) );
       for( let i=0; i<gltf.animations.length; i++ )
       {
         //logger( "SCANNING ANIMATIONS: ", i, gltf.animations[i].name );
