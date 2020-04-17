@@ -107,6 +107,7 @@ export class P3dGraphics
     this.loadedAnimations = {};
     this.currentClip = null;
     this.currentAction = null;
+    this.currentActionCd = null;
     
     this.buttonDown = false;
     this.raycaster = new THREE.Raycaster();
@@ -120,6 +121,7 @@ export class P3dGraphics
     this.swarm.setScreenEdgePosition( this.screenEdgePosition );
     
     this.animationMixer = null;
+    this.animationMixerCd = null;
     this.clock = new THREE.Clock();
 
     this.numericDisplay = new P3dNumericDisplay( appController, this.scene );
@@ -142,6 +144,7 @@ export class P3dGraphics
     {
       var dt = this.clock.getDelta();
       this.animationMixer.update(dt);
+      this.animationMixerCd.update(dt);
     }
 
     // UPDATE LED DISPLAY
@@ -204,22 +207,22 @@ export class P3dGraphics
     logger( "------> GRAPHICS: PLAY ANIMATION: ", animationName );
 
     this.animationMixer.stopAllAction();
+    this.animationMixerCd.stopAllAction();
     
     this.currentClip = this.loadedAnimations[ animationName ];
     if( this.currentClip )
     {
-      //var clip1 = this.loadedAnimations[ "ButtonPause" ];
-      //logger("---->CLIP: ", this.currentClip, this.currentClip.name );
       this.currentAction = this.animationMixer.clipAction( this.currentClip );
-      //var action1 = this.animationMixer.clipAction( this.loadedAnimations[ "TrayOpen" ] );
-      //logger("---->ACTION: ", this.currentAction );
       this.currentAction.clampWhenFinished = true;
       this.currentAction.setLoop( THREE.LoopOnce );
-      //if( rate < 0.0 )
-        //this.currentAction.time = this.currentAction.getClip().duration;
       this.currentAction.timeScale = rate; // OPEN INSTANTLY SO IT LOOKS LIKE IT STARTS OPENED
-      //mixer.update( 1 );
       this.currentAction.play(); //*/
+
+      this.currentActionCd = this.animationMixerCd.clipAction( this.currentClip );
+      this.currentActionCd.clampWhenFinished = true;
+      this.currentActionCd.setLoop( THREE.LoopOnce );
+      this.currentActionCd.timeScale = rate; // OPEN INSTANTLY SO IT LOOKS LIKE IT STARTS OPENED
+      this.currentActionCd.play(); //*/
     }
     
   }
@@ -227,12 +230,12 @@ export class P3dGraphics
   
   //////////////////////////////////////////////////////////////////////////////
   // UNFINISHED - MAY BE REMOVED
-  resetAnimation()
+  /*resetAnimation()
   {
     this.animationMixer.stopAllAction();
     this.currentAction.timeScale = -1;
     this.currentAction.play();
-  }
+  } //*/
   
   
   ////////////////////////////////////////////////////////////////////////
@@ -248,9 +251,13 @@ export class P3dGraphics
   {
     this.trayOpen = false;
     this.animationMixer.stopAllAction();
+    this.animationMixerCd.stopAllAction();
     this.currentAction.timeScale = -1;
     this.currentAction.time = this.currentAction.getClip().duration;
     this.currentAction.play();//*/
+    this.currentActionCd.timeScale = -1;
+    this.currentActionCd.time = this.currentActionCd.getClip().duration;
+    this.currentActionCd.play();//*/
   }
 
 
@@ -363,6 +370,7 @@ export class P3dGraphics
       
       // LOAD ANIMATIONS INTO DICTIONARY INDEXED BY NAME...
       this.animationMixer = new THREE.AnimationMixer( this.scene.getObjectByName( "cdTray" ) );
+      this.animationMixerCd = new THREE.AnimationMixer( this.scene.getObjectByName( "cd" ) );
       for( let i=0; i<gltf.animations.length; i++ )
       {
         //logger( "SCANNING ANIMATIONS: ", i, gltf.animations[i].name );
