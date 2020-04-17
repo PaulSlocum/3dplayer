@@ -48,32 +48,17 @@ export class P3dGraphics
   /////////////////////////////////////////////////////////////////////////////
   textureTest()
   {
-    // create a geometry
-    const geometry = new THREE.BoxBufferGeometry( 2, 2, 2 );
-
-    // create a texture loader.
+    const textureGeometry = new THREE.BoxBufferGeometry( 2, 2, 2 );
     const textureLoader = new THREE.TextureLoader();
-
-    // Load a texture. See the note in chapter 4 on working locally, or the page
-    // https://threejs.org/docs/#manual/introduction/How-to-run-things-locally
-    // if you run into problems here
     const texture = textureLoader.load( '3dplayer/model/test_1024x1024_1a.png' );
-
-    // set the "color space" of the texture
     texture.encoding = THREE.sRGBEncoding;
-
-    // reduce blurring at glancing angles
     texture.anisotropy = 16;
-
     // create a Standard material using the texture we just loaded as a color map
     const material = new THREE.MeshStandardMaterial( {
       map: texture,
     } );
-
-    // create a Mesh containing the geometry and material
     let mesh = new THREE.Mesh( geometry, material );
     mesh.rotation.y = 2.2;
-    
     this.scene.add( mesh );
   }
 
@@ -342,6 +327,22 @@ export class P3dGraphics
     //logger( "------------------ EDGE POSITION:", edgePositionTest, " ------------- " )
     this.screenEdgePosition = edgePositionTest;
 
+    // TEST TEXTURE
+    const textureLoader = new THREE.TextureLoader();
+    const texture = textureLoader.load( '3dplayer/model/test_1024x1024_1a.png' );
+
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set( 4, 4 );    
+    
+    texture.encoding = THREE.sRGBEncoding;
+    texture.anisotropy = 16;
+    // create a Standard material using the texture we just loaded as a color map
+    const textureMaterial = new THREE.MeshStandardMaterial( {
+      map: texture,
+    } );
+    //let mesh = new THREE.Mesh( geometry, material );
+
     // INSTANTIATE GLTF LOADER FOR THE PLAYER MODEL
     const gltfLoader = new GLTFLoader();
     const url = "3dplayer/model/saeCdPlayer.glb";
@@ -372,7 +373,8 @@ export class P3dGraphics
       {
         // SET CD SURFACE AS CUSTOM MATERIAL 
         if( child.material  &&  child.material.name == "cd" )
-          child.material = this.cdMaterial;
+        //  child.material = this.cdMaterial;
+            child.material = textureMaterial;
   
         // TURN ON SHADOWS FOR ALL MESHES      
         if ( child.isMesh ) 

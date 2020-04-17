@@ -3,6 +3,13 @@
 --------------------------------------------------------------------------------
 
 
+CUSTOM SHADER WITH TEXTURE ARTICLES:
+https://csantosbh.wordpress.com/2014/01/09/custom-shaders-with-three-js-uniforms-textures-and-lighting/
+https://stackoverflow.com/questions/12627422/custom-texture-shader-in-three-js
+https://stackoverflow.com/questions/52176463/threejs-how-to-render-a-texture-with-custom-shaders-including-the-textures-uv-o
+https://www.khronos.org/opengl/wiki/Sampler_(GLSL)
+
+
 TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
