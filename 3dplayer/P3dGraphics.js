@@ -88,6 +88,7 @@ export class P3dGraphics
     this.roomMaterial = null;
     this.cdMaterial = null;
     this.spotlight = null;
+    this.cdObject = null;
     
     this.loadedModel = null;
     this.shaders = new P3dShaders();
@@ -140,6 +141,11 @@ export class P3dGraphics
 
     this.frameCounter++;
 
+    // DEBUG!!!!!!!!!!!!!!!!!!!!!!
+    /*if( this.frameCounter%5 == 0 )
+      logger( "-----> CD POSITION: ", this.cdObject.position.z ); //*/
+
+
     // UPDATE ANIMATIONS..
     if( this.animationMixer != null )
     {
@@ -162,7 +168,6 @@ export class P3dGraphics
     if( this.appController.getStatus() != TransportMode.PLAYING )
     { 
       this.swarm.disable();  // <-----------------------
-      //this.swarm.enable(); // DEBUG!!! 
       this.backgroundSpinRate -= 0.0001;
       if( this.backgroundSpinRate < 0.0002 )
         this.backgroundSpinRate = 0.0002;
@@ -281,12 +286,11 @@ export class P3dGraphics
 
 
   ///////////////////////////////////////////////////////////////////////
-  // -----> THIS SHOULD MAYBE BE MOVED TO A NEW CLASS
+  // -----> SOME OF THESE OBJECTS SHOULD BE MOVED TO THEIR OWN CLASS
   buildStructures()
   {
     // SET CAMERA POSITION
     const cameraZOffset = 1.9;
-    //const cameraZOffset = 2.7; // <------------
     
     this.camera.position.z = 5.5+cameraZOffset;
     if( this.isMobileDevice == true )
@@ -375,14 +379,19 @@ export class P3dGraphics
       {
         // SET CD SURFACE AS CUSTOM MATERIAL 
         if( child.material  &&  child.material.name == "cd" )
-        //  child.material = this.cdMaterial;
-            child.material = textureMaterial;
+        {
+            child.material = this.cdMaterial;
+            //child.material = textureMaterial;
+        }
   
         // TURN ON SHADOWS FOR ALL MESHES      
         if ( child.isMesh ) 
           child.receiveShadow = true;
 
       }.bind(this) ); //*/
+      
+      this.cdObject = this.scene.getObjectByName( "cd" );
+      logger( "-----> GRAPHICS LOADER: CD OBJECT: ", this.cdObject, this.cdObject.position );
 
       
       // OPEN TRAY INSTANTLY (300X SPEED)

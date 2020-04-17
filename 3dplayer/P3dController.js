@@ -14,6 +14,23 @@ import { logger } from "./P3dLog.js";
 
 
 
+export const TransportMode = {
+  PLAYING:"Playing",
+  STARTING_PLAY:"StartingPlay",
+  PAUSED:"Paused",
+  SEEK:"Seek",
+  STOPPED:"Stopped",
+  SHUTDOWN:"Shutdown",
+  STARTUP: "Startup",
+  STANDBY:"Standby",
+  TRAY_OPEN:"TrayOpen",
+  TRAY_OPENING:"TrayOpening",
+  TRAY_CLOSING:"TrayClosing",
+  TRAY_CLOSING_PLAY:"TrayClosingPlay"
+};
+
+
+
 
 export const ButtonEvent = {
   NONE: "ButtonNone",
@@ -38,24 +55,6 @@ export const ButtonEvent = {
   BUTTON_DOWN_REMAINING_TIME_MODE: "ButtonTimeMode",
   BUTTON_UP: "ButtonUp"
 };
-
-
-
-export const TransportMode = {
-  TRAY_OPEN:"TrayOpen",
-  TRAY_OPENING:"TrayOpening",
-  TRAY_CLOSING:"TrayClosing",
-  TRAY_CLOSING_PLAY:"TrayClosingPlay",
-  PLAYING:"Playing",
-  STARTING_PLAY:"StartingPlay",
-  PAUSED:"Paused",
-  SEEK:"Seek",
-  STOPPED:"Stopped",
-  SHUTDOWN:"Shutdown",
-  STARTUP: "Startup",
-  STANDBY:"Standby"
-};
-
 
 
 

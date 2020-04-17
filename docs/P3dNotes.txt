@@ -13,6 +13,13 @@ https://www.khronos.org/opengl/wiki/Sampler_(GLSL)
 TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
+- see if there's some easy way to find the center of an object in GLSL
+- figure out how to track center of CD during animation
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~   -   ~   -   ~   -   ~   -   
 - implement PNG image map on CD surface
 - make it so that image map rotates each time CD is ejected
 ~   -   ~   -   ~   -   ~   -   

@@ -12,16 +12,6 @@ import { logger } from './P3dLog.js'
  
  
  
- 
-//-----------------------------------------
-// REQUIRED TEXT/CHARACTERS:
-//
-// open disc play stop treb bass vol
-// a b c d e f h i l n o p r s t u v 
-//
-//-----------------------------------------
-
-
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~
   LED SEGMENT ORDER:
 
@@ -171,17 +161,15 @@ export class P3dLEDDriver
     this.colonObject = this.scene.getObjectByName( "Colon1a" );
     this.colonHighlight = this.scene.getObjectByName( "Colon1b" );
     
-    //console.log( "------->LED DRIVER: COLON AND MINUS: ", this.colonObject, this.colonHighlight, 
-    //                                                      this.minusObject, this.minusHighlight );
-
     this.objectsLoaded = true;
 
     // CLEAR ALL SEGMENTS
     this.setString( 'XXXXXX' );
-    
   }
 
+
   ////////////////////////////////////////////////////////////////////////
+  // SET A STRING, STARTING FROM THE LEFTMOST 7-SEGMENT DISPLAY
   setString( text )
   {
     for( let index=0; index<text.length; index++ )
@@ -190,8 +178,10 @@ export class P3dLEDDriver
     }
   }
 
+
   ////////////////////////////////////////////////////////////////////////
-  setDigitCharacter( ledDigit, character )
+  // SET A CHARACTER ON ONE 7-SEGMENT DISPLAY
+  setDigitCharacter( ledDigitOffset, character )
   {
     //console.log( "---->LED DRIVER->SET: ", SEGMENT_TABLE[character] );
     let segmentArray = SEGMENT_TABLE[character];
@@ -199,11 +189,10 @@ export class P3dLEDDriver
     for( let ledSegment=0; ledSegment<TOTAL_LED_SEGMENTS; ledSegment++ )
     {
       if( segmentArray[ledSegment] == 0 )
-        this._segmentOff( ledDigit, ledSegment );
+        this._segmentOff( ledDigitOffset, ledSegment );
       else
-        this._segmentOn( ledDigit, ledSegment );
+        this._segmentOn( ledDigitOffset, ledSegment );
     }
-    
   }
 
 
@@ -217,6 +206,7 @@ export class P3dLEDDriver
     }
   }  
   
+
   //////////////////////////////////////////////////////////////////////////
   colonOff()
   {
@@ -227,9 +217,10 @@ export class P3dLEDDriver
     }
   }  
   
+
   //  -    ~       -    ~       -    ~       -    ~       -    ~       -    ~        
   
-  
+ 
   
   /////////////////////////////////////////////////////////////////////////
   _segmentOn( ledDigit, ledSegment )
