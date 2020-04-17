@@ -18,6 +18,7 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 - keep playing CD seeking sounds until music starts playing (or maybe just lengthn CD sounds)
 ~   -   ~   -   ~   -   ~   -   
+- refactor tray animation code
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
