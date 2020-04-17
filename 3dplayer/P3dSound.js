@@ -1,7 +1,7 @@
 // P3dSound.js
 //
 // WEB AUDIO API WRAPPER FOR SHORT SOUND EFFECTS PLAYER THAT ALLOWS PRE-LOADING OF DECODED
-// AUDIO FILES INTO MEMORY.
+// AUDIO FILES INTO MEMORY
 //
 //////////////////////////////////////////////////////////////////////////////
 

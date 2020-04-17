@@ -1,7 +1,7 @@
 //
 // P3dReverb.js
 //
-// SIMPLE WET CONVOLUTION REVERB MODULE FOR WEB AUDIO.
+// SIMPLE WET CONVOLUTION REVERB MODULE FOR WEB AUDIO
 //
 ////////////////////////////////////////////////////////////////////
 

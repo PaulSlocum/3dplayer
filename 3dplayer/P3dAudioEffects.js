@@ -1,7 +1,7 @@
 //
 // P3dAudioEffects.js
 //
-// WEB AUDIO EFFECTS MODULE WITH PRESETS.
+// WEB AUDIO EFFECTS MODULE WITH PRESETS
 //
 ////////////////////////////////////////////////////////////////////
 

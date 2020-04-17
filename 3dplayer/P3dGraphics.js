@@ -1,6 +1,6 @@
 // P3dGraphics.js
 //
-// LOADS AND MANIPULATES 3D MODELS AND RENDERING ASSETS.
+// LOADS AND MANIPULATES 3D MODELS AND RENDERING ASSETS
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
