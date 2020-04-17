@@ -46,7 +46,8 @@ export class P3dGraphics
 {
 
   /////////////////////////////////////////////////////////////////////////////
-  textureTest()
+  // THIS CAN BE REMOVED WHEN TEXTURE MAPPING IS FULLY WORKING
+  /*textureTest()
   {
     const textureGeometry = new THREE.BoxBufferGeometry( 2, 2, 2 );
     const textureLoader = new THREE.TextureLoader();
@@ -60,7 +61,7 @@ export class P3dGraphics
     let mesh = new THREE.Mesh( geometry, material );
     mesh.rotation.y = 2.2;
     this.scene.add( mesh );
-  }
+  } //*/
 
 
   ///////////////////////////////////////////////////////////////////////
@@ -202,6 +203,7 @@ export class P3dGraphics
   
   //////////////////////////////////////////////////////////////////////////////
   // UNFINISHED, STILL TO BE DETERMINED HOW THIS INTERFACE IS GOING TO WORK
+  // NEEDS REFACTORING
   playAnimation( animationName, rate = 1.0 )
   {
     logger( "------> GRAPHICS: PLAY ANIMATION: ", animationName );
@@ -228,17 +230,8 @@ export class P3dGraphics
   }
 
   
-  //////////////////////////////////////////////////////////////////////////////
-  // UNFINISHED - MAY BE REMOVED
-  /*resetAnimation()
-  {
-    this.animationMixer.stopAllAction();
-    this.currentAction.timeScale = -1;
-    this.currentAction.play();
-  } //*/
-  
-  
   ////////////////////////////////////////////////////////////////////////
+  // NEEDS REFACTORING
   openTray( rate = 1.0 )
   {
     this.playAnimation( "TrayOpen", rate );
@@ -247,6 +240,7 @@ export class P3dGraphics
 
 
   ////////////////////////////////////////////////////////////////////////
+  // NEEDS REFACTORING
   closeTray()
   {
     this.trayOpen = false;

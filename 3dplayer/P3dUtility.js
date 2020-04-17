@@ -16,6 +16,7 @@ export function random( max )
 }
 
 
+
 //=====================================================================================
 export function converge( currentValue, targetValue, rate )
 {
@@ -37,6 +38,7 @@ export function converge( currentValue, targetValue, rate )
   return currentValue;
 }
   
+
 
 //=====================================================================================
 // ASSUMES TARGET OR EVENT.TARGET IS CANVAS AND THAT IT HAS NO BORDER/PADDING
