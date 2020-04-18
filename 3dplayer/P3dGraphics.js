@@ -430,6 +430,7 @@ export class P3dGraphics
       fragmentShader: this.shaders.cdFragmentShader(),
       vertexShader: this.shaders.cdVertexShader(),
     });
+    this.cdMaterial.transparent = true;
 
     this.roomCube = new THREE.Mesh( geometry, this.roomMaterial );
     this.roomCube.rotation.x = 200;

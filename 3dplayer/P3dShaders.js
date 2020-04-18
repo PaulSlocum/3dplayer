@@ -49,10 +49,21 @@ export class P3dShaders
       }
 
       void main() {
-        float distance = distance( vUv, cdPosition ) - 1.0;
-        float noise = rand(vUv.xy)*0.15 - 0.07;
-        float i = mod( gl_FragCoord.x, 15.0 );
-        gl_FragColor = vec4( i/35.0+0.28 - noise + distance, i/45.0+0.18 - noise, 0.17 - noise, 0.0 );
+        float distance = 0.3 - distance( vUv, cdPosition )*0.3;
+        //float actualDistance = distance( vUv, cdPosition );
+        float alphaValue = 1.0;
+        if( distance > 0.2 )
+        {
+          gl_FragColor = vec4( 0.0, 0.0, 0.0, 0.3 );
+          //discard;
+          //alphaValue = 0.2;
+        }
+        else
+        {
+          float noise = rand(vUv.xy)*0.15 - 0.07;
+          float i = mod( gl_FragCoord.x, 15.0 );
+          gl_FragColor = vec4( i/35.0+0.25 - noise, i/45.0+0.14 - noise - distance, 0.13 - noise - distance, alphaValue );
+        }
         //gl_FragColor = vec4( i/35.0+0.28 - noise + cdPosition.x, i/45.0+0.18 - noise, 0.17 - noise, 0.0 );
         //gl_FragColor = vec4( i/35.0+0.28 - noise + cdPosition.x * 0.1, i/45.0+0.18 - noise, 0.17 - noise, 0.0 );
       }        ` //*/
