@@ -99,7 +99,7 @@ export class P3dGraphics
     
     // THESE ARE CURRENTLY NOT USED...
     this.cdUniforms = {
-        cdPosition: { type: "vec3", value: new THREE.Vector3( 0.5, 0.0, 0.0 ) },
+        cdPosition: { type: "vec3", value: new THREE.Vector3( 0.0, 0.0, 0.0 ) },
         lightPosition: { type: "vec3", value: new THREE.Vector3() }
     };
 
@@ -142,12 +142,13 @@ export class P3dGraphics
     this.frameCounter++;
 
     // DEBUG!!!!!!!!!!!!!!!!!!!!!!
-    if( this.frameCounter%5 == 0 )
-      logger( "-----> CD POSITION: ", this.cdObject.position.z ); //*/
+   // if( this.frameCounter%5 == 0 )
+   //   logger( "-----> CD POSITION: ", this.cdObject.position.z ); //*/
     //this.cdUniforms.cdPosition = this.cdObject.position
     //this.cdUniforms.cdPosition.x = 100.0;
-    this.cdUniforms.cdPosition.value.x = this.frameCounter * 0.001;
-    //this.cdUniforms.cdPosition.value = this.cdObject.position;
+    //this.cdUniforms.cdPosition.value.x = this.frameCounter * 0.001;
+   // if( this.cdObject != null )
+   //   this.cdUniforms.cdPosition.value = this.cdObject.position;
 
     // UPDATE ANIMATIONS..
     if( this.animationMixer != null )
