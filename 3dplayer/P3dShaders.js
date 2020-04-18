@@ -32,8 +32,8 @@ export class P3dShaders
   cdFragmentShader() 
   {   
     return `
-      uniform vec3 colorC; 
-      uniform vec3 colorD; 
+      uniform vec3 cdPosition; 
+      uniform vec3 lightPosition; 
       varying vec3 vUv;
 
       float rand(vec2 co){
@@ -51,7 +51,8 @@ export class P3dShaders
       void main() {
         float noise = rand(vUv.xy)*0.15 - 0.07;
         float i = mod( gl_FragCoord.x, 15.0 );
-        gl_FragColor = vec4( i/35.0+0.28 - noise, i/45.0+0.18 - noise, 0.17 - noise, 0.0 );
+        gl_FragColor = vec4( i/35.0+0.28 - noise + cdPosition.x, i/45.0+0.18 - noise, 0.17 - noise, 0.0 );
+        //gl_FragColor = vec4( i/35.0+0.28 - noise + cdPosition.x * 0.1, i/45.0+0.18 - noise, 0.17 - noise, 0.0 );
       }        ` //*/
 
     /*return `

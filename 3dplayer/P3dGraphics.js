@@ -99,8 +99,8 @@ export class P3dGraphics
     
     // THESE ARE CURRENTLY NOT USED...
     this.cdUniforms = {
-        colorC: {type: "vec3", value: new THREE.Color(0x040303)},
-        colorD: {type: "vec3", value: new THREE.Color(0x090807)}
+        cdPosition: { type: "vec3", value: new THREE.Vector3( 0.5, 0.0, 0.0 ) },
+        lightPosition: { type: "vec3", value: new THREE.Vector3() }
     };
 
     this.targetRotationX = 0;
@@ -142,9 +142,12 @@ export class P3dGraphics
     this.frameCounter++;
 
     // DEBUG!!!!!!!!!!!!!!!!!!!!!!
-    /*if( this.frameCounter%5 == 0 )
+    if( this.frameCounter%5 == 0 )
       logger( "-----> CD POSITION: ", this.cdObject.position.z ); //*/
-
+    //this.cdUniforms.cdPosition = this.cdObject.position
+    //this.cdUniforms.cdPosition.x = 100.0;
+    this.cdUniforms.cdPosition.value.x = this.frameCounter * 0.001;
+    //this.cdUniforms.cdPosition.value = this.cdObject.position;
 
     // UPDATE ANIMATIONS..
     if( this.animationMixer != null )
@@ -262,11 +265,12 @@ export class P3dGraphics
 
 
   ///////////////////////////////////////////////////////////////////////////
-  setBackgroundColor( color )
+  // THIS WILL NEED TO BE FIXED TO WORK WITH NEW 
+  /*setBackgroundColor( color )
   {
     this.uniforms["colorA"] = { type: "vec3", value: new THREE.Color( color ) };
     this.uniforms["colorB"] = { type: "vec3", value: new THREE.Color( color ) };
-  }
+  } //*/
   
 
 
@@ -335,11 +339,9 @@ export class P3dGraphics
     // TEST TEXTURE
     const textureLoader = new THREE.TextureLoader();
     const texture = textureLoader.load( '3dplayer/model/test_1024x1024_1a.png' );
-
-    texture.wrapS = THREE.RepeatWrapping;
+    /*texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set( 4, 4 );    
-    
+    texture.repeat.set( 4, 4 ); //*/
     texture.encoding = THREE.sRGBEncoding;
     texture.anisotropy = 16;
     // create a Standard material using the texture we just loaded as a color map
@@ -408,10 +410,9 @@ export class P3dGraphics
     vblur.renderToScreen = true;
     this.composer.addPass( vblur ); //*/
 
-    //this.renderer.shadowMap.enabled = true;
+    // ENABLE SHADOWS
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    
 
     // ROOM CUBE  
     let geometry = new THREE.BoxGeometry( -80, -40, -40 );
