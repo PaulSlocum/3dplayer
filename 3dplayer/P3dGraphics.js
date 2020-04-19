@@ -425,12 +425,14 @@ export class P3dGraphics
       vertexShader: this.shaders.roomVertexShader(),
     });
 
-    this.cdMaterial =  new THREE.ShaderMaterial({
+    this.cdMaterial = new THREE.MeshPhongMaterial(); // DEBUG!!!!!!!!!!!!!!!!!!!!
+    this.cdMaterial.shininess  = 100;
+    /*this.cdMaterial =  new THREE.ShaderMaterial({
       uniforms: this.cdUniforms,
       fragmentShader: this.shaders.cdFragmentShader(),
       vertexShader: this.shaders.cdVertexShader(),
     });
-    this.cdMaterial.transparent = true;
+    this.cdMaterial.transparent = true; //*/
 
     this.roomCube = new THREE.Mesh( geometry, this.roomMaterial );
     this.roomCube.rotation.x = 200;
@@ -438,12 +440,12 @@ export class P3dGraphics
     this.scene.add( this.roomCube ); //*/
 
     // SPOTLIGHT
-    this.spotLight = new THREE.SpotLight(0xffffff); // <----------------------
-    const spotlightDistance = 1.5; // <------------
-    this.spotLight.position.set( -0, 1.2*spotlightDistance, 3.6*spotlightDistance );
-    this.spotLight.angle = Math.PI / 3.0; // <----------------------
+    this.spotLight = new THREE.SpotLight(0xffffff);
+    const spotlightDistance = 1.5; 
+    //this.spotLight.position.set( -0, 1.2*spotlightDistance, 3.6*spotlightDistance ); //<--------------
+    this.spotLight.position.set( -0, 1.2*spotlightDistance, -3.6*spotlightDistance ); // DEBUG!!!!!!!!!!!!!!
+    this.spotLight.angle = Math.PI / 3.0;
     this.spotLight.castShadow = true;
-    //this.spotLight.radius = 400;
     this.spotLight.shadow.mapSize.width = 420;
     this.spotLight.shadow.mapSize.height = 420;
     this.spotLight.target.position.z = -3;

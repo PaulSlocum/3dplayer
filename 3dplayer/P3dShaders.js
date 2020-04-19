@@ -62,7 +62,9 @@ export class P3dShaders
         {
           float noise = rand(vUv.xy)*0.15 - 0.07;
           float i = mod( gl_FragCoord.x, 15.0 );
-          gl_FragColor = vec4( i/35.0+0.25 - noise, i/45.0+0.14 - noise - distance, 0.13 - noise - distance, alphaValue );
+          gl_FragColor = vec4( i/37.0+0.25 - noise - distance*0.5, 
+                                i/42.0+0.14 - noise - distance, 
+                                0.15 - noise - distance, alphaValue );
         }
         //gl_FragColor = vec4( i/35.0+0.28 - noise + cdPosition.x, i/45.0+0.18 - noise, 0.17 - noise, 0.0 );
         //gl_FragColor = vec4( i/35.0+0.28 - noise + cdPosition.x * 0.1, i/45.0+0.18 - noise, 0.17 - noise, 0.0 );
