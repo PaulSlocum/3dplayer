@@ -100,7 +100,7 @@ export class P3dGraphics
     // THESE ARE CURRENTLY NOT USED...
     this.cdUniforms = {
         cdPosition: { type: "vec3", value: new THREE.Vector3( 0.0, 0.0, 0.0 ) },
-        lightPosition: { type: "vec3", value: new THREE.Vector3() }
+        lightPosition: { type: "vec3", value: new THREE.Vector3( 0.0, 0.0, 0.0 ) }
     };
 
     this.targetRotationX = 0;
@@ -149,6 +149,12 @@ export class P3dGraphics
     //this.cdUniforms.cdPosition.value.x = this.frameCounter * 0.001;
    // if( this.cdObject != null )
    //   this.cdUniforms.cdPosition.value = this.cdObject.position;
+
+    this.spotLight.position.z += 0.01;
+
+    // UPDATE LIGHT POSITION FOR CD SHADER
+    if( this.spotLight != null )
+      this.cdUniforms.cdPosition.value = this.spotLight.position;
 
     // UPDATE ANIMATIONS..
     if( this.animationMixer != null )
@@ -425,9 +431,9 @@ export class P3dGraphics
       vertexShader: this.shaders.roomVertexShader(),
     });
 
-    this.cdMaterial = new THREE.MeshPhongMaterial(); // DEBUG!!!!!!!!!!!!!!!!!!!!
-    this.cdMaterial.shininess  = 100; // DEBUG!!!!!!!!!!!!!!!!!!!!
-    /*this.cdMaterial =  new THREE.ShaderMaterial({
+    /*this.cdMaterial = new THREE.MeshPhongMaterial(); // DEBUG!!!!!!!!!!!!!!!!!!!!
+    this.cdMaterial.shininess  = 100; // DEBUG!!!!!!!!!!!!!!!!!!!! //*/
+    this.cdMaterial =  new THREE.ShaderMaterial({
       uniforms: this.cdUniforms,
       fragmentShader: this.shaders.cdFragmentShader(),
       vertexShader: this.shaders.cdVertexShader(),

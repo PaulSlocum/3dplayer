@@ -36,13 +36,62 @@ export class P3dShaders
       uniform vec3 lightPosition; 
       varying vec3 vUv;
 
+      //===============================================================================
+      float rand(vec2 co)
+      {
+          return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+      }
+
+      //===============================================================================
+      // Returns accurate MOD when arguments are approximate integers.
+      float modI(float a,float b) 
+      {
+          float m=a-floor((a+0.5)/b)*b;
+          return floor(m+0.5);
+      }
+
+      //===============================================================================
+      void main() 
+      {
+        float centerDistance = distance( vUv, vec3( 0.0, 0.0, 0.0 ) );
+        float lightDistance = distance( vUv, cdPosition );
+        //float Distance = distance( vUv, lightPosition );
+        //float adjustedCenterDistance = 0.3 - lightDistance * 0.3;
+        float adjustedCenterDistance = mod( lightDistance*15.0, 5.0 ) * 0.1 - 0.7;
+        float cdFoilAlphaValue = 1.0;
+        if( centerDistance < 0.3 )
+        {
+          // TRANSPARENT CD CENTER RING
+          gl_FragColor = vec4( 0.0, 0.0, 0.0, 0.3 );
+        }
+        else
+        {
+          // CD REFLECTIVE FOIL 
+          float noise = rand(vUv.xy)*0.15 - 0.07;
+          float i = mod( gl_FragCoord.x, 15.0 );
+          gl_FragColor = vec4( i/37.0+0.25 - noise - adjustedCenterDistance*0.5, 
+                                i/42.0+0.14 - noise - adjustedCenterDistance, 
+                                0.15 - noise - adjustedCenterDistance, cdFoilAlphaValue );
+        }
+
+      } 
+      
+             `
+      //*/
+
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    /*return `
+      uniform vec3 cdPosition; 
+      uniform vec3 lightPosition; 
+      varying vec3 vUv;
+
       float rand(vec2 co){
           return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
       }
 
-      /**
-       * Returns accurate MOD when arguments are approximate integers.
-       */
+      //
+       / Returns accurate MOD when arguments are approximate integers.
+       //
       float modI(float a,float b) {
           float m=a-floor((a+0.5)/b)*b;
           return floor(m+0.5);
@@ -69,7 +118,7 @@ export class P3dShaders
         //gl_FragColor = vec4( i/35.0+0.28 - noise + cdPosition.x, i/45.0+0.18 - noise, 0.17 - noise, 0.0 );
         //gl_FragColor = vec4( i/35.0+0.28 - noise + cdPosition.x * 0.1, i/45.0+0.18 - noise, 0.17 - noise, 0.0 );
       }        ` //*/
-
+    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     /*return `
       uniform vec3 colorC; 
       uniform vec3 colorD; 

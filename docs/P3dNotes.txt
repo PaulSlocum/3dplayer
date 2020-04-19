@@ -13,10 +13,15 @@ https://www.khronos.org/opengl/wiki/Sampler_(GLSL)
 TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
+- figure out how to access lights from GLSL shader and do proof of concept
+- figure out how to calculate incidence angles from camera and light
+- figure out how to calculate angle between camera and light reflection
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
 - do proof of concept of calculating my own specular reflection with flat CD surface
 - calculate virtual ridges on CD surface and do specular reflection of that instead
-~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
