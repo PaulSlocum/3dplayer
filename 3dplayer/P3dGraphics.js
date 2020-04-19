@@ -426,7 +426,7 @@ export class P3dGraphics
     });
 
     this.cdMaterial = new THREE.MeshPhongMaterial(); // DEBUG!!!!!!!!!!!!!!!!!!!!
-    this.cdMaterial.shininess  = 100;
+    this.cdMaterial.shininess  = 100; // DEBUG!!!!!!!!!!!!!!!!!!!!
     /*this.cdMaterial =  new THREE.ShaderMaterial({
       uniforms: this.cdUniforms,
       fragmentShader: this.shaders.cdFragmentShader(),

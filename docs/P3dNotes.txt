@@ -13,8 +13,8 @@ https://www.khronos.org/opengl/wiki/Sampler_(GLSL)
 TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
-- see if there's some easy way to find the center of an object in GLSL
-- figure out how to track center of CD during animation
+- do proof of concept of calculating my own specular reflection with flat CD surface
+- calculate virtual ridges on CD surface and do specular reflection of that instead
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
