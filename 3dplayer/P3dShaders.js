@@ -34,9 +34,7 @@ export class P3dShaders
   cdFragmentShader() 
   {   
     return `
-      uniform vec3 cdPosition;
       uniform vec3 lightPosition;
-      uniform mat4 worldMatrix;
       varying vec3 localPosition;
       varying vec4 vertexWorldPosition;
 
@@ -57,13 +55,8 @@ export class P3dShaders
       //===============================================================================
       void main() 
       {
-        //vec3 worldPosition = vertexWorldPosition.xyz;
+        vec3 worldPosition = vertexWorldPosition.xyz;
         
-        vec4 worldPositionTest = worldMatrix * vec4( localPosition, 1.0 ); 
-        vec3 worldPosition = worldPositionTest.xyz;
-        
-        //vec3 worldPosition = localPosition + cdPosition; 
-        //vec3 worldPosition = cdPosition; 
         float lightDistance = distance( worldPosition, lightPosition );
         float adjustedCenterDistance = mod( lightDistance*15.0, 5.0 ) * 0.1 - 0.7;
         float cdFoilAlphaValue = 1.0;
