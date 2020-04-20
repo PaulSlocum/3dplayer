@@ -16,11 +16,13 @@ export class P3dShaders
   {
     return `
     varying vec3 localPosition; 
+    //varying vec3 worldPosition;
 
     void main() {
       localPosition = position; 
 
       vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
+      //worldPosition = modelViewPosition.xyz;
       gl_Position = projectionMatrix * modelViewPosition; 
     }
       ` 
@@ -32,8 +34,10 @@ export class P3dShaders
   cdFragmentShader() 
   {   
     return `
+      uniform vec3 cdPosition;
       uniform vec3 lightPosition;
       varying vec3 localPosition;
+      //varying vec3 worldPosition;
 
       //===============================================================================
       float rand(vec2 co)
@@ -52,11 +56,13 @@ export class P3dShaders
       //===============================================================================
       void main() 
       {
-        float centerDistance = distance( localPosition, vec3( 0.0, 0.0, 0.0 ) );
-        float lightDistance = distance( localPosition, lightPosition );
+        vec3 worldPosition = localPosition + cdPosition; 
+        //vec3 worldPosition = cdPosition; 
+        float lightDistance = distance( worldPosition, lightPosition );
         float adjustedCenterDistance = mod( lightDistance*15.0, 5.0 ) * 0.1 - 0.7;
         float cdFoilAlphaValue = 1.0;
         
+        float centerDistance = distance( localPosition, vec3( 0.0, 0.0, 0.0 ) );
         if( centerDistance < 0.3 )
         {
           // TRANSPARENT CD CENTER RING
