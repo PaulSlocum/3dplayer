@@ -100,7 +100,8 @@ export class P3dGraphics
     // THESE ARE CURRENTLY NOT USED...
     this.cdUniforms = {
         lightPosition: { type: "vec3", value: new THREE.Vector3( 0.0, 0.0, 0.0 ) },
-        cdPosition: { type: "vec3", value: new THREE.Vector3( 0.0, 0.0, 0.0 ) }
+        cdPosition: { type: "vec3", value: new THREE.Vector3( 0.0, 0.0, 0.0 ) },
+        worldMatrix: { type: "mat4", value: new THREE.Matrix4() }
     };
 
     this.targetRotationX = 0;
@@ -151,19 +152,32 @@ export class P3dGraphics
    //   this.cdUniforms.cdPosition.value = this.cdObject.position;
 
     // DEBUG!!!!!!!!!!!!!!!!!!!!!!
+    let worldPosition = new THREE.Vector3();
+    this.cdObject.getWorldPosition( worldPosition );
     if( this.frameCounter%15 == 0 )
     {
       logger( "-----> LIGHT POSITION: ", this.spotLight.position ); //*/
-      logger( "-----> CD POSITION: ", this.cdObject.position ); //*/
+      logger( "-----> CD POSITION: ", worldPosition ); //*/
     }
     this.spotLight.position.z += 0.006; // DEBUG!!!!!!!!
-    //this.spotLight.position.x = 1.0; // DEBUG!!!!!!!!
+    this.spotLight.position.x = -0.79; // DEBUG!!!!!!!!
+    this.spotLight.position.y = -0.5; // DEBUG!!!!!!!!
+    //this.loadedModel.position.z = -1.0 //DEBUG!!!!!!!!!!!!
 
     // UPDATE LIGHT POSITION FOR CD SHADER
     if( this.spotLight != null )
       this.cdUniforms.lightPosition.value = this.spotLight.position;
     if( this.cdObject != null )
       this.cdUniforms.cdPosition.value = this.cdObject.position;
+      
+    if( this.cdObject != null )
+    {
+      this.scene.updateMatrixWorld();
+      this.loadedModel.updateMatrixWorld();
+      this.cdUniforms.worldMatrix.value = this.cdObject.matrixWorld;
+    }
+      
+
 
     // UPDATE ANIMATIONS..
     if( this.animationMixer != null )

@@ -16,13 +16,13 @@ export class P3dShaders
   {
     return `
     varying vec3 localPosition; 
-    //varying vec3 worldPosition;
+    varying vec4 vertexWorldPosition;
 
     void main() {
       localPosition = position; 
 
       vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
-      //worldPosition = modelViewPosition.xyz;
+      vertexWorldPosition = modelMatrix * vec4(position, 1.0);
       gl_Position = projectionMatrix * modelViewPosition; 
     }
       ` 
@@ -36,8 +36,9 @@ export class P3dShaders
     return `
       uniform vec3 cdPosition;
       uniform vec3 lightPosition;
+      uniform mat4 worldMatrix;
       varying vec3 localPosition;
-      //varying vec3 worldPosition;
+      varying vec4 vertexWorldPosition;
 
       //===============================================================================
       float rand(vec2 co)
@@ -56,7 +57,12 @@ export class P3dShaders
       //===============================================================================
       void main() 
       {
-        vec3 worldPosition = localPosition + cdPosition; 
+        //vec3 worldPosition = vertexWorldPosition.xyz;
+        
+        vec4 worldPositionTest = worldMatrix * vec4( localPosition, 1.0 ); 
+        vec3 worldPosition = worldPositionTest.xyz;
+        
+        //vec3 worldPosition = localPosition + cdPosition; 
         //vec3 worldPosition = cdPosition; 
         float lightDistance = distance( worldPosition, lightPosition );
         float adjustedCenterDistance = mod( lightDistance*15.0, 5.0 ) * 0.1 - 0.7;
