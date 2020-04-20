@@ -155,7 +155,8 @@ export class P3dGraphics
       logger( "-----> LIGHT POSITION: ", this.spotLight.position ); //*/
       logger( "-----> CD POSITION: ", this.cdObject.position ); //*/
     }
-    this.spotLight.position.z += 0.003;
+    this.spotLight.position.z += 0.006; // DEBUG!!!!!!!!
+    //this.spotLight.position.x = 1.0; // DEBUG!!!!!!!!
 
     // UPDATE LIGHT POSITION FOR CD SHADER
     if( this.spotLight != null )
