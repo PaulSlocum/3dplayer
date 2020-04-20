@@ -15,10 +15,10 @@ export class P3dShaders
   cdVertexShader() 
   {
     return `
-    varying vec3 vUv; 
+    varying vec3 localPosition; 
 
     void main() {
-      vUv = position; 
+      localPosition = position; 
 
       vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
       gl_Position = projectionMatrix * modelViewPosition; 
@@ -33,7 +33,7 @@ export class P3dShaders
   {   
     return `
       uniform vec3 lightPosition;
-      varying vec3 vUv;
+      varying vec3 localPosition;
 
       //===============================================================================
       float rand(vec2 co)
@@ -52,8 +52,8 @@ export class P3dShaders
       //===============================================================================
       void main() 
       {
-        float centerDistance = distance( vUv, vec3( 0.0, 0.0, 0.0 ) );
-        float lightDistance = distance( vUv, lightPosition );
+        float centerDistance = distance( localPosition, vec3( 0.0, 0.0, 0.0 ) );
+        float lightDistance = distance( localPosition, lightPosition );
         float adjustedCenterDistance = mod( lightDistance*15.0, 5.0 ) * 0.1 - 0.7;
         float cdFoilAlphaValue = 1.0;
         
@@ -65,9 +65,9 @@ export class P3dShaders
         else
         {
           // CD REFLECTIVE FOIL 
-          float noise = rand(vUv.xy)*0.15 - 0.07;
+          float noise = rand( localPosition.xy ) * 0.15 - 0.07;
           float i = mod( gl_FragCoord.x, 15.0 );
-          gl_FragColor = vec4( i/37.0+0.25 - noise - adjustedCenterDistance*0.5, 
+          gl_FragColor = vec4( i/37.0+0.25 - noise - adjustedCenterDistance * 0.5, 
                                 i/42.0+0.14 - noise - adjustedCenterDistance, 
                                 0.15 - noise - adjustedCenterDistance, cdFoilAlphaValue );
         }
