@@ -15,7 +15,7 @@ export class P3dShaders
   cdVertexShader() 
   {
     return `
-      varying vec3 vertexNormal;
+      //varying vec3 vertexNormal;
       varying vec3 localPosition; 
       varying vec4 vertexWorldPosition;
 
@@ -45,7 +45,7 @@ export class P3dShaders
   {   
     return `
       uniform vec3 lightPosition;
-      varying vec3 vertexNormal;
+      //varying vec3 vertexNormal;
       varying vec3 localPosition;
       varying vec4 vertexWorldPosition;
 
@@ -83,7 +83,7 @@ export class P3dShaders
 
           // NEW CALCULATIONS
           vec3 lightDirection = lightPosition - vertexWorldPosition.xyz;
-          //normal = normalize( vertexNormal );
+          //vec3 uNormal = normalize( vertexNormal );
           //vec3 lightDirection = p3d_LightSource[i].position.xyz - vertexPosition.xyz * p3d_LightSource[i].position.w;
 
           vec3 unitLightDirection = normalize( lightDirection );

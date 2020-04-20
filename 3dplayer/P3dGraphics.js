@@ -141,20 +141,21 @@ export class P3dGraphics
     this.frameCounter++;
 
     // DEBUG!!!!!!!!!!!!!!!!!!!!!!
-    let worldPosition = new THREE.Vector3();
-    this.cdObject.getWorldPosition( worldPosition );
-    if( this.frameCounter%15 == 0 )
+    if( this.cdObject != null )
     {
-      logger( "-----> LIGHT POSITION: ", this.spotLight.position ); //*/
-      logger( "-----> CD POSITION: ", worldPosition ); //*/
+      let worldPosition = new THREE.Vector3();
+      this.cdObject.getWorldPosition( worldPosition );
     }
-    this.spotLight.position.z += 0.006; // DEBUG!!!!!!!!
-    this.spotLight.position.x = -0.79; // DEBUG!!!!!!!!
-    this.spotLight.position.y = -0.5; // DEBUG!!!!!!!!
 
+    // DEBUG!!!!!!!!!!!!!!!!!!!!!!
     // UPDATE LIGHT POSITION FOR CD SHADER
     if( this.spotLight != null )
+    {
       this.cdUniforms.lightPosition.value = this.spotLight.position;
+      this.spotLight.position.z += 0.006; // DEBUG!!!!!!!!
+      this.spotLight.position.x = -0.79; // DEBUG!!!!!!!!
+      this.spotLight.position.y = -0.5; // DEBUG!!!!!!!!
+    }
 
     // UPDATE ANIMATIONS..
     if( this.animationMixer != null )
@@ -400,9 +401,10 @@ export class P3dGraphics
       }.bind(this) ); //*/
       
       this.cdObject = this.scene.getObjectByName( "cd" );
-      logger( "-----> GRAPHICS LOADER: CD OBJECT: ", this.cdObject, this.cdObject.position );
-
       
+      //this.cdObject.geometry.computeFaceNormals();
+      //sphere.geometry.computeVertexNormals();
+
       // OPEN TRAY INSTANTLY (300X SPEED)
       this.openTray( 300 );
     });
