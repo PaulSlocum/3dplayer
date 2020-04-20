@@ -10,10 +10,24 @@ https://stackoverflow.com/questions/52176463/threejs-how-to-render-a-texture-wit
 https://www.khronos.org/opengl/wiki/Sampler_(GLSL)
 
 
+BEST GLSL SHADER OVERVIEW:
+https://thebookofshaders.com/
+
+GLSL LOCAL/WORLD/VIEW/CLIP/SCREEN SPACE:
+https://learnopengl.com/Getting-started/Coordinate-Systems
+
+GLSL LIGHTING:
+https://github.com/lettier/3d-game-shaders-for-beginners/blob/master/sections/lighting.md
+
+
+--------------------------------------------------------------------------------
+/\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
+--------------------------------------------------------------------------------
+
+
 TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
-- figure out how to access lights from GLSL shader and do proof of concept
 - figure out how to calculate incidence angles from camera and light
 - figure out how to calculate angle between camera and light reflection
 ~   -   ~   -   ~   -   ~   -   
@@ -126,7 +140,9 @@ x make the LED display work with songs longer than 10 minutes
 x make the LED display work with albums with more than 9 tracks
 x make transport also pre-load previous track
 x change vol/treb/bass scale to 1-10 (or 0-10)
+x figure out how to access lights from GLSL shader and do proof of concept
 ~   -   ~   -   ~   -   ~   -   
+
 
 
 

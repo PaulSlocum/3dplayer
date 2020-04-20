@@ -32,8 +32,7 @@ export class P3dShaders
   cdFragmentShader() 
   {   
     return `
-      uniform vec3 cdPosition; 
-      uniform vec3 lightPosition; 
+      uniform vec3 lightPosition;
       varying vec3 vUv;
 
       //===============================================================================
@@ -54,11 +53,10 @@ export class P3dShaders
       void main() 
       {
         float centerDistance = distance( vUv, vec3( 0.0, 0.0, 0.0 ) );
-        float lightDistance = distance( vUv, cdPosition );
-        //float Distance = distance( vUv, lightPosition );
-        //float adjustedCenterDistance = 0.3 - lightDistance * 0.3;
+        float lightDistance = distance( vUv, lightPosition );
         float adjustedCenterDistance = mod( lightDistance*15.0, 5.0 ) * 0.1 - 0.7;
         float cdFoilAlphaValue = 1.0;
+        
         if( centerDistance < 0.3 )
         {
           // TRANSPARENT CD CENTER RING

@@ -99,8 +99,7 @@ export class P3dGraphics
     
     // THESE ARE CURRENTLY NOT USED...
     this.cdUniforms = {
-        cdPosition: { type: "vec3", value: new THREE.Vector3( 0.0, 0.0, 0.0 ) },
-        lightPosition: { type: "vec3", value: new THREE.Vector3( 0.0, 0.0, 0.0 ) }
+        lightPosition: { type: "vec3", value: new THREE.Vector3( 1.0, 0.0, 0.0 ) }
     };
 
     this.targetRotationX = 0;
@@ -150,11 +149,17 @@ export class P3dGraphics
    // if( this.cdObject != null )
    //   this.cdUniforms.cdPosition.value = this.cdObject.position;
 
-    this.spotLight.position.z += 0.01;
+    // DEBUG!!!!!!!!!!!!!!!!!!!!!!
+    if( this.frameCounter%15 == 0 )
+    {
+      logger( "-----> LIGHT POSITION: ", this.spotLight.position ); //*/
+      logger( "-----> CD POSITION: ", this.cdObject.position ); //*/
+    }
+    this.spotLight.position.z += 0.003;
 
     // UPDATE LIGHT POSITION FOR CD SHADER
-    if( this.spotLight != null )
-      this.cdUniforms.cdPosition.value = this.spotLight.position;
+    //if( this.spotLight != null )
+    //  this.cdUniforms.lightPosition.value = this.spotLight.position;
 
     // UPDATE ANIMATIONS..
     if( this.animationMixer != null )
