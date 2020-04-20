@@ -15,17 +15,27 @@ export class P3dShaders
   cdVertexShader() 
   {
     return `
-    varying vec3 localPosition; 
-    varying vec4 vertexWorldPosition;
+      varying vec3 vertexNormal;
+      varying vec3 localPosition; 
+      varying vec4 vertexWorldPosition;
 
-    void main() {
-      localPosition = position; 
+      void main() {
+        localPosition = position; 
 
-      vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
-      vertexWorldPosition = modelMatrix * vec4(position, 1.0);
-      gl_Position = projectionMatrix * modelViewPosition; 
-    }
-      ` 
+        vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
+        vertexWorldPosition = modelMatrix * vec4(position, 1.0);
+        gl_Position = projectionMatrix * modelViewPosition; 
+
+
+        //vec3 N = gl_Normal.xyz; 
+  
+        //mat4 modelViewProjection = projectionMatrix * modelView;
+        //gl_Position = modelViewProjection * vec4(P, 1.0);
+  
+        mat4 modelView = viewMatrix * modelMatrix;
+        //normal = modelView * vec4(N, 0.0);
+      }
+    ` 
       //*/
   }
 
@@ -35,6 +45,7 @@ export class P3dShaders
   {   
     return `
       uniform vec3 lightPosition;
+      varying vec3 vertexNormal;
       varying vec3 localPosition;
       varying vec4 vertexWorldPosition;
 
@@ -55,21 +66,31 @@ export class P3dShaders
       //===============================================================================
       void main() 
       {
-        vec3 worldPosition = vertexWorldPosition.xyz;
-        
-        float lightDistance = distance( worldPosition, lightPosition );
-        float adjustedCenterDistance = mod( lightDistance*15.0, 5.0 ) * 0.1 - 0.7;
-        float cdFoilAlphaValue = 1.0;
-        
         float centerDistance = distance( localPosition, vec3( 0.0, 0.0, 0.0 ) );
-        if( centerDistance < 0.3 )
+        const float TRANSPARENT_RING_RADIUS = 0.3;
+        if( centerDistance < TRANSPARENT_RING_RADIUS )
         {
-          // TRANSPARENT CD CENTER RING
+          // DRAW TRANSPARENT CD CENTER RING
           gl_FragColor = vec4( 0.0, 0.0, 0.0, 0.3 );
         }
         else
         {
-          // CD REFLECTIVE FOIL 
+          // CALCULATIONS          
+          vec3 worldPosition = vertexWorldPosition.xyz;
+          float lightDistance = distance( worldPosition, lightPosition );
+          float adjustedCenterDistance = mod( lightDistance*15.0, 5.0 ) * 0.1 - 0.7;
+          float cdFoilAlphaValue = 1.0;
+
+          // NEW CALCULATIONS
+          vec3 lightDirection = lightPosition - vertexWorldPosition.xyz;
+          //normal = normalize( vertexNormal );
+          //vec3 lightDirection = p3d_LightSource[i].position.xyz - vertexPosition.xyz * p3d_LightSource[i].position.w;
+
+          vec3 unitLightDirection = normalize( lightDirection );
+          vec3 eyeDirection       = normalize( -vertexWorldPosition.xyz ); // I DON'T THINK THIS IS CORRECT, NEED THE CAMERA POSITION
+          //vec3 reflectedDirection = normalize( -reflect( unitLightDirection, normal )  );
+
+          // DRAW CD REFLECTIVE FOIL 
           float noise = rand( localPosition.xy ) * 0.15 - 0.07;
           float i = mod( gl_FragCoord.x, 15.0 );
           gl_FragColor = vec4( i/37.0+0.25 - noise - adjustedCenterDistance * 0.5, 
