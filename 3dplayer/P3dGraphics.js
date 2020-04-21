@@ -163,15 +163,21 @@ export class P3dGraphics
 
     // DEBUG!!!!!!!!!!!!!!!!!!!!!!
     // UPDATE LIGHT POSITION FOR CD SHADER
-    if( this.spotLight != null )
+    //if( this.spotLight != null )
+    if( this.loadedModel != null )
     {
-      this.cdUniforms.lightPosition.value = this.spotLight.position;
+      /*this.cdUniforms.lightPosition.value = this.spotLight.position;
       //this.spotLight.position.z += 0.006; // DEBUG!!!!!!!!
       this.spotLight.position.y = Math.sin( this.frameCounter * 0.02 ) * 1.0 + 1.0;
       this.spotLight.position.x = Math.cos( this.frameCounter * 0.02 ) * 1.0 - 1.0;
-      this.spotLight.position.z = Math.cos( this.frameCounter * 0.005 ) * 1.0 - 2.0;
-      //this.spotLight.position.x = -0.79; // DEBUG!!!!!!!!
-      //this.spotLight.position.y = -0.5; // DEBUG!!!!!!!!
+      this.spotLight.position.z = Math.cos( this.frameCounter * 0.005 ) * 1.0 - 2.0; //*/
+      //this.cdUniforms.lightPosition.value.y = Math.sin( this.frameCounter * 0.02 ) * 1.0 + 1.0;
+      this.cdUniforms.lightPosition.value.x = this.loadedModel.rotation.x*8.0 - 1.5;
+      this.cdUniforms.lightPosition.value.y = this.loadedModel.rotation.y*5.0 + 0.8;
+      this.cdUniforms.lightPosition.value.z = -0.2;
+      
+      //let lightX = Math.cos( this.frameCounter * 0.02 ) * 1.0 - 1.0;
+      //let lightZ = Math.cos( this.frameCounter * 0.005 ) * 1.0 - 2.0; //*/
     }
 
     // UPDATE ANIMATIONS..
@@ -211,14 +217,14 @@ export class P3dGraphics
     } //*/
 
     // MODULATE CD PLAYER ORIENTATION...
-    //const rotationSpeed = 0.03; // NORMAL <-------------------
+    const rotationSpeed = 0.03; // NORMAL <-------------------
     //const rotationSpeed = 0.01; // SLOW
     //const rotationSpeed = 0.07; // FAST
-    const rotationSpeed = 0.00; // DISABLED
+    //const rotationSpeed = 0.00; // DISABLED
     if( this.loadedModel != null )
     {
       if( this.trayOpen == true )
-        this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.01  + 0.10;
+        this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.01  + 0.15;
       else 
         this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 + 0.01;
       
@@ -470,8 +476,7 @@ export class P3dGraphics
     // SPOTLIGHT
     this.spotLight = new THREE.SpotLight(0xffffff);
     const spotlightDistance = 1.5; 
-    //this.spotLight.position.set( -0, 1.2*spotlightDistance, 3.6*spotlightDistance ); //<--------------
-    this.spotLight.position.set( -0, 1.2*spotlightDistance, -3.6*spotlightDistance ); // DEBUG!!!!!!!!!!!!!!
+    this.spotLight.position.set( -0, 1.2*spotlightDistance, 3.6*spotlightDistance ); //<--------------
     this.spotLight.angle = Math.PI / 3.0;
     this.spotLight.castShadow = true;
     this.spotLight.shadow.mapSize.width = 420;

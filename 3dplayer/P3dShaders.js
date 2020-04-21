@@ -67,7 +67,7 @@ export class P3dShaders
       }
 
       //==============================================================================
-      /*vec3 hsv2rgb(vec3 c)
+      vec3 hsv2rgb(vec3 c)
       {
           vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
           vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
@@ -102,8 +102,8 @@ export class P3dShaders
           vec3 clampNormalIn = normalize( clampNormal - (normalize(localPosition)*0.4 + localPosition * 0.2) );
           vec3 clampNormalOut = normalize( clampNormal + (normalize(localPosition)*0.4 + localPosition * 0.0) );
           
-          //vec3 clampNormalIn = normalize( clampNormal - normalize(localPosition) * 0.4 );
-          //vec3 clampNormalOut = normalize( clampNormal + normalize(localPosition) * 0.4 );
+          //vec3 clampNormalIn = normalize( clampNormal - normalize(localPosition) * 0.6 );
+          //vec3 clampNormalOut = normalize( clampNormal + normalize(localPosition) * 0.6 );
 
           vec3 unitLightDirection = normalize( lightDirection );
           vec3 eyeDirection       = normalize( cameraPosition.xyz - vertexWorldPosition.xyz ); // I DON'T THINK THIS IS CORRECT, NEED THE CAMERA POSITION
@@ -111,21 +111,25 @@ export class P3dShaders
           vec3 reflectedDirectionOut = normalize( -reflect( unitLightDirection, clampNormalOut )  );
 
           float specularIntensityIn = max( dot( reflectedDirectionIn, eyeDirection ), 0.0 );
-          float adjustedSpecularIn = clamp( pow( specularIntensityIn, 44.0 ), 0.0, 1.0 );
+          float adjustedSpecularIn = clamp( pow( specularIntensityIn, 4.0 ), 0.0, 1.0 );
 
           float specularIntensityOut = max( dot( reflectedDirectionOut, eyeDirection ), 0.0 );
-          float adjustedSpecularOut = clamp( pow( specularIntensityOut, 44.0 ), 0.0, 1.0 );
+          float adjustedSpecularOut = clamp( pow( specularIntensityOut, 4.0 ), 0.0, 1.0 );
 
           float finalSpecular = adjustedSpecularIn + adjustedSpecularOut;
           
-          //vec3 finalColor = hsv2rgb( 0.5, 1.0, finalSpecular );
+          vec3 finalColor = hsv2rgb( vec3( centerDistance*0.5 - 0.1, finalSpecular*0.3 + 0.05, finalSpecular*0.3 + 0.05 ) );
+          //vec3 finalColor = hsv2rgb( vec3( centerDistance*0.5, finalSpecular*0.3, finalSpecular+0.1 ) );
+          //vec3 finalGray = hsv2rgb( vec3( centerDistance*0.5, 0.2, finalSpecular+0.0 ) );
+          //finalColor += 0.3;
 
           // DRAW CD REFLECTIVE FOIL 
           float noise = rand( localPosition.xy ) * 0.15 - 0.07;
           float i = mod( gl_FragCoord.x, 15.0 );
-          gl_FragColor = vec4( finalSpecular, 
-                                finalSpecular, 
-                                finalSpecular, cdFoilAlphaValue ); //*/
+          //gl_FragColor = vec4( finalSpecular, finalSpecular, finalSpecular, cdFoilAlphaValue ); //*/
+          gl_FragColor = vec4( finalColor, cdFoilAlphaValue ); //*/
+          
+          
           /*gl_FragColor = vec4( i/37.0+0.25 - noise + adjustedSpecularIn, 
                                 i/42.0+0.14 - noise + adjustedSpecularIn, 
                                 0.15 - noise + adjustedSpecularIn, cdFoilAlphaValue ); //*/
