@@ -140,11 +140,25 @@ export class P3dGraphics
 
     this.frameCounter++;
 
+
     // DEBUG!!!!!!!!!!!!!!!!!!!!!!
     if( this.cdObject != null )
     {
       let worldPosition = new THREE.Vector3();
       this.cdObject.getWorldPosition( worldPosition );
+      //this.cdObject.rotation.z = Math.sin( this.frameCounter * 0.05 );
+      //this.cdObject.rotation.x = Math.sin( this.frameCounter * 0.01 );
+
+
+      /*this.cdObject.traverse( function ( child ) {
+        if ( child instanceof THREE.Mesh ) 
+        {
+          //child.geometry.computeFaceNormals();
+          //child.geometry.computeVertexNormals();
+        } 
+      } ); //*/
+              
+
     }
 
     // DEBUG!!!!!!!!!!!!!!!!!!!!!!
@@ -152,9 +166,10 @@ export class P3dGraphics
     if( this.spotLight != null )
     {
       this.cdUniforms.lightPosition.value = this.spotLight.position;
-      this.spotLight.position.z += 0.006; // DEBUG!!!!!!!!
-      this.spotLight.position.x = -0.79; // DEBUG!!!!!!!!
-      this.spotLight.position.y = -0.5; // DEBUG!!!!!!!!
+      //this.spotLight.position.z += 0.006; // DEBUG!!!!!!!!
+      this.spotLight.position.y = Math.sin( this.frameCounter * 0.05 ) * 4.0 + 2.0;
+      //this.spotLight.position.x = -0.79; // DEBUG!!!!!!!!
+      //this.spotLight.position.y = -0.5; // DEBUG!!!!!!!!
     }
 
     // UPDATE ANIMATIONS..
@@ -194,9 +209,10 @@ export class P3dGraphics
     } //*/
 
     // MODULATE CD PLAYER ORIENTATION...
-    const rotationSpeed = 0.03; // NORMAL <-------------------
+    //const rotationSpeed = 0.03; // NORMAL <-------------------
     //const rotationSpeed = 0.01; // SLOW
     //const rotationSpeed = 0.07; // FAST
+    const rotationSpeed = 0.00; // DISABLED
     if( this.loadedModel != null )
     {
       if( this.trayOpen == true )
@@ -390,8 +406,10 @@ export class P3dGraphics
         // SET CD SURFACE AS CUSTOM MATERIAL 
         if( child.material  &&  child.material.name == "cd" )
         {
-            child.material = this.cdMaterial;
-            //child.material = textureMaterial;
+            child.material = this.cdMaterial; // <-----------------
+            //child.material = textureMaterial; 
+            //child.geometry.computeFaceNormals();
+            //child.geometry.computeVertexNormals();
         }
   
         // TURN ON SHADOWS FOR ALL MESHES      

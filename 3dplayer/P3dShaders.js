@@ -15,9 +15,9 @@ export class P3dShaders
   cdVertexShader() 
   {
     return `
-      //varying vec3 vertexNormal;
       varying vec3 localPosition; 
       varying vec4 vertexWorldPosition;
+      varying vec3 vertexNormal;
 
       void main() {
         localPosition = position; 
@@ -26,14 +26,16 @@ export class P3dShaders
         vertexWorldPosition = modelMatrix * vec4(position, 1.0);
         gl_Position = projectionMatrix * modelViewPosition; 
 
-
-        //vec3 N = gl_Normal.xyz; 
-  
         //mat4 modelViewProjection = projectionMatrix * modelView;
         //gl_Position = modelViewProjection * vec4(P, 1.0);
   
-        mat4 modelView = viewMatrix * modelMatrix;
+        //mat4 modelView = viewMatrix * modelMatrix;
         //normal = modelView * vec4(N, 0.0);
+        
+        //vec4 vertexNormal2 = modelMatrix * vec4( normal, 1.0 );
+        //vertexNormal = vertexNormal2.xyz;
+        vertexNormal = normal;
+        //vertexNormal = vec3( 0.0, 1.0, 0.0 );
       }
     ` 
       //*/
@@ -45,9 +47,10 @@ export class P3dShaders
   {   
     return `
       uniform vec3 lightPosition;
-      //varying vec3 vertexNormal;
+  		//attribute vec3 normal;
       varying vec3 localPosition;
       varying vec4 vertexWorldPosition;
+      varying vec3 vertexNormal;
 
       //===============================================================================
       float rand(vec2 co)
@@ -66,14 +69,14 @@ export class P3dShaders
       //===============================================================================
       void main() 
       {
-        float centerDistance = distance( localPosition, vec3( 0.0, 0.0, 0.0 ) );
+        /*float centerDistance = distance( localPosition, vec3( 0.0, 0.0, 0.0 ) );
         const float TRANSPARENT_RING_RADIUS = 0.3;
         if( centerDistance < TRANSPARENT_RING_RADIUS )
         {
           // DRAW TRANSPARENT CD CENTER RING
           gl_FragColor = vec4( 0.0, 0.0, 0.0, 0.3 );
         }
-        else
+        else //*/
         {
           // CALCULATIONS          
           vec3 worldPosition = vertexWorldPosition.xyz;
@@ -83,19 +86,29 @@ export class P3dShaders
 
           // NEW CALCULATIONS
           vec3 lightDirection = lightPosition - vertexWorldPosition.xyz;
-          //vec3 uNormal = normalize( vertexNormal );
+          vec3 clampNormal = normalize( vertexNormal );
           //vec3 lightDirection = p3d_LightSource[i].position.xyz - vertexPosition.xyz * p3d_LightSource[i].position.w;
 
           vec3 unitLightDirection = normalize( lightDirection );
-          vec3 eyeDirection       = normalize( -vertexWorldPosition.xyz ); // I DON'T THINK THIS IS CORRECT, NEED THE CAMERA POSITION
-          //vec3 reflectedDirection = normalize( -reflect( unitLightDirection, normal )  );
+          vec3 eyeDirection       = normalize( cameraPosition.xyz - vertexWorldPosition.xyz ); // I DON'T THINK THIS IS CORRECT, NEED THE CAMERA POSITION
+          vec3 reflectedDirection = normalize( -reflect( unitLightDirection, clampNormal )  );
+
+          //float specularIntensity = dot( reflectedDirection, eyeDirection );
+          float specularIntensity = max( dot( reflectedDirection, eyeDirection ), 0.0 );
+          float adjustedSpecular = clamp( pow( specularIntensity, 244.0 ), 0.0, 1.0 );
 
           // DRAW CD REFLECTIVE FOIL 
           float noise = rand( localPosition.xy ) * 0.15 - 0.07;
           float i = mod( gl_FragCoord.x, 15.0 );
-          gl_FragColor = vec4( i/37.0+0.25 - noise - adjustedCenterDistance * 0.5, 
+          gl_FragColor = vec4( adjustedSpecular * 0.5, 
+                                adjustedSpecular, 
+                                adjustedSpecular, cdFoilAlphaValue ); //*/
+          /*gl_FragColor = vec4( i/37.0+0.25 - noise + adjustedSpecular * 0.5, 
+                                i/42.0+0.14 - noise + adjustedSpecular, 
+                                0.15 - noise + adjustedSpecular, cdFoilAlphaValue ); //*/
+          /*gl_FragColor = vec4( i/37.0+0.25 - noise - adjustedCenterDistance * 0.5, 
                                 i/42.0+0.14 - noise - adjustedCenterDistance, 
-                                0.15 - noise - adjustedCenterDistance, cdFoilAlphaValue );
+                                0.15 - noise - adjustedCenterDistance, cdFoilAlphaValue ); //*/
         }
 
       } 
