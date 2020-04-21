@@ -174,7 +174,7 @@ export class P3dGraphics
       //this.cdUniforms.lightPosition.value.y = Math.sin( this.frameCounter * 0.02 ) * 1.0 + 1.0;
       this.cdUniforms.lightPosition.value.x = this.loadedModel.rotation.x*8.0 - 1.5;
       this.cdUniforms.lightPosition.value.y = this.loadedModel.rotation.y*5.0 + 0.8;
-      this.cdUniforms.lightPosition.value.z = -0.2;
+      this.cdUniforms.lightPosition.value.z = this.loadedModel.rotation.x*4.0-0.6;
       
       //let lightX = Math.cos( this.frameCounter * 0.02 ) * 1.0 - 1.0;
       //let lightZ = Math.cos( this.frameCounter * 0.005 ) * 1.0 - 2.0; //*/
