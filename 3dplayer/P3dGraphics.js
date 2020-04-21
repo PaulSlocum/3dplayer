@@ -98,9 +98,15 @@ export class P3dGraphics
     };
     
     // THESE ARE CURRENTLY NOT USED...
+    const textureLoader = new THREE.TextureLoader();
+    const texture = textureLoader.load( '3dplayer/model/test_1024x1024_1a.png' );
     this.cdUniforms = {
-        lightPosition: { type: "vec3", value: new THREE.Vector3( 0.0, 0.0, 0.0 ) }
+        lightPosition: { type: "vec3", value: new THREE.Vector3( 0.0, 0.0, 0.0 ) },
+        cdTexture: { type: "t", value: texture }
     };
+
+    /*const textureLoader = new THREE.TextureLoader();
+    const texture = textureLoader.load( '3dplayer/model/test_1024x1024_1a.png' ); //*/
 
     this.targetRotationX = 0;
     this.targetRotationY = 0;
@@ -141,11 +147,11 @@ export class P3dGraphics
     this.frameCounter++;
 
     // CD DEBUG!!!!!!!!!!!!!!!!!!!!!!
-    /*if( this.cdObject != null )
+    if( this.cdObject != null )
     {
       let worldPosition = new THREE.Vector3();
       this.cdObject.getWorldPosition( worldPosition );
-      //this.cdObject.rotation.z = Math.sin( this.frameCounter * 0.05 );
+      this.cdObject.rotation.y = Math.sin( this.frameCounter * 0.05 );
       //this.cdObject.rotation.x = Math.sin( this.frameCounter * 0.01 );
     } //*/
 
@@ -346,17 +352,14 @@ export class P3dGraphics
     this.screenEdgePosition = edgePositionTest;
 
     // TEST TEXTURE
-    const textureLoader = new THREE.TextureLoader();
+    /*const textureLoader = new THREE.TextureLoader();
     const texture = textureLoader.load( '3dplayer/model/test_1024x1024_1a.png' );
-    /*texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set( 4, 4 ); //*/
     texture.encoding = THREE.sRGBEncoding;
     texture.anisotropy = 16;
     // create a Standard material using the texture we just loaded as a color map
     const textureMaterial = new THREE.MeshStandardMaterial( {
       map: texture,
-    } );
+    } ); //*/
     //let mesh = new THREE.Mesh( geometry, material );
 
     // INSTANTIATE GLTF LOADER FOR THE PLAYER MODEL

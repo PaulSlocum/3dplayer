@@ -18,9 +18,11 @@ export class P3dShaders
       varying vec3 localPosition; 
       varying vec4 vertexWorldPosition;
       varying vec3 vertexNormal;
+      varying vec2 mapPosition;
 
       void main() {
         localPosition = position; 
+        mapPosition = uv;
 
         vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
         vertexWorldPosition = modelMatrix * vec4(position, 1.0);
@@ -47,10 +49,13 @@ export class P3dShaders
   {   
     return `
       uniform vec3 lightPosition;
+      uniform sampler2D cdTexture;
+
   		//attribute vec3 normal;
       varying vec3 localPosition;
       varying vec4 vertexWorldPosition;
       varying vec3 vertexNormal;
+      varying vec2 mapPosition;
 
       //===============================================================================
       float rand(vec2 co)
@@ -79,15 +84,10 @@ export class P3dShaders
       float calculateCdColor( vec3 clampNormal, vec3 normLocalPosition, 
                               vec3 clampLightDirection, vec3 eyeDirection, float ridgePitch )
       {
-        //return clampNormal;
-
         vec3 clampNormalIn = normalize( clampNormal - (normLocalPosition * ridgePitch) );
-        
         vec3 reflectedDirectionIn  = normalize( -reflect( clampLightDirection, clampNormalIn )  );
-
         float specularIntensityIn = max( dot( reflectedDirectionIn, eyeDirection ), 0.0 );
         float adjustedSpecularIn = clamp( pow( specularIntensityIn, 4.0 ), 0.0, 1.0 ); 
-
         return adjustedSpecularIn;
       } //*/
   
@@ -131,11 +131,17 @@ export class P3dShaders
             finalColor = finalColor * 0.92;
 
           // DRAW CD REFLECTIVE FOIL 
-          float noise = rand( localPosition.xy ) * 0.15 - 0.07;
-          float i = mod( gl_FragCoord.x, 15.0 );
-          //gl_FragColor = vec4( finalSpecular, finalSpecular, finalSpecular, cdFoilAlphaValue ); //*/
-          gl_FragColor = vec4( finalColor, cdFoilAlphaValue ); //*/
+          //gl_FragColor = vec4( finalColor, cdFoilAlphaValue ); //*/
+
+          gl_FragColor = texture2D( cdTexture, localPosition.xz );
+          //gl_FragColor = texture2D( cdTexture, mapPosition );
           
+          //gl_FragColor = texture2D( cdTexture, localPosition.xy ) * finalColor;
+
+          // OLD VERSIONS...          
+          //float noise = rand( localPosition.xy ) * 0.15 - 0.07;
+          //float i = mod( gl_FragCoord.x, 15.0 );
+          //gl_FragColor = vec4( finalSpecular, finalSpecular, finalSpecular, cdFoilAlphaValue ); //*/
           /*gl_FragColor = vec4( i/37.0+0.25 - noise + adjustedSpecularIn, 
                                 i/42.0+0.14 - noise + adjustedSpecularIn, 
                                 0.15 - noise + adjustedSpecularIn, cdFoilAlphaValue ); //*/
