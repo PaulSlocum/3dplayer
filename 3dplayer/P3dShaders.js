@@ -83,32 +83,28 @@ export class P3dShaders
         if( centerDistance < TRANSPARENT_RING_RADIUS )
         {
           // DRAW TRANSPARENT CD CENTER RING
-          gl_FragColor = vec4( 0.0, 0.0, 0.0, 0.3 );
+          gl_FragColor = vec4( 0.2, 0.2, 0.2, 0.25 );
         }
         else //*/
         {
           // CALCULATIONS          
           vec3 worldPosition = vertexWorldPosition.xyz;
           float lightDistance = distance( worldPosition, lightPosition );
-          float adjustedCenterDistance = mod( lightDistance*15.0, 5.0 ) * 0.1 - 0.7;
           float cdFoilAlphaValue = 1.0;
+          //float patternedCenterDistance = mod( lightDistance*15.0, 5.0 ) * 0.1 - 0.7; // DEBUG - PROBABLY NO LONGER NEEDED
 
           // NEW CALCULATIONS
           vec3 lightDirection = lightPosition - vertexWorldPosition.xyz;
           vec3 clampNormal = normalize( vertexNormal );
-          //vec3 lightDirection = p3d_LightSource[i].position.xyz - vertexPosition.xyz * p3d_LightSource[i].position.w;
-
-
-          vec3 clampNormalIn = normalize( clampNormal - (normalize(localPosition)*0.4 + localPosition * 0.2) );
-          vec3 clampNormalOut = normalize( clampNormal + (normalize(localPosition)*0.4 + localPosition * 0.0) );
+          vec3 clampLightDirection = normalize( lightDirection );
+          vec3 eyeDirection       = normalize( cameraPosition.xyz - vertexWorldPosition.xyz );
+          vec3 normLocalPosition = normalize(localPosition);
           
-          //vec3 clampNormalIn = normalize( clampNormal - normalize(localPosition) * 0.6 );
-          //vec3 clampNormalOut = normalize( clampNormal + normalize(localPosition) * 0.6 );
-
-          vec3 unitLightDirection = normalize( lightDirection );
-          vec3 eyeDirection       = normalize( cameraPosition.xyz - vertexWorldPosition.xyz ); // I DON'T THINK THIS IS CORRECT, NEED THE CAMERA POSITION
-          vec3 reflectedDirectionIn  = normalize( -reflect( unitLightDirection, clampNormalIn )  );
-          vec3 reflectedDirectionOut = normalize( -reflect( unitLightDirection, clampNormalOut )  );
+          vec3 clampNormalIn = normalize( clampNormal - (normLocalPosition * 0.4 + localPosition * 0.2) );
+          vec3 clampNormalOut = normalize( clampNormal + (normLocalPosition * 0.4 + localPosition * 0.2) );
+          
+          vec3 reflectedDirectionIn  = normalize( -reflect( clampLightDirection, clampNormalIn )  );
+          vec3 reflectedDirectionOut = normalize( -reflect( clampLightDirection, clampNormalOut )  );
 
           float specularIntensityIn = max( dot( reflectedDirectionIn, eyeDirection ), 0.0 );
           float adjustedSpecularIn = clamp( pow( specularIntensityIn, 4.0 ), 0.0, 1.0 );
@@ -119,9 +115,6 @@ export class P3dShaders
           float finalSpecular = adjustedSpecularIn + adjustedSpecularOut;
           
           vec3 finalColor = hsv2rgb( vec3( centerDistance*0.5 - 0.1, finalSpecular*0.3 + 0.05, finalSpecular*0.3 + 0.05 ) );
-          //vec3 finalColor = hsv2rgb( vec3( centerDistance*0.5, finalSpecular*0.3, finalSpecular+0.1 ) );
-          //vec3 finalGray = hsv2rgb( vec3( centerDistance*0.5, 0.2, finalSpecular+0.0 ) );
-          //finalColor += 0.3;
 
           if( centerDistance > 0.91  ||  centerDistance < 0.34 )
             finalColor = finalColor * 0.92;
@@ -132,13 +125,12 @@ export class P3dShaders
           //gl_FragColor = vec4( finalSpecular, finalSpecular, finalSpecular, cdFoilAlphaValue ); //*/
           gl_FragColor = vec4( finalColor, cdFoilAlphaValue ); //*/
           
-          
           /*gl_FragColor = vec4( i/37.0+0.25 - noise + adjustedSpecularIn, 
                                 i/42.0+0.14 - noise + adjustedSpecularIn, 
                                 0.15 - noise + adjustedSpecularIn, cdFoilAlphaValue ); //*/
-          /*gl_FragColor = vec4( i/37.0+0.25 - noise - adjustedCenterDistance * 0.5, 
-                                i/42.0+0.14 - noise - adjustedCenterDistance, 
-                                0.15 - noise - adjustedCenterDistance, cdFoilAlphaValue ); //*/
+          /*gl_FragColor = vec4( i/37.0+0.25 - noise - patternedCenterDistance * 0.5, 
+                                i/42.0+0.14 - noise - patternedCenterDistance, 
+                                0.15 - noise - patternedCenterDistance, cdFoilAlphaValue ); //*/
         }
 
       } 
