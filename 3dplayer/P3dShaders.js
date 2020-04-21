@@ -34,8 +34,8 @@ export class P3dShaders
         
         //vec4 vertexNormal2 = modelMatrix * vec4( normal, 1.0 );
         //vertexNormal = vertexNormal2.xyz;
-        vertexNormal = normal;
-        //vertexNormal = vec3( 0.0, 1.0, 0.0 );
+        //vertexNormal = normal;
+        vertexNormal = vec3( 0.0, 1.0, 0.0 );
       }
     ` 
       //*/
@@ -66,10 +66,19 @@ export class P3dShaders
           return floor(m+0.5);
       }
 
+      //==============================================================================
+      /*vec3 hsv2rgb(vec3 c)
+      {
+          vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+          vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+          return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+      } //*/
+  
+
       //===============================================================================
       void main() 
       {
-        /*float centerDistance = distance( localPosition, vec3( 0.0, 0.0, 0.0 ) );
+        float centerDistance = distance( localPosition, vec3( 0.0, 0.0, 0.0 ) );
         const float TRANSPARENT_RING_RADIUS = 0.3;
         if( centerDistance < TRANSPARENT_RING_RADIUS )
         {
@@ -89,23 +98,37 @@ export class P3dShaders
           vec3 clampNormal = normalize( vertexNormal );
           //vec3 lightDirection = p3d_LightSource[i].position.xyz - vertexPosition.xyz * p3d_LightSource[i].position.w;
 
+
+          vec3 clampNormalIn = normalize( clampNormal - (normalize(localPosition)*0.4 + localPosition * 0.2) );
+          vec3 clampNormalOut = normalize( clampNormal + (normalize(localPosition)*0.4 + localPosition * 0.0) );
+          
+          //vec3 clampNormalIn = normalize( clampNormal - normalize(localPosition) * 0.4 );
+          //vec3 clampNormalOut = normalize( clampNormal + normalize(localPosition) * 0.4 );
+
           vec3 unitLightDirection = normalize( lightDirection );
           vec3 eyeDirection       = normalize( cameraPosition.xyz - vertexWorldPosition.xyz ); // I DON'T THINK THIS IS CORRECT, NEED THE CAMERA POSITION
-          vec3 reflectedDirection = normalize( -reflect( unitLightDirection, clampNormal )  );
+          vec3 reflectedDirectionIn  = normalize( -reflect( unitLightDirection, clampNormalIn )  );
+          vec3 reflectedDirectionOut = normalize( -reflect( unitLightDirection, clampNormalOut )  );
 
-          //float specularIntensity = dot( reflectedDirection, eyeDirection );
-          float specularIntensity = max( dot( reflectedDirection, eyeDirection ), 0.0 );
-          float adjustedSpecular = clamp( pow( specularIntensity, 244.0 ), 0.0, 1.0 );
+          float specularIntensityIn = max( dot( reflectedDirectionIn, eyeDirection ), 0.0 );
+          float adjustedSpecularIn = clamp( pow( specularIntensityIn, 44.0 ), 0.0, 1.0 );
+
+          float specularIntensityOut = max( dot( reflectedDirectionOut, eyeDirection ), 0.0 );
+          float adjustedSpecularOut = clamp( pow( specularIntensityOut, 44.0 ), 0.0, 1.0 );
+
+          float finalSpecular = adjustedSpecularIn + adjustedSpecularOut;
+          
+          //vec3 finalColor = hsv2rgb( 0.5, 1.0, finalSpecular );
 
           // DRAW CD REFLECTIVE FOIL 
           float noise = rand( localPosition.xy ) * 0.15 - 0.07;
           float i = mod( gl_FragCoord.x, 15.0 );
-          gl_FragColor = vec4( adjustedSpecular * 0.5, 
-                                adjustedSpecular, 
-                                adjustedSpecular, cdFoilAlphaValue ); //*/
-          /*gl_FragColor = vec4( i/37.0+0.25 - noise + adjustedSpecular * 0.5, 
-                                i/42.0+0.14 - noise + adjustedSpecular, 
-                                0.15 - noise + adjustedSpecular, cdFoilAlphaValue ); //*/
+          gl_FragColor = vec4( finalSpecular, 
+                                finalSpecular, 
+                                finalSpecular, cdFoilAlphaValue ); //*/
+          /*gl_FragColor = vec4( i/37.0+0.25 - noise + adjustedSpecularIn, 
+                                i/42.0+0.14 - noise + adjustedSpecularIn, 
+                                0.15 - noise + adjustedSpecularIn, cdFoilAlphaValue ); //*/
           /*gl_FragColor = vec4( i/37.0+0.25 - noise - adjustedCenterDistance * 0.5, 
                                 i/42.0+0.14 - noise - adjustedCenterDistance, 
                                 0.15 - noise - adjustedCenterDistance, cdFoilAlphaValue ); //*/

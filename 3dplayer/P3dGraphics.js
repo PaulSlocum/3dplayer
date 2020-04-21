@@ -167,7 +167,9 @@ export class P3dGraphics
     {
       this.cdUniforms.lightPosition.value = this.spotLight.position;
       //this.spotLight.position.z += 0.006; // DEBUG!!!!!!!!
-      this.spotLight.position.y = Math.sin( this.frameCounter * 0.05 ) * 4.0 + 2.0;
+      this.spotLight.position.y = Math.sin( this.frameCounter * 0.02 ) * 1.0 + 1.0;
+      this.spotLight.position.x = Math.cos( this.frameCounter * 0.02 ) * 1.0 - 1.0;
+      this.spotLight.position.z = Math.cos( this.frameCounter * 0.005 ) * 1.0 - 2.0;
       //this.spotLight.position.x = -0.79; // DEBUG!!!!!!!!
       //this.spotLight.position.y = -0.5; // DEBUG!!!!!!!!
     }
