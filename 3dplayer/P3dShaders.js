@@ -73,7 +73,25 @@ export class P3dShaders
           vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
           return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
       } //*/
+
+
+      //==============================================================================
+      float calculateCdColor( vec3 clampNormal, vec3 normLocalPosition, 
+                              vec3 clampLightDirection, vec3 eyeDirection, float ridgePitch )
+      {
+        //return clampNormal;
+
+        vec3 clampNormalIn = normalize( clampNormal - (normLocalPosition * ridgePitch) );
+        
+        vec3 reflectedDirectionIn  = normalize( -reflect( clampLightDirection, clampNormalIn )  );
+
+        float specularIntensityIn = max( dot( reflectedDirectionIn, eyeDirection ), 0.0 );
+        float adjustedSpecularIn = clamp( pow( specularIntensityIn, 4.0 ), 0.0, 1.0 ); 
+
+        return adjustedSpecularIn;
+      } //*/
   
+
 
       //===============================================================================
       void main() 
@@ -99,23 +117,16 @@ export class P3dShaders
           vec3 clampLightDirection = normalize( lightDirection );
           vec3 eyeDirection       = normalize( cameraPosition.xyz - vertexWorldPosition.xyz );
           vec3 normLocalPosition = normalize(localPosition);
-          
-          vec3 clampNormalIn = normalize( clampNormal - (normLocalPosition * 0.4 + localPosition * 0.2) );
-          vec3 clampNormalOut = normalize( clampNormal + (normLocalPosition * 0.4 + localPosition * 0.2) );
-          
-          vec3 reflectedDirectionIn  = normalize( -reflect( clampLightDirection, clampNormalIn )  );
-          vec3 reflectedDirectionOut = normalize( -reflect( clampLightDirection, clampNormalOut )  );
 
-          float specularIntensityIn = max( dot( reflectedDirectionIn, eyeDirection ), 0.0 );
-          float adjustedSpecularIn = clamp( pow( specularIntensityIn, 4.0 ), 0.0, 1.0 );
+          // CALCULATE SPECULAR AMOUNT FROM DISK RIDGES...          
+          float adjustedSpecularIn = calculateCdColor( clampNormal, normLocalPosition, clampLightDirection, eyeDirection, 0.3 );
+          float adjustedSpecularOut = calculateCdColor( clampNormal, normLocalPosition, clampLightDirection, eyeDirection, -0.3 );
 
-          float specularIntensityOut = max( dot( reflectedDirectionOut, eyeDirection ), 0.0 );
-          float adjustedSpecularOut = clamp( pow( specularIntensityOut, 4.0 ), 0.0, 1.0 );
-
+          // CALCULATE RAINBOW COLOR FOR SPECULAR...
           float finalSpecular = adjustedSpecularIn + adjustedSpecularOut;
-          
           vec3 finalColor = hsv2rgb( vec3( centerDistance*0.5 - 0.1, finalSpecular*0.3 + 0.05, finalSpecular*0.3 + 0.05 ) );
 
+          // SUBTLE CD FOIL RING TEXTURE...
           if( centerDistance > 0.91  ||  centerDistance < 0.34 )
             finalColor = finalColor * 0.92;
 
