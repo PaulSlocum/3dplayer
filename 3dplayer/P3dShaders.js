@@ -123,6 +123,9 @@ export class P3dShaders
           //vec3 finalGray = hsv2rgb( vec3( centerDistance*0.5, 0.2, finalSpecular+0.0 ) );
           //finalColor += 0.3;
 
+          if( centerDistance > 0.91  ||  centerDistance < 0.34 )
+            finalColor = finalColor * 0.92;
+
           // DRAW CD REFLECTIVE FOIL 
           float noise = rand( localPosition.xy ) * 0.15 - 0.07;
           float i = mod( gl_FragCoord.x, 15.0 );
