@@ -32,23 +32,22 @@ http://jsfiddle.net/vdfn1pcn/
 TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
-- figure out how to calculate incidence angles from camera and light
-- figure out how to calculate angle between camera and light reflection
+- implement PNG image map on CD surface
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
+- implement specular highlights on CD
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
-- do proof of concept of calculating my own specular reflection with flat CD surface
-- calculate virtual ridges on CD surface and do specular reflection of that instead
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
-- implement PNG image map on CD surface
 - make it so that image map rotates each time CD is ejected
 ~   -   ~   -   ~   -   ~   -   
 - keep playing CD seeking sounds until music starts playing (or maybe just lengthn CD sounds)
 ~   -   ~   -   ~   -   ~   -   
 - refactor tray animation code
+~   -   ~   -   ~   -   ~   -   
+- fix issue where volume changes don't have any effect if made before playback is started
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
@@ -75,8 +74,6 @@ TODO:
 ~   -   ~   -   ~   -   ~   -  
 - use a flag instead of "seekVelocity" to keep track of whether buttons are down so that quick presses still skip correctly
 ~   -   ~   -   ~   -   ~   -  
-- fix issue where volume changes don't have any effect if made before playback is started
-~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
 - refactor graphics class to separate out different graphics components
@@ -92,6 +89,7 @@ TODO:
 - look into fixing issue where WebGL adapts to the zoom level when it's loaded (or maybe this shouldn't be fixed?)
 ~   -   ~   -   ~   -   ~   -   
 - check for situations where I'm copying RAM instead of copying a reference (especially in audio code)
+- see if there's any way to avoid the framerate drop when loading/decoding audio is completed
 - convert double equals to triple equals
 ~   -   ~   -   ~   -   ~   -   
 - make it possible to set 3D model from script call
@@ -100,7 +98,6 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
-- change LED off materials to not be emissions so they don't glow in shadows
 ~   -   ~   -   ~   -   ~   -   
 - change tray open/close animation communication to be done by a getTrayStatus() call to the transport 
 ~   -   ~   -   ~   -   ~   -   
@@ -110,7 +107,6 @@ TODO:
 ~   -   ~   -   ~   -   ~   -  
 - run memory analysis
 ~   -   ~   -   ~   -   ~   -   
-- figure out why the CD players glass display comes out dark gray instead of black
 ~   -   ~   -   ~   -   ~   -   
 
 
@@ -145,6 +141,12 @@ x make the LED display work with albums with more than 9 tracks
 x make transport also pre-load previous track
 x change vol/treb/bass scale to 1-10 (or 0-10)
 x figure out how to access lights from GLSL shader and do proof of concept
+x figure out how to calculate incidence angles from camera and light
+x figure out how to calculate angle between camera and light reflection
+x do proof of concept of calculating my own specular reflection with flat CD surface
+x calculate virtual ridges on CD surface and do specular reflection of that instead
+x change LED off materials to not be emissions so they don't glow in shadows
+x figure out why the CD players glass display comes out dark gray instead of black
 ~   -   ~   -   ~   -   ~   -   
 
 

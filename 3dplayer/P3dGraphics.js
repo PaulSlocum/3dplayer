@@ -140,44 +140,21 @@ export class P3dGraphics
 
     this.frameCounter++;
 
-
-    // DEBUG!!!!!!!!!!!!!!!!!!!!!!
-    if( this.cdObject != null )
+    // CD DEBUG!!!!!!!!!!!!!!!!!!!!!!
+    /*if( this.cdObject != null )
     {
       let worldPosition = new THREE.Vector3();
       this.cdObject.getWorldPosition( worldPosition );
       //this.cdObject.rotation.z = Math.sin( this.frameCounter * 0.05 );
       //this.cdObject.rotation.x = Math.sin( this.frameCounter * 0.01 );
+    } //*/
 
-
-      /*this.cdObject.traverse( function ( child ) {
-        if ( child instanceof THREE.Mesh ) 
-        {
-          //child.geometry.computeFaceNormals();
-          //child.geometry.computeVertexNormals();
-        } 
-      } ); //*/
-              
-
-    }
-
-    // DEBUG!!!!!!!!!!!!!!!!!!!!!!
-    // UPDATE LIGHT POSITION FOR CD SHADER
-    //if( this.spotLight != null )
+    // UPDATE FAKE LIGHT POSITION FOR CD SHADER...
     if( this.loadedModel != null )
     {
-      /*this.cdUniforms.lightPosition.value = this.spotLight.position;
-      //this.spotLight.position.z += 0.006; // DEBUG!!!!!!!!
-      this.spotLight.position.y = Math.sin( this.frameCounter * 0.02 ) * 1.0 + 1.0;
-      this.spotLight.position.x = Math.cos( this.frameCounter * 0.02 ) * 1.0 - 1.0;
-      this.spotLight.position.z = Math.cos( this.frameCounter * 0.005 ) * 1.0 - 2.0; //*/
-      //this.cdUniforms.lightPosition.value.y = Math.sin( this.frameCounter * 0.02 ) * 1.0 + 1.0;
       this.cdUniforms.lightPosition.value.x = this.loadedModel.rotation.x*8.0 - 1.5;
       this.cdUniforms.lightPosition.value.y = this.loadedModel.rotation.y*5.0 + 0.8;
       this.cdUniforms.lightPosition.value.z = this.loadedModel.rotation.x*4.0-0.6;
-      
-      //let lightX = Math.cos( this.frameCounter * 0.02 ) * 1.0 - 1.0;
-      //let lightZ = Math.cos( this.frameCounter * 0.005 ) * 1.0 - 2.0; //*/
     }
 
     // UPDATE ANIMATIONS..
@@ -192,7 +169,7 @@ export class P3dGraphics
     this.numericDisplay.update();
     this.panelLeds.update();
 
-    // UPDATE "SWARM" 
+    // UPDATE "SWARM" PARTICLE SYSTEM
     this.swarm.render();
 
     // ROTATE ROOM CUBE...
@@ -297,7 +274,7 @@ export class P3dGraphics
 
 
   ///////////////////////////////////////////////////////////////////////////
-  // THIS WILL NEED TO BE FIXED TO WORK WITH NEW 
+  // THIS WILL NEED TO BE FIXED TO WORK WITH NEW SHADER SYSTEM
   /*setBackgroundColor( color )
   {
     this.uniforms["colorA"] = { type: "vec3", value: new THREE.Color( color ) };

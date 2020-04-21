@@ -48,7 +48,7 @@ export class P3dReverb
         this.reverb.buffer = buffer;
       }.bind(this), function(e)
       { // ERROR HANDLER
-        console.log("Error with decoding audio data" + e.err);
+        logger("Error with decoding audio data" + e.err);
       } //*/
       ); 
 
