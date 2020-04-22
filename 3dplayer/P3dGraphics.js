@@ -15,7 +15,7 @@ import { P3dPanelLeds } from "./P3dPanelLeds.js";
 import { P3dShaders } from "./P3dShaders.js";
 import { logger } from "./P3dLog.js";
 import { TransportMode } from "./P3dController.js";
-import { converge } from "./P3dUtility.js";
+import { converge, random } from "./P3dUtility.js";
 //-----------------------------------------------------------------------------------
 
 
@@ -258,6 +258,9 @@ export class P3dGraphics
   {
     this.playAnimation( "TrayOpen", rate );
     this.trayOpen = true;
+    if( rate == 1.0 )
+      this.cdObject.rotation.y = random( 1000 )/300.0;
+
   }
 
 
