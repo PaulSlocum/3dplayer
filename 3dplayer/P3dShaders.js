@@ -102,13 +102,13 @@ export class P3dShaders
         }
         else //*/
         {
-          // CALCULATIONS          
+          // INTIAL CALCULATIONS
           vec3 worldPosition = vertexWorldPosition.xyz;
           float lightDistance = distance( worldPosition, lightPosition );
           float cdFoilAlphaValue = 1.0;
           //float patternedCenterDistance = mod( lightDistance*15.0, 5.0 ) * 0.1 - 0.7; // DEBUG - PROBABLY NO LONGER NEEDED
 
-          // NEW CALCULATIONS
+          // NEW LIGHT CALCULATIONS
           vec3 lightDirection = lightPosition - vertexWorldPosition.xyz;
           vec3 clampNormal = normalize( vertexNormal );
           vec3 clampLightDirection = normalize( lightDirection );
@@ -123,17 +123,20 @@ export class P3dShaders
           float finalSpecular = adjustedSpecularIn + adjustedSpecularOut;
           vec3 finalColor = hsv2rgb( vec3( centerDistance*0.5 - 0.1, finalSpecular*0.3 + 0.05, finalSpecular*0.3 + 0.05 ) );
 
-          // SUBTLE CD FOIL RING TEXTURE...
+          // CD FOIL TEXTURED RINGS...
           if( centerDistance > 0.91  ||  centerDistance < 0.34 )
             finalColor = finalColor * 0.92;
 
-          // DRAW CD REFLECTIVE FOIL 
-          //gl_FragColor = vec4( finalColor, cdFoilAlphaValue ); //*/
-
+          // SET FINAL COLOR
           vec2 mapPosition = localPosition.xz* 0.5 + 0.5;
           mapPosition.y = localPosition.z * -0.5 + 0.5;
           //gl_FragColor = texture2D( cdTexture, localPosition.xz );
           vec4 textureColor = texture2D( cdTexture, mapPosition );
+          // SUBTLE CD FOIL RING TEXTURE...
+          if( centerDistance > 0.94  ||  centerDistance < 0.34 )
+            textureColor.a = 0.0;
+
+
           gl_FragColor = mix( vec4(finalColor,1.0), vec4( textureColor.xyz, 1.0), textureColor.a );
           //gl_FragColor = vec4( finalColor, 1.0 );
           //gl_FragColor = textureColor;

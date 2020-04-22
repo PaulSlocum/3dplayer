@@ -307,7 +307,7 @@ export class P3dGraphics
 
 
   ///////////////////////////////////////////////////////////////////////
-  // -----> SOME OF THESE OBJECTS SHOULD BE MOVED TO THEIR OWN CLASS
+  // -----> MOST OF THESE OBJECTS SHOULD BE MOVED TO THEIR OWN CLASS
   buildStructures()
   {
     // SET CAMERA POSITION
