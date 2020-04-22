@@ -18,11 +18,9 @@ export class P3dShaders
       varying vec3 localPosition; 
       varying vec4 vertexWorldPosition;
       varying vec3 vertexNormal;
-      varying vec2 mapPosition;
 
       void main() {
         localPosition = position; 
-        mapPosition = uv;
 
         vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
         vertexWorldPosition = modelMatrix * vec4(position, 1.0);
@@ -55,7 +53,6 @@ export class P3dShaders
       varying vec3 localPosition;
       varying vec4 vertexWorldPosition;
       varying vec3 vertexNormal;
-      varying vec2 mapPosition;
 
       //===============================================================================
       float rand(vec2 co)
@@ -133,8 +130,14 @@ export class P3dShaders
           // DRAW CD REFLECTIVE FOIL 
           //gl_FragColor = vec4( finalColor, cdFoilAlphaValue ); //*/
 
-          gl_FragColor = texture2D( cdTexture, localPosition.xz );
-          //gl_FragColor = texture2D( cdTexture, mapPosition );
+          vec2 mapPosition = localPosition.xz* 0.5 + 0.5;
+          mapPosition.y = localPosition.z * -0.5 + 0.5;
+          //gl_FragColor = texture2D( cdTexture, localPosition.xz );
+          vec4 textureColor = texture2D( cdTexture, mapPosition );
+          gl_FragColor = mix( vec4(finalColor,1.0), vec4( textureColor.xyz, 1.0), textureColor.a );
+          //gl_FragColor = vec4( finalColor, 1.0 );
+          //gl_FragColor = textureColor;
+          
           
           //gl_FragColor = texture2D( cdTexture, localPosition.xy ) * finalColor;
 

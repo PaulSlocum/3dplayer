@@ -34,9 +34,8 @@ https://www.khronos.org/opengl/wiki/GLSL_Optimizations
 TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
-- implement PNG image map on CD surface
-~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
+- create better CD image
+- blend PNG image with CD surface 
 - implement specular highlights on CD
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
@@ -149,6 +148,7 @@ x do proof of concept of calculating my own specular reflection with flat CD sur
 x calculate virtual ridges on CD surface and do specular reflection of that instead
 x change LED off materials to not be emissions so they don't glow in shadows
 x figure out why the CD players glass display comes out dark gray instead of black
+x implement PNG image map on CD surface
 ~   -   ~   -   ~   -   ~   -   
 
 

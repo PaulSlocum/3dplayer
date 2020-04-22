@@ -97,9 +97,8 @@ export class P3dGraphics
         colorA: {type: "vec3", value: new THREE.Color(0x060607)}
     };
     
-    // THESE ARE CURRENTLY NOT USED...
     const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load( '3dplayer/model/test_1024x1024_1a.png' );
+    const texture = textureLoader.load( '3dplayer/model/test_1024x1024_1b.png' );
     this.cdUniforms = {
         lightPosition: { type: "vec3", value: new THREE.Vector3( 0.0, 0.0, 0.0 ) },
         cdTexture: { type: "t", value: texture }
@@ -151,7 +150,7 @@ export class P3dGraphics
     {
       let worldPosition = new THREE.Vector3();
       this.cdObject.getWorldPosition( worldPosition );
-      this.cdObject.rotation.y = Math.sin( this.frameCounter * 0.05 );
+      //this.cdObject.rotation.y = Math.sin( this.frameCounter * 0.05 );
       //this.cdObject.rotation.x = Math.sin( this.frameCounter * 0.01 );
     } //*/
 
@@ -160,7 +159,7 @@ export class P3dGraphics
     {
       this.cdUniforms.lightPosition.value.x = this.loadedModel.rotation.x*8.0 - 1.5;
       this.cdUniforms.lightPosition.value.y = this.loadedModel.rotation.y*5.0 + 0.8;
-      this.cdUniforms.lightPosition.value.z = this.loadedModel.rotation.x*4.0-0.6;
+      this.cdUniforms.lightPosition.value.z = this.loadedModel.rotation.x*4.0-1.9;
     }
 
     // UPDATE ANIMATIONS..
@@ -207,7 +206,7 @@ export class P3dGraphics
     if( this.loadedModel != null )
     {
       if( this.trayOpen == true )
-        this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.01  + 0.15;
+        this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.01  + 0.25;
       else 
         this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 + 0.01;
       
