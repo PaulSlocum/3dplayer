@@ -36,6 +36,7 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 - implement specular highlights on CD
 ~   -   ~   -   ~   -   ~   -   
+- prevent CD rotation from changing CD lighting
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
