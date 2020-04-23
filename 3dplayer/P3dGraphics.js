@@ -104,9 +104,6 @@ export class P3dGraphics
         cdTexture: { type: "t", value: texture }
     };
 
-    /*const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load( '3dplayer/model/test_1024x1024_1a.png' ); //*/
-
     this.targetRotationX = 0;
     this.targetRotationY = 0;
 
@@ -133,6 +130,7 @@ export class P3dGraphics
     this.numericDisplay = new P3dNumericDisplay( appController, this.scene );
     this.panelLeds = new P3dPanelLeds( appController, this.scene );
     
+    // DEBUG    
     //this.textureTest();
   }
 
