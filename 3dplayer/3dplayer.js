@@ -52,7 +52,7 @@ renderer.setSize( windowWidth, windowHeight );
 script.parentElement.insertBefore(renderer.domElement, script); // Add the newly-created div to the page
 
 // LAUNCH THE 3D PLAYER APPLICATION CONTROLLER
-const controller = new P3dController( filenameList, windowWidth, windowHeight, renderer );
+const controller = new P3dController( filenameList, renderer, windowWidth, windowHeight );
 //controller.setBackgroundColor( 0x000000 ); // <---- BG COLOR SHOULD EVENTUALLY BE SELECTABLE THROUGH A SCRIPT PARAMETER 
 controller.run(); 
 
