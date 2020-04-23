@@ -6,8 +6,6 @@ and the visualizations are not yet complete.
 
 [Link to working project demo page](https://paulslocum.github.io/3dplayer/)
 
-[Inline demo](https://paulslocum.github.io/3dplayer/inlineTest.html)
-
 ### Planned features: 
  - load an album by specifying a list of MP3 files in the script call parameters
  - simulated CD player operation including play, pause, stop, track forward and back, fast forward, rewind, etc.

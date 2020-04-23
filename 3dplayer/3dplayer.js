@@ -19,7 +19,7 @@ logger("---->LAUNCHING 3DPLAYER");
 // GET SCRIPT TO READ ATTRIBUTES
 const script = document.scripts[document.scripts.length - 1];
 
-// READ LIST OF AUDIO FILENAME FROM SCRIPT PARAMETERS...
+// READ LIST OF AUDIO FILENAMES FROM SCRIPT PARAMETERS...
 let filenameList = [];
 let endOfList = false;
 for( let i=1; endOfList==false; i++ )
