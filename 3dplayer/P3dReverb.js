@@ -14,43 +14,42 @@ import { logger } from "./P3dLog.js";
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-export class P3dReverb 
+export class P3dReverb
 {
 
 	///////////////////////////////////////////////////////////////////////////////
-	constructor( context ) 
+	constructor( context )
 	{
 		logger( "----->REVERB: CONSTRUCTOR" );
-		
+
 		this.context = context;
 		this.setup();
 	}
 
 
 	///////////////////////////////////////////////////////////////////////////////
-	setup() 
+	setup()
 	{
 		this.reverb = this.context.createConvolver();
 
 		let fileRequest = new XMLHttpRequest();
+
     //fileRequest.open("GET", "3dplayer/sounds/reverb1500ms1a.wav", true);
     //fileRequest.open("GET", "3dplayer/sounds/reverb1500ms1b.wav", true);
-    fileRequest.open("GET", "3dplayer/sounds/reverb1500ms1c.wav", true);
-    
+    fileRequest.open("GET", "3dplayer/sounds/reverb1500ms1c.wav", true); // <--- THIS ONE SOUNDS BEST PROBABLY
+
     fileRequest.responseType = "arraybuffer";
-    fileRequest.onload = function() 
+    fileRequest.onload = function()
     {
-		  //logger( "----->REVERB: IMPULSE FILE LOADED. DECODING...", this, fileRequest );
       let audioData = fileRequest.response;
-      this.context.decodeAudioData( audioData, function(buffer) 
+      this.context.decodeAudioData( audioData, function(buffer)
       { // DECODE SUCCESS
-  		  //logger( "----->REVERB: DECODED.", buffer );
         this.reverb.buffer = buffer;
       }.bind(this), function(e)
       { // ERROR HANDLER
         logger("Error with decoding audio data" + e.err);
       } //*/
-      ); 
+      );
 
     }.bind(this);
 
@@ -62,7 +61,7 @@ export class P3dReverb
   {
     this.reverb.connect( inputToConnect );
   }
-	
+
 	///////////////////////////////////////////////////////////////////////////////
 	getInput()
 	{
