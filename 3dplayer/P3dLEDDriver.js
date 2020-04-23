@@ -100,6 +100,8 @@ export class P3dLEDDriver
     this.ledOffMaterial = null;
     this.displayGlassMaterial = null;
     
+    this.frameCounter = 0;
+    
     this.mainLedArray = [ [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], 
                           [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0] ];
     this.highlightLedArray = [ [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], 
@@ -165,6 +167,27 @@ export class P3dLEDDriver
 
     // CLEAR ALL SEGMENTS
     this.setString( 'XXXXXX' );
+  }
+
+
+  ///////////////////////////////////////////////////////////////////////////
+  update()
+  {
+    this.frameCounter++;
+    if( this.ledOnMaterial != null )
+    {
+      // LED FLICKER
+      if( (this.frameCounter/2)%2 == 0 )
+        this.ledOnMaterial.color.setHex( 0x191919 );
+      else
+        this.ledOnMaterial.color.setHex( 0x111111 );
+
+      if( (this.frameCounter/2)%2 == 0 )
+        this.ledDimMaterial.color.setHex( 0x090909 );
+      else
+        this.ledDimMaterial.color.setHex( 0x000000 );
+    }
+
   }
 
 

@@ -59,6 +59,8 @@ export class P3dNumericDisplay
   update()
   {
     this.frameCounter += 1;
+    
+    this.ledDriver.update();
   
     let appMode = this.appController.getStatus();
 
