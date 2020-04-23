@@ -25,6 +25,8 @@ http://jsfiddle.net/vdfn1pcn/
 GLSL OPTIMIZATION:
 https://www.khronos.org/opengl/wiki/GLSL_Optimizations
 
+THREE.JS CANVAS SET UP WITH RESIZING:
+https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container/45046955#45046955
 
 --------------------------------------------------------------------------------
 /\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/

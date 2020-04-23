@@ -66,6 +66,7 @@ export class P3dController {
 
   ///////////////////////////////////////////////////////////////////////
   constructor( filenameList, renderer, windowWidth, windowHeight ) 
+  //constructor( filenameList, renderer, windowWidth, windowHeight ) 
   {
     logger( "---->CONTROLLER CONSTRUCTOR" );
 
@@ -78,7 +79,7 @@ export class P3dController {
 
 
   ///////////////////////////////////////////////////////////////////////////
-  // START THE PROGRAM RUNNING (BLOCKING CALL)
+  // START THE PROGRAM RUNNING 
   run()
   {
     this.userInterface.run();
