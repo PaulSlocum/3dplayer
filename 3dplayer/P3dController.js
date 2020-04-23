@@ -66,7 +66,6 @@ export class P3dController {
 
   ///////////////////////////////////////////////////////////////////////
   constructor( filenameList, renderer, windowWidth, windowHeight ) 
-  //constructor( filenameList, renderer, windowWidth, windowHeight ) 
   {
     logger( "---->CONTROLLER CONSTRUCTOR" );
 
