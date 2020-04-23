@@ -13,7 +13,7 @@ and the visualizations are not yet complete.
  - realtime reverb and echo room simulator effects
  - realtime spectrum analyzer display
  
-![screenshot](https://paulslocum.github.io/3dplayer/docs/screenshot.jpg)
+![screenshot](https://paulslocum.github.io/3dplayer/docs/screenshot_20-04-23.png)
 
 ### Usage
 
