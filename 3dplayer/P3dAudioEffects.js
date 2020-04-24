@@ -9,35 +9,35 @@
 
 //-----------------------------------------------------------------------------------
 import { logger } from "./P3dLog.js";
-import { P3dReverb } from "./P3dReverb.js";
+import { P3dReverb } from "./P3dAudioReverb.js";
 //-----------------------------------------------------------------------------------
 
 
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   SIGNAL PATH:                              (nodes in parenthesis are TBI)
- 
-  
+
+
                                            <input>
                                               *
                                               |
  note: there are two delay               INPUT_GAIN
  sections but only one is shown            /      \
-                                    FX_INPUT_GAIN  \  
+                                    FX_INPUT_GAIN  \
                                         |           \
         _________________________  (FX_EQ_FILTER_1)  \
       /                          \      |             \
      /                            (FX_EQ_FILTER_2)     \
     /                   _________/          \           \
-   /             DELAY1+2                  (PRE_DELAY)   \  
+   /             DELAY1+2                  (PRE_DELAY)   \
   /             /       \                       |         |
  | (FEEDBACK_GAIN1+2) (DELAY_PAN1+2)          REVERB      |
  |______|                 \                     |         |
                      DELAY_GAIN1+2          REVERB_GAIN   |
-                             \___________       |        /        
-                                         MAIN_BASS_FILTER       
+                             \___________       |        /
+                                         MAIN_BASS_FILTER
                                                 |
-                                         MAIN_TREBLE_FILTER       
+                                         MAIN_TREBLE_FILTER
                                                 |
                                             COMPRESSOR
                                                 |
@@ -45,9 +45,9 @@ import { P3dReverb } from "./P3dReverb.js";
                                              <output>
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  REVERB NOTES:                   
-                                
-  REVERB TYPE               PRE_DELAY  DECAY_TIME  TOTAL_TIME                              
+  REVERB NOTES:
+
+  REVERB TYPE               PRE_DELAY  DECAY_TIME  TOTAL_TIME
   Hall (2 Bars)	             62.5 ms    3937.50 ms  4000 ms
   Large Room (1 Bar)	       31.25 ms   1968.75 ms  2000 ms
   Small Room (1/2 Note)      15.63 ms   984.37 ms   1000 ms
@@ -55,11 +55,11 @@ import { P3dReverb } from "./P3dReverb.js";
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   CONSUMER REVERB NAMES:
-  
+
     90"S GENERAL MOTORS CARS: "Jazz Club", "Hall", "Church", "Stadium", "News"
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-//*/  
+//*/
 
 
 
@@ -70,16 +70,16 @@ export const EffectsPreset = {
   ROOM: "EffectRoom",
   CLUB: "EffectClub",
   CHURCH: "EffectChurch",
-  STADIUM: "EffectStadium", 
-  CAVE: "EffectCave", 
-  PLATE: "EffectPlate", 
+  STADIUM: "EffectStadium",
+  CAVE: "EffectCave",
+  PLATE: "EffectPlate",
   LOFI: "EffectLofi",
   SLAPBACK: "EffectSlapback"
 };
 
 
-  
-  
+
+
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 export class P3dAudioEffects
@@ -89,20 +89,20 @@ export class P3dAudioEffects
   constructor( audioContext )
   {
     logger( "----->AUDIOEFFECTS CONSTRUCTOR" );
-  
+
     this.audioContext = audioContext;
-    this.setupNodes();  
-    this.loadPreset( EffectsPreset.CLEAN );  
+    this.setupNodes();
+    this.loadPreset( EffectsPreset.CLEAN );
   }
-  
+
   /////////////////////////////////////////////////////////////////////////
   loadPreset( preset )
   {
     logger( "----->AUDIOEFFECTS: LOAD PRESET: ", preset );
-  
+
     switch( preset )
     {
-      case EffectsPreset.CLEAN: 
+      case EffectsPreset.CLEAN:
         this.inputGain.gain.value = 1.0;
         this.effectsInputGain.gain.value = 0.0;
         this.delayGain.gain.value = 0.0;
@@ -126,7 +126,7 @@ export class P3dAudioEffects
         this.mainEqHigh.gain.value = 2.0;
         this.mainEqLow.gain.value = 2.0;
         break;
-      case EffectsPreset.CHURCH: 
+      case EffectsPreset.CHURCH:
         this.inputGain.gain.value = 1.0;
         this.effectsInputGain.gain.value = 0.8;
         this.delayGain.gain.value = 0.2;
@@ -150,7 +150,7 @@ export class P3dAudioEffects
         this.mainEqHigh.gain.value = -5.0;
         this.mainEqLow.gain.value = -5.0;
         break;
-      case EffectsPreset.PLATE: 
+      case EffectsPreset.PLATE:
         this.inputGain.gain.value = 1.0;
         this.effectsInputGain.gain.value = 0.8;
         this.delayGain.gain.value = 0.3;
@@ -176,21 +176,21 @@ export class P3dAudioEffects
         break;
     }
   }
-  
-  
+
+
   //////////////////////////////////////////////////////////////////////////
   setupNodes()
   {
-    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
+    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
     // CREATE INPUT GAINS
 
     this.inputGain = this.audioContext.createGain();
     this.inputGain.gain.value = 1.0;
-  
+
     this.effectsInputGain = this.audioContext.createGain();
     this.effectsInputGain.gain.value = 0.8;
-    
-    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
+
+    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
     // CREATE DELAY CHAIN
 
     const MAX_DELAY_SEC = 5.0;
@@ -200,15 +200,15 @@ export class P3dAudioEffects
     this.delayGain = this.audioContext.createGain();
     this.delayGain.gain.value = 0.3;
 
-    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
+    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
     // CREATE REVERB CHAIN
 
     this.reverb = new P3dReverb( this.audioContext );
 
     this.reverbGain = this.audioContext.createGain();
     this.reverbGain.gain.value = 0.05;
-  
-    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
+
+    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
     // CREATE OUTPUT CHAIN
 
     this.mainEqLow = this.audioContext.createBiquadFilter();
@@ -220,7 +220,7 @@ export class P3dAudioEffects
     this.mainEqHigh.type = "highshelf";
     this.mainEqHigh.frequency.value = 3200.0;
     this.mainEqHigh.gain.value = 0.0;
-  
+
     this.compressor = this.audioContext.createDynamicsCompressor();
     this.compressor.threshold.setValueAtTime( -24, this.audioContext.currentTime );
     this.compressor.knee.setValueAtTime( 40, this.audioContext.currentTime );
@@ -228,14 +228,14 @@ export class P3dAudioEffects
     this.compressor.attack.setValueAtTime( 0, this.audioContext.currentTime );
     this.compressor.release.setValueAtTime( 0.25, this.audioContext.currentTime );
 
-    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -         
+    // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
     // LINK EVERYTHING TOGETHER
 
     this.inputGain.connect( this.mainEqLow );
     this.inputGain.connect( this.effectsInputGain );
-    
+
     this.effectsInputGain.connect( this.reverb.getInput() );
-    this.reverb.connect( this.reverbGain ); 
+    this.reverb.connect( this.reverbGain );
     this.reverbGain.connect( this.mainEqLow );
 
     this.effectsInputGain.connect( this.delay );
@@ -246,22 +246,22 @@ export class P3dAudioEffects
     this.mainEqHigh.connect( this.compressor );
 
   }
-  
-  
+
+
   ///////////////////////////////////////////////////////////////////////
   connect( inputToConnect )
   {
     this.compressor.connect( inputToConnect );
   }
-  
-  
+
+
   ///////////////////////////////////////////////////////////////////////
   getInput()
   {
     return( this.inputGain );
   }
-  
-  
+
+
 
 }
 
