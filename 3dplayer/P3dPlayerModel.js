@@ -70,6 +70,8 @@ export class P3dPlayerModel
   /////////////////////////////////////////////////////////////////////////////////
   update()
   {
+    this.frameCounter++;
+
     // CD DEBUG!!!!!!!!!!!!!!!!!!!!!!
     /*if( this.cdObject != null )
     {
@@ -106,11 +108,14 @@ export class P3dPlayerModel
     //const rotationSpeed = 0.00; // DISABLED
     if( this.loadedModel != null )
     {
-      logger( "PLAYER UPDATE: ", this.loadedModel.rotation.x );
       if( this.trayOpen == true )
+      {
         this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.01  + 0.25;
+      }
       else
+      {
         this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 + 0.01;
+      }
 
       this.targetRotationY = Math.cos( this.frameCounter * rotationSpeed ) * 0.08;
 
