@@ -1,6 +1,6 @@
 // P3dGraphics.js
 //
-// LOADS AND MANIPULATES 3D MODELS AND RENDERING ASSETS
+// BASE GRAPHICS CLASS THAT OPERATES THE CAMERA AND LOADS OTHER GRAPHICS MODULES
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -59,19 +59,20 @@ export class P3dGraphics
 
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
-    this.scene = new THREE.Scene();
-
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
-    // ---> PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
+    this.scene = new THREE.Scene();
+
+    // NOTE: PerspectiveCamera( FOV : NUMBER, ASPECT : NUMBER, NEAR : NUMBER, FAR : NUMBER )
     this.camera = new THREE.PerspectiveCamera( 38, windowWidth/windowHeight, 0.1, 1000 );
     this.cameraFrustum = null;
 
+    this.raycaster = new THREE.Raycaster();
+
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
-    this.roomCube = new P3dRoom( appController );
-
     // NEW!
+    this.roomCube = new P3dRoom( appController );
     this.playerModel = new P3dPlayerModel( appController, this.scene );
 
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
@@ -81,9 +82,6 @@ export class P3dGraphics
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
-
-    this.buttonDown = false;
-    this.raycaster = new THREE.Raycaster();
 
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
