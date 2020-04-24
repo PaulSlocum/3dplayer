@@ -18,12 +18,12 @@ import { getCanvasMousePosition } from "./P3dUtility.js";
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-export class P3dUserInterface 
+export class P3dUserInterface
 {
 
 
   ///////////////////////////////////////////////////////////////////////
-  constructor( appController, windowWidth, windowHeight, renderer ) 
+  constructor( appController, windowWidth, windowHeight, renderer )
   {
     //console.log("---->DISPLAY CLASS CONSTRUCTOR" );
     logger( "---->DISPLAY CLASS CONSTRUCTOR" );
@@ -32,7 +32,7 @@ export class P3dUserInterface
     this.windowWidth = windowWidth;
     this.windowHeight = windowHeight;
     this.renderer = renderer;
-    
+
     this.graphics = new P3dGraphics( appController, windowWidth, windowHeight, renderer );
 
     // MOUSE/TOUCH HANDLING
@@ -50,7 +50,7 @@ export class P3dUserInterface
     event.preventDefault();
     this.touchMouseDown( event );
   }
-  
+
   /////////////////////////////////////////////////////////////////////////
   mouseUp( event )
   {
@@ -66,8 +66,8 @@ export class P3dUserInterface
     this.touchMouseDown( event.targetTouches[0] );
     //event.targetTouches[0].preventDefault();
   }
-  
-  
+
+
   /////////////////////////////////////////////////////////////////////////
   touchUp( event )
   {
@@ -87,34 +87,34 @@ export class P3dUserInterface
     mouse.y = pos.y / this.renderer.domElement.height * -2 + 1;
 
     let intersects = this.graphics.getIntersectionsAtPixel( mouse );
-    for ( let i = 0; i < intersects.length; i++ ) 
+    for ( let i = 0; i < intersects.length; i++ )
     {
       let objectName = intersects[i].object.name;
       if( objectName.startsWith( "Button" ) )
       {
-        this.appController.processButtonEvent( objectName ); 
+        this.appController.processButtonEvent( objectName );
         //this.graphics.playAnimation( objectName ); // STILL DECIDING ABOUT BUTTON ANIMATIONS
       }
       switch( objectName )
       {
         case ButtonEvent.BUTTON_DOWN_BASS_DOWN:
         case ButtonEvent.BUTTON_DOWN_BASS_UP:
-          this.graphics.numericDisplay.showBass();
+          this.graphics.playerModel.numericDisplay.showBass();
           break;
         case ButtonEvent.BUTTON_DOWN_TREBLE_DOWN:
         case ButtonEvent.BUTTON_DOWN_TREBLE_UP:
-          this.graphics.numericDisplay.showTreble();
+          this.graphics.playerModel.numericDisplay.showTreble();
           break;
         case ButtonEvent.BUTTON_DOWN_VOL_DOWN:
         case ButtonEvent.BUTTON_DOWN_VOL_UP:
-          this.graphics.numericDisplay.showVolume();
+          this.graphics.playerModel.numericDisplay.showVolume();
           break;
         case ButtonEvent.BUTTON_DOWN_FX_DOWN:
         case ButtonEvent.BUTTON_DOWN_FX_UP:
-          this.graphics.numericDisplay.showFxMode();
+          this.graphics.playerModel.numericDisplay.showFxMode();
           break;
         default:
-          this.graphics.numericDisplay.showNormalDisplay();
+          this.graphics.playerModel.numericDisplay.showNormalDisplay();
       }
     } //*/
 
@@ -124,7 +124,7 @@ export class P3dUserInterface
   ///////////////////////////////////////////////////////////////////////
   touchMouseUp( event )
   {
-    this.appController.processButtonEvent( ButtonEvent.BUTTON_UP ); 
+    this.appController.processButtonEvent( ButtonEvent.BUTTON_UP );
   }
 
 
@@ -133,8 +133,8 @@ export class P3dUserInterface
   {
     this.graphics.run();
   }
-  
-  
+
+
   ////////////////////////////////////////////////////////////////////////
   openTray()
   {
@@ -155,7 +155,7 @@ export class P3dUserInterface
   {
     this.graphics.playAnimation( animationName );
   }//*/
-  
+
 
 
   ///////////////////////////////////////////////////////////////////////////

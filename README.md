@@ -14,7 +14,7 @@ and the visualizations are not yet complete.
  - realtime spectrum analyzer display and visualizations (TBI)
  
 ### Technical features:
- - Web Audio audio library with background pre-loading, automatic memory management, and audio effects processor
+ - Web Audio sound library with background pre-loading, automatic memory management, and audio effects processor
  - custom optical disc GLSL shader
 
 ### Screenshot: 
