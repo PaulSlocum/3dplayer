@@ -136,16 +136,16 @@ export class P3dGraphics
 
 
   ////////////////////////////////////////////////////////////////////////
-  // NEEDS REFACTORING
   openTray( rate = 1.0 )
   {
+    this.playerModel.openTray( rate );
   }
 
 
   ////////////////////////////////////////////////////////////////////////
-  // NEEDS REFACTORING
   closeTray()
   {
+    this.playerModel.closeTray();
   }
 
 
@@ -248,8 +248,8 @@ export class P3dGraphics
   getIntersectionsAtPixel( mousePosition )
   {
     this.raycaster.setFromCamera( mousePosition, this.camera );
-    let intersects = this.raycaster.intersectObjects( this.scene.children );
-    //let intersects = this.raycaster.intersectObjects( this.loadedModel.children );
+    let playerModelScene = this.playerModel.getModel();
+    let intersects = this.raycaster.intersectObjects( playerModelScene.children );
     return intersects;
   }
 

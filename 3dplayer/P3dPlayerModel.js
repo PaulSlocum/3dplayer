@@ -1,4 +1,9 @@
-
+//
+// P3dPlayerModule.js
+//
+// LOADS AND ANIMATED CD PLAYER MODEL, ALSO LOADS SUBCLASSES THAT WORK WITH THE MODEL
+//
+////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -256,7 +261,11 @@ export class P3dPlayerModel
   }
 
 
-
+  ////////////////////////////////////////////////////////////////////////////////
+  getModel()
+  {
+    return this.loadedModel;
+  }
 
 
 }
