@@ -1,5 +1,5 @@
 # 3dplayer
-### 3D WebGL mp3 player using THREE.js and Web Audio API.
+### 3D WebGL compact disc simulator using THREE.js and Web Audio API.
 
 In early development.  All the buttons now work, but it needs adjustments for mobile 
 and the visualizations are not yet complete.
@@ -7,11 +7,11 @@ and the visualizations are not yet complete.
 [Link to working project demo page](https://paulslocum.github.io/3dplayer/)
 
 ### Features: 
- - load an album by specifying a list of MP3 files in the script call parameters
+ - load an album by specifying a list of MP3 files and a CD image in the script call parameters
  - simulated CD player operation including play, pause, stop, track forward and back, fast forward, rewind, etc.
  - CD player sound effects and animated disc drawer
  - realtime reverb and echo room simulator effects
- - realtime spectrum analyzer display
+ - realtime spectrum analyzer display and visualizations (TBI)
  
 ### Technical features:
  - Web Audio audio library with background pre-loading, automatic memory management, and audio effects processor
