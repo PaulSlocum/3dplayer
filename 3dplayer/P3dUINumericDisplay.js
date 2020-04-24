@@ -8,7 +8,7 @@
 
 //-----------------------------------------------------------------------------------
 //import { P3dController } from "./P3dController.js";
-import { P3dLEDDriver } from "./P3dLEDDriver.js";
+import { P3dLEDDriver } from "./P3dUILEDDriver.js";
 import { TransportMode } from "./P3dController.js";
 import { logger } from "./P3dLog.js";
 import { EffectsPreset } from "./P3dAudioEffects.js";
@@ -32,21 +32,21 @@ export class P3dNumericDisplay
 {
 
   ///////////////////////////////////////////////////////////////////////
-  constructor( appController, scene ) 
+  constructor( appController, scene )
   {
     logger("---->NUMERIC DISPLAY CLASS CONSTRUCTOR");
 
     this.appController = appController;
-   
+
     this.ledDriver = new P3dLEDDriver( scene );
     this.frameCounter = 0;
-    
+
     this.displayMode = LedMode.NORMAL;
-    
+
     this.altDisplayStartMSec = 0.0;
     this.altDisplayWaitMSec = 3000.0;
   }
-  
+
   //////////////////////////////////////////////////////////////////////////////
   load()
   {
@@ -54,14 +54,14 @@ export class P3dNumericDisplay
 
     this.ledDriver.colonOff();
   }
-  
+
   //////////////////////////////////////////////////////////////////////////////
   update()
   {
     this.frameCounter += 1;
-    
+
     this.ledDriver.update();
-  
+
     let appMode = this.appController.getStatus();
 
     if( appMode == TransportMode.STANDBY )
@@ -100,7 +100,7 @@ export class P3dNumericDisplay
           break;
         case LedMode.FX_MODE:
           switch( this.appController.getFxMode() )
-          { 
+          {
             case EffectsPreset.CLEAN: this.ledDriver.setString( "CLEANXX" ); break;
             case EffectsPreset.CHURCH: this.ledDriver.setString( "CHRCHXX" ); break;
             case EffectsPreset.CLUB: this.ledDriver.setString( "CLUBXXX" ); break;
@@ -110,7 +110,7 @@ export class P3dNumericDisplay
           break;
       }
     }
-    
+
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -128,7 +128,7 @@ export class P3dNumericDisplay
     this.displayMode = LedMode.VOLUME;
     this.altDisplayStartMSec = performance.now();
   }
-  
+
 
   ////////////////////////////////////////////////////////////////////////////////
   // NOTE: THIS AUTOMATICALLY TIMES OUT AFTER "this.altDisplayWaitMSec"
@@ -137,7 +137,7 @@ export class P3dNumericDisplay
     this.displayMode = LedMode.BASS;
     this.altDisplayStartMSec = performance.now();
   }
-  
+
 
   ////////////////////////////////////////////////////////////////////////////////
   // NOTE: THIS AUTOMATICALLY TIMES OUT AFTER "this.altDisplayWaitMSec"
@@ -146,8 +146,8 @@ export class P3dNumericDisplay
     this.displayMode = LedMode.TREBLE;
     this.altDisplayStartMSec = performance.now();
   }
-  
-  
+
+
   ////////////////////////////////////////////////////////////////////////////////
   // SHOWS THE FX MODE TEXT
   // NOTE: THIS AUTOMATICALLY TIMES OUT AFTER "this.altDisplayWaitMSec"
@@ -186,8 +186,8 @@ export class P3dNumericDisplay
     {
       this.ledDriver.setString( "XXXXX" );
     }
-    
-    this._showTrackNumber( trackNumber );    
+
+    this._showTrackNumber( trackNumber );
   }
 
 
@@ -225,14 +225,14 @@ export class P3dNumericDisplay
         this.ledDriver.colonOff();
         break;
     }
-    
+
     // HANDLE ALPHANUMERIC SEGMENTS...
     switch( appMode )
     {
       case TransportMode.STARTING_PLAY:
           this.ledDriver.setString( "XpLayXX" );
           break;
-      
+
       case TransportMode.PLAYING:
       {
         this._showTimeAndTrack( playbackTimeInt, trackNumber );
@@ -244,18 +244,18 @@ export class P3dNumericDisplay
         if( Math.floor(this.frameCounter/20)%3 == 0 )
         {
           this.ledDriver.setString( "XXXXXXX" );
-          this._showTrackNumber( trackNumber );    
+          this._showTrackNumber( trackNumber );
         }
         else
           this._showTimeAndTrack( playbackTimeInt, trackNumber );
 
         break;
       }
-        
+
       case TransportMode.STOPPED:
         let numberOfTracks = this.appController.getNumberOfTracks();
         this.ledDriver.setString( "XXXXXXX" );
-        this._showTrackNumber( numberOfTracks );    
+        this._showTrackNumber( numberOfTracks );
         break;
 
         // STANDBY DOESN"T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
@@ -284,6 +284,6 @@ export class P3dNumericDisplay
     }
 
   }
-  
-  
+
+
 }

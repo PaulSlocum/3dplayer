@@ -10,9 +10,9 @@
 //-----------------------------------------------------------------------------------
 import { GLTFLoader } from "./three/examples/jsm/loaders/GLTFLoader.js";
 // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
-import { P3dShaders } from "./P3dShaders.js";
-import { P3dNumericDisplay } from "./P3dNumericDisplay.js";
-import { P3dPanelLeds } from "./P3dPanelLeds.js";
+import { P3dShaders } from "./P3dUICompactDisc.js";
+import { P3dNumericDisplay } from "./P3dUINumericDisplay.js";
+import { P3dPanelLeds } from "./P3dUIPanelLeds.js";
 import { logger } from "./P3dLog.js";
 import { converge, random } from "./P3dUtility.js";
 //-----------------------------------------------------------------------------------

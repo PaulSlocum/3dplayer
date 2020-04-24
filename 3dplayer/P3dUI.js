@@ -8,7 +8,7 @@
 
 //-----------------------------------------------------------------------------------
 //import { P3dController } from "./P3dController.js";
-import { P3dGraphics } from "./P3dGraphics.js";
+import { P3dGraphics } from "./P3dUIGraphics.js";
 import { ButtonEvent } from "./P3dController.js";
 import { logger } from "./P3dLog.js";
 import { getCanvasMousePosition } from "./P3dUtility.js";

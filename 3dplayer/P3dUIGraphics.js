@@ -7,9 +7,9 @@
 
 //-----------------------------------------------------------------------------------
 //import { P3dController } from "./P3dController.js";
-import { P3dSwarm } from "./P3dSwarm.js";
-import { P3dPlayerModel } from "./P3dPlayerModel.js";
-import { P3dRoom } from "./P3dRoom.js";
+import { P3dSwarm } from "./P3dUIParticles.js";
+import { P3dPlayerModel } from "./P3dUIPlayerModel.js";
+import { P3dRoom } from "./P3dUIRoom.js";
 import { logger } from "./P3dLog.js";
 import { TransportMode } from "./P3dController.js";
 import { converge, random } from "./P3dUtility.js";

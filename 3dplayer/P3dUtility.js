@@ -8,7 +8,7 @@
 
 
 //==============================================================================
-export function random( max ) 
+export function random( max )
 {
     const min = 0;
     max = Math.floor(max-1);
@@ -37,17 +37,28 @@ export function converge( currentValue, targetValue, rate )
   }
   return currentValue;
 }
-  
+
 
 
 //=====================================================================================
 // ASSUMES TARGET OR EVENT.TARGET IS CANVAS AND THAT IT HAS NO BORDER/PADDING
-export function getCanvasMousePosition(event, target) 
+export function getCanvasMousePosition(event, target)
 {
   target = target || event.target;
   let rect = target.getBoundingClientRect();
   let pos = rect;
   pos.x = (event.clientX - rect.left) * target.width  / target.clientWidth;
   pos.y = (event.clientY - rect.top) * target.height / target.clientHeight;
-  return pos;  
+  return pos;
 }
+
+
+
+
+
+
+
+
+
+
+

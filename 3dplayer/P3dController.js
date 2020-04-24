@@ -7,7 +7,7 @@
 
 
 //-----------------------------------------------------------------------------------
-import { P3dUserInterface } from "./P3dUserInterface.js";
+import { P3dUserInterface } from "./P3dUI.js";
 import { P3dTransport } from "./P3dTransport.js";
 import { logger } from "./P3dLog.js";
 //-----------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ export const ButtonEvent = {
   BUTTON_DOWN_VOL_DOWN: "ButtonVolDown",
   BUTTON_DOWN_VOL_UP: "ButtonVolUp",
   BUTTON_DOWN_FX_DOWN: "ButtonFxDown",
-  BUTTON_DOWN_FX_UP: "ButtonFxUp", 
+  BUTTON_DOWN_FX_UP: "ButtonFxUp",
   BUTTON_DOWN_REPEAT_ALL: "ButtonRepeatAll",
   BUTTON_DOWN_REMAINING_TIME_MODE: "ButtonTimeMode",
   BUTTON_UP: "ButtonUp"
@@ -65,7 +65,7 @@ export class P3dController {
 
 
   ///////////////////////////////////////////////////////////////////////
-  constructor( filenameList, renderer, windowWidth, windowHeight ) 
+  constructor( filenameList, renderer, windowWidth, windowHeight )
   {
     logger( "---->CONTROLLER CONSTRUCTOR" );
 
@@ -78,7 +78,7 @@ export class P3dController {
 
 
   ///////////////////////////////////////////////////////////////////////////
-  // START THE PROGRAM RUNNING 
+  // START THE PROGRAM RUNNING
   run()
   {
     this.userInterface.run();
@@ -86,9 +86,9 @@ export class P3dController {
 
 
 
-  // ~      -     ~      -     ~      -     ~      -     ~      -     ~      -     
-  
-  
+  // ~      -     ~      -     ~      -     ~      -     ~      -     ~      -
+
+
   ///////////////////////////////////////////////////////////////////////////
   setBackgroundColor( color )
   {
@@ -96,35 +96,35 @@ export class P3dController {
   }
 
 
-  
-  // ~      -     ~      -     ~      -     ~      -     ~      -     ~      -     
-  
-  
+
+  // ~      -     ~      -     ~      -     ~      -     ~      -     ~      -
+
+
 
   /////////////////////////////////////////////////////////////////////////////
   processButtonEvent( buttonEvent )
   {
     this.transport.processButtonEvent( buttonEvent );
   }
-  
+
   /////////////////////////////////////////////////////////////////////////////
   getPlaybackTime()
   {
     return this.transport.getPlaybackTime();
   }
-  
+
   /////////////////////////////////////////////////////////////////////////////
   getTrackNumber()
   {
     return this.transport.getTrackNumber();
   }
-  
+
   /////////////////////////////////////////////////////////////////////////////
   getNumberOfTracks()
   {
     return this.transport.getNumberOfTracks();
   }
-  
+
   /////////////////////////////////////////////////////////////////////////////
   getStatus()
   {
@@ -136,19 +136,19 @@ export class P3dController {
   {
     return this.transport.getVolume();
   }
-  
+
   ////////////////////////////////////////////////////////////////////////////
   getTreble()
   {
     return this.transport.getTreble();
   }
-  
+
   ////////////////////////////////////////////////////////////////////////////
   getBass()
   {
     return this.transport.getBass();
   }
-  
+
   /////////////////////////////////////////////////////////////////////////////
   getFxMode()
   {
@@ -166,19 +166,19 @@ export class P3dController {
   {
     return this.transport.getRemainingTimeMode();
   }
-  
+
   /////////////////////////////////////////////////////////////////////////////
   getTrackLengthSec()
   {
     return this.transport.getTrackLengthSec();
   }
-  
+
 
 
 
   ////////////////////////////////////////////////////////////////////////////
   // THESE TWO TRAY ANIMATION FUNCTIONS ARE CONFUSING...
-  // THESE CAN BE ELIMINATED BY CREATING A "GET_TRAY_STATUS()" FUNCTION THAT 
+  // THESE CAN BE ELIMINATED BY CREATING A "GET_TRAY_STATUS()" FUNCTION THAT
   // RETURNS WHETHER THE TRAY IS OPEN OR CLOSED
   closeTray()
   {
@@ -191,8 +191,8 @@ export class P3dController {
   }
 
 
-  
-  
-  
-  
+
+
+
+
 }

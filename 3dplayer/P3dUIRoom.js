@@ -70,12 +70,10 @@ export class P3dRoom extends THREE.Mesh
 
 
 
-
-
-///////////////////////////////////////////////////////////////////////
+//================================================================================
 function roomVertexShader()
 {
-  //---------------------------------------------------------------------
+  //-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
   /* DIFFUSE SHADER
     varying vec3 normal;
     varying vec3 vertex_to_light_vector;
@@ -95,7 +93,7 @@ function roomVertexShader()
         vertex_to_light_vector = vec3(gl_LightSource[0].position Â– vertex_in_modelview_space);
     }
   //*/
-  //-------------------------------------------------------------------------
+  //-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
   /* ORIGINAL
     void main()
     {
@@ -103,7 +101,7 @@ function roomVertexShader()
       gl_Position = projectionMatrix * modelViewPosition;
     }
   //*/
-  //-------------------------------------------------------------------------
+  //-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 
   return `
   varying vec3 vUv;
@@ -118,24 +116,24 @@ function roomVertexShader()
 }
 
 
-///////////////////////////////////////////////////////////////////////
+//================================================================================
 function roomFragmentShader()
 {
-    //----------------------------------------------------------------------------
+  	//-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
     //float colorValue = gl_PointCoord.y/100.0+0.2;
     //gl_FragColor = vec4( colorValue, colorValue, colorValue+0.05, 1.0);
     //float colorValue = gl_PointCoord.y/100.0+0.2 + rand(gl_PointCoord.xy)*0.02;
-    //----------------------------------------------------------------------------
+	  //-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
     /* ORIGINAL GRADIENT
       float colorValue = gl_PointCoord.y/100.0;
       colorValue = clamp( colorValue, 0.0, 1.0 );
       gl_FragColor = vec4( colorValue, colorValue, colorValue, 1.0);
     //*/
-    //----------------------------------------------------------------------------
+	  //-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
     /* SOLID COLOR
             gl_FragColor = vec4( 0.0, 0.0, 0.1, 1.0);
             //*/
-    //----------------------------------------------------------------------------
+	  //-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
     /* DIFFUSE SHADER
       varying vec3 normal;
       varying vec3 vertex_to_light_vector;
@@ -157,7 +155,7 @@ function roomFragmentShader()
           gl_FragColor = AmbientColor + DiffuseColor * DiffuseTerm;
       }
             //*/
-    //----------------------------------------------------------------------------
+	  //-  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
   return `
     uniform vec3 colorA;
     uniform vec3 colorB;
