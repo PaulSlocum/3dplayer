@@ -6,7 +6,7 @@ and the visualizations are not yet complete.
 
 [Link to working project demo page](https://paulslocum.github.io/3dplayer/)
 
-### Planned features: 
+### Features: 
  - load an album by specifying a list of MP3 files in the script call parameters
  - simulated CD player operation including play, pause, stop, track forward and back, fast forward, rewind, etc.
  - CD player sound effects and animated disc drawer
@@ -14,7 +14,7 @@ and the visualizations are not yet complete.
  - realtime spectrum analyzer display
  
 ### Technical features:
- - audio library with smart memory management and audio effects processor
+ - Web Audio audio library with background pre-loading, automatic memory management, and audio effects processor
  - custom optical disc GLSL shader
 
 ### Screenshot: 
