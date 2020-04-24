@@ -333,17 +333,6 @@ export class P3dGraphics
     //logger( "------------------ EDGE POSITION:", edgePositionTest, " ------------- " )
     this.screenEdgePosition = edgePositionTest;
 
-    // TEST TEXTURE
-    /*const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load( '3dplayer/model/test_1024x1024_1a.png' );
-    texture.encoding = THREE.sRGBEncoding;
-    texture.anisotropy = 16;
-    // create a Standard material using the texture we just loaded as a color map
-    const textureMaterial = new THREE.MeshStandardMaterial( {
-      map: texture,
-    } ); //*/
-    //let mesh = new THREE.Mesh( geometry, material );
-
     // INSTANTIATE GLTF LOADER FOR THE PLAYER MODEL
     const gltfLoader = new GLTFLoader();
     const url = "3dplayer/model/saeCdPlayer.glb";
@@ -377,9 +366,6 @@ export class P3dGraphics
         if( child.material  &&  child.material.name == "cd" )
         {
             child.material = this.cdMaterial; // <-----------------
-            //child.material = textureMaterial;
-            //child.geometry.computeFaceNormals();
-            //child.geometry.computeVertexNormals();
         }
 
         // TURN ON SHADOWS FOR ALL MESHES
@@ -390,22 +376,9 @@ export class P3dGraphics
 
       this.cdObject = this.scene.getObjectByName( "cd" );
 
-      //this.cdObject.geometry.computeFaceNormals();
-      //sphere.geometry.computeVertexNormals();
-
       // OPEN TRAY INSTANTLY (300X SPEED)
       this.openTray( 300 );
     });
-
-    // ADD BLUR (NOT YET WORKING)
-    /*this.composer = new THREE.EffectComposer( this.renderer );
-    this.composer.addPass( new THREE.RenderPass( this.scene, this.camera ) );
-    hblur = new THREE.ShaderPass( THREE.HorizontalBlurShader );
-    this.composer.addPass( hblur );
-    vblur = new THREE.ShaderPass( THREE.VerticalBlurShader );
-    // set this shader pass to render to screen so we can see the effects
-    vblur.renderToScreen = true;
-    this.composer.addPass( vblur ); //*/
 
     // ENABLE SHADOWS
     this.renderer.shadowMap.enabled = true;
