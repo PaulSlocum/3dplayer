@@ -12,6 +12,7 @@ import { GLTFLoader } from "./three/examples/jsm/loaders/GLTFLoader.js";
 import { P3dSwarm } from "./P3dSwarm.js";
 import { P3dNumericDisplay } from "./P3dNumericDisplay.js";
 import { P3dPanelLeds } from "./P3dPanelLeds.js";
+import { P3dPlayerModel } from "./P3dPlayerModel.js";
 import { P3dShaders } from "./P3dShaders.js";
 import { P3dRoom } from "./P3dRoom.js";
 import { logger } from "./P3dLog.js";
@@ -46,25 +47,6 @@ window.mobileAndTabletcheck = function()
 export class P3dGraphics
 {
 
-  /////////////////////////////////////////////////////////////////////////////
-  // THIS CAN BE REMOVED WHEN TEXTURE MAPPING IS FULLY WORKING
-  /*textureTest()
-  {
-    const textureGeometry = new THREE.BoxBufferGeometry( 2, 2, 2 );
-    const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load( '3dplayer/model/test_1024x1024_1a.png' );
-    texture.encoding = THREE.sRGBEncoding;
-    texture.anisotropy = 16;
-    // create a Standard material using the texture we just loaded as a color map
-    const material = new THREE.MeshStandardMaterial( {
-      map: texture,
-    } );
-    let mesh = new THREE.Mesh( geometry, material );
-    mesh.rotation.y = 2.2;
-    this.scene.add( mesh );
-  } //*/
-
-
   ///////////////////////////////////////////////////////////////////////
   constructor( appController, windowWidth, windowHeight, renderer )
   {
@@ -75,19 +57,34 @@ export class P3dGraphics
     this.windowHeight = windowHeight;
     this.renderer = renderer;
 
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+
     this.isMobileDevice = window.mobilecheck();
     this.isTabletDevice = window.mobileAndTabletcheck();
 
-    this.trayOpen = true;
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
     this.scene = new THREE.Scene();
+
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+
     // ---> PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number )
     this.camera = new THREE.PerspectiveCamera( 38, windowWidth/windowHeight, 0.1, 1000 );
     this.cameraFrustum = null;
 
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+
     this.roomCube = new P3dRoom( appController );
-    this.cdMaterial = null;
+
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+
     this.spotlight = null;
+
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+
+    this.trayOpen = true;
+
+    this.cdMaterial = null;
     this.cdObject = null;
 
     this.loadedModel = null;
@@ -108,26 +105,36 @@ export class P3dGraphics
     this.currentAction = null;
     this.currentActionCd = null;
 
-    this.buttonDown = false;
-    this.raycaster = new THREE.Raycaster();
-
     this.backgroundSpinRate = 0;
     this.frameCounter = 0;
     this.screenEdgePosition = 0;
-
-    this.buildStructures();
-    this.swarm = new P3dSwarm( this.scene );
-    this.swarm.setScreenEdgePosition( this.screenEdgePosition );
 
     this.animationMixer = null;
     this.animationMixerCd = null;
     this.clock = new THREE.Clock();
 
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+
+    this.buttonDown = false;
+    this.raycaster = new THREE.Raycaster();
+
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+
+    this.buildStructures();
+
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+
+    this.swarm = new P3dSwarm( this.scene );
+    this.swarm.setScreenEdgePosition( this.screenEdgePosition );
+
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+
+    // NEW!
+    this.playerModel = new P3dPlayerModel( appController, this.scene );
+
     this.numericDisplay = new P3dNumericDisplay( appController, this.scene );
     this.panelLeds = new P3dPanelLeds( appController, this.scene );
 
-    // DEBUG
-    //this.textureTest();
   }
 
 
@@ -138,6 +145,8 @@ export class P3dGraphics
     requestAnimationFrame( this.run.bind(this) );
 
     this.frameCounter++;
+
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
     // CD DEBUG!!!!!!!!!!!!!!!!!!!!!!
     /*if( this.cdObject != null )
@@ -168,16 +177,6 @@ export class P3dGraphics
     this.numericDisplay.update();
     this.panelLeds.update();
 
-    // UPDATE "SWARM" PARTICLE SYSTEM
-    this.swarm.render();
-    if( this.appController.getStatus() != TransportMode.PLAYING )
-      this.swarm.disable();
-    else
-      this.swarm.enable();
-
-    // UPDATE ROOM CUBE
-    this.roomCube.update();
-
     // MODULATE CD PLAYER ORIENTATION...
     const rotationSpeed = 0.03; // NORMAL <-------------------
     //const rotationSpeed = 0.01; // SLOW
@@ -196,6 +195,23 @@ export class P3dGraphics
       this.loadedModel.rotation.y = converge( this.loadedModel.rotation.y, this.targetRotationY, 0.005 );
     }
 
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+
+    // UPDATE "SWARM" PARTICLE SYSTEM
+    this.swarm.render();
+    if( this.appController.getStatus() != TransportMode.PLAYING )
+      this.swarm.disable();
+    else
+      this.swarm.enable();
+
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+
+    // UPDATE ROOM CUBE
+    this.roomCube.update();
+
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+
+    // RENDER!
     this.renderer.render( this.scene, this.camera );
 
   }
@@ -271,13 +287,6 @@ export class P3dGraphics
 
 
 
-  //////////////////////////////////////////////////////////////////////////////
-  debugIndicator( xOffset )
-  {
-    this.loadedModel.position.x += xOffset;
-  }
-
-
   ////////////////////////////////////////////////////////////////////////
   modelLoadComplete()
   {
@@ -333,6 +342,8 @@ export class P3dGraphics
     //logger( "------------------ EDGE POSITION:", edgePositionTest, " ------------- " )
     this.screenEdgePosition = edgePositionTest;
 
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+
     // INSTANTIATE GLTF LOADER FOR THE PLAYER MODEL
     const gltfLoader = new GLTFLoader();
     const url = "3dplayer/model/saeCdPlayer.glb";
@@ -380,10 +391,6 @@ export class P3dGraphics
       this.openTray( 300 );
     });
 
-    // ENABLE SHADOWS
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
     // CD MATERIAL
     this.cdMaterial =  new THREE.ShaderMaterial({
       uniforms: this.cdUniforms,
@@ -392,8 +399,18 @@ export class P3dGraphics
     });
     this.cdMaterial.transparent = true; //*/
 
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+
+    // ENABLE SHADOWS
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+
     // ROOM CUBE
     this.scene.add( this.roomCube ); //*/
+
+    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
     // SPOTLIGHT
     this.spotLight = new THREE.SpotLight(0xffffff);
