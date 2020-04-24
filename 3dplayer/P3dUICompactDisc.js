@@ -1,7 +1,7 @@
 //
-// P3dShaders.js
+// P3dContactDisc.js
 //
-// CONTAINS SHADER CODE, THIS WILL PROBABLY BE SPLIT UP LATER
+// CONTAINS COMPACT DISC SHADER CODE
 //
 /////////////////////////////////////////////////////////////////////////////////
 

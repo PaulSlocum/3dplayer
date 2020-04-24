@@ -8,7 +8,7 @@
 
 //-----------------------------------------------------------------------------------
 import { P3dUserInterface } from "./P3dUI.js";
-import { P3dTransport } from "./P3dTransport.js";
+import { P3dPlayerTransport } from "./P3dPlayerTransport.js";
 import { logger } from "./P3dLog.js";
 //-----------------------------------------------------------------------------------
 
@@ -72,7 +72,7 @@ export class P3dController {
     this.height = windowWidth;
     this.width = windowHeight;
 
-    this.transport = new P3dTransport( this, filenameList );
+    this.transport = new P3dPlayerTransport( this, filenameList );
     this.userInterface = new P3dUserInterface( this, windowWidth, windowHeight, renderer );
   }
 

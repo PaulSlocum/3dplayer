@@ -7,17 +7,17 @@
 
 //-----------------------------------------------------------------------------------
 //import { P3dController } from "./P3dController.js";
-import { TransportMode, ButtonEvent } from "./P3dController.js";
-import { P3dSoundPlayer } from "./P3dAudioSounds.js";
-import { P3dMusicPlayer } from "./P3dAudioMusic.js";
-import { EffectsPreset } from "./P3dAudioEffects.js";
-import { logger } from "./P3dLog.js";
-import { random } from "./P3dUtility.js";
+//import { TransportMode, ButtonEvent } from "./P3dController.js";
+//import { P3dSoundPlayer } from "./P3dAudioSounds.js";
+//import { P3dMusicPlayer } from "./P3dAudioMusic.js";
+//import { EffectsPreset } from "./P3dAudioEffects.js";
+//import { logger } from "./P3dLog.js";
+//import { random } from "./P3dUtility.js";
 ///-----------------------------------------------------------------------------------
 
 
 
-export const TransportEvent = {
+/*export const TransportEvent = {
   PLAY: "TransportPlay",
   PAUSE: "TransportPause",
   STOP: "TransportStop",
@@ -61,19 +61,19 @@ export const SoundFilename = {
     CD_SHORT_SEEK4: "3dplayer/sounds/cdShortSeek4.wav",
     CD_SHORT_SEEK5: "3dplayer/sounds/cdShortSeek5.wav"
 };
-
+//*/
 
 
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-export class P3dTransport {
+export class P3dPlayerEventQueue {
 
 
   ///////////////////////////////////////////////////////////////////////
   constructor( appController, filenameList )
   {
-    logger("---->TRANSPORT CLASS CONSTRUCTOR: ", filenameList );
+/*    logger("---->TRANSPORT CLASS CONSTRUCTOR: ", filenameList );
 
     this.appController = appController;
 
@@ -123,11 +123,11 @@ export class P3dTransport {
     this.fxModeNumber = 0;
     this.fxMode = null;
 
-    this.status = TransportMode.TRAY_OPEN;
+    this.status = TransportMode.TRAY_OPEN; //*/
   }
 
 
-
+	/*
   ///////////////////////////////////////////////////////////////////////
   stopCdSounds()
   {
@@ -135,189 +135,6 @@ export class P3dTransport {
     this.soundPlayer.stopSound( SoundFilename.SPINUP );
   }
 
-
-
-  ///////////////////////////////////////////////////////////////////////
-  processButtonEvent( buttonEvent )
-  {
-    logger( "------>BUTTON PRESS: ", buttonEvent );
-
-    this.musicPlayer.createContext();
-
-    // BUTTON CLICK SOUND EFFECT
-    if( buttonEvent != ButtonEvent.BUTTON_UP  &&  buttonEvent != ButtonEvent.BUTTON_UP )
-      this.soundPlayer.playSound( SoundFilename.CLICK_DOWN );
-
-    // END SEEK WHEN ANY BUTTON IS RELEASED...
-    if( buttonEvent == ButtonEvent.BUTTON_UP )
-      this.seekVelocity = 0;
-
-    // BUTTONS ARE DISABLED WHEN IN STANDBY MODE...
-    if( this.status == TransportMode.STANDBY )
-    {
-      if( buttonEvent == ButtonEvent.BUTTON_DOWN_STANDBY )
-      { // TURN PLAYER BACK ON...
-        this.eventQueue.push( TransportEvent.STARTUP ); //*/
-        this.eventQueue.push( TransportEvent.STOP ); //*/
-        this.scheduleNextEvent();
-      }
-
-    }
-    else // ELSE - NOT IN STANDBY...
-    {
-      // BUTON FUNCTIONS...
-      switch( buttonEvent )
-      {
-        case ButtonEvent.BUTTON_DOWN_PLAY:
-              this.play();
-              break;
-        case ButtonEvent.BUTTON_DOWN_PAUSE:
-              if( this.status == TransportMode.PLAYING )
-              {
-                this.eventQueue.push( TransportEvent.PAUSE ); //*/
-                this.scheduleNextEvent();
-              }
-              break;
-        case ButtonEvent.BUTTON_DOWN_PREV:
-              if( this.status == TransportMode.PLAYING ||
-                  this.status == TransportMode.PAUSED ||
-                  this.status == TransportMode.SEEK ||
-                  this.status == TransportMode.STOPPED )
-              {
-                this.previousTrack();
-              }
-              break;
-        case ButtonEvent.BUTTON_DOWN_NEXT:
-              if( this.status == TransportMode.PLAYING ||
-                  this.status == TransportMode.PAUSED ||
-                  this.status == TransportMode.SEEK  ||
-                  this.status == TransportMode.STOPPED )
-              {
-                this.nextTrack();
-              }
-              break;
-        case ButtonEvent.BUTTON_DOWN_FAST_FORWARD:
-              if( this.status == TransportMode.PLAYING )
-              {
-                this.seekVelocity = 10;
-                this.eventQueue.push( TransportEvent.SEEK );
-                this.scheduleNextEvent();
-              }
-              break;
-        case ButtonEvent.BUTTON_DOWN_REWIND:
-              if( this.status == TransportMode.PLAYING )
-              {
-                this.seekVelocity = -10;
-                this.eventQueue.push( TransportEvent.SEEK );
-                this.scheduleNextEvent();
-              }
-              break;
-        case ButtonEvent.BUTTON_DOWN_STOP:
-              if( this.status == TransportMode.TRAY_OPEN )
-                this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
-              this.eventQueue.push( TransportEvent.STOP ); //*/
-              this.scheduleNextEvent();
-              break;
-        case ButtonEvent.BUTTON_DOWN_STANDBY:
-              if( this.status == TransportMode.TRAY_OPEN )
-                this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
-              this.eventQueue.push( TransportEvent.SHUTDOWN ); //*/
-              this.eventQueue.push( TransportEvent.STANDBY ); //*/
-              this.scheduleNextEvent();
-              break;
-        case ButtonEvent.BUTTON_DOWN_OPEN:
-              if( this.status == TransportMode.TRAY_OPEN )
-              { // CLOSE TRAY
-                this.eventQueue.push( TransportEvent.CLOSE_TRAY ); //*/
-                this.eventQueue.push( TransportEvent.STOP ); //*/
-              }
-              else
-              {
-                if( this.status == TransportMode.PLAYING  ||
-                    this.status == TransportMode.PAUSED  ||
-                    this.status == TransportMode.STOPPED  ||
-                    this.status == TransportMode.STARTING_PLAY )
-                {
-                  // OPEN TRAY
-                  this.eventQueue.push( TransportEvent.START_OPEN_TRAY ); //*/
-                  this.eventQueue.push( TransportEvent.OPEN_TRAY ); //*/
-                  this.eventQueue.push( TransportEvent.TRAY_OPENED );
-                }
-              }
-              this.scheduleNextEvent();
-              break;
-        case ButtonEvent.BUTTON_UP:
-              break;
-        case ButtonEvent.NONE:
-              break;
-
-              //   ~    -     ~    -     ~    -     ~    -     ~    -     ~    -     ~    -
-
-        case ButtonEvent.BUTTON_DOWN_BASS_DOWN:
-              this.bass -= 1;
-              if( this.bass < 0 )
-                this.bass = 0;
-              this.musicPlayer.setBass( this.bass - MIDDLE_AUDIO_SETTING_VALUE );
-              break;
-        case ButtonEvent.BUTTON_DOWN_BASS_UP:
-              this.bass += 1;
-              if( this.bass > MAX_AUDIO_SETTING_VALUE )
-                this.bass = MAX_AUDIO_SETTING_VALUE;
-              this.musicPlayer.setBass( this.bass - MIDDLE_AUDIO_SETTING_VALUE );
-              break;
-        case ButtonEvent.BUTTON_DOWN_TREBLE_DOWN:
-              this.treble -= 1;
-              if( this.treble < 0 )
-                this.treble = 0;
-              this.musicPlayer.setTreble( this.treble - MIDDLE_AUDIO_SETTING_VALUE );
-              break;
-        case ButtonEvent.BUTTON_DOWN_TREBLE_UP:
-              this.treble += 1;
-              if( this.treble > MAX_AUDIO_SETTING_VALUE )
-                this.treble = MAX_AUDIO_SETTING_VALUE;
-              this.musicPlayer.setTreble( this.treble - MIDDLE_AUDIO_SETTING_VALUE );
-              break;
-
-        case ButtonEvent.BUTTON_DOWN_VOL_DOWN:
-              this.volume -= 1;
-              if( this.volume < 0 )
-                this.volume = 0;
-              this.musicPlayer.setVolume( (this.volume + 1) / 10.0 );
-              break;
-        case ButtonEvent.BUTTON_DOWN_VOL_UP:
-              this.volume += 1;
-              if( this.volume > MAX_AUDIO_SETTING_VALUE )
-                this.volume = MAX_AUDIO_SETTING_VALUE;
-              this.musicPlayer.setVolume( (this.volume + 1) / 10.0 );
-              break;
-
-        case ButtonEvent.BUTTON_DOWN_FX_DOWN:
-              this.fxModeNumber -= 1;
-              if( this.fxModeNumber < 0 )
-                this.fxModeNumber = NUMBER_OF_EFFECTS-1;  // <-- LOOP AROUND
-              this.setFxModeByNumber( this.fxModeNumber );
-              break;
-        case ButtonEvent.BUTTON_DOWN_FX_UP:
-              this.fxModeNumber += 1;
-              if( this.fxModeNumber >= NUMBER_OF_EFFECTS )
-                this.fxModeNumber = 0; // <-- LOOP AROUND
-              this.setFxModeByNumber( this.fxModeNumber );
-              break;
-
-        case ButtonEvent.BUTTON_DOWN_REPEAT_ALL:
-              this.repeatAll = !this.repeatAll; // TOGGLE BUTTON
-              break;
-
-        case ButtonEvent.BUTTON_DOWN_REMAINING_TIME_MODE:
-              logger( "------> TRANSPORT: REMAINING TIME MODE BUTTON DOWN", this.remainingTimeMode );
-              this.remainingTimeMode = !this.remainingTimeMode; // TOGGLE BUTTON
-              break;
-
-      } // SWITCH
-
-    } // ELSE NOT IN STANDBY
-
-  }
 
 
 
@@ -342,6 +159,12 @@ export class P3dTransport {
     return( this.fxMode );
   }
 
+	//*/
+
+	// ~~   ---    ~~   ---    ~~   ---    ~~   ---    ~~   ---    ~~   ---    ~~   ---
+
+
+	/*
 
   //////////////////////////////////////////////////////////////////////////////////
   // PRIVATE FUNCTION
@@ -375,10 +198,10 @@ export class P3dTransport {
             case 2: this.soundPlayer.playSound( SoundFilename.CD_SHORT_SEEK3 ); break;
             case 3: this.soundPlayer.playSound( SoundFilename.CD_SHORT_SEEK4 ); break;
             case 4: this.soundPlayer.playSound( SoundFilename.CD_SHORT_SEEK5 ); break;
-          } //*/
+          }
           this.eventQueue.push( TransportEvent.SEEK_PLAY );
           this.scheduleNextEvent( 0.25 );
-          break; //*/
+          break;
 
         case TransportEvent.SEEK_PLAY:
           logger( "----->TRANSPORT: S E E K   P L A Y !" );
@@ -416,14 +239,14 @@ export class P3dTransport {
           this.status = TransportMode.TRAY_CLOSING;
           this.soundPlayer.playSound( SoundFilename.TRAY_CLOSE );
           this.scheduleNextEvent( 3 );
-          break; //*/
+          break;
 
         case TransportEvent.CLOSE_TRAY_PLAY:
           this.appController.closeTray();
           this.status = TransportMode.TRAY_CLOSING_PLAY;
           this.soundPlayer.playSound( SoundFilename.TRAY_CLOSE );
           this.scheduleNextEvent( 3 );
-          break; //*/
+          break;
 
         case TransportEvent.START_OPEN_TRAY:
           logger( "START OPEN TRAY!!!!!!!!!!!!!!!!!!!!!!" );
@@ -431,13 +254,13 @@ export class P3dTransport {
           //this.status = TransportMode.TRAY_OPENING;
           this.soundPlayer.playSound( SoundFilename.TRAY_OPEN );
           this.scheduleNextEvent( 0.65 );
-          break; //*/
+          break;
 
         case TransportEvent.OPEN_TRAY:
           this.appController.openTray();
           this.status = TransportMode.TRAY_OPENING;
           this.scheduleNextEvent( 1 );
-          break; //*/
+          break;
 
         case TransportEvent.TRAY_OPENED:
           this.status = TransportMode.TRAY_OPEN;
@@ -450,7 +273,7 @@ export class P3dTransport {
             case 1: this.soundPlayer.playSound( SoundFilename.CD_SPINUP2 ); break;
             case 2: this.soundPlayer.playSound( SoundFilename.CD_SPINUP3 ); break;
             case 3: this.soundPlayer.playSound( SoundFilename.CD_SPINUP4 ); break;
-          } //*/
+          }
 
           this.status = TransportMode.STARTING_PLAY;
           this.scheduleNextEvent( 2 );
@@ -463,7 +286,7 @@ export class P3dTransport {
             case 1: this.soundPlayer.playSound( SoundFilename.CD_SEEK2 ); break;
             case 2: this.soundPlayer.playSound( SoundFilename.CD_SEEK3 ); break;
             case 3: this.soundPlayer.playSound( SoundFilename.CD_SEEK4 ); break;
-          } //*/
+          }
           //this.soundPlayer.playSound( SoundFilename.CD_SEEK1 );
           this.scheduleNextEvent( 0.65 );
           this.status = TransportMode.SEEK;
@@ -475,7 +298,7 @@ export class P3dTransport {
             this.trackPlaying = true;
             this.musicPlayer.playMusic( this.filenameList[ this.trackNumber ] );
             this.status = TransportMode.PLAYING;
-          } //*/
+          }
           break;
 
         case TransportEvent.STOP:
@@ -507,7 +330,7 @@ export class P3dTransport {
             this.musicPlayer.pauseMusic();
             //this.musicPlayer.stopMusic( MUSIC_FILENAME );
             this.status = TransportMode.PAUSED;
-          } //*/
+          }
           break;
       }
 
@@ -515,8 +338,11 @@ export class P3dTransport {
 
   }
 
+	//*/
 
   // ~     -      ~     -      ~     -      ~     -      ~     -      ~     -
+
+	/*
 
   ////////////////////////////////////////////////////////////////////////////
   // PRIVATE FUNCTION
@@ -529,10 +355,10 @@ export class P3dTransport {
       this.trackPlaying = false;
       this.musicPlayer.rewindMusic();
 
-      //this.eventQueue.push( TransportEvent.PAUSE ); //*/
+      //this.eventQueue.push( TransportEvent.PAUSE );
       this.eventQueue = [];
-      this.eventQueue.push( TransportEvent.SKIP_TRACK ); //*/
-      this.eventQueue.push( TransportEvent.PLAY ); //*/
+      this.eventQueue.push( TransportEvent.SKIP_TRACK );
+      this.eventQueue.push( TransportEvent.PLAY );
       this.scheduleNextEvent();
       this.musicPlayer.decodeMusic( this.filenameList[ this.trackNumber ] );
 
@@ -555,10 +381,10 @@ export class P3dTransport {
       this.trackPlaying = false;
       this.musicPlayer.rewindMusic();
 
-      //this.eventQueue.push( TransportEvent.PAUSE ); //*/
+      //this.eventQueue.push( TransportEvent.PAUSE );
       this.eventQueue = [];
-      this.eventQueue.push( TransportEvent.SKIP_TRACK ); //*/
-      this.eventQueue.push( TransportEvent.PLAY ); //*/
+      this.eventQueue.push( TransportEvent.SKIP_TRACK );
+      this.eventQueue.push( TransportEvent.PLAY );
       this.scheduleNextEvent();
 
       // START DECODING THE TRACK THAT"S ABOUT TO PLAY IF IT"S NOT ALREADY...
@@ -580,13 +406,15 @@ export class P3dTransport {
         this.status == TransportMode.STOPPED )
     {
       if( this.status == TransportMode.TRAY_OPEN )
-        this.eventQueue.push( TransportEvent.CLOSE_TRAY_PLAY ); //*/
+        this.eventQueue.push( TransportEvent.CLOSE_TRAY_PLAY );
       if( this.status != TransportMode.PAUSED )
-        this.eventQueue.push( TransportEvent.SPINUP ); //*/
-      this.eventQueue.push( TransportEvent.PLAY ); //*/
+        this.eventQueue.push( TransportEvent.SPINUP );
+      this.eventQueue.push( TransportEvent.PLAY );
       this.scheduleNextEvent();
-    } //*/
+    }
   }
+
+
 
   ////////////////////////////////////////////////////////////////////////////
   // PRIVATE FUNCTION
@@ -622,13 +450,14 @@ export class P3dTransport {
     }
     else
       this.nextTrack();
-
   }
 
 
+	//*/
+
   // ~     -      ~     -      ~     -      ~     -      ~     -      ~     -
 
-
+	/*
 
   /////////////////////////////////////////////////////////////////////////
   getPlaybackTime()
@@ -702,5 +531,6 @@ export class P3dTransport {
     return this.musicPlayer.getCurrentTrackLengthSec();
   }
 
+	//*/
 
 }
