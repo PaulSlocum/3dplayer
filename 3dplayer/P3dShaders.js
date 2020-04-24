@@ -12,39 +12,39 @@ export class P3dShaders
 {
 
   ///////////////////////////////////////////////////////////////////////
-  cdVertexShader() 
+  cdVertexShader()
   {
     return `
-      varying vec3 localPosition; 
+      varying vec3 localPosition;
       varying vec4 vertexWorldPosition;
       varying vec3 vertexNormal;
 
       void main() {
-        localPosition = position; 
+        localPosition = position;
 
         vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
         vertexWorldPosition = modelMatrix * vec4(position, 1.0);
-        gl_Position = projectionMatrix * modelViewPosition; 
+        gl_Position = projectionMatrix * modelViewPosition;
 
         //mat4 modelViewProjection = projectionMatrix * modelView;
         //gl_Position = modelViewProjection * vec4(P, 1.0);
-  
+
         //mat4 modelView = viewMatrix * modelMatrix;
         //normal = modelView * vec4(N, 0.0);
-        
+
         //vec4 vertexNormal2 = modelMatrix * vec4( normal, 1.0 );
         //vertexNormal = vertexNormal2.xyz;
         //vertexNormal = normal;
         vertexNormal = vec3( 0.0, 1.0, 0.0 );
       }
-    ` 
+    `
       //*/
   }
 
 
   ///////////////////////////////////////////////////////////////////////
-  cdFragmentShader() 
-  {   
+  cdFragmentShader()
+  {
     return `
       uniform vec3 lightPosition;
       uniform sampler2D cdTexture;
@@ -62,7 +62,7 @@ export class P3dShaders
 
       //===============================================================================
       // Returns accurate MOD when arguments are approximate integers.
-      float modI(float a,float b) 
+      float modI(float a,float b)
       {
           float m=a-floor((a+0.5)/b)*b;
           return floor(m+0.5);
@@ -78,20 +78,20 @@ export class P3dShaders
 
 
       //==============================================================================
-      float calculateCdColor( vec3 clampNormal, vec3 normLocalPosition, 
+      float calculateCdColor( vec3 clampNormal, vec3 normLocalPosition,
                               vec3 clampLightDirection, vec3 eyeDirection, float ridgePitch )
       {
         vec3 clampNormalIn = normalize( clampNormal - (normLocalPosition * ridgePitch) );
         vec3 reflectedDirectionIn  = normalize( -reflect( clampLightDirection, clampNormalIn )  );
         float specularIntensityIn = max( dot( reflectedDirectionIn, eyeDirection ), 0.0 );
-        float adjustedSpecularIn = clamp( pow( specularIntensityIn, 4.0 ), 0.0, 1.0 ); 
+        float adjustedSpecularIn = clamp( pow( specularIntensityIn, 4.0 ), 0.0, 1.0 );
         return adjustedSpecularIn;
       } //*/
-  
+
 
 
       //===============================================================================
-      void main() 
+      void main()
       {
         float centerDistance = distance( localPosition, vec3( 0.0, 0.0, 0.0 ) );
         const float TRANSPARENT_RING_RADIUS = 0.3;
@@ -115,7 +115,7 @@ export class P3dShaders
           vec3 eyeDirection       = normalize( cameraPosition.xyz - vertexWorldPosition.xyz );
           vec3 normLocalPosition = normalize(localPosition);
 
-          // CALCULATE SPECULAR AMOUNT FROM DISK RIDGES...          
+          // CALCULATE SPECULAR AMOUNT FROM DISK RIDGES...
           float adjustedSpecularIn = calculateCdColor( clampNormal, normLocalPosition, clampLightDirection, eyeDirection, 0.3 );
           float adjustedSpecularOut = calculateCdColor( clampNormal, normLocalPosition, clampLightDirection, eyeDirection, -0.3 );
 
@@ -140,31 +140,31 @@ export class P3dShaders
           gl_FragColor = mix( vec4(finalColor,1.0), vec4( textureColor.xyz, 1.0), textureColor.a );
           //gl_FragColor = vec4( finalColor, 1.0 );
           //gl_FragColor = textureColor;
-          
-          
+
+
           //gl_FragColor = texture2D( cdTexture, localPosition.xy ) * finalColor;
 
-          // OLD VERSIONS...          
+          // OLD VERSIONS...
           //float noise = rand( localPosition.xy ) * 0.15 - 0.07;
           //float i = mod( gl_FragCoord.x, 15.0 );
           //gl_FragColor = vec4( finalSpecular, finalSpecular, finalSpecular, cdFoilAlphaValue ); //*/
-          /*gl_FragColor = vec4( i/37.0+0.25 - noise + adjustedSpecularIn, 
-                                i/42.0+0.14 - noise + adjustedSpecularIn, 
+          /*gl_FragColor = vec4( i/37.0+0.25 - noise + adjustedSpecularIn,
+                                i/42.0+0.14 - noise + adjustedSpecularIn,
                                 0.15 - noise + adjustedSpecularIn, cdFoilAlphaValue ); //*/
-          /*gl_FragColor = vec4( i/37.0+0.25 - noise - patternedCenterDistance * 0.5, 
-                                i/42.0+0.14 - noise - patternedCenterDistance, 
+          /*gl_FragColor = vec4( i/37.0+0.25 - noise - patternedCenterDistance * 0.5,
+                                i/42.0+0.14 - noise - patternedCenterDistance,
                                 0.15 - noise - patternedCenterDistance, cdFoilAlphaValue ); //*/
         }
 
-      } 
-      
+      }
+
              `
       //*/
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     /*return `
-      uniform vec3 cdPosition; 
-      uniform vec3 lightPosition; 
+      uniform vec3 cdPosition;
+      uniform vec3 lightPosition;
       varying vec3 vUv;
 
       float rand(vec2 co){
@@ -193,8 +193,8 @@ export class P3dShaders
         {
           float noise = rand(vUv.xy)*0.15 - 0.07;
           float i = mod( gl_FragCoord.x, 15.0 );
-          gl_FragColor = vec4( i/37.0+0.25 - noise - distance*0.5, 
-                                i/42.0+0.14 - noise - distance, 
+          gl_FragColor = vec4( i/37.0+0.25 - noise - distance*0.5,
+                                i/42.0+0.14 - noise - distance,
                                 0.15 - noise - distance, alphaValue );
         }
         //gl_FragColor = vec4( i/35.0+0.28 - noise + cdPosition.x, i/45.0+0.18 - noise, 0.17 - noise, 0.0 );
@@ -202,8 +202,8 @@ export class P3dShaders
       }        ` //*/
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     /*return `
-      uniform vec3 colorC; 
-      uniform vec3 colorD; 
+      uniform vec3 colorC;
+      uniform vec3 colorD;
       varying vec3 vUv;
 
       float rand(vec2 co){
@@ -213,113 +213,9 @@ export class P3dShaders
       void main() {
         gl_FragColor = vec4(mix(colorC, colorD, vUv.y + rand(vUv.xy)*17.0 ), 1.0);
       }        ` //*/
-  }  
-
-
-
-
-  ///////////////////////////////////////////////////////////////////////
-  roomVertexShader() 
-  {
-    //---------------------------------------------------------------------
-    /* DIFFUSE SHADER
-      varying vec3 normal;
-      varying vec3 vertex_to_light_vector;
- 
-      void main()
-      {
-          // Transforming The Vertex
-          gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
- 
-          // Transforming The Normal To ModelView-Space
-          normal = gl_NormalMatrix * gl_Normal;
- 
-          // Transforming The Vertex Position To ModelView-Space
-          vec4 vertex_in_modelview_space = gl_ModelViewMatrx * gl_Vertex;
- 
-          // Calculating The Vector From The Vertex Position To The Light Position
-          vertex_to_light_vector = vec3(gl_LightSource[0].position Â– vertex_in_modelview_space);
-      }
-    //*/
-    //-------------------------------------------------------------------------
-    /* ORIGINAL
-      void main()
-      {
-        vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
-        gl_Position = projectionMatrix * modelViewPosition;
-      }
-    //*/
-    //-------------------------------------------------------------------------
-
-    return `
-    varying vec3 vUv; 
-
-    void main() {
-      vUv = position; 
-
-      vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
-      gl_Position = projectionMatrix * modelViewPosition; 
-    }
-
-      `
   }
 
-  ///////////////////////////////////////////////////////////////////////
-  roomFragmentShader() 
-  {   
-      //----------------------------------------------------------------------------
-      //float colorValue = gl_PointCoord.y/100.0+0.2;
-      //gl_FragColor = vec4( colorValue, colorValue, colorValue+0.05, 1.0);
-      //float colorValue = gl_PointCoord.y/100.0+0.2 + rand(gl_PointCoord.xy)*0.02;
-      //----------------------------------------------------------------------------
-      /* ORIGINAL GRADIENT
-        float colorValue = gl_PointCoord.y/100.0;
-        colorValue = clamp( colorValue, 0.0, 1.0 );
-        gl_FragColor = vec4( colorValue, colorValue, colorValue, 1.0);
-      //*/
-      //----------------------------------------------------------------------------
-      /* SOLID COLOR
-              gl_FragColor = vec4( 0.0, 0.0, 0.1, 1.0);
-              //*/
-      //----------------------------------------------------------------------------
-      /* DIFFUSE SHADER
-        varying vec3 normal;
-        varying vec3 vertex_to_light_vector;
- 
-        void main()
-        {
-            // Defining The Material Colors
-            const vec4 AmbientColor = vec4(0.1, 0.0, 0.0, 1.0);
-            const vec4 DiffuseColor = vec4(1.0, 0.0, 0.0, 1.0);
- 
-            // Scaling The Input Vector To Length 1
-            vec3 normalized_normal = normalize(normal);
-            vec3 normalized_vertex_to_light_vector = normalize(vertex_to_light_vector);
- 
-            // Calculating The Diffuse Term And Clamping It To [0;1]
-            float DiffuseTerm = clamp(dot(normal, vertex_to_light_vector), 0.0, 1.0);
- 
-            // Calculating The Final Color
-            gl_FragColor = AmbientColor + DiffuseColor * DiffuseTerm;
-        }
-              //*/
-      //----------------------------------------------------------------------------
-    return `
-      uniform vec3 colorA; 
-      uniform vec3 colorB; 
-      varying vec3 vUv;
 
-      float rand(vec2 co){
-          return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
-      }
-
-      void main() {
-        float i = mod( gl_FragCoord.x, 30.0 );
-        float noise = rand(vUv.xy)*0.2 - 0.1;
-        gl_FragColor = vec4(mix(colorA, colorB, vUv.y ), 1.0);
-        gl_FragColor = vec4( gl_FragColor.x * (i/15.0) - noise, gl_FragColor.y * (i/25.0) - noise, gl_FragColor.z * (i/20.0) - noise*2.0, 1.0 );
-      }        `
-  }  
 
 
 
