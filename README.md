@@ -13,6 +13,12 @@ and the visualizations are not yet complete.
  - realtime reverb and echo room simulator effects
  - realtime spectrum analyzer display
  
+### Technical features:
+ - audio library with smart memory management and audio effects processor
+ - custom optical disc GLSL shader
+
+### Screenshot: 
+
 ![screenshot](https://paulslocum.github.io/3dplayer/notes/screenshot_20-04-23.png)
 
 ### Usage
