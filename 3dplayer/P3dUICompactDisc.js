@@ -8,7 +8,7 @@
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-export class P3dShaders
+export class P3dCDShaders
 {
 
   ///////////////////////////////////////////////////////////////////////
@@ -55,18 +55,20 @@ export class P3dShaders
       varying vec3 vertexNormal;
 
       //===============================================================================
-      float rand(vec2 co)
+      // NOT CURRENTLY USED
+      /*float rand(vec2 co)
       {
           return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
-      }
+      } //*/
 
       //===============================================================================
+      // NOT CURRENTLY USED
       // Returns accurate MOD when arguments are approximate integers.
-      float modI(float a,float b)
+      /*float modI(float a,float b)
       {
           float m=a-floor((a+0.5)/b)*b;
           return floor(m+0.5);
-      }
+      } //*/
 
       //==============================================================================
       vec3 hsv2rgb(vec3 c)
@@ -88,8 +90,6 @@ export class P3dShaders
         return adjustedSpecularIn;
       } //*/
 
-
-
       //===============================================================================
       void main()
       {
@@ -109,7 +109,8 @@ export class P3dShaders
           //float patternedCenterDistance = mod( lightDistance*15.0, 5.0 ) * 0.1 - 0.7; // DEBUG - PROBABLY NO LONGER NEEDED
 
           // NEW LIGHT CALCULATIONS
-          vec3 lightDirection = lightPosition - vertexWorldPosition.xyz;
+          vec3 lightDirection = lightPosition - vertexWorldPosition.xyz; // <---------
+          //vec3 lightDirection = lightPosition; // <---------
           vec3 clampNormal = normalize( vertexNormal );
           vec3 clampLightDirection = normalize( lightDirection );
           vec3 eyeDirection       = normalize( cameraPosition.xyz - vertexWorldPosition.xyz );
@@ -123,7 +124,7 @@ export class P3dShaders
           float finalSpecular = adjustedSpecularIn + adjustedSpecularOut;
           vec3 finalColor = hsv2rgb( vec3( centerDistance*0.5 - 0.1, finalSpecular*0.3 + 0.05, finalSpecular*0.3 + 0.05 ) );
 
-          // CD FOIL TEXTURED RINGS...
+          // CD FOIL SLIGHTLY DARKER RINGS...
           if( centerDistance > 0.91  ||  centerDistance < 0.34 )
             finalColor = finalColor * 0.92;
 

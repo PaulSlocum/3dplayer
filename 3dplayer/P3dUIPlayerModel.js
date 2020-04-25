@@ -10,7 +10,7 @@
 //-----------------------------------------------------------------------------------
 import { GLTFLoader } from "./three/examples/jsm/loaders/GLTFLoader.js";
 // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
-import { P3dShaders } from "./P3dUICompactDisc.js";
+import { P3dCDShaders } from "./P3dUICompactDisc.js";
 import { P3dNumericDisplay } from "./P3dUINumericDisplay.js";
 import { P3dPanelLeds } from "./P3dUIPanelLeds.js";
 import { logger } from "./P3dLog.js";
@@ -38,7 +38,7 @@ export class P3dPlayerModel
     this.cdObject = null;
 
     this.loadedModel = null;
-    this.shaders = new P3dShaders();
+    this.shaders = new P3dCDShaders();
 
     const textureLoader = new THREE.TextureLoader();
     const texture = textureLoader.load( '3dplayer/model/test_1024x1024_1b.png' );
@@ -59,7 +59,7 @@ export class P3dPlayerModel
     this.frameCounter = 0;
     this.screenEdgePosition = 0;
 
-    this.animationMixer = null;
+    this.animationMixerTray = null;
     this.animationMixerCd = null;
     this.clock = new THREE.Clock();
 
@@ -83,6 +83,7 @@ export class P3dPlayerModel
       let worldPosition = new THREE.Vector3();
       this.cdObject.getWorldPosition( worldPosition );
       //this.cdObject.rotation.y = Math.sin( this.frameCounter * 0.05 );
+      this.cdObject.rotation.y = this.frameCounter * 0.05;
       //this.cdObject.rotation.x = Math.sin( this.frameCounter * 0.01 );
     } //*/
 
@@ -92,13 +93,13 @@ export class P3dPlayerModel
       this.cdUniforms.lightPosition.value.x = this.loadedModel.rotation.x*8.0 - 1.5;
       this.cdUniforms.lightPosition.value.y = this.loadedModel.rotation.y*5.0 + 0.8;
       this.cdUniforms.lightPosition.value.z = this.loadedModel.rotation.x*4.0-1.9;
-    }
+    } //*/
 
     // UPDATE ANIMATIONS..
-    if( this.animationMixer != null )
+    if( this.animationMixerTray != null )
     {
       var dt = this.clock.getDelta();
-      this.animationMixer.update(dt);
+      this.animationMixerTray.update(dt);
       this.animationMixerCd.update(dt);
     }
 
@@ -111,8 +112,10 @@ export class P3dPlayerModel
     //const rotationSpeed = 0.01; // SLOW
     //const rotationSpeed = 0.07; // FAST
     //const rotationSpeed = 0.00; // DISABLED
+
     if( this.loadedModel != null )
     {
+      this.targetRotationY = Math.cos( this.frameCounter * rotationSpeed ) * 0.08;
       if( this.trayOpen == true )
       {
         this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.01  + 0.25;
@@ -120,12 +123,15 @@ export class P3dPlayerModel
       else
       {
         this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 + 0.01;
-      }
+      } //*/
 
-      this.targetRotationY = Math.cos( this.frameCounter * rotationSpeed ) * 0.08;
 
       this.loadedModel.rotation.x = converge( this.loadedModel.rotation.x, this.targetRotationX, 0.005 );
       this.loadedModel.rotation.y = converge( this.loadedModel.rotation.y, this.targetRotationY, 0.005 );
+
+			// LOCK PLAYER IN PLACE - DEBUG!!!!!!!!!!!!!!!!!!!!!!!
+			/*this.loadedModel.rotation.x = 0.2;
+			this.loadedModel.rotation.y = 0.0; //*/
     }
 
   }
@@ -134,10 +140,18 @@ export class P3dPlayerModel
   /////////////////////////////////////////////////////////////////////////////////
   load()
   {
+    // CD MATERIAL
+    this.cdMaterial =  new THREE.ShaderMaterial({
+      uniforms: this.cdUniforms,
+      fragmentShader: this.shaders.cdFragmentShader(),
+      vertexShader: this.shaders.cdVertexShader(),
+    });
+    this.cdMaterial.transparent = true; //*/
 
     // INSTANTIATE GLTF LOADER FOR THE PLAYER MODEL
     const gltfLoader = new GLTFLoader();
     const url = "3dplayer/model/saeCdPlayer.glb";
+
 
     // NOTE: THIS RESULTS IN A "HTTP Status 0 received" MESSAGE WHEN IT WORKS CORRECTLY
     gltfLoader.load(url, (gltf) =>
@@ -154,7 +168,7 @@ export class P3dPlayerModel
       this.modelLoadComplete();
 
       // LOAD ANIMATIONS INTO DICTIONARY INDEXED BY NAME...
-      this.animationMixer = new THREE.AnimationMixer( this.scene.getObjectByName( "cdTray" ) );
+      this.animationMixerTray = new THREE.AnimationMixer( this.scene.getObjectByName( "cdTray" ) );
       this.animationMixerCd = new THREE.AnimationMixer( this.scene.getObjectByName( "cd" ) );
       for( let i=0; i<gltf.animations.length; i++ )
       {
@@ -182,14 +196,6 @@ export class P3dPlayerModel
       this.openTray( 300 );
     });
 
-    // CD MATERIAL
-    this.cdMaterial =  new THREE.ShaderMaterial({
-      uniforms: this.cdUniforms,
-      fragmentShader: this.shaders.cdFragmentShader(),
-      vertexShader: this.shaders.cdVertexShader(),
-    });
-    this.cdMaterial.transparent = true; //*/
-
 
 
   }
@@ -203,13 +209,13 @@ export class P3dPlayerModel
   {
     logger( "------> GRAPHICS: PLAY ANIMATION: ", animationName );
 
-    this.animationMixer.stopAllAction();
+    this.animationMixerTray.stopAllAction();
     this.animationMixerCd.stopAllAction();
 
     this.currentClip = this.loadedAnimations[ animationName ];
     if( this.currentClip )
     {
-      this.currentAction = this.animationMixer.clipAction( this.currentClip );
+      this.currentAction = this.animationMixerTray.clipAction( this.currentClip );
       this.currentAction.clampWhenFinished = true;
       this.currentAction.setLoop( THREE.LoopOnce );
       this.currentAction.timeScale = rate; // OPEN INSTANTLY SO IT LOOKS LIKE IT STARTS OPENED
@@ -242,7 +248,7 @@ export class P3dPlayerModel
   closeTray()
   {
     this.trayOpen = false;
-    this.animationMixer.stopAllAction();
+    this.animationMixerTray.stopAllAction();
     this.animationMixerCd.stopAllAction();
     this.currentAction.timeScale = -1;
     this.currentAction.time = this.currentAction.getClip().duration;

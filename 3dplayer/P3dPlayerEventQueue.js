@@ -1,4 +1,4 @@
-// P3dTransport.js
+// P3dPlayerEventQueue.js
 //
 // SIMULATES CD PLAYER LOGIC, SOUNDS, AND PLAYBACK
 //

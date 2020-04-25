@@ -1,4 +1,4 @@
-// P3dTransport.js
+// P3dPlayerTransport.js
 //
 // SIMULATES CD PLAYER LOGIC, SOUNDS, AND PLAYBACK
 //
@@ -9,6 +9,7 @@
 //import { P3dController } from "./P3dController.js";
 import { TransportMode, ButtonEvent } from "./P3dController.js";
 import { P3dSoundPlayer } from "./P3dAudioSounds.js";
+import { P3dPlayerEventQueue } from "./P3dPlayerEventQueue.js";
 import { P3dMusicPlayer } from "./P3dAudioMusic.js";
 import { EffectsPreset } from "./P3dAudioEffects.js";
 import { logger } from "./P3dLog.js";
@@ -622,13 +623,6 @@ export class P3dPlayerTransport {
   getPlaybackTime()
   {
     return this.musicPlayer.getMusicTime();
-  }
-
-
-  /////////////////////////////////////////////////////////////////////////
-  getTrackLength()
-  {
-    //TBI
   }
 
 
