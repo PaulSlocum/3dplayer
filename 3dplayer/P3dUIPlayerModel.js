@@ -13,6 +13,7 @@ import { GLTFLoader } from "./three/examples/jsm/loaders/GLTFLoader.js";
 import { P3dCDShaders } from "./P3dUICompactDisc.js";
 import { P3dNumericDisplay } from "./P3dUINumericDisplay.js";
 import { P3dPanelLeds } from "./P3dUIPanelLeds.js";
+// ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 import { logger } from "./P3dLog.js";
 import { converge, random } from "./P3dUtility.js";
 //-----------------------------------------------------------------------------------
@@ -65,8 +66,8 @@ export class P3dPlayerModel
 
     // ~   -    ~   -    ~   -    ~   -    ~   -
 
-    this.numericDisplay = new P3dNumericDisplay( appController, this.scene );
-    this.panelLeds = new P3dPanelLeds( appController, this.scene );
+    this.numericDisplay = new P3dNumericDisplay( appController, scene );
+    this.panelLeds = new P3dPanelLeds( appController, scene );
 
   }
 

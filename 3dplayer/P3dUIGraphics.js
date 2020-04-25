@@ -1,6 +1,6 @@
 // P3dGraphics.js
 //
-// BASE GRAPHICS CLASS THAT OPERATES THE CAMERA AND LOADS OTHER GRAPHICS MODULES
+// BASE GRAPHICS CLASS THAT OPERATES THE CAMERA AND LOADS OTHER GRAPHICS COMPONENTS
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -10,8 +10,10 @@
 import { P3dSwarm } from "./P3dUIParticles.js";
 import { P3dPlayerModel } from "./P3dUIPlayerModel.js";
 import { P3dRoom } from "./P3dUIRoom.js";
-import { logger } from "./P3dLog.js";
+import { P3dLights } from "./P3dUILights.js";
 import { TransportMode } from "./P3dController.js";
+// ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+import { logger } from "./P3dLog.js";
 import { converge, random } from "./P3dUtility.js";
 //-----------------------------------------------------------------------------------
 
@@ -54,10 +56,14 @@ export class P3dGraphics
 
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
-    this.isMobileDevice = window.mobilecheck();
-    this.isTabletDevice = window.mobileAndTabletcheck();
+    // ENABLE SHADOWS
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+
+    this.isMobileDevice = window.mobilecheck();
+    this.isTabletDevice = window.mobileAndTabletcheck();
 
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
@@ -71,26 +77,18 @@ export class P3dGraphics
 
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
-    // NEW!
-    this.roomCube = new P3dRoom( appController );
-    this.playerModel = new P3dPlayerModel( appController, this.scene );
+		this.cameraSetup();
 
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
-    this.spotlight = null;
-
-    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
-
-    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
-
-    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
-
-    this.buildStructures();
-
-    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
-
+    this.lights = new P3dLights( this.scene );
     this.swarm = new P3dSwarm( this.scene );
     this.swarm.setScreenEdgePosition( this.screenEdgePosition );
+
+    this.roomCube = new P3dRoom( appController );
+    this.scene.add( this.roomCube ); //*/
+    this.playerModel = new P3dPlayerModel( appController, this.scene );
+    this.playerModel.load();
 
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
@@ -158,10 +156,9 @@ export class P3dGraphics
 
 
 
-  ///////////////////////////////////////////////////////////////////////
-  // -----> MOST OF THESE OBJECTS SHOULD BE MOVED TO THEIR OWN CLASS
-  buildStructures()
-  {
+	/////////////////////////////////////////////////////////////////////////////////
+	cameraSetup()
+	{
     // SET CAMERA POSITION
     const cameraZOffset = 1.9;
 
@@ -205,41 +202,9 @@ export class P3dGraphics
     //logger( "------------------ EDGE POSITION:", edgePositionTest, " ------------- " )
     this.screenEdgePosition = edgePositionTest;
 
-    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+	}
 
-    this.playerModel.load();
 
-    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
-
-    // ENABLE SHADOWS
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
-    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
-
-    // ROOM CUBE
-    this.scene.add( this.roomCube ); //*/
-
-    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
-
-    // SPOTLIGHT
-    this.spotLight = new THREE.SpotLight(0xffffff);
-    const spotlightDistance = 1.5;
-    this.spotLight.position.set( -0, 1.2*spotlightDistance, 3.6*spotlightDistance ); //<--------------
-    this.spotLight.angle = Math.PI / 3.0;
-    this.spotLight.castShadow = true;
-    this.spotLight.shadow.mapSize.width = 420;
-    this.spotLight.shadow.mapSize.height = 420;
-    this.spotLight.target.position.z = -3;
-
-    // ---> OrthographicCamera( left : Number, right : Number, top : Number, bottom : Number, near : Number, far : Number )
-    this.spotLight.shadow.camera = new THREE.OrthographicCamera( -4, 4, 4, -4, 4, 8 );
-
-    this.spotLight.intensity = 1.0;
-    this.scene.add( this.spotLight );
-    this.scene.add( this.spotLight.target );
-
-  }
 
 
   ////////////////////////////////////////////////////////////////////////
@@ -253,4 +218,6 @@ export class P3dGraphics
 
 
 }
+
+
 
