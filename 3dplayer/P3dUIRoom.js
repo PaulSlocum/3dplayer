@@ -1,4 +1,4 @@
-// P3dRoom.js
+// P3dUIRoom.js
 //
 // ENVIROMENT CUBE WITH SHADERS AND ANIMATIONS
 //

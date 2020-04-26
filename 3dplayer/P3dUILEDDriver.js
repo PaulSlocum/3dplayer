@@ -1,7 +1,7 @@
 //
-// P3dLEDDriver.js
+// P3dUILEDDriver.js
 //
-// CLASS TO SET UP LED MATERIALS AND SHOW ALPHANUMERIC CHARACTERS ON 7-SEGMENT 
+// CLASS TO SET UP LED MATERIALS AND SHOW ALPHANUMERIC CHARACTERS ON 7-SEGMENT
 // LED DISPLAYS
 //
 //////////////////////////////////////////////////////////////////////////////////////
@@ -9,26 +9,26 @@
 //-----------------------------------------------------------------------------------
 import { logger } from './P3dLog.js'
 //-----------------------------------------------------------------------------------
- 
- 
- 
+
+
+
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~
   LED SEGMENT ORDER:
 
-          1 
+          1
          --
      0 |    | 2
-         __ 
+         __
      5 |  6 | 3
          __
           4
-      
+
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
 const TOTAL_LED_DIGITS = 7;
 const TOTAL_LED_SEGMENTS = 7;
-const SEGMENT_TABLE = 
-{ 
+const SEGMENT_TABLE =
+{
         0: [1,1,1,1,1,1,0],
         1: [0,0,1,1,0,0,0],
         2: [0,1,1,0,1,1,1],
@@ -89,28 +89,28 @@ export class P3dLEDDriver
 {
 
   ///////////////////////////////////////////////////////////////////////
-  constructor( scene ) 
+  constructor( scene )
   {
     logger("---->LED DRIVER CLASS CONSTRUCTOR: " );
-    
+
     this.scene = scene;
-    
+
     this.ledOnMaterial = null;
     this.ledDimMaterial = null;
     this.ledOffMaterial = null;
     this.displayGlassMaterial = null;
-    
+
     this.frameCounter = 0;
-    
-    this.mainLedArray = [ [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], 
+
+    this.mainLedArray = [ [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0],
                           [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0] ];
-    this.highlightLedArray = [ [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], 
+    this.highlightLedArray = [ [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0],
                                [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0], [0,0,0,0,0,0,0] ];
     this.colonObject = null;
     this.colonHighlight = null;
-                               
+
     this.objectsLoaded = false;
-    
+
   }
 
 
@@ -119,7 +119,7 @@ export class P3dLEDDriver
   load()
   {
     // FIND THE MATERIALS USED FOR THE LEDS...
-    this.scene.traverse( function(child) 
+    this.scene.traverse( function(child)
     {
       if( this.ledOnMaterial == null  &&  child.material  &&  child.material.name == "ledOn" )
       {
@@ -144,7 +144,7 @@ export class P3dLEDDriver
 
       //console.log("---->LED DRIVER->CHILD: ", child.material);
     }.bind(this) ); //*/
-    
+
     // FIND AND LOAD ALL THE SEGMENT OBJECTS INTO ARRAYS...
     for( let ledDigit=0; ledDigit<TOTAL_LED_DIGITS; ledDigit++ )
     {
@@ -153,7 +153,7 @@ export class P3dLEDDriver
         var mainObjectName = "Seg1".concat( String.fromCharCode(ledSegment+97), "100", ledDigit );
         //logger( ">>>>>>>>>>>>> MAIN OBJECT NAME: ", mainObjectName );
         this.mainLedArray[ledDigit][ledSegment] = this.scene.getObjectByName( mainObjectName, true );
-        
+
         var highlightObjectName = "Seg1".concat( String.fromCharCode(ledSegment+97), "200", ledDigit );
         //logger( ">>>>>>>>>>>>> HIGHLIGHT OBJECT NAME: ", highlightObjectName );
         this.highlightLedArray[ledDigit][ledSegment] = this.scene.getObjectByName( highlightObjectName, true );
@@ -162,7 +162,7 @@ export class P3dLEDDriver
 
     this.colonObject = this.scene.getObjectByName( "Colon1a" );
     this.colonHighlight = this.scene.getObjectByName( "Colon1b" );
-    
+
     this.objectsLoaded = true;
 
     // CLEAR ALL SEGMENTS
@@ -208,7 +208,7 @@ export class P3dLEDDriver
   {
     //console.log( "---->LED DRIVER->SET: ", SEGMENT_TABLE[character] );
     let segmentArray = SEGMENT_TABLE[character];
-    
+
     for( let ledSegment=0; ledSegment<TOTAL_LED_SEGMENTS; ledSegment++ )
     {
       if( segmentArray[ledSegment] == 0 )
@@ -227,8 +227,8 @@ export class P3dLEDDriver
       this.colonObject.material = this.ledOnMaterial;
       this.colonHighlight.material = this.ledDimMaterial;
     }
-  }  
-  
+  }
+
 
   //////////////////////////////////////////////////////////////////////////
   colonOff()
@@ -238,13 +238,13 @@ export class P3dLEDDriver
       this.colonObject.material = this.ledOffMaterial;
       this.colonHighlight.material = this.displayGlassMaterial;
     }
-  }  
-  
+  }
 
-  //  -    ~       -    ~       -    ~       -    ~       -    ~       -    ~        
-  
- 
-  
+
+  //  -    ~       -    ~       -    ~       -    ~       -    ~       -    ~
+
+
+
   /////////////////////////////////////////////////////////////////////////
   _segmentOn( ledDigit, ledSegment )
   {
@@ -255,7 +255,7 @@ export class P3dLEDDriver
     }
   }
 
-  
+
   /////////////////////////////////////////////////////////////////////////
   _segmentOff( ledDigit, ledSegment )
   {
@@ -266,6 +266,6 @@ export class P3dLEDDriver
     }
   }
 
-  
-  
+
+
 }

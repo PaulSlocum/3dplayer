@@ -1,5 +1,5 @@
 //
-// P3dContactDisc.js
+// P3dUIConpactDisc.js
 //
 // CONTAINS COMPACT DISC SHADER CODE
 //

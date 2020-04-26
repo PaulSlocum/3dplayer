@@ -1,4 +1,5 @@
-// P3dSwarm.js
+//
+// P3dUIParticles.js
 //
 // SIMPLE PARTICLE/PHYSICS SYSTEM THAT DISPLAYS FIELD OF MOVING OBJECTS
 //
@@ -24,47 +25,47 @@ export class P3dSwarm
 
 
   ///////////////////////////////////////////////////////////////////////
-  constructor( scene ) 
+  constructor( scene )
   {
     this.scene = scene;
-    
+
     this.sphere = null;
-    
+
     this.objectArray = [];
     this.sizeArray = [];
     this.objectEnabled = [];
-    
+
     this.xSpeed = [];
     this.ySpeed = [];
     this.zSpeed = [];
-    
+
     this.xBaseSpeed = 0.0;
-    
+
     this.windAmountX = 0.0;
     this.windAmountY = 0.0;
     this.windScale = 0.0;
     this.windActive = false;
     this.windBuilding = false;
-    
+
     this.screenEdgePosition = 6.0;
 
     this.currentSize = 0.0;
     this.enabled = false;
-    
+
     this.frameCounter = 0;
 
     this.load();
-    this.disable();    
+    this.disable();
   }
-  
+
 
   ////////////////////////////////////////////////////////////////////////
   setScreenEdgePosition( newEdge )
   {
     this.screenEdgePosition = newEdge + 0.7;
-  } 
+  }
 
-  
+
   ////////////////////////////////////////////////////////////////////////
   load()
   {
@@ -76,7 +77,7 @@ export class P3dSwarm
     var boxGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
     var coneGeometry = new THREE.ConeGeometry( objectSize*0.9, objectSize*1.5, coneSegments );
     // OTHER GEOMETRIES TO CONSIDER:
-    //    TetrahedronGeometry   ConeGeometry   CylinderGeometry   IcosahedronGeometry  
+    //    TetrahedronGeometry   ConeGeometry   CylinderGeometry   IcosahedronGeometry
     //    OctahedronGeometry    TextGeometry    TorusGeometry     TorusKnotGeometry
     var sphereMaterial2 = new THREE.MeshStandardMaterial( {color: 0x747A70} );
     var sphereMaterial1 = new THREE.MeshStandardMaterial( {color: 0x817060} );
@@ -86,7 +87,7 @@ export class P3dSwarm
     sphereMaterial1.roughness = 0.45;
     sphereMaterial2.metalness = 0.4;
     sphereMaterial2.roughness = 0.45;
-    
+
     for( let i=0; i<MAX_OBJECTS; i++ )
     {
       switch( random(3) )
@@ -115,19 +116,19 @@ export class P3dSwarm
       this.scene.add( this.objectArray[i] );
       this.xSpeed[i] = random(20) * 0.00002 + 0.0037;
     } //*/
-    
+
   }
-  
-  
-  
+
+
+
   ////////////////////////////////////////////////////////////////////////
-  render()
+  update()
   {
     this.frameCounter++;
-  
+
     // TEST: CONSTANT GRADUAL ACCERLERATION
     //this.xBaseSpeed += 0.000002;
-  
+
     if( this.frameCounter%780 == 0 )
     {
       this.windActive = true;
@@ -136,7 +137,7 @@ export class P3dSwarm
       this.windAmountX = (random(100)-0) * 0.00014;
       this.windAmountY = (random(100)-50) * 0.00014;
     }//*/
-    
+
     if( this.windActive == true )
     {
       if( this.windBuilding == true )
@@ -145,15 +146,15 @@ export class P3dSwarm
         if( this.windScale == 1.0 )
           this.windBuilding = false;
       }
-      else 
+      else
       {
         this.windScale = converge( this.windScale, 0.0, 0.005 );
         if( this.windScale == 0.0 )
           this.windActive = false;
       }
-    }      
-  
-    // UPDATE POSITION, ROTATION, AND SCALE OF EACH OBJECT  
+    }
+
+    // UPDATE POSITION, ROTATION, AND SCALE OF EACH OBJECT
     for( let i=0; i<MAX_OBJECTS; i++ )
     {
       // IF OBJECT IS DISABLED, THEN SCALE OBJECT SMALLER UNTIL IT IS GONE.
@@ -170,7 +171,7 @@ export class P3dSwarm
       this.objectArray[i].position.x += this.xSpeed[i] + this.windAmountX * this.windScale + this.xBaseSpeed;
       this.objectArray[i].position.y += this.windAmountY * this.windScale;
       //this.objectArray[i].position.z += 0.001; // DEBUG - TESTING CONCEPT OF OBJECTS CHANGING DEPTCH
-      
+
       this.objectArray[i].scale.x = 1.0 * this.sizeArray[i];
       this.objectArray[i].scale.y = 1.0 * this.sizeArray[i];
       this.objectArray[i].scale.z = 1.0 * this.sizeArray[i];
@@ -185,7 +186,7 @@ export class P3dSwarm
           this.sizeArray[i] = 1.0;
           this.objectArray[i].visible = true;
         }
-        
+
         // ATTEMPT TO PLACE OBJECT ON LEFT SIDE WITHOUT BEING TOO CLOSE TO OTHER OBJECTS...
         let foundNearbyObject = false;
         let placementAttempts = 0;
@@ -203,16 +204,16 @@ export class P3dSwarm
             this.objectEnabled[i] = false;
             break;
           }
-          
+
           // TRY A RANDOM Y LOCATION...
           this.objectArray[i].position.y = random(80)*0.062 - 2.1;
           const PROXIMITY_LIMIT = 1.35;
           foundNearbyObject = false;
-          
+
           // CHECK IF IT"S TOO CLOSE TO ANY OTHER OBJECTS
           for( let j=0; j<MAX_OBJECTS; j++ )
           {
-            if( i != j )  
+            if( i != j )
             {
               if( Math.abs( this.objectArray[j].position.x - this.objectArray[i].position.x ) < PROXIMITY_LIMIT  &&
                   Math.abs( this.objectArray[j].position.y - this.objectArray[i].position.y ) < PROXIMITY_LIMIT  )
@@ -225,10 +226,10 @@ export class P3dSwarm
 
         }
         while( foundNearbyObject == true );
-  
+
       }
     }
-      
+
     //*/
   }
 
@@ -250,7 +251,7 @@ export class P3dSwarm
     }
   }
 
-  
+
 }
 
 

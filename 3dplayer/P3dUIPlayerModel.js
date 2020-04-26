@@ -28,7 +28,6 @@ export class P3dPlayerModel
   constructor( appController, scene )
   {
 
-    this.appController = appController;
     this.scene = scene;
 
     // ~   -    ~   -    ~   -    ~   -    ~   -

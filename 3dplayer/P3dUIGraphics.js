@@ -1,4 +1,4 @@
-// P3dGraphics.js
+// P3dUIGraphics.js
 //
 // BASE GRAPHICS CLASS THAT OPERATES THE CAMERA AND LOADS OTHER GRAPHICS COMPONENTS
 //
@@ -11,6 +11,7 @@ import { P3dSwarm } from "./P3dUIParticles.js";
 import { P3dPlayerModel } from "./P3dUIPlayerModel.js";
 import { P3dRoom } from "./P3dUIRoom.js";
 import { P3dLights } from "./P3dUILights.js";
+import { P3dSequencer } from "./P3dUISequencer.js";
 import { TransportMode } from "./P3dController.js";
 // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 import { logger } from "./P3dLog.js";
@@ -89,6 +90,7 @@ export class P3dGraphics
     this.scene.add( this.roomCube ); //*/
     this.playerModel = new P3dPlayerModel( appController, this.scene );
     this.playerModel.load();
+    this.sequencer = new P3dSequencer( this.appController, this.roomCube, this.swarm, this.lights );
 
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
@@ -101,31 +103,14 @@ export class P3dGraphics
   {
     requestAnimationFrame( this.run.bind(this) );
 
-    this.frameCounter++;
-
-    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
-
     this.playerModel.update();
-
-    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
-
-    // UPDATE "SWARM" PARTICLE SYSTEM
-    this.swarm.render();
-    if( this.appController.getStatus() != TransportMode.PLAYING )
-      this.swarm.disable();
-    else
-      this.swarm.enable();
-
-    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
-
-    // UPDATE ROOM CUBE
+		this.swarm.update();
+		this.lights.update();
     this.roomCube.update();
-
-    //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
+    this.sequencer.update();
 
     // RENDER!
     this.renderer.render( this.scene, this.camera );
-
   }
 
 
@@ -147,7 +132,7 @@ export class P3dGraphics
 
 
   ///////////////////////////////////////////////////////////////////////////
-  // THIS WILL NEED TO BE FIXED TO WORK WITH NEW SHADER SYSTEM
+  // THIS NEEDS TO BE FIXED TO WORK WITH NEW SHADER SYSTEM (LOW PRIORITY)
   /*setBackgroundColor( color )
   {
     this.uniforms["colorA"] = { type: "vec3", value: new THREE.Color( color ) };
