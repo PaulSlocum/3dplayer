@@ -20,7 +20,7 @@ class MusicFile
     this.fileData = null;
     this.decodeStarted = false;
     this.decodedData = null;
-    
+
   }
 }
 
@@ -34,14 +34,14 @@ class SmartQueue extends Array
     this.removeItem( item );
     this.push( item );
   }
-  
+
   removeItem( item )
   {
     let newArray = this.filter( function(i) { return i != item; } );
     this.length = 0;
     this.push( ...newArray );
   }
-  
+
 }
 
 
@@ -60,37 +60,40 @@ export class P3dMusicPlayer
   {
     const BYTES_PER_SAMPLE = 2;  // <-- NOTE: ASSUMES 16 BIT SAMPLES
     return Math.round( numberOfSamples * numberOfChannels * BYTES_PER_SAMPLE / 1024 / 1024 );
-  } 
-  
+  }
+
 
 
   ///////////////////////////////////////////////////////////////////////////////
   manageMemory()
   {
+  	// COUNT TOTALY MEMORY USED...
     let totalMemoryUsedMb = 0;
-    //for( let musicFile in this.musicFiles )
-    //logger( "=============> MANAGE MEMORY: USAGE QUEUE: ", this.usageQueue );
     for( let musicFile of this.usageQueue )
     {
-      //logger( "=======> MANAGE MEMORY: MUSIC FILE: ", musicFile, this.musicFiles[musicFile] );
       if( this.musicFiles[musicFile].decodedData != null )
-        totalMemoryUsedMb += this.samplesToMegabytes( this.musicFiles[musicFile].decodedData.length, 
+        totalMemoryUsedMb += this.samplesToMegabytes( this.musicFiles[musicFile].decodedData.length,
                                             this.musicFiles[musicFile].decodedData.numberOfChannels );
     }
-    //logger( "=======> MANAGE MEMORY: TOTAL AUDIO MEMORY USED (MB): ", totalMemoryUsedMb );
     const MAX_MEMORY_USAGE_MB = 150;
-    
+
+		// PURGE MEMORY IF NECESSARY...
     if( totalMemoryUsedMb > MAX_MEMORY_USAGE_MB )
     {
       logger( "=============> MANAGE MEMORY: STARTING MEMORY CLEANUP: ", this.usageQueue );
-      for( let i=0; i<this.usageQueue.length-2; i++ )
+      const MINIMUM_FILES_IN_MEMORY = 2;
+      for( let i=0; i<this.usageQueue.length-MINIMUM_FILES_IN_MEMORY; i++ )
       {
         let filename = this.usageQueue[i];
         logger( "=============> MANAGE MEMORY: FREEING FILE: ", filename );
 
-        totalMemoryUsedMb -= this.samplesToMegabytes( this.musicFiles[filename].decodedData.length, 
+        totalMemoryUsedMb -= this.samplesToMegabytes( this.musicFiles[filename].decodedData.length,
                                             this.musicFiles[filename].decodedData.numberOfChannels );
 
+				// DELETE THE FILE DATA POINTER AND FILE DECODE POINTER
+				// NOTE: THE FILE DATA POINTER WILL HAVE ALREADY BEEN FREED BY WEB AUDIO API
+				//       DESPITE STILL HAVING THE POINTER, BUT THE DECODED FILE DATA WILL NOT
+				//       ALREADY HAVE BEEN FREED.
         this.musicFiles[filename].fileData = null;
         this.musicFiles[filename].decodedData = null;
         this.musicFiles[filename].downloadStarted = false;
@@ -98,21 +101,21 @@ export class P3dMusicPlayer
         this.usageQueue.removeItem( filename );
 
         if( totalMemoryUsedMb < MAX_MEMORY_USAGE_MB )
-          break; // <-- FOR LOOP
+          break; // <------- BREAK FOR LOOP
       }
       logger( "=============> MANAGE MEMORY: \\__ FINISHING MEMORY CLEANUP: ", this.usageQueue );
     }
   }
-  
+
 
 
 
   ///////////////////////////////////////////////////////////////////////
-  constructor( delegate ) 
+  constructor( delegate )
   {
     logger("---->MUSIC CLASS CONSTRUCTOR");
 
-    // MUSIC PLAYER    
+    // MUSIC PLAYER
     this.preloadContext = new (window.AudioContext || window.webkitAudioContext)();
     this.musicContext = null;
     this.musicSource = null;
@@ -123,9 +126,9 @@ export class P3dMusicPlayer
     this.musicPlayPending = false;
     this.musicPlayingFilename = null;
     this.musicDownloadQueue = [];
-    this.musicDecodeQueue = []; 
+    this.musicDecodeQueue = [];
     this.usageQueue = new SmartQueue();
-    
+
     this.musicDownloading = false;
     this.musicDecoding = false;
 
@@ -136,10 +139,10 @@ export class P3dMusicPlayer
     //this.trebleValue = 0.0;
 
     this.delegate = delegate;
-   
+
     this.effects = null;
     this.mainVolumeGain = null;
-    
+
     this.musicFiles = []; // ARRAY OF "MusicFile" CLASS/STRUCT
 
   }
@@ -158,7 +161,7 @@ export class P3dMusicPlayer
   ///////////////////////////////////////////////////////////////////////////
   setBass( value )
   {
-    // THIS IS DISABLED PENDING REWORKING OF EFFECTS SYSTEM
+    // THIS IS DISABLED PENDING REWORKING OF EFFECTS SYSTEM (LOW PRIORITY)
     /*this.bassValue = value * TREBLE_BASS_MULTIPLIER;
     if( this.musicPlaying == true )
       this.lowFilter.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 ); //*/
@@ -168,7 +171,7 @@ export class P3dMusicPlayer
   ///////////////////////////////////////////////////////////////////////////
   setTreble( value )
   {
-    // THIS IS DISABLED PENDING REWORKING OF EFFECTS SYSTEM
+    // THIS IS DISABLED PENDING REWORKING OF EFFECTS SYSTEM (LOW PRIORITY)
     /*this.trebleValue = value * TREBLE_BASS_MULTIPLIER;
     if( this.musicPlaying == true )
       this.highFilter.gain.setTargetAtTime( value, this.musicContext.currentTime, 0.015 ); //*/
@@ -181,20 +184,20 @@ export class P3dMusicPlayer
     this.effects.loadPreset( fxMode );
   }
 
-  
-  //   ~      -         ~      -         ~      -         ~      -         ~     
-  //   ~      -         ~      -         ~      -         ~      -         ~     
+
+  //   ~      -         ~      -         ~      -         ~      -         ~
+  //   ~      -         ~      -         ~      -         ~      -         ~
 
 
   /////////////////////////////////////////////////////////////////////////////
-  // NOTE: DOWNLOADS BUT DOESN"T DECODE
+  // NOTE: DOWNLOADS BUT DOESN'T DECODE
   downloadMusic( musicFilename )
   {
     this.initMusicFile( musicFilename );
 
     //logger( "-----> MUSIC: DOWNLOAD MUSIC: ", musicFilename );
-  
-    if( this.musicFiles[musicFilename].downloadStarted == false  &&  
+
+    if( this.musicFiles[musicFilename].downloadStarted == false  &&
         this.musicDownloadQueue.includes( musicFilename ) == false )
     {
       //logger( "-----> MUSIC: ADDING TO DOWNLOAD QUEUE: ", musicFilename );
@@ -205,18 +208,18 @@ export class P3dMusicPlayer
 
 
 
-  
+
   ///////////////////////////////////////////////////////////////////////////////
-  // NOTE: THIS ALSO DOWNLOADS IF NOT ALREADY DONE
+  // NOTE: THIS DOWNLOADS IF NOT ALREADY DOWNLOADED
   decodeMusic( musicFilename )
   {
     this.initMusicFile( musicFilename );
-    
+
     this.manageMemory();
-      
+
     //logger( "-----> MUSIC: DECODE FILE: ", musicFilename );
 
-    if( this.musicFiles[musicFilename].decodeStarted == false  &&  
+    if( this.musicFiles[musicFilename].decodeStarted == false  &&
         this.musicDecodeQueue.includes( musicFilename ) == false )
     {
       //logger( "-----> MUSIC: ADDING TO DOWNLOAD QUEUE: ", musicFilename );
@@ -225,11 +228,11 @@ export class P3dMusicPlayer
       this.processMusicQueues();
     }
   }
-  
-  
-  
+
+
+
   /////////////////////////////////////////////////////////////////////////////
-  // NOTE: THIS ALSO DOWNLOADS AND/OR DECODES IF NOT ALREADY DONE
+  // NOTE: THIS DOWNLOADS AND/OR DECODES IF NOT ALREADY DOWNLOADED/DECODED
   playMusic( musicFilename, offsetSec )
   {
     this.createContext();
@@ -281,7 +284,7 @@ export class P3dMusicPlayer
     }
   }
 
-  
+
   /////////////////////////////////////////////////////////////////////////////
   getCurrentTrackLengthSec()
   {
@@ -307,8 +310,8 @@ export class P3dMusicPlayer
   }
 
 
-  //   ~      -         ~      -         ~      -         ~      -         ~     
-  //   ~      -         ~      -         ~      -         ~      -         ~     
+  //   ~      -         ~      -         ~      -         ~      -         ~
+  //   ~      -         ~      -         ~      -         ~      -         ~
 
 
   /////////////////////////////////////////////////////////////////////////////
@@ -321,7 +324,7 @@ export class P3dMusicPlayer
       this.musicContext = new (window.AudioContext || window.webkitAudioContext)();
 
       this.effects = new P3dAudioEffects( this.musicContext );
-      
+
       this.mainVolumeGain = this.musicContext.createGain();
       this.mainVolumeGain.gain.value = 1.0;
 
@@ -358,20 +361,20 @@ export class P3dMusicPlayer
       //logger( "-----> MUSIC UPDATE: DOWNLOADING: ", downloadFilename );
       this.musicFiles[downloadFilename].downloadStarted = true;
       this.musicDownloading = true;
-      
+
       let request = new XMLHttpRequest();
       request.open("GET", downloadFilename, true);
       request.responseType = "arraybuffer";
-      request.onload = function() 
+      request.onload = function()
       { // FILE LOADER CALLBACK:
-      
+
         //logger( "-----> MUSIC DOWNLOADED: ", downloadFilename, request );
         this.musicFiles[downloadFilename].fileData = request.response;
         this.musicDownloading = false;
         this.processMusicQueues();
       }.bind(this,request,downloadFilename);
-      
-      request.send(); 
+
+      request.send();
     }
 
     // PROCESS DECODE QUEUE...
@@ -384,23 +387,23 @@ export class P3dMusicPlayer
         let decodeFilename = this.musicDecodeQueue.shift();
         this.musicFiles[decodeFilename].decodeStarted = true;
         this.musicDecoding = true;
-        this.preloadContext.decodeAudioData( this.musicFiles[decodeFilename].fileData, function( decodeFilename, buffer)  
+        this.preloadContext.decodeAudioData( this.musicFiles[decodeFilename].fileData, function( decodeFilename, buffer)
         { // DECODER CALLBACK:
 
           //logger( "-----> MUSIC DECODED, CONTEXT: ", this.preloadContext, decodeFilename, buffer );
           this.musicFiles[decodeFilename].decodedData = buffer;
           this.musicDecoding = false;
           this.usageQueue.pushWithoutDuplicate( decodeFilename );
-   
+
           this.musicPauseTime = 0.0;
           this.processMusicQueues();
 
         }.bind(this, decodeFilename), function(e) {
           logger("Audio decode error! ", e);
-        } );  
+        } );
       }
     }
-    
+
     // START PLAYBACK IF MUSIC FILE IS DECODED...
     if( this.musicPlayPending == true  &&  this.musicPlaying == false )
     {
@@ -413,19 +416,19 @@ export class P3dMusicPlayer
         this.musicSource.buffer = this.musicFiles[this.musicPlayingFilename].decodedData;
         this.musicSource.connect( this.effects.getInput() );
         this.usageQueue.pushWithoutDuplicate( this.musicPlayingFilename );
-        // ~    -   ~    -   ~    -   ~    -   
+        // ~    -   ~    -   ~    -   ~    -
         this.musicSource.loop = false;
         this.musicSource.onended = this.musicEndedCallback.bind(this);
-        // ~    -   ~    -   ~    -   ~    -   
+        // ~    -   ~    -   ~    -   ~    -
         this.musicSource.start( 0.0, this.musicPauseTime ); //*/
-        this.musicPlaying = true;  
-        this.musicStartTime = this.musicContext.currentTime;        
+        this.musicPlaying = true;
+        this.musicStartTime = this.musicContext.currentTime;
       }
     } //*/
 
   }
-  
-  
+
+
   /////////////////////////////////////////////////////////////////////////////////////
   // PRIVATE FUNCTION
   musicEndedCallback()
@@ -436,7 +439,7 @@ export class P3dMusicPlayer
       this.delegate.musicEndedCallback();
     }//*/
   }
-  
+
 }
 
 
