@@ -14,8 +14,6 @@ import { logger } from "./P3dLog.js";
 
 
 
-logger("---->LAUNCHING 3DPLAYER");
-
 // GET SCRIPT TO READ ATTRIBUTES
 const script = document.scripts[document.scripts.length - 1];
 
@@ -54,6 +52,6 @@ script.parentElement.insertBefore(renderer.domElement, script); // Add the newly
 
 // LAUNCH THE 3D PLAYER APPLICATION CONTROLLER
 const controller = new P3dController( filenameList, renderer, windowWidth, windowHeight );
-//controller.setBackgroundColor( 0x000000 ); // <---- BG COLOR SHOULD EVENTUALLY BE SELECTABLE THROUGH A SCRIPT PARAMETER 
-controller.run(); 
+//controller.setBackgroundColor( 0x000000 ); // <---- BG COLOR SHOULD EVENTUALLY BE SELECTABLE THROUGH A SCRIPT PARAMETER
+controller.run();
 

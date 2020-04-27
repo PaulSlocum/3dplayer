@@ -28,6 +28,7 @@ https://www.khronos.org/opengl/wiki/GLSL_Optimizations
 THREE.JS CANVAS SET UP WITH RESIZING:
 https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container/45046955#45046955
 
+
 --------------------------------------------------------------------------------
 /\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
 --------------------------------------------------------------------------------
@@ -40,10 +41,16 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 - prevent CD rotation from changing CD lighting
 ~   -   ~   -   ~   -   ~   -   
+- use a flag instead of "seekVelocity" to keep track of whether buttons are down so that quick presses still skip correctly
+~   -   ~   -   ~   -   ~   -  
+x change tray open/close animation communication to be done by a getTrayStatus() call to the transport 
+~   -   ~   -   ~   -   ~   -   
+- implement the ability to switch shaders for the room cube
+- have the sequencer change room shaders by song
+- keep the particle system off until some ways into the song
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
-- make it so that image map rotates each time CD is ejected
 ~   -   ~   -   ~   -   ~   -   
 - keep playing CD seeking sounds until music starts playing (or maybe just lengthn CD sounds)
 ~   -   ~   -   ~   -   ~   -   
@@ -74,13 +81,10 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -  
-- use a flag instead of "seekVelocity" to keep track of whether buttons are down so that quick presses still skip correctly
-~   -   ~   -   ~   -   ~   -  
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
 - refactor graphics class to separate out different graphics components
 - refactor transport class to separate event system from button processor
-- refactor music class to separate queuing system
 - refactor "playbackTimeInt" with units in numeric display
 - add units (seconds) to getPlaybackTime calls and usage
 ~   -   ~   -   ~   -   ~   -   
@@ -100,8 +104,6 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
-- change tray open/close animation communication to be done by a getTrayStatus() call to the transport 
 ~   -   ~   -   ~   -   ~   -   
 - add secondary effect eq, pre-delay, and delay feedback
 ~   -   ~   -   ~   -   ~   -   
@@ -152,6 +154,7 @@ x figure out why the CD players glass display comes out dark gray instead of bla
 x implement PNG image map on CD surface
 x create better CD image
 x blend PNG image with CD surface 
+x make it so that image map rotates each time CD is ejected
 ~   -   ~   -   ~   -   ~   -   
 
 

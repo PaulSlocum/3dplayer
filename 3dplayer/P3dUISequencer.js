@@ -18,22 +18,34 @@ export class P3dSequencer
 {
 
 	////////////////////////////////////////////////////////////////////////////////
- 	constructor( appController, room, particles, lights )
+ 	constructor( graphicsController )
 	{
-		this.appController = appController;
-		this.room = room;
-		this.particles = particles;
-		this.lights = lights;
+		this.appController = graphicsController.appController;
+		this.roomCube = graphicsController.roomCube;
+		this.particles = graphicsController.particles;
+		this.lights = graphicsController.lights;
+		this.playerModel = graphicsController.playerModel;
+
+		this.trayOpen = true; // MODEL CLASS STARTS WITH TRAY OPEN
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////
 	update()
 	{
+		let appStatus = this.appController.getStatus();
+
 		// UPDATE "SWARM" PARTICLE SYSTEM
-    if( this.appController.getStatus() != TransportMode.PLAYING )
+    if( this.appStatus != TransportMode.PLAYING )
       this.particles.disable();
     else
       this.particles.enable();
+
+		// UPDATE TRAY STATE
+		let transportTrayOpen = appStatus === TransportMode.TRAY_OPENING  ||  appStatus === TransportMode.TRAY_OPEN
+		if( this.playerModel.trayOpen == true  &&  transportTrayOpen == false )
+			this.playerModel.closeTray();
+		if( this.playerModel.trayOpen == false  &&  transportTrayOpen == true )
+			this.playerModel.openTray();
 
 	}
 

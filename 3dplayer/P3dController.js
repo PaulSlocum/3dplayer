@@ -67,7 +67,7 @@ export class P3dController {
   ///////////////////////////////////////////////////////////////////////
   constructor( filenameList, renderer, windowWidth, windowHeight )
   {
-    logger( "---->CONTROLLER CONSTRUCTOR" );
+    logger( "------>APP CONTROLLER CLASS CONSTRUCTOR" );
 
     this.height = windowWidth;
     this.width = windowHeight;
@@ -174,25 +174,10 @@ export class P3dController {
   }
 
 
-
-
-  ////////////////////////////////////////////////////////////////////////////
-  // THESE TWO TRAY ANIMATION FUNCTIONS ARE CONFUSING...
-  // THESE CAN BE ELIMINATED BY CREATING A "GET_TRAY_STATUS()" FUNCTION THAT
-  // RETURNS WHETHER THE TRAY IS OPEN OR CLOSED
-  closeTray()
-  {
-    this.userInterface.closeTray();
-  }
-  ////////////////////////////////////////////////////////////////////////////
-  openTray()
-  {
-    this.userInterface.openTray();
-  }
-
-
-
-
-
-
 }
+
+
+
+
+
+

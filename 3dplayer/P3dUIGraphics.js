@@ -83,14 +83,14 @@ export class P3dGraphics
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
     this.lights = new P3dLights( this.scene );
-    this.swarm = new P3dSwarm( this.scene );
-    this.swarm.setScreenEdgePosition( this.screenEdgePosition );
+    this.particles = new P3dSwarm( this.scene );
+    this.particles.setScreenEdgePosition( this.screenEdgePosition );
 
     this.roomCube = new P3dRoom( appController );
     this.scene.add( this.roomCube ); //*/
     this.playerModel = new P3dPlayerModel( appController, this.scene );
     this.playerModel.load();
-    this.sequencer = new P3dSequencer( this.appController, this.roomCube, this.swarm, this.lights );
+    this.sequencer = new P3dSequencer( this );
 
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
@@ -104,7 +104,7 @@ export class P3dGraphics
     requestAnimationFrame( this.run.bind(this) );
 
     this.playerModel.update();
-		this.swarm.update();
+		this.particles.update();
 		this.lights.update();
     this.roomCube.update();
     this.sequencer.update();
@@ -115,19 +115,6 @@ export class P3dGraphics
 
 
 
-
-  ////////////////////////////////////////////////////////////////////////
-  openTray( rate = 1.0 )
-  {
-    this.playerModel.openTray( rate );
-  }
-
-
-  ////////////////////////////////////////////////////////////////////////
-  closeTray()
-  {
-    this.playerModel.closeTray();
-  }
 
 
 

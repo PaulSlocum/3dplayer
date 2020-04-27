@@ -180,13 +180,13 @@ export class P3dPlayerModel
       {
         // SET CD SURFACE AS CUSTOM MATERIAL
         if( child.material  &&  child.material.name == "cd" )
-        {
             child.material = this.cdMaterial; // <-----------------
-        }
 
         // TURN ON SHADOWS FOR ALL MESHES
-        if ( child.isMesh )
+        if( child.isMesh == true )
           child.receiveShadow = true;
+
+        //if( child.name == "
 
       }.bind(this) ); //*/
 
@@ -257,6 +257,13 @@ export class P3dPlayerModel
     this.currentActionCd.time = this.currentActionCd.getClip().duration;
     this.currentActionCd.play();//*/
   }
+
+
+	//////////////////////////////////////////////////////////////////////////
+	isTrayOpen()
+	{
+		return this.trayOpen;
+	}
 
 
   ////////////////////////////////////////////////////////////////////////

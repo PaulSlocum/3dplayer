@@ -78,7 +78,6 @@ export class P3dPlayerTransport {
 
     this.appController = appController;
 
-
     this.soundPlayer = new P3dSoundPlayer();
 
 		// START LOADING ALL THE SOUNDS IN THE BACKGROUND
@@ -105,7 +104,7 @@ export class P3dPlayerTransport {
     this.remainingTimeMode = false;
     this.seekVelocity = 0;
 
-    // PROBABLY WON"T USE THESE
+    // PROBABLY WILL USE THESE?
     //this.rewindButtonDown = false;
     //this.fastForwardButtonDown = false;
 
@@ -117,7 +116,8 @@ export class P3dPlayerTransport {
 
 
 
-  ///////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////
+  // PRIVATE FUNCTION
   stopCdSounds()
   {
     this.soundPlayer.stopSound( SoundFilename.SEEK );
@@ -267,6 +267,8 @@ export class P3dPlayerTransport {
               this.musicPlayer.setTreble( this.treble - MIDDLE_AUDIO_SETTING_VALUE );
               break;
 
+              //   ~    -     ~    -     ~    -     ~    -     ~    -     ~    -     ~    -
+
         case ButtonEvent.BUTTON_DOWN_VOL_DOWN:
               this.volume -= 1;
               if( this.volume < 0 )
@@ -311,34 +313,15 @@ export class P3dPlayerTransport {
 
 
   //////////////////////////////////////////////////////////////////////////////////
-  setFxModeByNumber( fxModeNumber )
-  {
-    switch( fxModeNumber )
-    {
-      case 0: this.fxMode = EffectsPreset.CLEAN; break;
-      case 1: this.fxMode = EffectsPreset.CHURCH; break;
-      case 2: this.fxMode = EffectsPreset.CLUB; break;
-      case 3: this.fxMode = EffectsPreset.LOFI; break;
-      case 4: this.fxMode = EffectsPreset.CAVE; break;
-    }
-    this.musicPlayer.setFxMode( this.fxMode );
-  }
-
-
-  ////////////////////////////////////////////////////////////////////////////////////
-  getFxMode()
-  {
-    return( this.fxMode );
-  }
-
-
-  //////////////////////////////////////////////////////////////////////////////////
   // PRIVATE FUNCTION
   scheduleNextEvent( delaySec = 0.0 )
   {
     this.nextEventTimeSec = performance.now() + delaySec;
     if( delaySec > 0.0 )
-      setTimeout( this.processEventQueue.bind(this), (delaySec * 1000) + 2 ); // <-- MILLISECONDS
+    {
+    	const timeoutMSec = (delaySec * 1000) + 2;
+      setTimeout( this.processEventQueue.bind(this), timeoutMSec );
+    }
     else
       this.processEventQueue();
   }
@@ -357,7 +340,7 @@ export class P3dPlayerTransport {
           logger( "----->TRANSPORT: S E E K !" );
           this.currentTrackTime = this.musicPlayer.getMusicTime();
           this.musicPlayer.pauseMusic();
-          switch( random(3) )
+          switch( random(5) )
           {
             case 0: this.soundPlayer.playSound( SoundFilename.CD_SHORT_SEEK1 ); break;
             case 1: this.soundPlayer.playSound( SoundFilename.CD_SHORT_SEEK2 ); break;
@@ -401,14 +384,12 @@ export class P3dPlayerTransport {
           break;
 
         case TransportEvent.CLOSE_TRAY:
-          this.appController.closeTray();
           this.status = TransportMode.TRAY_CLOSING;
           this.soundPlayer.playSound( SoundFilename.TRAY_CLOSE );
           this.scheduleNextEvent( 3 );
           break; //*/
 
         case TransportEvent.CLOSE_TRAY_PLAY:
-          this.appController.closeTray();
           this.status = TransportMode.TRAY_CLOSING_PLAY;
           this.soundPlayer.playSound( SoundFilename.TRAY_CLOSE );
           this.scheduleNextEvent( 3 );
@@ -423,7 +404,6 @@ export class P3dPlayerTransport {
           break; //*/
 
         case TransportEvent.OPEN_TRAY:
-          this.appController.openTray();
           this.status = TransportMode.TRAY_OPENING;
           this.scheduleNextEvent( 1 );
           break; //*/
@@ -494,7 +474,6 @@ export class P3dPlayerTransport {
           {
             this.trackPlaying = false;
             this.musicPlayer.pauseMusic();
-            //this.musicPlayer.stopMusic( MUSIC_FILENAME );
             this.status = TransportMode.PAUSED;
           } //*/
           break;
@@ -594,7 +573,7 @@ export class P3dPlayerTransport {
 
 
   //////////////////////////////////////////////////////////////////////////
-  // CALLBACK FROM MUSIC PLAYER
+  // PRIVATE FUNCTION - CALLBACK FROM MUSIC PLAYER
   musicEndedCallback()
   {
     logger( "----->TRANSPORT: SONG ENDED CALLBACK" );
@@ -616,6 +595,30 @@ export class P3dPlayerTransport {
 
 
   // ~     -      ~     -      ~     -      ~     -      ~     -      ~     -
+
+
+
+  //////////////////////////////////////////////////////////////////////////////////
+  setFxModeByNumber( fxModeNumber )
+  {
+    switch( fxModeNumber )
+    {
+      case 0: this.fxMode = EffectsPreset.CLEAN; break;
+      case 1: this.fxMode = EffectsPreset.CHURCH; break;
+      case 2: this.fxMode = EffectsPreset.CLUB; break;
+      case 3: this.fxMode = EffectsPreset.LOFI; break;
+      case 4: this.fxMode = EffectsPreset.CAVE; break;
+    }
+    this.musicPlayer.setFxMode( this.fxMode );
+  }
+
+
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  getFxMode()
+  {
+    return( this.fxMode );
+  }
 
 
 
@@ -685,4 +688,11 @@ export class P3dPlayerTransport {
   }
 
 
+
 }
+
+
+
+
+
+

@@ -44,6 +44,11 @@ export class P3dUserInterface
   }
 
 
+
+	//  ~     -       ~     -       ~     -       ~     -       ~     -       ~
+
+
+
   //////////////////////////////////////////////////////////////////////////
   mouseDown( event )
   {
@@ -128,34 +133,16 @@ export class P3dUserInterface
   }
 
 
+
+	//  ~     -       ~     -       ~     -       ~     -       ~     -       ~
+
+
+
   ////////////////////////////////////////////////////////////////////////
   run()
   {
     this.graphics.run();
   }
-
-
-  ////////////////////////////////////////////////////////////////////////
-  openTray()
-  {
-    this.graphics.openTray();
-  }
-
-
-  ////////////////////////////////////////////////////////////////////////
-  closeTray()
-  {
-    this.graphics.closeTray();
-  }
-
-
-  ////////////////////////////////////////////////////////////////////////
-  // STILL DECIDING ON IMPLEMENTATION OF THIS...
-  /*playAnimation( animationName )
-  {
-    this.graphics.playAnimation( animationName );
-  }//*/
-
 
 
   ///////////////////////////////////////////////////////////////////////////
@@ -166,6 +153,18 @@ export class P3dUserInterface
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
