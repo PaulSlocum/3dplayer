@@ -111,8 +111,6 @@ export class P3dPlayerModel
     const rotationSpeed = 0.03; // NORMAL <-------------------
     //const rotationSpeed = 0.01; // SLOW
     //const rotationSpeed = 0.07; // FAST
-    //const rotationSpeed = 0.00; // DISABLED
-
     if( this.loadedModel != null )
     {
       this.targetRotationY = Math.cos( this.frameCounter * rotationSpeed ) * 0.08;
@@ -124,7 +122,6 @@ export class P3dPlayerModel
       {
         this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 + 0.01;
       } //*/
-
 
       this.loadedModel.rotation.x = converge( this.loadedModel.rotation.x, this.targetRotationX, 0.005 );
       this.loadedModel.rotation.y = converge( this.loadedModel.rotation.y, this.targetRotationY, 0.005 );

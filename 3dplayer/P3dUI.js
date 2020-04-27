@@ -36,12 +36,29 @@ export class P3dUserInterface
     this.graphics = new P3dGraphics( appController, windowWidth, windowHeight, renderer );
 
     // MOUSE/TOUCH HANDLING
-    document.addEventListener( "mousedown", this.mouseDown.bind(this), false );
-    document.addEventListener( "mouseup", this.mouseUp.bind(this), false );
-    document.addEventListener( "touchstart", this.touchDown.bind(this), false);
-    document.addEventListener( "touchcancel", this.touchUp.bind(this), false);
-    document.addEventListener( "touchend", this.touchUp.bind(this), false);
+    document.addEventListener( "mousedown", this._mouseDown.bind(this), false );
+    document.addEventListener( "mouseup", this._mouseUp.bind(this), false );
+    document.addEventListener( "touchstart", this._touchDown.bind(this), false);
+    document.addEventListener( "touchcancel", this._touchUp.bind(this), false);
+    document.addEventListener( "touchend", this._touchUp.bind(this), false);
   }
+
+
+
+  ////////////////////////////////////////////////////////////////////////
+  run()
+  {
+    this.graphics.run();
+  }
+
+
+
+  ///////////////////////////////////////////////////////////////////////////
+  // NEEDS TO BE RE-IMPLMENTED IN SHADER SYSTEM
+  /*setBackgroundColor( color )
+  {
+    this.graphics.setBackgroundColor( color );
+  } //*/
 
 
 
@@ -50,40 +67,40 @@ export class P3dUserInterface
 
 
   //////////////////////////////////////////////////////////////////////////
-  mouseDown( event )
+  _mouseDown( event )
   {
     event.preventDefault();
-    this.touchMouseDown( event );
+    this._touchMouseDown( event );
   }
 
   /////////////////////////////////////////////////////////////////////////
-  mouseUp( event )
+  _mouseUp( event )
   {
     event.preventDefault();
-    this.touchMouseUp( event );
+    this._touchMouseUp( event );
   }
 
 
   //////////////////////////////////////////////////////////////////////////
-  touchDown( event )
+  _touchDown( event )
   {
     event.preventDefault();
-    this.touchMouseDown( event.targetTouches[0] );
+    this._touchMouseDown( event.targetTouches[0] );
     //event.targetTouches[0].preventDefault();
   }
 
 
   /////////////////////////////////////////////////////////////////////////
-  touchUp( event )
+  _touchUp( event )
   {
     event.preventDefault();
-    this.touchMouseUp( event.targetTouches[0] );
+    this._touchMouseUp( event.targetTouches[0] );
     //event.targetTouches[0].preventDefault();
   }
 
 
   ///////////////////////////////////////////////////////////////////////
-  touchMouseDown( event )
+  _touchMouseDown( event )
   {
     // NEW CODE TO CONVERT TO WEBGL COORDS...
     var pos = getCanvasMousePosition( event, this.renderer.domElement );
@@ -127,29 +144,12 @@ export class P3dUserInterface
 
 
   ///////////////////////////////////////////////////////////////////////
-  touchMouseUp( event )
+  _touchMouseUp( event )
   {
     this.appController.processButtonEvent( ButtonEvent.BUTTON_UP );
   }
 
 
-
-	//  ~     -       ~     -       ~     -       ~     -       ~     -       ~
-
-
-
-  ////////////////////////////////////////////////////////////////////////
-  run()
-  {
-    this.graphics.run();
-  }
-
-
-  ///////////////////////////////////////////////////////////////////////////
-  setBackgroundColor( color )
-  {
-    this.graphics.setBackgroundColor( color );
-  }
 
 
 }
