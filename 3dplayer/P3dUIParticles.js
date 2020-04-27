@@ -15,7 +15,7 @@ import { logger } from "./P3dLog.js";
 
 const MAX_OBJECTS = 20;
 
-const DEBUG_ALWAYS_ENABLE = false;
+const DEBUG_ALWAYS_ENABLE_PARTICLES = false;
 
 
 
@@ -55,7 +55,8 @@ export class P3dSwarm
     this.frameCounter = 0;
 
     this.load();
-    this.disable();
+
+    this.disable(); // <-- START WITH PARTICLES TURNED OFF
   }
 
 
@@ -97,7 +98,7 @@ export class P3dSwarm
         case 2: this.objectArray[i] = new THREE.Mesh( coneGeometry, sphereMaterial1 ); break;
       }
 
-      if( DEBUG_ALWAYS_ENABLE == true )
+      if( DEBUG_ALWAYS_ENABLE_PARTICLES == true )
       {
         this.sizeArray[i] = 1.0; // DEBUG
         this.objectArray[i].visible = true;
@@ -129,30 +130,8 @@ export class P3dSwarm
     // TEST: CONSTANT GRADUAL ACCERLERATION
     //this.xBaseSpeed += 0.000002;
 
-    if( this.frameCounter%780 == 0 )
-    {
-      this.windActive = true;
-      this.windBuilding = true;
-      this.windScale = 0.0;
-      this.windAmountX = (random(100)-0) * 0.00014;
-      this.windAmountY = (random(100)-50) * 0.00014;
-    }//*/
-
-    if( this.windActive == true )
-    {
-      if( this.windBuilding == true )
-      {
-        this.windScale = converge( this.windScale, 1.0, 0.01 );
-        if( this.windScale == 1.0 )
-          this.windBuilding = false;
-      }
-      else
-      {
-        this.windScale = converge( this.windScale, 0.0, 0.005 );
-        if( this.windScale == 0.0 )
-          this.windActive = false;
-      }
-    }
+		// UPDATE WIND
+		this._updateWind( this.frameCounter );
 
     // UPDATE POSITION, ROTATION, AND SCALE OF EACH OBJECT
     for( let i=0; i<MAX_OBJECTS; i++ )
@@ -160,7 +139,7 @@ export class P3dSwarm
       // IF OBJECT IS DISABLED, THEN SCALE OBJECT SMALLER UNTIL IT IS GONE.
       if( this.objectEnabled[i] == false )
       {
-        if( DEBUG_ALWAYS_ENABLE == true )
+        if( DEBUG_ALWAYS_ENABLE_PARTICLES == true )
           this.sizeArray[i] = 1.0; // DEBUG
         else
           this.sizeArray[i] = converge( this.sizeArray[i], 0.0, 0.04);
@@ -232,6 +211,94 @@ export class P3dSwarm
 
     //*/
   }
+
+
+	///////////////////////////////////////////////////////////////////////////////
+	launchObject( i )
+	{
+
+		this.objectArray[i].position.x = -this.screenEdgePosition;
+		if( this.enabled )
+		{
+			this.objectEnabled[i] = true;
+			this.sizeArray[i] = 1.0;
+			this.objectArray[i].visible = true;
+		}
+
+		// ATTEMPT TO PLACE OBJECT ON LEFT SIDE WITHOUT BEING TOO CLOSE TO OTHER OBJECTS...
+		let foundNearbyObject = false;
+		let placementAttempts = 0;
+		do
+		{
+			placementAttempts++;
+			if( placementAttempts > 5 )
+			{
+				// IF PLACEMENT FAILS MULTIPLE TIMES, THEN DISABLE OBJECT AND PLACE AT
+				// RANDOM X LOCATION TO BE PLACED LATER WHEN IT REACHES THE EDGE AGAIN
+				this.objectArray[i].position.x = random(40)*0.16 - 1.5;
+				foundNearbyObject = true;
+				this.sizeArray[i] = 0.0;
+				this.objectArray[i].visible = false;
+				this.objectEnabled[i] = false;
+				break;
+			}
+
+			// TRY A RANDOM Y LOCATION...
+			this.objectArray[i].position.y = random(80)*0.062 - 2.1;
+			const PROXIMITY_LIMIT = 1.35;
+			foundNearbyObject = false;
+
+			// CHECK IF IT"S TOO CLOSE TO ANY OTHER OBJECTS
+			for( let j=0; j<MAX_OBJECTS; j++ )
+			{
+				if( i != j )
+				{
+					if( Math.abs( this.objectArray[j].position.x - this.objectArray[i].position.x ) < PROXIMITY_LIMIT  &&
+							Math.abs( this.objectArray[j].position.y - this.objectArray[i].position.y ) < PROXIMITY_LIMIT  )
+					{
+						foundNearbyObject = true;
+						break; // FOR LOOP
+					}
+				}
+			}
+
+		}
+		while( foundNearbyObject == true );
+
+	}
+
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	_updateWind( frameCounter )
+	{
+    if( this.frameCounter%780 == 0 )
+    {
+      this.windActive = true;
+      this.windBuilding = true;
+      this.windScale = 0.0;
+      this.windAmountX = (random(100)-0) * 0.00014;
+      this.windAmountY = (random(100)-50) * 0.00014;
+    }//*/
+
+    if( this.windActive == true )
+    {
+      if( this.windBuilding == true )
+      {
+        this.windScale = converge( this.windScale, 1.0, 0.01 );
+        if( this.windScale == 1.0 )
+          this.windBuilding = false;
+      }
+      else
+      {
+        this.windScale = converge( this.windScale, 0.0, 0.005 );
+        if( this.windScale == 0.0 )
+          this.windActive = false;
+      }
+    }
+
+	}
+
 
 
   ////////////////////////////////////////////////////////////////////////////

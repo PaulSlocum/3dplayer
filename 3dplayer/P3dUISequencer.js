@@ -35,13 +35,13 @@ export class P3dSequencer
 		let appStatus = this.appController.getStatus();
 
 		// UPDATE "SWARM" PARTICLE SYSTEM
-    if( this.appStatus != TransportMode.PLAYING )
+    if( appStatus != TransportMode.PLAYING )
       this.particles.disable();
     else
       this.particles.enable();
 
 		// UPDATE TRAY STATE
-		let transportTrayOpen = appStatus === TransportMode.TRAY_OPENING  ||  appStatus === TransportMode.TRAY_OPEN
+		let transportTrayOpen = (appStatus === TransportMode.TRAY_OPENING  ||  appStatus === TransportMode.TRAY_OPEN)
 		if( this.playerModel.trayOpen == true  &&  transportTrayOpen == false )
 			this.playerModel.closeTray();
 		if( this.playerModel.trayOpen == false  &&  transportTrayOpen == true )
