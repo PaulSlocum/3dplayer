@@ -8,7 +8,7 @@
 
 //-----------------------------------------------------------------------------------
 import "./three/build/three.js";
-import { P3dController } from "./P3dController.js";
+import { P3dAppController } from "./P3dAppController.js";
 import { logger } from "./P3dLog.js";
 //-----------------------------------------------------------------------------------
 
@@ -51,7 +51,7 @@ renderer.setSize( windowWidth, windowHeight );
 script.parentElement.insertBefore(renderer.domElement, script); // Add the newly-created div to the page
 
 // LAUNCH THE 3D PLAYER APPLICATION CONTROLLER
-const controller = new P3dController( filenameList, renderer, windowWidth, windowHeight );
+const controller = new P3dAppController( filenameList, renderer, windowWidth, windowHeight );
 //controller.setBackgroundColor( 0x000000 ); // <---- BG COLOR SHOULD EVENTUALLY BE SELECTABLE THROUGH A SCRIPT PARAMETER
 controller.run();
 

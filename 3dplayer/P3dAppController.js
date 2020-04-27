@@ -1,4 +1,4 @@
-// P3dController.js
+// P3dAppController.js
 //
 // MAIN APP CONTROLLER: LOADS/CONNECTS THE USER INTERFACE SUBSYSTEM
 // AND MEDIA TRANSPORT SUBSYSTEM
@@ -61,7 +61,7 @@ export const ButtonEvent = {
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-export class P3dController {
+export class P3dAppController {
 
 
   ///////////////////////////////////////////////////////////////////////

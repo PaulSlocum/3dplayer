@@ -6,8 +6,8 @@
 
 
 //-----------------------------------------------------------------------------------
-//import { P3dController } from "./P3dController.js";
-//import { TransportMode, ButtonEvent } from "./P3dController.js";
+//import { P3dAppController } from "./P3dAppController.js";
+//import { TransportMode, ButtonEvent } from "./P3dAppController.js";
 //import { P3dSoundPlayer } from "./P3dAudioSounds.js";
 //import { P3dMusicPlayer } from "./P3dAudioMusic.js";
 //import { EffectsPreset } from "./P3dAudioEffects.js";

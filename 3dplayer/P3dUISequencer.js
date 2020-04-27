@@ -8,7 +8,7 @@
 
 
 //-----------------------------------------------------------------------------------
-import { TransportMode } from "./P3dController.js";
+import { TransportMode } from "./P3dAppController.js";
 import { logger } from "./P3dLog.js";
 //-----------------------------------------------------------------------------------
 

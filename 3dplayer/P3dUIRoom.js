@@ -6,7 +6,7 @@
 
 
 //-----------------------------------------------------------------------------------
-import { TransportMode } from "./P3dController.js";
+import { TransportMode } from "./P3dAppController.js";
 //-----------------------------------------------------------------------------------
 
 
@@ -24,8 +24,9 @@ export class P3dRoom extends THREE.Mesh
     //var geometry = new THREE.BoxGeometry( -70, -70, -70 ); // <-- ALTERNATE SIZE (DEBUG)
 
     let roomUniforms = {
+        colorA: {type: "vec3", value: new THREE.Color(0x060607)},
         colorB: {type: "vec3", value: new THREE.Color(0x0A0B0A)},
-        colorA: {type: "vec3", value: new THREE.Color(0x060607)}
+        colorC: {type: "vec3", value: new THREE.Color(0x0A0B0A)}
     };
 
     let roomMaterial =  new THREE.ShaderMaterial({
@@ -66,6 +67,7 @@ export class P3dRoom extends THREE.Mesh
 
 
 }
+
 
 
 

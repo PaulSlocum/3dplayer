@@ -6,13 +6,13 @@
 
 
 //-----------------------------------------------------------------------------------
-//import { P3dController } from "./P3dController.js";
+//import { P3dAppController } from "./P3dAppController.js";
 import { P3dSwarm } from "./P3dUIParticles.js";
 import { P3dPlayerModel } from "./P3dUIPlayerModel.js";
 import { P3dRoom } from "./P3dUIRoom.js";
 import { P3dLights } from "./P3dUILights.js";
 import { P3dSequencer } from "./P3dUISequencer.js";
-import { TransportMode } from "./P3dController.js";
+import { TransportMode } from "./P3dAppController.js";
 // ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 import { logger } from "./P3dLog.js";
 import { converge, random } from "./P3dUtility.js";
