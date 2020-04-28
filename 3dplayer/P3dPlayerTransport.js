@@ -38,7 +38,7 @@ export const TransportEvent = {
 };
 
 
-const MAX_AUDIO_SETTING_VALUE = 9;
+const MAX_AUDIO_SETTING_VALUE = 10;
 const MIDDLE_AUDIO_SETTING_VALUE = 5;
 const NUMBER_OF_EFFECTS = 5;
 
@@ -270,17 +270,25 @@ export class P3dPlayerTransport {
               //   ~    -     ~    -     ~    -     ~    -     ~    -     ~    -     ~    -
 
         case ButtonEvent.BUTTON_DOWN_VOL_DOWN:
+        {
               this.volume -= 1;
               if( this.volume < 0 )
                 this.volume = 0;
-              this.musicPlayer.setVolume( (this.volume + 1) / 10.0 );
+              let volumeValue = (this.volume) / 10.0;
+              logger( "VOLUME VALUE: ", volumeValue );
+              this.musicPlayer.setVolume( volumeValue );
               break;
+        }
         case ButtonEvent.BUTTON_DOWN_VOL_UP:
+        {
               this.volume += 1;
               if( this.volume > MAX_AUDIO_SETTING_VALUE )
                 this.volume = MAX_AUDIO_SETTING_VALUE;
-              this.musicPlayer.setVolume( (this.volume + 1) / 10.0 );
+              let volumeValue = (this.volume) / 10.0;
+              logger( "VOLUME VALUE: ", volumeValue );
+              this.musicPlayer.setVolume( volumeValue );
               break;
+        }
 
         case ButtonEvent.BUTTON_DOWN_FX_DOWN:
               this.fxModeNumber -= 1;

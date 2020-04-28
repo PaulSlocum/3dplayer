@@ -51,6 +51,9 @@ TODO:
 - implement proof of concept of having background, light, and particle systems being affected by sequencer
 - keep the particle system off until some ways into the song
 ~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+- have player gyration stop momentarily when user is clicking buttons
+~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
 - keep playing CD seeking sounds until music starts playing (or maybe just lengthn CD sounds)
