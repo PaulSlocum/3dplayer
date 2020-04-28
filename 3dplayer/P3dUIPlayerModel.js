@@ -1,7 +1,7 @@
 //
-// P3dPlayerModule.js
+// P3dUIPlayerModule.js
 //
-// LOADS AND ANIMATED CD PLAYER MODEL, ALSO LOADS SUBCLASSES THAT WORK WITH THE MODEL
+// LOADS AND ANIMATED CD PLAYER MODEL, ALSO LOADS SUBCLASSES THAT WORK WITH THE MODEL.
 //
 ////////////////////////////////////////////////////////////////////////////////////
 

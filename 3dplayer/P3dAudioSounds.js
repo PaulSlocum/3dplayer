@@ -1,7 +1,7 @@
-// P3dSound.js
+// P3dAudioSound.js
 //
 // WEB AUDIO API WRAPPER FOR SHORT SOUND EFFECTS PLAYER THAT ALLOWS PRE-LOADING OF DECODED
-// AUDIO FILES INTO MEMORY
+// AUDIO FILES INTO MEMORY.
 //
 //////////////////////////////////////////////////////////////////////////////
 
@@ -16,7 +16,7 @@ export class P3dSoundPlayer
 {
 
   ///////////////////////////////////////////////////////////////////////
-  constructor() 
+  constructor()
   {
     logger("---->SOUND CLASS CONSTRUCTOR");
 
@@ -25,9 +25,9 @@ export class P3dSoundPlayer
     this.sourceArray = {};
     this.audioContext = null;
   }
-  
-  //   ~      -         ~      -         ~      -         ~      -         ~     
-  
+
+  //   ~      -         ~      -         ~      -         ~      -         ~
+
   //////////////////////////////////////////////////////////////////////////
   loadSound( soundFilename )
   {
@@ -35,19 +35,19 @@ export class P3dSoundPlayer
     let request = new XMLHttpRequest();
     request.open("GET", soundFilename, true);
     request.responseType = "arraybuffer";
-    request.onload = function() 
+    request.onload = function()
     { // FILE LOADER CALLBACK
-      
+
       if( this.audioContext == null )
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      this.audioContext.decodeAudioData( request.response, function(buffer)  
+      this.audioContext.decodeAudioData( request.response, function(buffer)
       { // DECODER CALLBACK:
 
         this.bufferArray[soundFilename] = buffer;
 
       }.bind(this), function(e) {
         console.log("Audio error! ", e);
-      } );  
+      } );
     }.bind(this,request);
 
     request.send();
@@ -63,15 +63,15 @@ export class P3dSoundPlayer
     this.sourceArray[soundFilename].loop = false;
     this.sourceArray[soundFilename].start(0); //*/
   }
-  
-  
+
+
   ///////////////////////////////////////////////////////////////////////////
   stopSound( soundFilename )
   {
     this.sourceArray[soundFilename].stop(); //*/
   }
-  
-  
+
+
 }
 
 

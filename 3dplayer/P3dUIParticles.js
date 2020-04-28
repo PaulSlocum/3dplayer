@@ -1,7 +1,7 @@
 //
 // P3dUIParticles.js
 //
-// SIMPLE PARTICLE/PHYSICS SYSTEM THAT DISPLAYS FIELD OF MOVING OBJECTS
+// SIMPLE PARTICLE/PHYSICS SYSTEM THAT DISPLAYS FIELD OF MOVING OBJECTS.
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 

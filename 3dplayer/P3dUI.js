@@ -1,6 +1,6 @@
-// P3dUserInterface.js
+// P3dUI.js
 //
-// HANDLES MOUSE/TOUCH EVENTS AND SETS UP THE GRAPHICS SUBSYSTEM CLASS (P3dGraphics)
+// HANDLES MOUSE/TOUCH EVENTS AND SETS UP THE GRAPHICS SUBSYSTEM CLASS (P3dGraphics).
 //
 /////////////////////////////////////////////////////////////////////////////////////
 

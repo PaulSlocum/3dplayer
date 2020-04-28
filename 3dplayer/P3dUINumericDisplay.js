@@ -1,7 +1,7 @@
 //
 // P3dUINumericDisplay.js
 //
-// CLASS TO UPDATE 7-SEGMENT LED DISPLAYS WITH TRACK/TIME/UI INFO
+// CLASS TO UPDATE 7-SEGMENT LED DISPLAYS WITH TRACK/TIME/UI INFO.
 //
 //////////////////////////////////////////////////////////////////////////////////////
 

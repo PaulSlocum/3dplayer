@@ -1,7 +1,7 @@
 //
 // P3dUILights.js
 //
-// LIGHT CONTROLLER FOR SPOTLIGHT AND MAYBE OTHER LIGHTS
+// LIGHT CONTROLLER FOR SPOTLIGHT AND MAYBE OTHER LIGHTS.
 //
 ////////////////////////////////////////////////////////////////////////////////////
 

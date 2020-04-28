@@ -2,7 +2,7 @@
 // P3dUISequence.js
 //
 // SEQUENCE CONTROLLER THAT ORCHESTRATES BACKGROUND VISUALS BASED ON THE TRACK NUMBER
-// AND THE CURRENT PLAYBACK TIME
+// AND THE CURRENT PLAYBACK TIME.
 //
 /////////////////////////////////////////////////////////////////////////////////////
 

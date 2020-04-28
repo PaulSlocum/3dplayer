@@ -1,7 +1,7 @@
 //
 // P3dUIPanelLeds.js
 //
-// CLASS TO DRIVE PAUSE/PLAY/REPEAT/TIME PANEL LEDS
+// CLASS TO DRIVE PAUSE/PLAY/REPEAT/TIME PANEL LEDS.
 //
 //////////////////////////////////////////////////////////////////////////////
 

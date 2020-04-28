@@ -1,7 +1,7 @@
 //
 // P3dLog.js
 //
-// CONSOLE LOG REPLACEMENT THAT CAN BE EASILY TURNED OFF
+// CONSOLE LOG REPLACEMENT THAT CAN BE EASILY TURNED OFF.
 //
 //////////////////////////////////////////////////////////////////////////
 

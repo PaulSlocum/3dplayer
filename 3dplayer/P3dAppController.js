@@ -1,7 +1,7 @@
 // P3dAppController.js
 //
 // MAIN APP CONTROLLER: LOADS/CONNECTS THE USER INTERFACE SUBSYSTEM
-// AND MEDIA TRANSPORT SUBSYSTEM
+// AND MEDIA TRANSPORT SUBSYSTEM.
 //
 ///////////////////////////////////////////////////////////////////////////////////
 

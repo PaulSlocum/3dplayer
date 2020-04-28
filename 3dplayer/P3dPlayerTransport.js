@@ -1,6 +1,6 @@
 // P3dPlayerTransport.js
 //
-// SIMULATES CD PLAYER LOGIC, SOUNDS, AND PLAYBACK
+// SIMULATES CD PLAYER LOGIC, SOUNDS, AND PLAYBACK.
 //
 ////////////////////////////////////////////////////////////////////////////////////
 

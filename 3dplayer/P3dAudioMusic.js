@@ -1,7 +1,7 @@
-// P3dMusic.js
+// P3dAudioMusic.js
 //
 // AUDIO PLAYER FOR MUSIC WITH MEMORY/CPU MANAGEMENT AND QUEUES SO THAT
-// FILES CAN BE SEPARATELY DOWNLOADED, DECODED, AND PLAYED
+// FILES CAN BE SEPARATELY DOWNLOADED, DECODED, AND PLAYED.
 //
 //////////////////////////////////////////////////////////////////////////////
 

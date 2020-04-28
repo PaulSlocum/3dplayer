@@ -2,7 +2,7 @@
 // P3dUILEDDriver.js
 //
 // CLASS TO SET UP LED MATERIALS AND SHOW ALPHANUMERIC CHARACTERS ON 7-SEGMENT
-// LED DISPLAYS
+// LED DISPLAYS.
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
