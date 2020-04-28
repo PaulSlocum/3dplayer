@@ -37,6 +37,9 @@ https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-contai
 TODO:
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
+- FIX ISSUE WHERE MOVING THROUGH TRACKS QUICKLY CAN CAUSE AN ERROR IN THE DECODER QUEUE
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
 - implement specular highlights on CD
 ~   -   ~   -   ~   -   ~   -   
 - prevent CD rotation from changing CD lighting
