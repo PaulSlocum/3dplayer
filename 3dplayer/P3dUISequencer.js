@@ -118,15 +118,16 @@ export class P3dSequencer
     if( appStatus != TransportMode.PLAYING )
     {
       this.particles.disable();
-      this.roomCube.play();
+      this.roomCube.pause();
     }
     else
     {
       this.particles.enable();
-      this.roomCube.pause();
+      this.roomCube.play();
     }
 
-		this.roomCube.setShaderMode( this.appController.getTrackNumber() - 1 );
+    if( appStatus == TransportMode.PLAYING  ||  appStatus == TransportMode.SEEK )
+			this.roomCube.setShaderMode( this.appController.getTrackNumber() - 1 );
 
 		// UPDATE TRAY STATE
 		let transportTrayOpen = (appStatus === TransportMode.TRAY_OPENING  ||  appStatus === TransportMode.TRAY_OPEN)

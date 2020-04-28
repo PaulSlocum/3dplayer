@@ -70,9 +70,9 @@ export class P3dRoom extends THREE.Mesh
     this.backgroundSpinRate += 0.00001; // <------------- ORIGINAL
     if( this.backgroundSpinRate > 0.04 )
       this.backgroundSpinRate = 0.04;
-    if( this.playing == true )
+    if( this.playing == false )
     {
-      this.backgroundSpinRate -= 0.0001;
+      this.backgroundSpinRate -= 0.0001; // <-- SLOW SPIN RATE WHEN NOT PLAYING
       if( this.backgroundSpinRate < 0.0002 )
         this.backgroundSpinRate = 0.0002;
     }
