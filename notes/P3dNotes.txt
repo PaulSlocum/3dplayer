@@ -35,7 +35,7 @@ https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-contai
 
 
 TODO:
-~   -   ~   -   ~   -   ~   -   
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
 - implement specular highlights on CD
 ~   -   ~   -   ~   -   ~   -   
@@ -43,26 +43,22 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 - use a flag instead of "seekVelocity" to keep track of whether buttons are down so that quick presses still skip correctly
 ~   -   ~   -   ~   -   ~   -  
-x change tray open/close animation communication to be done by a getTrayStatus() call to the transport 
-~   -   ~   -   ~   -   ~   -   
-- implement the ability to switch shaders for the room cube
-- have the sequencer change room shaders by song
+~   -   ~   -   ~   -   ~   -  
+- make a few different initial room shaders
+~   -   ~   -   ~   -   ~   -  
+~   -   ~   -   ~   -   ~   -  
+- implement sequencer function to determine current visual mode from track and time
+- implement proof of concept of having background, light, and particle systems being affected by sequencer
 - keep the particle system off until some ways into the song
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
 - keep playing CD seeking sounds until music starts playing (or maybe just lengthn CD sounds)
 ~   -   ~   -   ~   -   ~   -   
-- refactor tray animation code
 ~   -   ~   -   ~   -   ~   -   
 - fix issue where volume changes don't have any effect if made before playback is started
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
-~   -   ~   -   ~   -   ~   -   
-- design sequencer system to control light(s), background shader, maybe background structure, particle system
-- implement proof of concept of having background, light, and particle systems being affected by sequencer
-- decide whether sequencer should be configurable with scripting call parameters
 ~   -   ~   -   ~   -   ~   -   
 - create glowing particles
 - create background shader with video input
@@ -79,8 +75,6 @@ x change tray open/close animation communication to be done by a getTrayStatus()
 - make it so that flip-down animation occurs if you click CD
 - make it so that the CD flips back if it's clicked again
 ~   -   ~   -   ~   -   ~   -   
-~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
-~   -   ~   -   ~   -   ~   -  
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
 - refactor graphics class to separate out different graphics components
@@ -112,6 +106,7 @@ x change tray open/close animation communication to be done by a getTrayStatus()
 - run memory analysis
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 
 
 DONE:
@@ -155,6 +150,12 @@ x implement PNG image map on CD surface
 x create better CD image
 x blend PNG image with CD surface 
 x make it so that image map rotates each time CD is ejected
+x change tray open/close animation communication to be done by a getTrayStatus() call to the transport 
+x implement the ability to switch shaders for the room cube
+x have the sequencer change room shaders by song
+x refactor tray animation code
+x design sequencer system to control light(s), background shader, maybe background structure, particle system
+x decide whether sequencer should be configurable with scripting call parameters
 ~   -   ~   -   ~   -   ~   -   
 
 

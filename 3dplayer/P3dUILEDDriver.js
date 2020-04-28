@@ -178,9 +178,9 @@ export class P3dLEDDriver
     {
       // LED FLICKER
       if( (this.frameCounter/2)%2 == 0 )
-        this.ledOnMaterial.color.setHex( 0x191919 );
+        this.ledOnMaterial.color.setHex( 0x1D1D1D );
       else
-        this.ledOnMaterial.color.setHex( 0x111111 );
+        this.ledOnMaterial.color.setHex( 0x0E0E0E );
 
       if( (this.frameCounter/2)%2 == 0 )
         this.ledDimMaterial.color.setHex( 0x090909 );

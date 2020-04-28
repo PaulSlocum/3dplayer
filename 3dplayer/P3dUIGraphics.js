@@ -86,7 +86,7 @@ export class P3dGraphics
     this.particles = new P3dSwarm( this.scene );
     this.particles.setScreenEdgePosition( this.screenEdgePosition );
 
-    this.roomCube = new P3dRoom( appController );
+    this.roomCube = new P3dRoom();
     this.scene.add( this.roomCube ); //*/
     this.playerModel = new P3dPlayerModel( appController, this.scene );
     this.playerModel.load();

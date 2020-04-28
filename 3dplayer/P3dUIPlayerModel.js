@@ -134,6 +134,7 @@ export class P3dPlayerModel
   }
 
 
+
   /////////////////////////////////////////////////////////////////////////////////
   load()
   {
@@ -165,11 +166,14 @@ export class P3dPlayerModel
       this.modelLoadComplete();
 
       this.cdObject = this.scene.getObjectByName( "cd" );
+      this.cdObject.castShadow = true;
+      this.cdTray = this.scene.getObjectByName( "cdTray" );
+      this.cdTray.castShadow = true;
       this.trayInset = this.scene.getObjectByName( "TrayInset" );
       this.trayInset.castShadow = true;
 
       // LOAD ANIMATIONS INTO DICTIONARY INDEXED BY NAME...
-      this.animationMixerTray = new THREE.AnimationMixer( this.scene.getObjectByName( "cdTray" ) );
+      this.animationMixerTray = new THREE.AnimationMixer( this.cdTray );
       this.animationMixerCd = new THREE.AnimationMixer( this.cdObject );
       for( let i=0; i<gltf.animations.length; i++ )
       {

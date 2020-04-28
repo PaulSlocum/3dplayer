@@ -96,9 +96,7 @@ export class P3dAppController {
   }
 
 
-
   // ~      -     ~      -     ~      -     ~      -     ~      -     ~      -
-
 
 
   /////////////////////////////////////////////////////////////////////////////
@@ -106,6 +104,10 @@ export class P3dAppController {
   {
     this.transport.processButtonEvent( buttonEvent );
   }
+
+
+  // ~      -     ~      -     ~      -     ~      -     ~      -     ~      -
+
 
   /////////////////////////////////////////////////////////////////////////////
   getPlaybackTime()
