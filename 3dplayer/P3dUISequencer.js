@@ -47,7 +47,7 @@ const TABLE_TIME_SEC_OFFSET = 1;
 const TABLE_SEQUENCE_MODE_OFFSET = 2;
 const sequenceTable = [
 	[ TRACK_1,  0, SequenceMode.A ],
-	[ TRACK_1, 30, SequenceMode.B ],
+	[ TRACK_1,  5, SequenceMode.C ],
 	// - - - - - - - - - - - - - -
 	[ TRACK_2,  0, SequenceMode.C ],
 	// - - - - - - - - - - - - - -
@@ -71,24 +71,39 @@ export class P3dSequencer
 	_updateSequenceMode()
 	{
 		let sequenceCandidateItem = null;
-		let currentTrack = this.appController.getTrackNumber();
+		let currentTrackNumber = this.appController.getTrackNumber();
 		let currentTimeSec = this.appController.getPlaybackTime();
 		for( let i in sequenceTable )
 		{
 			let sequenceItem = sequenceTable[i];
-			logger( "SEQUENCE ITEM: ", sequenceItem );
+			//logger( "SEQUENCE ITEM: ", sequenceItem );
 
-			if( sequenceItem[ TABLE_TRACK_OFFSET ] == currentTrack )
+			if( sequenceItem[TABLE_TRACK_OFFSET] == currentTrackNumber )
 			{
-				if( sequenceCandidateItem === null )
+				if( sequenceCandidateItem === null  &&  sequenceItem[TABLE_TIME_SEC_OFFSET] <= currentTimeSec )
 				{
 					sequenceCandidateItem = sequenceItem;
 				}
 				else
 				{
-					//if( sequenceItem
-				}
-			}
+					if( sequenceItem[TABLE_TIME_SEC_OFFSET] <= currentTimeSec  &&
+							sequenceItem[TABLE_TIME_SEC_OFFSET] < sequenceCandidateItem[TABLE_TIME_SEC_OFFSET] )
+					{
+						sequenceCandidateItem = sequenceItem;
+					}
+
+				} // ELSE
+
+			} // IF
+
+		} // FOR
+
+		// 	IF A SEQUENCE WAS FOUND FOR THE CURRENT TRACK/TIME...
+		if( sequenceCandidateItem != null  &&  sequenceCandidateItem[TABLE_SEQUENCE_MODE_OFFSET] != this.sequenceMode )
+		{
+			//this.sequenceMode = sequenceCandidateItem[TABLE_SEQUENCE_MODE_OFFSET];
+			this._setSequencerMode( sequenceCandidateItem[TABLE_SEQUENCE_MODE_OFFSET] );
+			logger( "----------> NEW SEQUENCE MODE: ", this.sequenceMode );
 		}
 	}
 
@@ -104,15 +119,17 @@ export class P3dSequencer
 
 		this.trayOpen = true; // MODEL CLASS STARTS WITH TRAY OPEN
 		this.sequenceMode = null;
-		this._setSequenceMode( SequenceMode.A );
+		this._setSequencerMode( SequenceMode.A );
+		//this._updateSequenceMode();
 
-		this._updateSequenceMode();
 	}
 
 
 	/////////////////////////////////////////////////////////////////////////////////
 	update()
 	{
+
+
 		let appStatus = this.appController.getStatus();
 
     if( appStatus != TransportMode.PLAYING )
@@ -127,7 +144,8 @@ export class P3dSequencer
     }
 
     if( appStatus == TransportMode.PLAYING  ||  appStatus == TransportMode.SEEK )
-			this.roomCube.setShaderMode( this.appController.getTrackNumber() - 1 );
+			this._updateSequenceMode();
+		//	this.roomCube.setShaderMode( this.appController.getTrackNumber() - 1 );
 
 		// UPDATE TRAY STATE
 		let transportTrayOpen = (appStatus === TransportMode.TRAY_OPENING  ||  appStatus === TransportMode.TRAY_OPEN)
@@ -140,7 +158,7 @@ export class P3dSequencer
 
 
 	//////////////////////////////////////////////////////////////////////////////////
-	_setSequenceMode( newSequenceMode )
+	_setSequencerMode( newSequenceMode )
 	{
 		this.sequenceMode = newSequenceMode;
 		switch( newSequenceMode )
@@ -151,6 +169,7 @@ export class P3dSequencer
 			case SequenceMode.B:
 				this.roomCube.setShaderMode( 0 );
 				break;
+
 			case SequenceMode.C:
 				this.roomCube.setShaderMode( 1 );
 				break;
