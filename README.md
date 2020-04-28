@@ -19,7 +19,7 @@ and the visualizations are not yet complete.
 
 ### Screenshot: 
 
-![screenshot](https://paulslocum.github.io/3dplayer/notes/screenshot.png)
+![screenshot](https://paulslocum.github.io/3dplayer/notes/screenshot.jpg)
 
 ### Usage
 
