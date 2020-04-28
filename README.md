@@ -1,7 +1,7 @@
 # 3dplayer
 ### 3D WebGL compact disc simulator using THREE.js and Web Audio API.
 
-In early development.  All the buttons now work, but it needs adjustments for mobile 
+In development.  All the buttons now work, but it needs adjustments for mobile 
 and the visualizations are not yet complete.
 
 [Link to working project demo page](https://paulslocum.github.io/3dplayer/)
