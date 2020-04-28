@@ -53,8 +53,8 @@ export class P3dRoom extends THREE.Mesh
     this.shaderMode = 0;
     this.setShaderMode( 3 );
 
-    this.rotation.x = 200;
-    this.rotation.y = 120;
+    this.rotation.x = 3.2;
+    this.rotation.y = 2;
 
     this.playing = false;
     this.backgroundSpinRate = 0.0;

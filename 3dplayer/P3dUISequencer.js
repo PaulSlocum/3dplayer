@@ -42,6 +42,9 @@ const SequenceMode = {
 
 // THIS DETERMINES WHICH VISUAL MODE IS USED FOR DIFFERENT TRACKS AND TIMES
 // [ TRACK, TIME (SEC), SEQUENCER MODE ]
+const TABLE_TRACK_OFFSET = 0;
+const TABLE_TIME_SEC_OFFSET = 1;
+const TABLE_SEQUENCE_MODE_OFFSET = 2;
 const sequenceTable = [
 	[ TRACK_1,  0, SequenceMode.A ],
 	[ TRACK_1, 30, SequenceMode.B ],
@@ -60,14 +63,35 @@ const sequenceTable = [
 ]
 
 
-
-
-
-
-
 //|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 export class P3dSequencer
 {
+
+	///////////////////////////////////////////////////////////////////////////////////
+	_updateSequenceMode()
+	{
+		let sequenceCandidateItem = null;
+		let currentTrack = this.appController.getTrackNumber();
+		let currentTimeSec = this.appController.getPlaybackTime();
+		for( let i in sequenceTable )
+		{
+			let sequenceItem = sequenceTable[i];
+			logger( "SEQUENCE ITEM: ", sequenceItem );
+
+			if( sequenceItem[ TABLE_TRACK_OFFSET ] == currentTrack )
+			{
+				if( sequenceCandidateItem === null )
+				{
+					sequenceCandidateItem = sequenceItem;
+				}
+				else
+				{
+					//if( sequenceItem
+				}
+			}
+		}
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////
  	constructor( graphicsController )
@@ -81,6 +105,8 @@ export class P3dSequencer
 		this.trayOpen = true; // MODEL CLASS STARTS WITH TRAY OPEN
 		this.sequenceMode = null;
 		this._setSequenceMode( SequenceMode.A );
+
+		this._updateSequenceMode();
 	}
 
 
@@ -111,6 +137,7 @@ export class P3dSequencer
 	}
 
 
+
 	//////////////////////////////////////////////////////////////////////////////////
 	_setSequenceMode( newSequenceMode )
 	{
@@ -118,28 +145,40 @@ export class P3dSequencer
 		switch( newSequenceMode )
 		{
 			case SequenceMode.A:
+				this.roomCube.setShaderMode( 0 );
 				break;
 			case SequenceMode.B:
+				this.roomCube.setShaderMode( 0 );
 				break;
 			case SequenceMode.C:
+				this.roomCube.setShaderMode( 1 );
 				break;
 			case SequenceMode.D:
+				this.roomCube.setShaderMode( 2 );
 				break;
 			case SequenceMode.E:
+				this.roomCube.setShaderMode( 3 );
 				break;
 			case SequenceMode.F:
+				this.roomCube.setShaderMode( 4 );
 				break;
 			case SequenceMode.G:
+				this.roomCube.setShaderMode( 5 );
 				break;
 			case SequenceMode.H:
+				this.roomCube.setShaderMode( 6 );
 				break;
 			case SequenceMode.I:
+				this.roomCube.setShaderMode( 7 );
 				break;
 			case SequenceMode.J:
+				this.roomCube.setShaderMode( 8 );
 				break;
 			case SequenceMode.K:
+				this.roomCube.setShaderMode( 9 );
 				break;
 			case SequenceMode.L:
+				this.roomCube.setShaderMode( 10 );
 				break;
 		}
 	}
