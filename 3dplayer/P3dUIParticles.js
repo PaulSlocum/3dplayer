@@ -279,11 +279,14 @@ export class P3dSwarm
 	//////////////////////////////////////////////////////////////////////////////
 	startWind( extraWindX, extraWindY )
 	{
-		this.windActive = true;
-		this.windBuilding = true;
-		this.windScale = 0.0;
-		this.windAmountX = (random(100)-0) * 0.00014 + extraWindX;
-		this.windAmountY = (random(100)-50) * 0.00014 + extraWindY;
+  	if( this.windActive == false )
+  	{
+			this.windActive = true;
+			this.windBuilding = true;
+			this.windScale = 0.0;
+			this.windAmountX = (random(100)-0) * 0.00014 + extraWindX;
+			this.windAmountY = (random(100)-50) * 0.00014 + extraWindY;
+		}
 	}
 
 

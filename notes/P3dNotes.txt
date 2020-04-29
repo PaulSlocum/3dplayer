@@ -3,60 +3,37 @@
 --------------------------------------------------------------------------------
 
 
-CUSTOM SHADER WITH TEXTURE ARTICLES:
-https://csantosbh.wordpress.com/2014/01/09/custom-shaders-with-three-js-uniforms-textures-and-lighting/
-https://stackoverflow.com/questions/12627422/custom-texture-shader-in-three-js
-https://stackoverflow.com/questions/52176463/threejs-how-to-render-a-texture-with-custom-shaders-including-the-textures-uv-o
-https://www.khronos.org/opengl/wiki/Sampler_(GLSL)
-
-
-BEST GLSL SHADER OVERVIEW:
-https://thebookofshaders.com/
-
-GLSL LOCAL/WORLD/VIEW/CLIP/SCREEN SPACE:
-https://learnopengl.com/Getting-started/Coordinate-Systems
-
-GLSL LIGHTING:
-https://github.com/lettier/3d-game-shaders-for-beginners/blob/master/sections/lighting.md
-
-SIMPLE THREE.JS DIFFUSE GLSL SHADER:
-http://jsfiddle.net/vdfn1pcn/
-
-GLSL OPTIMIZATION:
-https://www.khronos.org/opengl/wiki/GLSL_Optimizations
-
-THREE.JS CANVAS SET UP WITH RESIZING:
-https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container/45046955#45046955
-
-
---------------------------------------------------------------------------------
-/\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
---------------------------------------------------------------------------------
-
-
 TODO:
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
 - FIX ISSUE WHERE MOVING THROUGH TRACKS QUICKLY CAN CAUSE AN ERROR IN THE DECODER QUEUE
 ~   -   ~   -   ~   -   ~   -   
-- add tempo settings for tracks and have room rotation match tempo
+- MAKE WEBGL RESIZE RENDERER WHEN WINDOW IS RESIZED
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+- lay out sequencer transition times for each song using the modes from track 1 as placeholders
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+- add adjustable particle system velocity (x/y)
+- add adjustable x/y background shader offsets for animation
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+- add tempo settings for tracks and have room rotation match tempo (maybe?)
 ~   -   ~   -   ~   -   ~   -   
 - implement specular highlights on CD
-~   -   ~   -   ~   -   ~   -   
 - prevent CD rotation from changing CD lighting
 ~   -   ~   -   ~   -   ~   -   
 - use a flag instead of "seekVelocity" to keep track of whether buttons are down so that quick presses still skip correctly
-~   -   ~   -   ~   -   ~   -  
-~   -   ~   -   ~   -   ~   -  
-- make a few different initial room shaders
-~   -   ~   -   ~   -   ~   -  
-~   -   ~   -   ~   -   ~   -  
-- implement sequencer function to determine current visual mode from track and time
-- implement proof of concept of having background, light, and particle systems being affected by sequencer
-- keep the particle system off until some ways into the song
 ~   -   ~   -   ~   -   ~   -   
+- implement ability to switch material modes in particle system
 ~   -   ~   -   ~   -   ~   -   
-- have player gyration stop momentarily when user is clicking buttons
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~   -   ~   -   ~   -   ~   -   
+- implement FFT in effects system
+- build LED display for FFT
+- link FFT to LED display
+- link FFT output to background shader uniforms
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
@@ -68,11 +45,11 @@ TODO:
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
 - create glowing particles
-- create background shader with video input
 - create new abstract background shader or two
 - create mirror particles
 - create refracting particles
 - create image-mapped particles
+- create background shader with video input (maybe)
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
@@ -84,12 +61,14 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
-- refactor graphics class to separate out different graphics components
+- refactor NumericDisplay out of PlayerModel and remove the reference to appController from PlayerModel
 - refactor transport class to separate event system from button processor
 - refactor "playbackTimeInt" with units in numeric display
 - add units (seconds) to getPlaybackTime calls and usage
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~   -   ~   -   ~   -   ~   -   
+- have player gyration stop momentarily when user is clicking buttons
 ~   -   ~   -   ~   -   ~   -   
 - make it so that particles are repelled by the mouse pointer
 ~   -   ~   -   ~   -   ~   -   
@@ -163,9 +142,48 @@ x have the sequencer change room shaders by song
 x refactor tray animation code
 x design sequencer system to control light(s), background shader, maybe background structure, particle system
 x decide whether sequencer should be configurable with scripting call parameters
+x make a few different initial room shaders
+x implement sequencer function to determine current visual mode from track and time
+x implement proof of concept of having background, light, and particle systems being affected by sequencer
+x keep the particle system off until some ways into the song
+x refactor graphics class to separate out different graphics components
 ~   -   ~   -   ~   -   ~   -   
 
 
+
+
+--------------------------------------------------------------------------------
+/\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/\/\//\/
+--------------------------------------------------------------------------------
+
+
+NOTES ON GLSL AND THREE.JS:
+
+
+CUSTOM SHADER WITH TEXTURE ARTICLES:
+https://csantosbh.wordpress.com/2014/01/09/custom-shaders-with-three-js-uniforms-textures-and-lighting/
+https://stackoverflow.com/questions/12627422/custom-texture-shader-in-three-js
+https://stackoverflow.com/questions/52176463/threejs-how-to-render-a-texture-with-custom-shaders-including-the-textures-uv-o
+https://www.khronos.org/opengl/wiki/Sampler_(GLSL)
+
+
+BEST GLSL SHADER OVERVIEW:
+https://thebookofshaders.com/
+
+GLSL LOCAL/WORLD/VIEW/CLIP/SCREEN SPACE:
+https://learnopengl.com/Getting-started/Coordinate-Systems
+
+GLSL LIGHTING:
+https://github.com/lettier/3d-game-shaders-for-beginners/blob/master/sections/lighting.md
+
+SIMPLE THREE.JS DIFFUSE GLSL SHADER:
+http://jsfiddle.net/vdfn1pcn/
+
+GLSL OPTIMIZATION:
+https://www.khronos.org/opengl/wiki/GLSL_Optimizations
+
+THREE.JS CANVAS SET UP WITH RESIZING:
+https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container/45046955#45046955
 
 
 --------------------------------------------------------------------------------

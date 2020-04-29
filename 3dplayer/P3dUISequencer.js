@@ -49,7 +49,7 @@ const sequenceTable = [
 	[ TRACK_1,  60,  SequenceMode.A2 ],
 	[ TRACK_1,  90,  SequenceMode.A3 ],
 	[ TRACK_1,  105, SequenceMode.A4 ],
-	[ TRACK_1,  135, SequenceMode.A1 ],
+	[ TRACK_1,  134, SequenceMode.A1 ],
 	[ TRACK_1,  150, SequenceMode.A3 ],
 	[ TRACK_1,  165, SequenceMode.A2 ],
 	[ TRACK_1,  210, SequenceMode.A3 ],
@@ -219,19 +219,19 @@ export class P3dSequencer
 				this.roomCube.setShaderMode( 6 );
 				this.particlesEnabled = true;
 				this.lights.disableStrobe();
-				this.particles.startWind( 0.05, 0.0 );
+				this.particles.startWind( 0.02, 0.0 );
 				break;
 			case SequenceMode.A3:
 				this.lights.setColor( new THREE.Color( 0.3, 0.3, 0.3, 1.0 )  );
 				this.roomCube.setShaderMode( 0 );
 				this.particlesEnabled = true;
-				this.particles.startWind( 0.05, 0.0 );
+				this.particles.startWind( 0.02, 0.0 );
 				break;
 			case SequenceMode.A4:
 				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
 				this.roomCube.setShaderMode( 0 );
 				this.particlesEnabled = true;
-				this.particles.startWind( 0.05, 0.0 );
+				this.particles.startWind( 0.02, 0.0 );
 				break;
 
 			case SequenceMode.C:
