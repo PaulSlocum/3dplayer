@@ -52,7 +52,8 @@ const sequenceTable = [
 	[ TRACK_1,  134, SequenceMode.A1 ],
 	[ TRACK_1,  150, SequenceMode.A3 ],
 	[ TRACK_1,  165, SequenceMode.A2 ],
-	[ TRACK_1,  210, SequenceMode.A3 ],
+	[ TRACK_1,  196, SequenceMode.A3 ],
+	//[ TRACK_1,  210, SequenceMode.A3 ], // <-- ALTERNATE TO 196 LINE, ORIGINALLY STARTED A LITTLE LATER
 	[ TRACK_1,  255, SequenceMode.A1 ],
 	// - - - - - - - - - - - - - -
 	[ TRACK_2,  0, SequenceMode.C ],

@@ -12,7 +12,7 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
-- lay out sequencer transition times for each song using the modes from track 1 as placeholders
+- maybe lay out sequencer transition times for each song using the modes from track 1 as placeholders
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 - add adjustable particle system velocity (x/y)
