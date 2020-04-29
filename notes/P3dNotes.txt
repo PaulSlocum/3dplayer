@@ -28,6 +28,12 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 - implement ability to switch material modes in particle system
 ~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+- add polar coordinate mode to particle system that can be switched seamlessly with cartesian system
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
 - implement FFT in effects system

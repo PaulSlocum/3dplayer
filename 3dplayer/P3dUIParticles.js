@@ -61,34 +61,26 @@ export class P3dSwarm
 
 
   ////////////////////////////////////////////////////////////////////////
-  setScreenEdgePosition( newEdge )
-  {
-    this.screenEdgePosition = newEdge + 0.7;
-  }
-
-
-  ////////////////////////////////////////////////////////////////////////
   load()
   {
-    // ADD SPHERE
+  	//***********************************************************************************
+    // NOTE: OTHER GEOMETRIES TO CONSIDER:
+    //    TetrahedronGeometry   ConeGeometry   CylinderGeometry   IcosahedronGeometry
+    //    OctahedronGeometry    TextGeometry    TorusGeometry     TorusKnotGeometry
+  	//***********************************************************************************
+
+    // CREATE MATERIALS AND GEOMETRIES
     const objectSize = 0.33;
     const circularSegments = 22;
     const coneSegments = 60;
     var sphereGeometry = new THREE.SphereGeometry( objectSize, circularSegments, circularSegments );
     var boxGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
     var coneGeometry = new THREE.ConeGeometry( objectSize*0.9, objectSize*1.5, coneSegments );
-    // OTHER GEOMETRIES TO CONSIDER:
-    //    TetrahedronGeometry   ConeGeometry   CylinderGeometry   IcosahedronGeometry
-    //    OctahedronGeometry    TextGeometry    TorusGeometry     TorusKnotGeometry
-    var sphereMaterial2 = new THREE.MeshStandardMaterial( {color: 0x747A70} );
     var sphereMaterial1 = new THREE.MeshStandardMaterial( {color: 0x817060} );
-    //var sphereMaterial2 = new THREE.MeshStandardMaterial( {color: 0x22242A} );
-    //var sphereMaterial1 = new THREE.MeshStandardMaterial( {color: 0x777070} );
     sphereMaterial1.metalness = 0.7;
     sphereMaterial1.roughness = 0.45;
-    sphereMaterial2.metalness = 0.4;
-    sphereMaterial2.roughness = 0.45;
 
+		// CREATE OBJECTS...
     for( let i=0; i<MAX_OBJECTS; i++ )
     {
       switch( random(3) )
@@ -100,7 +92,7 @@ export class P3dSwarm
 
       if( DEBUG_ALWAYS_ENABLE_PARTICLES == true )
       {
-        this.sizeArray[i] = 1.0; // DEBUG
+        this.sizeArray[i] = 1.0;
         this.objectArray[i].visible = true;
       }
       else
@@ -157,65 +149,50 @@ export class P3dSwarm
 
       // IF OBJECT HAS REACHED SCREEN EDGE, THEN RESET TO THE OPPOSITE SIDE...
       if( this.objectArray[i].position.x > this.screenEdgePosition )
-      {
-        this.objectArray[i].position.x = -this.screenEdgePosition;
-        if( this.enabled )
-        {
-          this.objectEnabled[i] = true;
-          this.sizeArray[i] = 1.0;
-          this.objectArray[i].visible = true;
-        }
-
-        // ATTEMPT TO PLACE OBJECT ON LEFT SIDE WITHOUT BEING TOO CLOSE TO OTHER OBJECTS...
-        let foundNearbyObject = false;
-        let placementAttempts = 0;
-        do
-        {
-          placementAttempts++;
-          if( placementAttempts > 5 )
-          {
-            // IF PLACEMENT FAILS MULTIPLE TIMES, THEN DISABLE OBJECT AND PLACE AT
-            // RANDOM X LOCATION TO BE PLACED LATER WHEN IT REACHES THE EDGE AGAIN
-            this.objectArray[i].position.x = random(40)*0.16 - 1.5;
-            foundNearbyObject = true;
-            this.sizeArray[i] = 0.0;
-            this.objectArray[i].visible = false;
-            this.objectEnabled[i] = false;
-            break;
-          }
-
-          // TRY A RANDOM Y LOCATION...
-          this.objectArray[i].position.y = random(80)*0.062 - 2.1;
-          const PROXIMITY_LIMIT = 1.35;
-          foundNearbyObject = false;
-
-          // CHECK IF IT"S TOO CLOSE TO ANY OTHER OBJECTS
-          for( let j=0; j<MAX_OBJECTS; j++ )
-          {
-            if( i != j )
-            {
-              if( Math.abs( this.objectArray[j].position.x - this.objectArray[i].position.x ) < PROXIMITY_LIMIT  &&
-                  Math.abs( this.objectArray[j].position.y - this.objectArray[i].position.y ) < PROXIMITY_LIMIT  )
-              {
-                foundNearbyObject = true;
-                break; // FOR LOOP
-              }
-            }
-          }
-
-        }
-        while( foundNearbyObject == true );
-
-      }
+      	this._launchObject( i );
     }
 
     //*/
   }
 
 
+	//  ~      -       ~      -       ~      -       ~      -       ~      -       ~
+
+
+  ////////////////////////////////////////////////////////////////////////
+  setScreenEdgePosition( newEdge )
+  {
+    this.screenEdgePosition = newEdge + 0.7;
+  }
+
+
+
+  ////////////////////////////////////////////////////////////////////////////
+  enable()
+  {
+    this.enabled = true;
+  }
+
+
+  ////////////////////////////////////////////////////////////////////////////
+  disable()
+  {
+    this.enabled = false;
+    for( let i=0; i<MAX_OBJECTS; i++ )
+    {
+      this.objectEnabled[i] = false;
+    }
+  }
+
+
+
+	//  ~      -       ~      -       ~      -       ~      -       ~      -       ~
+
+
 	///////////////////////////////////////////////////////////////////////////////
-	launchObject( i )
+	_launchObject( objectIndex )
 	{
+		let i = objectIndex;
 
 		this.objectArray[i].position.x = -this.screenEdgePosition;
 		if( this.enabled )
@@ -240,7 +217,7 @@ export class P3dSwarm
 				this.sizeArray[i] = 0.0;
 				this.objectArray[i].visible = false;
 				this.objectEnabled[i] = false;
-				break;
+				break;  // <---- BREAK DO WHILE LOOP
 			}
 
 			// TRY A RANDOM Y LOCATION...
@@ -263,17 +240,12 @@ export class P3dSwarm
 			}
 
 		}
-		while( foundNearbyObject == true );
+		while( foundNearbyObject == true );//*/
 
 	}
 
 
-	///////////////////////////////////////////////////////////////////////////////
-	/*forceWind( windAmountClamp )
-	{
-	} //*/
-
-
+	//  ~      -       ~      -       ~      -       ~      -       ~      -       ~
 
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -322,23 +294,6 @@ export class P3dSwarm
 	}
 
 
-
-  ////////////////////////////////////////////////////////////////////////////
-  enable()
-  {
-    this.enabled = true;
-  }
-
-
-  ////////////////////////////////////////////////////////////////////////////
-  disable()
-  {
-    this.enabled = false;
-    for( let i=0; i<MAX_OBJECTS; i++ )
-    {
-      this.objectEnabled[i] = false;
-    }
-  }
 
 
 }
