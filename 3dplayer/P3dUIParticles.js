@@ -292,7 +292,7 @@ export class P3dSwarm
 	{
     if( this.frameCounter%780 == 0 )
     {
-    	startWind( 0.0, 0.0 );
+    	this.startWind( 0.0, 0.0 );
       /*this.windActive = true;
       this.windBuilding = true;
       this.windScale = 0.0;
