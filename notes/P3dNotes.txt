@@ -39,6 +39,7 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 - FIX ISSUE WHERE MOVING THROUGH TRACKS QUICKLY CAN CAUSE AN ERROR IN THE DECODER QUEUE
 ~   -   ~   -   ~   -   ~   -   
+- add tempo settings for tracks and have room rotation match tempo
 ~   -   ~   -   ~   -   ~   -   
 - implement specular highlights on CD
 ~   -   ~   -   ~   -   ~   -   

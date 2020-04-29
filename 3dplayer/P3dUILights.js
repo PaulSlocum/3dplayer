@@ -9,6 +9,7 @@
 
 //-----------------------------------------------------------------------------------
 import { logger } from "./P3dLog.js";
+import { converge, random } from "./P3dUtility.js";
 //-----------------------------------------------------------------------------------
 
 
@@ -25,9 +26,10 @@ export class P3dLights
 		this._lightSetup();
 
     this.targetColor = new THREE.Color(0xffffff);
+    this.currentColor = new THREE.Color(0xffffff);
 
     this.frameCounter = 0;
-    this.strobeColor = new THREE.Color( 0xDDDDDD );
+    this.strobeColor = new THREE.Color( 0x888888 );
     this.strobeEnabled = false;
   }
 
@@ -59,9 +61,15 @@ export class P3dLights
 	{
 		this.frameCounter++;
 
+		if( (this.frameCounter/5)&2 != 0  ||  this.strobeEnabled === false )
+		{
+			//this.spotlight.color = this.targetColor;
 
-		if( (this.frameCounter/4)&2 != 0  ||  this.strobeEnabled === false )
-			this.spotlight.color = this.targetColor;
+			this.currentColor.r = converge( this.currentColor.r, this.targetColor.r, 0.01 );
+			this.currentColor.g = converge( this.currentColor.g, this.targetColor.g, 0.01 );
+			this.currentColor.b = converge( this.currentColor.b, this.targetColor.b, 0.01 );
+			this.spotlight.color = this.currentColor;
+		}
 		else
 		{
 			this.spotlight.color = this.strobeColor;

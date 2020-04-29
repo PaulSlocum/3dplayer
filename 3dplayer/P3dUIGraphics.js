@@ -94,6 +94,8 @@ export class P3dGraphics
     this.playerModel.load();
     this.sequencer = new P3dSequencer( this );
 
+		this.frameCounter = 0;
+
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
   }
@@ -103,13 +105,15 @@ export class P3dGraphics
   // NOTE: MUST BE CALLED EXTERNALLY TO START THE ANIMATION
   run()
   {
+  	this.frameCounter++;
+
     requestAnimationFrame( this.run.bind(this) );
 
-    this.playerModel.update();
+		this.playerModel.update();
 		this.particles.update();
 		this.lights.update();
-    this.roomCube.update();
-    this.sequencer.update();
+		this.roomCube.update();
+		this.sequencer.update();
 
     // RENDER!
     this.renderer.render( this.scene, this.camera );
