@@ -268,17 +268,36 @@ export class P3dSwarm
 	}
 
 
+	///////////////////////////////////////////////////////////////////////////////
+	/*forceWind( windAmountClamp )
+	{
+	} //*/
+
+
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	startWind( extraWindX, extraWindY )
+	{
+		this.windActive = true;
+		this.windBuilding = true;
+		this.windScale = 0.0;
+		this.windAmountX = (random(100)-0) * 0.00014 + extraWindX;
+		this.windAmountY = (random(100)-50) * 0.00014 + extraWindY;
+	}
+
 
 	//////////////////////////////////////////////////////////////////////////////
 	_updateWind( frameCounter )
 	{
     if( this.frameCounter%780 == 0 )
     {
-      this.windActive = true;
+    	startWind( 0.0, 0.0 );
+      /*this.windActive = true;
       this.windBuilding = true;
       this.windScale = 0.0;
       this.windAmountX = (random(100)-0) * 0.00014;
-      this.windAmountY = (random(100)-50) * 0.00014;
+      this.windAmountY = (random(100)-50) * 0.00014; //*/
     }//*/
 
     if( this.windActive == true )

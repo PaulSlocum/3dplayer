@@ -27,6 +27,7 @@ const SequenceMode = {
 	A2: 2,
 	A3: 3,
 	A4: 4,
+	A1b: 5,
 	C: 10,
 	D: 20,
 	E: 30,
@@ -44,9 +45,11 @@ const TABLE_TIME_SEC_OFFSET = 1;
 const TABLE_SEQUENCE_MODE_OFFSET = 2;
 const sequenceTable = [
 	[ TRACK_1,  0,   SequenceMode.A1 ],
+	[ TRACK_1,  40,  SequenceMode.A1b ],
 	[ TRACK_1,  60,  SequenceMode.A2 ],
 	[ TRACK_1,  90,  SequenceMode.A3 ],
 	[ TRACK_1,  105, SequenceMode.A4 ],
+	[ TRACK_1,  135, SequenceMode.A1 ],
 	[ TRACK_1,  150, SequenceMode.A3 ],
 	[ TRACK_1,  165, SequenceMode.A2 ],
 	[ TRACK_1,  210, SequenceMode.A3 ],
@@ -205,21 +208,30 @@ export class P3dSequencer
 				this.particlesEnabled = false;
 				this.lights.disableStrobe();
 				break;
+			case SequenceMode.A1b:
+				this.roomCube.setShaderMode( 0 );
+				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
+				this.particlesEnabled = true;
+				this.lights.disableStrobe();
+				break;
 			case SequenceMode.A2:
 				this.lights.setColor( new THREE.Color( 0.15, 0.15, 0.15, 1.0 )  );
 				this.roomCube.setShaderMode( 6 );
 				this.particlesEnabled = true;
 				this.lights.disableStrobe();
+				this.particles.startWind( 0.05, 0.0 );
 				break;
 			case SequenceMode.A3:
 				this.lights.setColor( new THREE.Color( 0.3, 0.3, 0.3, 1.0 )  );
 				this.roomCube.setShaderMode( 0 );
 				this.particlesEnabled = true;
+				this.particles.startWind( 0.05, 0.0 );
 				break;
 			case SequenceMode.A4:
 				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
 				this.roomCube.setShaderMode( 0 );
 				this.particlesEnabled = true;
+				this.particles.startWind( 0.05, 0.0 );
 				break;
 
 			case SequenceMode.C:
