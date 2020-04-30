@@ -32,6 +32,7 @@ TODO:
 - add polar coordinate mode to particle system that can be switched seamlessly with cartesian system
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
+- sample background and make ambient light correspond to background shader color
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  

@@ -53,6 +53,9 @@ export class P3dLights
     this.spotlight.intensity = 1.0;
     this.scene.add( this.spotlight );
     this.scene.add( this.spotlight.target );
+
+    /*let light = new THREE.AmbientLight( 0x101010 ); // soft white light
+		this.scene.add( light ); //*/
 	}
 
 	////////////////////////////////////////////////////////////////////////////////

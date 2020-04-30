@@ -8,14 +8,18 @@
 
 //---------------------------------------------------------------------------------
 import { random, converge } from "./P3dUtility.js";
-import { logger } from "./P3dLog.js";
+import { logger, logerr } from "./P3dLog.js";
 //---------------------------------------------------------------------------------
 
 
 
 const MAX_OBJECTS = 20;
 
+//*************************************************************************
+// THIS SHOULD BE FALSE UNLESS DEBUGGING
 const DEBUG_ALWAYS_ENABLE_PARTICLES = false;
+//const DEBUG_ALWAYS_ENABLE_PARTICLES = true;
+//*************************************************************************
 
 
 
@@ -54,6 +58,9 @@ export class P3dSwarm
 
     this.frameCounter = 0;
 
+    this.materialsArray = [];
+    this.materialNumber = 2;
+
     this.load();
 
     this.disable(); // <-- START WITH PARTICLES TURNED OFF
@@ -73,21 +80,20 @@ export class P3dSwarm
     const objectSize = 0.33;
     const circularSegments = 22;
     const coneSegments = 60;
-    var sphereGeometry = new THREE.SphereGeometry( objectSize, circularSegments, circularSegments );
-    var boxGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
-    var coneGeometry = new THREE.ConeGeometry( objectSize*0.9, objectSize*1.5, coneSegments );
-    var sphereMaterial1 = new THREE.MeshStandardMaterial( {color: 0x817060} );
-    sphereMaterial1.metalness = 0.7;
-    sphereMaterial1.roughness = 0.45;
+    let sphereGeometry = new THREE.SphereGeometry( objectSize, circularSegments, circularSegments );
+    let boxGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
+    let coneGeometry = new THREE.ConeGeometry( objectSize*0.9, objectSize*1.5, coneSegments );
+
+		this._loadMaterials();
 
 		// CREATE OBJECTS...
     for( let i=0; i<MAX_OBJECTS; i++ )
     {
       switch( random(3) )
       {
-        case 0: this.objectArray[i] = new THREE.Mesh( sphereGeometry, sphereMaterial1 ); break;
-        case 1: this.objectArray[i] = new THREE.Mesh( boxGeometry, sphereMaterial1 ); break;
-        case 2: this.objectArray[i] = new THREE.Mesh( coneGeometry, sphereMaterial1 ); break;
+        case 0: this.objectArray[i] = new THREE.Mesh( sphereGeometry, this.materialsArray[this.materialNumber] ); break;
+        case 1: this.objectArray[i] = new THREE.Mesh( boxGeometry, this.materialsArray[this.materialNumber] ); break;
+        case 2: this.objectArray[i] = new THREE.Mesh( coneGeometry, this.materialsArray[this.materialNumber] ); break;
       }
 
       if( DEBUG_ALWAYS_ENABLE_PARTICLES == true )
@@ -113,8 +119,43 @@ export class P3dSwarm
   }
 
 
+	///////////////////////////////////////////////////////////////////////////////
+	setMaterialNumber( newMaterialNumber )
+	{
+		if( newMaterialNumber < this.materialsArray.length )
+			this.materialNumber = newMaterialNumber;
+		else
+			logerr( "SET MATERIAL NUMBER OUT OF RANGE: ", newMaterialNumber, this.materialsArray.length );
+	}
 
-  ////////////////////////////////////////////////////////////////////////
+
+
+
+	///////////////////////////////////////////////////////////////////////////////
+	_loadMaterials()
+	{
+    let material0 = new THREE.MeshStandardMaterial( {color: 0x817060} );
+    material0.metalness = 0.7;
+    material0.roughness = 0.45;
+    this.materialsArray[0] = material0;
+
+    //let material1 = new THREE.MeshStandardMaterial( {color: 0xA19A90} );
+    let material1 = new THREE.MeshStandardMaterial( {color: 0x817060} ); // <-----------
+    //let material1 = new THREE.MeshStandardMaterial( {color: 0x716050} );
+    material1.metalness = 0.0;
+    material1.roughness = 0.6;
+    this.materialsArray[1] = material1;
+
+    let material2 = new THREE.MeshStandardMaterial( {color: 0x050505} ); // <-----------
+    //let material1 = new THREE.MeshStandardMaterial( {color: 0x716050} );
+    material2.metalness = 0.0;
+    material2.roughness = 0.5;
+    this.materialsArray[2] = material2;
+	}
+
+
+
+  ///////////////////////////////////////////////////////////////////////////////
   update()
   {
     this.frameCounter++;
@@ -193,6 +234,8 @@ export class P3dSwarm
 	_launchObject( objectIndex )
 	{
 		let i = objectIndex;
+
+		this.objectArray[i].material = this.materialsArray[ this.materialNumber ];
 
 		this.objectArray[i].position.x = -this.screenEdgePosition;
 		if( this.enabled )
