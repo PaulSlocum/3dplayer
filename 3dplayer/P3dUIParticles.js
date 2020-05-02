@@ -164,6 +164,15 @@ export class P3dSwarm
   }
 
 
+	/////////////////////////////////////////////////////////////////////////////////
+	// SELECT FROM A NUMBER OF PREDEFINED MODES
+	setModeNumber( newModeNumber )
+	{
+
+	}
+
+
+
 	///////////////////////////////////////////////////////////////////////////////
 	setMaterialNumber( newMaterialNumber )
 	{
@@ -200,14 +209,14 @@ export class P3dSwarm
 		this.cubeCamera = new THREE.CubeCamera( 0.1, 100, 64 )   // near, far, resolution);
 		//this.cubeCamera.renderTarget.texture.generateMipmaps = true;
 		//this.cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipmapLinearFilter;
-    let material3 = new THREE.MeshBasicMaterial( {color: 0xccfffd,
+    let material3 = new THREE.MeshBasicMaterial( {color: 0xFFFFFF,
     									envMap: this.cubeCamera.renderTarget.texture, refractionRatio: 0.655, reflectivity: 0.98} ); // <-----------
     //material3.envMap = this.cubeCamera.renderTarget.texture;
 		this.scene.add( this.cubeCamera );
 		//material3.metalness = 0.3;
     //material3.roughness = 0.0;
     this.materialsArray[3] = material3;
-		this.cubeCamera.renderTarget.texture.mapping = THREE.CubeRefractionMapping;
+		//this.cubeCamera.renderTarget.texture.mapping = THREE.CubeRefractionMapping;
 	}
 
 
