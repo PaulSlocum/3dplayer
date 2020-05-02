@@ -12,14 +12,55 @@ import { logger, logerr } from "./P3dLog.js";
 //---------------------------------------------------------------------------------
 
 
-
-const MAX_OBJECTS = 20;
+//const MAX_OBJECTS = 20; // <-------------
+const MAX_OBJECTS = 1;
 
 //*************************************************************************
 // THIS SHOULD BE FALSE UNLESS DEBUGGING
-const DEBUG_ALWAYS_ENABLE_PARTICLES = false;
+const DEBUG_ALWAYS_ENABLE_PARTICLES = true;
 //const DEBUG_ALWAYS_ENABLE_PARTICLES = true;
 //*************************************************************************
+
+
+
+//*************************************************************************
+// PARAMETER NOTES:
+// - enable/disable
+// - fade out time
+// - fade in time
+// ~     -     ~     -     ~     -     ~     -
+// - generator rate
+// - minimum distance
+// - generator direction or starting position?
+// ~     -     ~     -     ~     -     ~     -
+// - cartesian target velocity (x,y) //     TARGETS EITHER VELOCITY OR POSITION BASED ON WHICH IS NON-ZERO
+// - cartesian target position (x,y) //     AND X/Y ARE HANDLED INDEPENDENTLY
+// - polar1 target velocity (x,y)
+// - polar1 target position (x,y)
+// - polar2 target velocity (x,y)
+// - polar2 target position (x,y)
+// ~     -     ~     -     ~     -     ~     -
+// - material mode (shiny, matte, glass, mirror, emitter, texture, video)
+// - emitter target brightness
+// ~     -     ~     -     ~     -     ~     -
+// - wind velocity (x,y)
+// - wind frequency
+// ~     -     ~     -     ~     -     ~     -
+// - object size
+// - object depth
+// ~     -     ~     -     ~     -     ~     -
+// - bounce/explode action that can be activated at regular intervals?
+// ~     -     ~     -     ~     -     ~     -
+// - polar1 modulation amount (x,y)
+// - polar1 modulation frequency (x,y)
+// - polar2 modulation amount (x,y)
+// - polar2 modulation frequency (x,y)
+// ~     -     ~     -     ~     -     ~     -
+//*************************************************************************
+
+
+
+
 
 
 
@@ -29,9 +70,10 @@ export class P3dSwarm
 
 
   ///////////////////////////////////////////////////////////////////////
-  constructor( scene )
+  constructor( scene, renderer )
   {
     this.scene = scene;
+    this.renderer = renderer;
 
     this.sphere = null;
 
@@ -59,7 +101,7 @@ export class P3dSwarm
     this.frameCounter = 0;
 
     this.materialsArray = [];
-    this.materialNumber = 2;
+    this.materialNumber = 3;
 
     this.load();
 
@@ -77,12 +119,15 @@ export class P3dSwarm
   	//***********************************************************************************
 
     // CREATE MATERIALS AND GEOMETRIES
-    const objectSize = 0.33;
+    const objectSize = 0.33; //<------------------
+    //const objectSize = 0.83;
     const circularSegments = 22;
     const coneSegments = 60;
     let sphereGeometry = new THREE.SphereGeometry( objectSize, circularSegments, circularSegments );
     let boxGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
-    let coneGeometry = new THREE.ConeGeometry( objectSize*0.9, objectSize*1.5, coneSegments );
+    let coneGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
+    //let coneGeometry = new THREE.TorusKnotGeometry( 10, 3, 100, 16 );
+    //let coneGeometry = new THREE.ConeGeometry( objectSize*0.9, objectSize*1.5, coneSegments );
 
 		this._loadMaterials();
 
@@ -151,6 +196,16 @@ export class P3dSwarm
     material2.metalness = 0.0;
     material2.roughness = 0.5;
     this.materialsArray[2] = material2;
+
+		this.cubeCamera = new THREE.CubeCamera( 0.1, 100, 64 )   // near, far, resolution);
+		//this.cubeCamera.renderTarget.texture.generateMipmaps = true;
+		//this.cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipmapLinearFilter;
+    let material3 = new THREE.MeshBasicMaterial( {color: 0xffffff} ); // <-----------
+    material3.envMap = this.cubeCamera.renderTarget.texture;
+		this.scene.add( this.cubeCamera );
+		//material3.metalness = 0.3;
+    //material3.roughness = 0.5;
+    this.materialsArray[3] = material3;
 	}
 
 
@@ -159,6 +214,12 @@ export class P3dSwarm
   update()
   {
     this.frameCounter++;
+
+		if( this.frameCounter%2==0 )
+		{
+			this.cubeCamera.update( this.renderer, this.scene );
+			this.materialsArray[3].envMap = this.cubeCamera.renderTarget.texture;
+		}//*/
 
     // TEST: CONSTANT GRADUAL ACCERLERATION
     //this.xBaseSpeed += 0.000002;
@@ -180,13 +241,21 @@ export class P3dSwarm
       this.objectArray[i].rotation.z += 0.02;
       this.objectArray[i].rotation.y += this.xSpeed[i];
 
-      this.objectArray[i].position.x += this.xSpeed[i] + this.windAmountX * this.windScale + this.xBaseSpeed;
-      this.objectArray[i].position.y += this.windAmountY * this.windScale;
-      //this.objectArray[i].position.z += 0.001; // DEBUG - TESTING CONCEPT OF OBJECTS CHANGING DEPTCH
+      //this.objectArray[i].position.x += this.xSpeed[i] + this.windAmountX * this.windScale + this.xBaseSpeed;
+      //this.objectArray[i].position.y += this.windAmountY * this.windScale;
+
+      //DEBUG!!!!!!!!!!!!!!!!!!
+      this.objectArray[i].position.x = Math.sin( this.frameCounter * 0.01 );
+      this.objectArray[i].position.y = Math.cos( this.frameCounter * 0.01 );
+
 
       this.objectArray[i].scale.x = 1.0 * this.sizeArray[i];
       this.objectArray[i].scale.y = 1.0 * this.sizeArray[i];
       this.objectArray[i].scale.z = 1.0 * this.sizeArray[i];
+
+      this.cubeCamera.position.x = this.objectArray[i].position.x;
+      this.cubeCamera.position.y = this.objectArray[i].position.y;
+      this.cubeCamera.position.z = this.objectArray[i].position.z;
 
       // IF OBJECT HAS REACHED SCREEN EDGE, THEN RESET TO THE OPPOSITE SIDE...
       if( this.objectArray[i].position.x > this.screenEdgePosition )

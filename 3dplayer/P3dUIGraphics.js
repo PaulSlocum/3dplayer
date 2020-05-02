@@ -85,7 +85,7 @@ export class P3dGraphics
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
     this.lights = new P3dLights( this.scene );
-    this.particles = new P3dSwarm( this.scene );
+    this.particles = new P3dSwarm( this.scene, this.renderer );
     this.particles.setScreenEdgePosition( this.screenEdgePosition );
 
     this.roomCube = new P3dRoom();
@@ -95,6 +95,7 @@ export class P3dGraphics
     this.sequencer = new P3dSequencer( this );
 
 		this.frameCounter = 0;
+		this.startTimeMSec = 0;
 
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
@@ -105,7 +106,19 @@ export class P3dGraphics
   // NOTE: MUST BE CALLED EXTERNALLY TO START THE ANIMATION
   run()
   {
+  	//if( this.frameCounter == 0 )
+  	//	this.startTimeMSec = performance.now();
+
   	this.frameCounter++;
+
+
+  	if( this.frameCounter%60 == 0 )
+  	{
+  		logger( "=============> FRAMES PER SECOND: ", this.frameCounter * 1000 / (performance.now() - this.startTimeMSec),
+  																							this.frameCounter, performance.now(), this.startTimeMSec );
+  		this.frameCounter = 0;
+  		this.startTimeMSec = performance.now();
+    }
 
     requestAnimationFrame( this.run.bind(this) );
 

@@ -26,7 +26,6 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 - use a flag instead of "seekVelocity" to keep track of whether buttons are down so that quick presses still skip correctly
 ~   -   ~   -   ~   -   ~   -   
-- implement ability to switch material modes in particle system
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 - add polar coordinate mode to particle system that can be switched seamlessly with cartesian system
@@ -34,6 +33,7 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 - sample background and make ambient light correspond to background shader color
 ~   -   ~   -   ~   -   ~   -   
+- make it so background shader colors can be controlled by sequencer
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
@@ -52,11 +52,10 @@ TODO:
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
 - create glowing particles
-- create new abstract background shader or two
 - create mirror particles
 - create refracting particles
 - create image-mapped particles
-- create background shader with video input (maybe)
+- create video particles
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
@@ -154,6 +153,8 @@ x implement sequencer function to determine current visual mode from track and t
 x implement proof of concept of having background, light, and particle systems being affected by sequencer
 x keep the particle system off until some ways into the song
 x refactor graphics class to separate out different graphics components
+x implement ability to switch material modes in particle system
+x create new abstract background shader or two
 ~   -   ~   -   ~   -   ~   -   
 
 
