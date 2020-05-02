@@ -120,7 +120,7 @@ export class P3dSwarm
 
     // CREATE MATERIALS AND GEOMETRIES
     const objectSize = 0.33; //<------------------
-    //const objectSize = 0.83;
+    //const objectSize = 0.53;
     const circularSegments = 22;
     const coneSegments = 60;
     let sphereGeometry = new THREE.SphereGeometry( objectSize, circularSegments, circularSegments );
@@ -200,12 +200,14 @@ export class P3dSwarm
 		this.cubeCamera = new THREE.CubeCamera( 0.1, 100, 64 )   // near, far, resolution);
 		//this.cubeCamera.renderTarget.texture.generateMipmaps = true;
 		//this.cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipmapLinearFilter;
-    let material3 = new THREE.MeshBasicMaterial( {color: 0xffffff} ); // <-----------
-    material3.envMap = this.cubeCamera.renderTarget.texture;
+    let material3 = new THREE.MeshBasicMaterial( {color: 0xccfffd,
+    									envMap: this.cubeCamera.renderTarget.texture, refractionRatio: 0.655, reflectivity: 0.98} ); // <-----------
+    //material3.envMap = this.cubeCamera.renderTarget.texture;
 		this.scene.add( this.cubeCamera );
 		//material3.metalness = 0.3;
-    //material3.roughness = 0.5;
+    //material3.roughness = 0.0;
     this.materialsArray[3] = material3;
+		this.cubeCamera.renderTarget.texture.mapping = THREE.CubeRefractionMapping;
 	}
 
 
