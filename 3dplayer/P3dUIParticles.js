@@ -105,9 +105,11 @@ export class P3dSwarm
 
 		this.particles = [];
 
+		this.maxParticles = 55;
+
 		this.cubeCameraEnabled = false;
 
-		this.spawnDelayMSec = 1.0;
+		this.spawnDelayMSec = 500.0;
 		this.lastSpawnTime = 0.0;
 
     this.xBaseSpeed = 0.0;
@@ -146,17 +148,17 @@ export class P3dSwarm
     //const objectSize = 0.53;
     const circularSegments = 22;
     const coneSegments = 60;
-    let sphereGeometry = new THREE.SphereGeometry( objectSize, circularSegments, circularSegments );
-    let boxGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
+    this.sphereGeometry = new THREE.SphereGeometry( objectSize, circularSegments, circularSegments );
+    this.boxGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
     //let coneGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
     //let coneGeometry = new THREE.TorusKnotGeometry( 10, 3, 100, 16 );
-    let coneGeometry = new THREE.ConeGeometry( objectSize*0.9, objectSize*1.5, coneSegments ); // <-------------
-    let torusKnotGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
+    this.coneGeometry = new THREE.ConeGeometry( objectSize*0.9, objectSize*1.5, coneSegments ); // <-------------
+    this.torusKnotGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
 
 		this._loadMaterials();
 
 		// CREATE OBJECTS...
-    for( let i=0; i<MAX_OBJECTS; i++ )
+    /*for( let i=0; i<MAX_OBJECTS; i++ )
     {
       switch( random(3) )
       {
@@ -268,7 +270,7 @@ export class P3dSwarm
   update()
   {
   	let currentTimeMSec = performance.now();
-  	let frameDeltaMSec = this.lastFrameTimeMSec - currentTimeMSec;
+  	let frameDeltaMSec = currentTimeMSec - this.lastFrameTimeMSec;
   	this.lastFrameTimeMSec = currentTimeMSec;
 
     this.frameCounter++;
@@ -279,6 +281,14 @@ export class P3dSwarm
 			this.materialsArray[3].envMap = this.cubeCamera.renderTarget.texture;
 		}//*/
 
+		// NEW SPAWNING SYSTEM...
+		if( currentTimeMSec > this.lastSpawnTime + this.spawnDelayMSec )
+		{
+			this._launchObject();
+			this.lastSpawnTime = currentTimeMSec;
+		}
+
+
     // TEST: CONSTANT GRADUAL ACCERLERATION
     //this.xBaseSpeed += 0.000002;
 
@@ -286,10 +296,24 @@ export class P3dSwarm
 		this.wind.update( this.frameCounter, frameDeltaMSec );
 
     // UPDATE POSITION, ROTATION, AND SCALE OF EACH OBJECT
-    for( let i=0; i<MAX_OBJECTS; i++ )
+    for( let i=0; i<this.particles.length; i++ )
     {
+    	//this.particles[i].object.position.x = Math.sin( currentTimeMSec * 0.0008 );
+      //this.particles[i].object.position.y = Math.cos( currentTimeMSec * 0.0008 );
+
+			this.particles[i].object.position.x += 0.001 * frameDeltaMSec;
+			//this.particles[i].object.position.x += this.particles[i].xSpeed[i] + this.wind.windAmountX * this.wind.windScale + this.xBaseSpeed;
+
+      // IF OBJECT HAS REACHED SCREEN EDGE, THEN RESET TO THE OPPOSITE SIDE...
+      if( this.particles[i].object.position.x > this.screenEdgePosition )
+      {
+      	this.killObject( i );
+      }
+
+
+			//-  -  -
       // IF OBJECT IS DISABLED, THEN SCALE OBJECT SMALLER UNTIL IT IS GONE.
-      if( this.objectEnabled[i] == false )
+      /*if( this.objectEnabled[i] == false )
       {
         if( DEBUG_ALWAYS_ENABLE_PARTICLES == true )
           this.sizeArray[i] = 1.0; // DEBUG
@@ -314,16 +338,26 @@ export class P3dSwarm
 
       // IF OBJECT HAS REACHED SCREEN EDGE, THEN RESET TO THE OPPOSITE SIDE...
       if( this.objectArray[i].position.x > this.screenEdgePosition )
-      	this._launchObject( i );
+      	this._launchObject( i );//*/
+
     }
 
 		// UPDATE CUBE CAMERA POSITION
-		this.cubeCamera.position.x = this.objectArray[0].position.x;
+		/*this.cubeCamera.position.x = this.objectArray[0].position.x;
 		this.cubeCamera.position.y = this.objectArray[0].position.y;
-		this.cubeCamera.position.z = this.objectArray[0].position.z;
+		this.cubeCamera.position.z = this.objectArray[0].position.z; //*/
 
     //*/
   }
+
+
+	/////////////////////////////////////////////////////////////////////////////////
+	killObject( index )
+	{
+		this.scene.remove( this.particles[index].object );
+		this.particles[index].object = null;
+		this.particles.splice( index, 1 );
+	}
 
 
 	//  ~      -       ~      -       ~      -       ~      -       ~      -       ~
@@ -359,10 +393,77 @@ export class P3dSwarm
 	//  ~      -       ~      -       ~      -       ~      -       ~      -       ~
 
 
+/*
+//***************************************************************************************
+class P3dParticle
+{
+	constructor()
+	{
+		this.xSpeed = 0.0;
+		this.ySpeed = 0.0;
+		this.zSpeed = 0.0;
+
+		this.object = null;
+		this.size = 0.0;
+
+		this.enabled = false;
+	}
+} //*/
+//***************************************************************************************
+
+
+
 	///////////////////////////////////////////////////////////////////////////////
 	_launchObject( objectIndex )
 	{
-		let i = objectIndex;
+		if( this.particles.length < this.maxParticles )
+		{
+			let newParticle = new P3dParticle();
+			newParticle.object = new THREE.Mesh( this.sphereGeometry, this.materialsArray[this.materialNumber] );
+			/*switch( random(3) )
+			{
+				case 0: newParticle.object = new THREE.Mesh( this.sphereGeometry, this.materialsArray[this.materialNumber] ); break;
+				case 1: newParticle.object = new THREE.Mesh( this.boxGeometry, this.materialsArray[this.materialNumber] ); break;
+				case 2: newParticle.object = new THREE.Mesh( this.coneGeometry, this.materialsArray[this.materialNumber] ); break;
+			} //*/
+			newParticle.size = 1.0;
+			newParticle.enabled = true;
+			newParticle.xSpeed = random(20) * 0.00002 + 0.0037;
+			this.scene.add( newParticle.object );
+			this.particles.push( newParticle );
+		}
+
+
+		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		/*switch( random(3) )
+		{
+			case 0: this.objectArray[i] = new THREE.Mesh( sphereGeometry, this.materialsArray[this.materialNumber] ); break;
+			case 1: this.objectArray[i] = new THREE.Mesh( boxGeometry, this.materialsArray[this.materialNumber] ); break;
+			case 2: this.objectArray[i] = new THREE.Mesh( coneGeometry, this.materialsArray[this.materialNumber] ); break;
+		}
+
+		if( DEBUG_ALWAYS_ENABLE_PARTICLES == true )
+		{
+			this.sizeArray[i] = 1.0;
+			this.objectArray[i].visible = true;
+		}
+		else
+		{
+			this.sizeArray[i] = 0.0; // <--------------
+			this.objectArray[i].visible = false;
+		}
+		this.objectArray[i].castShadow = true;
+		this.objectArray[i].position.y = random(40)*0.1 - 1.6;
+		this.objectArray[i].position.x = random(40)*0.16 - 1.5;
+		this.objectArray[i].position.z = 0.0;
+		this.objectArray[i].rotation.x = random(360)*3.14/2.0;
+		this.objectArray[i].rotation.y = random(360)*3.14/2.0;
+		this.scene.add( this.objectArray[i] );
+		this.xSpeed[i] = random(20) * 0.00002 + 0.0037; //*/
+		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+		/*let i = objectIndex;
 
 		this.objectArray[i].material = this.materialsArray[ this.materialNumber ];
 
