@@ -1,4 +1,9 @@
-
+//
+// P3dUIParticleWind.js
+//
+// WIND SYSTEM FOR PARTICLE SYSTEM.
+//
+/////////////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -72,5 +77,19 @@ export class P3dParticleWind
 		}
 	}
 
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

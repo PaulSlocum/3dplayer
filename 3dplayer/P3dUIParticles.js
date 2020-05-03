@@ -61,6 +61,23 @@ const DEBUG_ALWAYS_ENABLE_PARTICLES = true;
 
 
 
+//||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+class P3dParticle
+{
+	constructor()
+	{
+		this.xSpeed = 0.0;
+		this.ySpeed = 0.0;
+		this.zSpeed = 0.0;
+
+		this.object = null;
+		this.size = 0.0;
+
+		this.enabled = false;
+	}
+}
+
+
 
 
 
@@ -84,9 +101,14 @@ export class P3dSwarm
 
     this.xSpeed = [];
     this.ySpeed = [];
-    this.zSpeed = [];
+    this.zSpeed = []; //*/
+
+		this.particles = [];
 
 		this.cubeCameraEnabled = false;
+
+		this.spawnDelayMSec = 1.0;
+		this.lastSpawnTime = 0.0;
 
     this.xBaseSpeed = 0.0;
 
@@ -129,6 +151,7 @@ export class P3dSwarm
     //let coneGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
     //let coneGeometry = new THREE.TorusKnotGeometry( 10, 3, 100, 16 );
     let coneGeometry = new THREE.ConeGeometry( objectSize*0.9, objectSize*1.5, coneSegments ); // <-------------
+    let torusKnotGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
 
 		this._loadMaterials();
 
@@ -289,14 +312,15 @@ export class P3dSwarm
       this.objectArray[i].scale.y = 1.0 * this.sizeArray[i];
       this.objectArray[i].scale.z = 1.0 * this.sizeArray[i];
 
-      this.cubeCamera.position.x = this.objectArray[i].position.x;
-      this.cubeCamera.position.y = this.objectArray[i].position.y;
-      this.cubeCamera.position.z = this.objectArray[i].position.z;
-
       // IF OBJECT HAS REACHED SCREEN EDGE, THEN RESET TO THE OPPOSITE SIDE...
       if( this.objectArray[i].position.x > this.screenEdgePosition )
       	this._launchObject( i );
     }
+
+		// UPDATE CUBE CAMERA POSITION
+		this.cubeCamera.position.x = this.objectArray[0].position.x;
+		this.cubeCamera.position.y = this.objectArray[0].position.y;
+		this.cubeCamera.position.z = this.objectArray[0].position.z;
 
     //*/
   }
