@@ -86,13 +86,11 @@ export class P3dSwarm
     this.ySpeed = [];
     this.zSpeed = [];
 
+		this.cubeCameraEnabled = false;
+
     this.xBaseSpeed = 0.0;
 
-    this.windAmountX = 0.0;
-    this.windAmountY = 0.0;
-    this.windScale = 0.0;
-    this.windActive = false;
-    this.windBuilding = false;
+    this.wind = new P3dParticleWind();
 
     this.screenEdgePosition = 6.0;
 
@@ -128,9 +126,9 @@ export class P3dSwarm
     const coneSegments = 60;
     let sphereGeometry = new THREE.SphereGeometry( objectSize, circularSegments, circularSegments );
     let boxGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
-    let coneGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
+    //let coneGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
     //let coneGeometry = new THREE.TorusKnotGeometry( 10, 3, 100, 16 );
-    //let coneGeometry = new THREE.ConeGeometry( objectSize*0.9, objectSize*1.5, coneSegments );
+    let coneGeometry = new THREE.ConeGeometry( objectSize*0.9, objectSize*1.5, coneSegments ); // <-------------
 
 		this._loadMaterials();
 
@@ -202,24 +200,25 @@ export class P3dSwarm
 	///////////////////////////////////////////////////////////////////////////////
 	_loadMaterials()
 	{
+		// GOLD METAL MATERIAL
     let material0 = new THREE.MeshStandardMaterial( {color: 0x817060} );
     material0.metalness = 0.7;
     material0.roughness = 0.45;
     this.materialsArray[0] = material0;
 
-    //let material1 = new THREE.MeshStandardMaterial( {color: 0xA19A90} );
+		// MATTE WHITE MATERIAL
     let material1 = new THREE.MeshStandardMaterial( {color: 0x817060} ); // <-----------
-    //let material1 = new THREE.MeshStandardMaterial( {color: 0x716050} );
     material1.metalness = 0.0;
     material1.roughness = 0.6;
     this.materialsArray[1] = material1;
 
+		// MATTE BLACK MATERIAL
     let material2 = new THREE.MeshStandardMaterial( {color: 0x050505} ); // <-----------
-    //let material1 = new THREE.MeshStandardMaterial( {color: 0x716050} );
     material2.metalness = 0.0;
     material2.roughness = 0.5;
     this.materialsArray[2] = material2;
 
+		// MIRROR MATERIAL
 		this.cubeCamera = new THREE.CubeCamera( 0.1, 100, 64 )   // near, far, resolution);
 		//this.cubeCamera.renderTarget.texture.generateMipmaps = true;
 		//this.cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipmapLinearFilter;
@@ -231,6 +230,13 @@ export class P3dSwarm
     //material3.roughness = 0.0;
     this.materialsArray[3] = material3;
 		//this.cubeCamera.renderTarget.texture.mapping = THREE.CubeRefractionMapping;
+
+		// TEXTURE MATERIAL
+
+		// EMISSION MATERIAL
+
+		// VIDEO MATERIAL
+
 	}
 
 
@@ -244,7 +250,7 @@ export class P3dSwarm
 
     this.frameCounter++;
 
-		if( this.frameCounter%2==0 )
+		if( this.cubeCameraEnabled === true  &&  this.frameCounter%2 === 0 )
 		{
 			this.cubeCamera.update( this.renderer, this.scene );
 			this.materialsArray[3].envMap = this.cubeCamera.renderTarget.texture;
@@ -254,7 +260,7 @@ export class P3dSwarm
     //this.xBaseSpeed += 0.000002;
 
 		// UPDATE WIND
-		this._updateWind();
+		this.wind.update( this.frameCounter, frameDeltaMSec );
 
     // UPDATE POSITION, ROTATION, AND SCALE OF EACH OBJECT
     for( let i=0; i<MAX_OBJECTS; i++ )
@@ -271,12 +277,12 @@ export class P3dSwarm
       this.objectArray[i].rotation.z = currentTimeMSec * 0.0012;
       this.objectArray[i].rotation.y = currentTimeMSec * 0.001 * this.xSpeed[i]; // XSPEED??  WHY MULTIPLIED HERE?
 
-      //this.objectArray[i].position.x += this.xSpeed[i] + this.windAmountX * this.windScale + this.xBaseSpeed;
-      //this.objectArray[i].position.y += this.windAmountY * this.windScale;
+      this.objectArray[i].position.x += this.xSpeed[i] + this.wind.windAmountX * this.wind.windScale + this.xBaseSpeed;
+      this.objectArray[i].position.y += this.wind.windAmountY * this.wind.windScale;
 
-      //DEBUG!!!!!!!!!!!!!!!!!!
-      this.objectArray[i].position.x = Math.sin( currentTimeMSec * 0.0008 );
-      this.objectArray[i].position.y = Math.cos( currentTimeMSec * 0.0008 );
+      //DEBUG - TEST POLAR ORBIT!!!!!!!!!!!!!!!!!!
+      //this.objectArray[i].position.x = Math.sin( currentTimeMSec * 0.0008 );
+      //this.objectArray[i].position.y = Math.cos( currentTimeMSec * 0.0008 );
 
 
       this.objectArray[i].scale.x = 1.0 * this.sizeArray[i];
@@ -393,48 +399,8 @@ export class P3dSwarm
 	//////////////////////////////////////////////////////////////////////////////
 	startWind( extraWindX, extraWindY )
 	{
-  	if( this.windActive == false )
-  	{
-			this.windActive = true;
-			this.windBuilding = true;
-			this.windScale = 0.0;
-			this.windAmountX = (random(100)-0) * 0.00014 + extraWindX;
-			this.windAmountY = (random(100)-50) * 0.00014 + extraWindY;
-		}
+		this.wind.startWind( extraWindX, extraWindY );
 	}
-
-
-	//////////////////////////////////////////////////////////////////////////////
-	_updateWind()
-	{
-    if( this.frameCounter%780 == 0 )
-    {
-    	this.startWind( 0.0, 0.0 );
-      /*this.windActive = true;
-      this.windBuilding = true;
-      this.windScale = 0.0;
-      this.windAmountX = (random(100)-0) * 0.00014;
-      this.windAmountY = (random(100)-50) * 0.00014; //*/
-    }//*/
-
-    if( this.windActive == true )
-    {
-      if( this.windBuilding == true )
-      {
-        this.windScale = converge( this.windScale, 1.0, 0.01 );
-        if( this.windScale == 1.0 )
-          this.windBuilding = false;
-      }
-      else
-      {
-        this.windScale = converge( this.windScale, 0.0, 0.005 );
-        if( this.windScale == 0.0 )
-          this.windActive = false;
-      }
-    }
-
-	}
-
 
 
 
