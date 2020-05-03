@@ -9,11 +9,12 @@
 //---------------------------------------------------------------------------------
 import { random, converge } from "./P3dUtility.js";
 import { logger, logerr } from "./P3dLog.js";
+import { P3dParticleWind } from "./P3dUIParticleWind.js";
 //---------------------------------------------------------------------------------
 
 
-//const MAX_OBJECTS = 20; // <-------------
-const MAX_OBJECTS = 1;
+const MAX_OBJECTS = 20; // <-------------
+//const MAX_OBJECTS = 1;
 
 //*************************************************************************
 // THIS SHOULD BE FALSE UNLESS DEBUGGING
@@ -99,6 +100,8 @@ export class P3dSwarm
     this.enabled = false;
 
     this.frameCounter = 0;
+    //this.frameTimer = 0;
+    this.lastFrameTimeMSec = 0;
 
     this.materialsArray = [];
     this.materialNumber = 3;
@@ -168,7 +171,18 @@ export class P3dSwarm
 	// SELECT FROM A NUMBER OF PREDEFINED MODES
 	setModeNumber( newModeNumber )
 	{
-
+		this.modeNumber = newModeNumber;
+		switch( newModeNumber )
+		{
+			case 0:
+				break;
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+		}
 	}
 
 
@@ -224,6 +238,10 @@ export class P3dSwarm
   ///////////////////////////////////////////////////////////////////////////////
   update()
   {
+  	let currentTimeMSec = performance.now();
+  	let frameDeltaMSec = this.lastFrameTimeMSec - currentTimeMSec;
+  	this.lastFrameTimeMSec = currentTimeMSec;
+
     this.frameCounter++;
 
 		if( this.frameCounter%2==0 )
@@ -236,7 +254,7 @@ export class P3dSwarm
     //this.xBaseSpeed += 0.000002;
 
 		// UPDATE WIND
-		this._updateWind( this.frameCounter );
+		this._updateWind();
 
     // UPDATE POSITION, ROTATION, AND SCALE OF EACH OBJECT
     for( let i=0; i<MAX_OBJECTS; i++ )
@@ -249,15 +267,16 @@ export class P3dSwarm
         else
           this.sizeArray[i] = converge( this.sizeArray[i], 0.0, 0.04);
       }
-      this.objectArray[i].rotation.z += 0.02;
-      this.objectArray[i].rotation.y += this.xSpeed[i];
+
+      this.objectArray[i].rotation.z = currentTimeMSec * 0.0012;
+      this.objectArray[i].rotation.y = currentTimeMSec * 0.001 * this.xSpeed[i]; // XSPEED??  WHY MULTIPLIED HERE?
 
       //this.objectArray[i].position.x += this.xSpeed[i] + this.windAmountX * this.windScale + this.xBaseSpeed;
       //this.objectArray[i].position.y += this.windAmountY * this.windScale;
 
       //DEBUG!!!!!!!!!!!!!!!!!!
-      this.objectArray[i].position.x = Math.sin( this.frameCounter * 0.01 );
-      this.objectArray[i].position.y = Math.cos( this.frameCounter * 0.01 );
+      this.objectArray[i].position.x = Math.sin( currentTimeMSec * 0.0008 );
+      this.objectArray[i].position.y = Math.cos( currentTimeMSec * 0.0008 );
 
 
       this.objectArray[i].scale.x = 1.0 * this.sizeArray[i];
@@ -386,7 +405,7 @@ export class P3dSwarm
 
 
 	//////////////////////////////////////////////////////////////////////////////
-	_updateWind( frameCounter )
+	_updateWind()
 	{
     if( this.frameCounter%780 == 0 )
     {

@@ -56,7 +56,7 @@ export class P3dPlayerModel
     this.currentActionCd = null;
 
     this.backgroundSpinRate = 0;
-    this.frameCounter = 0;
+    this.frameTimer = 0.0;
     this.screenEdgePosition = 0;
 
     this.animationMixerTray = null;
@@ -75,7 +75,8 @@ export class P3dPlayerModel
   /////////////////////////////////////////////////////////////////////////////////
   update()
   {
-    this.frameCounter++;
+  	let currentTimeMSec = performance.now();
+    this.frameTimer = currentTimeMSec / (1000.0 / 60.0);
 
     // CD DEBUG!!!!!!!!!!!!!!!!!!!!!!
     /*if( this.cdObject != null )
@@ -113,14 +114,14 @@ export class P3dPlayerModel
     //const rotationSpeed = 0.07; // FAST
     if( this.loadedModel != null )
     {
-      this.targetRotationY = Math.cos( this.frameCounter * rotationSpeed ) * 0.08;
+      this.targetRotationY = Math.cos( this.frameTimer * rotationSpeed ) * 0.08;
       if( this.trayOpen == true )
       {
-        this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 - 0.01  + 0.25;
+        this.targetRotationX = Math.sin( this.frameTimer * rotationSpeed) * 0.08 - 0.01  + 0.25;
       }
       else
       {
-        this.targetRotationX = Math.sin( this.frameCounter * rotationSpeed) * 0.08 + 0.01;
+        this.targetRotationX = Math.sin( this.frameTimer * rotationSpeed) * 0.08 + 0.01;
       } //*/
 
       this.loadedModel.rotation.x = converge( this.loadedModel.rotation.x, this.targetRotationX, 0.005 );
