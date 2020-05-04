@@ -13,26 +13,23 @@ import { P3dParticleWind } from "./P3dUIParticleWind.js";
 //---------------------------------------------------------------------------------
 
 
-const MAX_OBJECTS = 20; // <-------------
-//const MAX_OBJECTS = 1;
-
 //*************************************************************************
 // THIS SHOULD BE FALSE UNLESS DEBUGGING
-const DEBUG_ALWAYS_ENABLE_PARTICLES = true;
 //const DEBUG_ALWAYS_ENABLE_PARTICLES = true;
+const DEBUG_ALWAYS_ENABLE_PARTICLES = false;
 //*************************************************************************
 
 
 
 //*************************************************************************
 // PARAMETER NOTES:
-// - enable/disable
+// x enable/disable
 // - fade out time
 // - fade in time
 // ~     -     ~     -     ~     -     ~     -
-// - generator rate
+// x generator rate
 // - minimum distance
-// - generator direction or starting position?
+// x generator direction or starting position?
 // ~     -     ~     -     ~     -     ~     -
 // - cartesian target velocity (x,y) //     TARGETS EITHER VELOCITY OR POSITION BASED ON WHICH IS NON-ZERO
 // - cartesian target position (x,y) //     AND X/Y ARE HANDLED INDEPENDENTLY
@@ -80,12 +77,9 @@ class P3dParticle
 
 
 
-
-
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 export class P3dSwarm
 {
-
 
   ///////////////////////////////////////////////////////////////////////
   constructor( scene, renderer )
@@ -100,7 +94,7 @@ export class P3dSwarm
 		this.launchPositionX = -1.0;
 		this.launchPositionY = 0.0;
 		this.launchVarianceX = 0.0;
-		this.launchVarianceY = 0.4;
+		this.launchVarianceY = 0.5;
 
 		this.minimumLaunchDistance = 1.0;
 
@@ -248,7 +242,7 @@ export class P3dSwarm
 		}//*/
 
 		// NEW SPAWNING SYSTEM...
-		if( currentTimeMSec > this.lastSpawnTime + this.spawnDelayMSec )
+		if( this.enabled == true  &&  currentTimeMSec > this.lastSpawnTime + this.spawnDelayMSec )
 		{
 			this._launchObject();
 			this.lastSpawnTime = currentTimeMSec;
@@ -275,7 +269,6 @@ export class P3dSwarm
       	this.killObject( i );
       }
 
-
 			//-  -  -
       // IF OBJECT IS DISABLED, THEN SCALE OBJECT SMALLER UNTIL IT IS GONE.
       if( this.particles[i].enabled === false )
@@ -296,36 +289,13 @@ export class P3dSwarm
 
       this.particles[i].object.rotation.z += frameDeltaMSec * 0.0012;
       this.particles[i].object.rotation.y += frameDeltaMSec * 0.002 * this.particles[i].xSpeed; // XSPEED??  WHY MULTIPLIED HERE?
-
-/*
-      this.objectArray[i].rotation.z = currentTimeMSec * 0.0012;
-      this.objectArray[i].rotation.y = currentTimeMSec * 0.001 * this.xSpeed[i]; // XSPEED??  WHY MULTIPLIED HERE?
-
-      this.objectArray[i].position.x += this.xSpeed[i] + this.wind.windAmountX * this.wind.windScale + this.xBaseSpeed;
-      this.objectArray[i].position.y += this.wind.windAmountY * this.wind.windScale;
-
-
-      //DEBUG - TEST POLAR ORBIT!!!!!!!!!!!!!!!!!!
-      //this.objectArray[i].position.x = Math.sin( currentTimeMSec * 0.0008 );
-      //this.objectArray[i].position.y = Math.cos( currentTimeMSec * 0.0008 );
-
-
-      this.objectArray[i].scale.x = 1.0 * this.sizeArray[i];
-      this.objectArray[i].scale.y = 1.0 * this.sizeArray[i];
-      this.objectArray[i].scale.z = 1.0 * this.sizeArray[i];
-
-      // IF OBJECT HAS REACHED SCREEN EDGE, THEN RESET TO THE OPPOSITE SIDE...
-      if( this.objectArray[i].position.x > this.screenEdgePosition )
-      	this._launchObject( i );//*/
-
     }
 
-		// UPDATE CUBE CAMERA POSITION
-		/*this.cubeCamera.position.x = this.objectArray[0].position.x;
-		this.cubeCamera.position.y = this.objectArray[0].position.y;
-		this.cubeCamera.position.z = this.objectArray[0].position.z; //*/
+	// UPDATE CUBE CAMERA POSITION
+	/*this.cubeCamera.position.x = this.objectArray[0].position.x;
+	this.cubeCamera.position.y = this.objectArray[0].position.y;
+	this.cubeCamera.position.z = this.objectArray[0].position.z; //*/
 
-    //*/
   }
 
 
@@ -370,33 +340,6 @@ export class P3dSwarm
 
 	//  ~      -       ~      -       ~      -       ~      -       ~      -       ~
 
-
-/*
-//***************************************************************************************
-class P3dParticle
-{
-	constructor()
-	{
-		this.xSpeed = 0.0;
-		this.ySpeed = 0.0;
-		this.zSpeed = 0.0;
-
-		this.object = null;
-		this.size = 0.0;
-
-		this.enabled = false;
-	}
-}
-
-		this.launchPositionX = -1.0;
-		this.launchPositionY = 0.0;
-		this.launchVarianceX = 1.0;
-		this.launchVarianceY = 0.0;
-//*/
-//***************************************************************************************
-
-
-
 	///////////////////////////////////////////////////////////////////////////////
 	_launchObject( objectIndex )
 	{
@@ -419,13 +362,11 @@ class P3dParticle
 					break;  // <-- BREAK DO-WHILE LOOP
 				}
 
-				// TRY A RANDOM Y LOCATION...
-				//this.objectArray[i].position.y = random(80)*0.062 - 2.1;
-
+				// TRY A RANDOM LOCATION...
 				xPosition = this.launchPositionX * this.screenEdgePosition
-																				+ ( random( 200 ) - 100.0 ) / 100.0 * this.screenEdgePosition * this.launchVarianceX;
+								+ ( random( 200 ) - 100.0 ) / 100.0 * this.screenEdgePosition * this.launchVarianceX;
 				yPosition = this.launchPositionY * this.screenEdgePosition
-																				+ ( random( 200 ) - 100.0 ) / 100.0 * this.screenEdgePosition * this.launchVarianceY; //*/
+								+ ( random( 200 ) - 100.0 ) / 100.0 * this.screenEdgePosition * this.launchVarianceY; //*/
 
 				// CHECK IF IT'S TOO CLOSE TO ANY OTHER OBJECTS
 				const PROXIMITY_LIMIT = 1.35;
@@ -459,102 +400,17 @@ class P3dParticle
 				newParticle.xSpeed = random(20) * 0.000002 + 0.00037;
 
 				newParticle.object.castShadow = true;
-				/*newParticle.object.position.x = this.launchPositionX * this.screenEdgePosition
-																				+ ( random( 200 ) - 100.0 ) / 100.0 * this.screenEdgePosition * this.launchVarianceX;
-				newParticle.object.position.y = this.launchPositionY * this.screenEdgePosition
-																				+ ( random( 200 ) - 100.0 ) / 100.0 * this.screenEdgePosition * this.launchVarianceY; //*/
+				newParticle.object.rotation.x = random(360)*3.14/2.0;
+				newParticle.object.rotation.y = random(360)*3.14/2.0;
 				newParticle.object.position.x = xPosition;
 				newParticle.object.position.y = yPosition;
-
+				newParticle.object.position.z = 0.0;
 
 				this.scene.add( newParticle.object );
 				this.particles.push( newParticle );
 			}
 
 		}
-
-
-		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		/*switch( random(3) )
-		{
-			case 0: this.objectArray[i] = new THREE.Mesh( sphereGeometry, this.materialsArray[this.materialNumber] ); break;
-			case 1: this.objectArray[i] = new THREE.Mesh( boxGeometry, this.materialsArray[this.materialNumber] ); break;
-			case 2: this.objectArray[i] = new THREE.Mesh( coneGeometry, this.materialsArray[this.materialNumber] ); break;
-		}
-
-		if( DEBUG_ALWAYS_ENABLE_PARTICLES == true )
-		{
-			this.sizeArray[i] = 1.0;
-			this.objectArray[i].visible = true;
-		}
-		else
-		{
-			this.sizeArray[i] = 0.0; // <--------------
-			this.objectArray[i].visible = false;
-		}
-		this.objectArray[i].castShadow = true;
-		this.objectArray[i].position.y = random(40)*0.1 - 1.6;
-		this.objectArray[i].position.x = random(40)*0.16 - 1.5;
-		this.objectArray[i].position.z = 0.0;
-		this.objectArray[i].rotation.x = random(360)*3.14/2.0;
-		this.objectArray[i].rotation.y = random(360)*3.14/2.0;
-		this.scene.add( this.objectArray[i] );
-		this.xSpeed[i] = random(20) * 0.00002 + 0.0037; //*/
-		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-		/*let i = objectIndex;
-
-		this.objectArray[i].material = this.materialsArray[ this.materialNumber ];
-
-		this.objectArray[i].position.x = -this.screenEdgePosition;
-		if( this.enabled )
-		{
-			this.objectEnabled[i] = true;
-			this.sizeArray[i] = 1.0;
-			this.objectArray[i].visible = true;
-		}
-
-		// ATTEMPT TO PLACE OBJECT ON LEFT SIDE WITHOUT BEING TOO CLOSE TO OTHER OBJECTS...
-		let foundNearbyObject = false;
-		let placementAttempts = 0;
-		do
-		{
-			placementAttempts++;
-			if( placementAttempts > 5 )
-			{
-				// IF PLACEMENT FAILS MULTIPLE TIMES, THEN DISABLE OBJECT AND PLACE AT
-				// RANDOM X LOCATION TO BE PLACED LATER WHEN IT REACHES THE EDGE AGAIN
-				this.objectArray[i].position.x = random(40)*0.16 - 1.5;
-				foundNearbyObject = true;
-				this.sizeArray[i] = 0.0;
-				this.objectArray[i].visible = false;
-				this.objectEnabled[i] = false;
-				break;  // <---- BREAK DO WHILE LOOP
-			}
-
-			// TRY A RANDOM Y LOCATION...
-			this.objectArray[i].position.y = random(80)*0.062 - 2.1;
-			const PROXIMITY_LIMIT = 1.35;
-			foundNearbyObject = false;
-
-			// CHECK IF IT"S TOO CLOSE TO ANY OTHER OBJECTS
-			for( let j=0; j<MAX_OBJECTS; j++ )
-			{
-				if( i != j )
-				{
-					if( Math.abs( this.objectArray[j].position.x - this.objectArray[i].position.x ) < PROXIMITY_LIMIT  &&
-							Math.abs( this.objectArray[j].position.y - this.objectArray[i].position.y ) < PROXIMITY_LIMIT  )
-					{
-						foundNearbyObject = true;
-						break; // FOR LOOP
-					}
-				}
-			}
-
-		}
-		while( foundNearbyObject == true );//*/
-
 	}
 
 
@@ -566,7 +422,6 @@ class P3dParticle
 	{
 		this.wind.startWind( extraWindX, extraWindY );
 	}
-
 
 
 }
