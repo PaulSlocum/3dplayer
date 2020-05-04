@@ -45,11 +45,11 @@ const TABLE_TIME_SEC_OFFSET = 1;
 const TABLE_SEQUENCE_MODE_OFFSET = 2;
 const sequenceTable = [
 	[ TRACK_1,  0,   SequenceMode.A1 ],
-	[ TRACK_1,  40,  SequenceMode.A1b ],
+	[ TRACK_1,  40,  SequenceMode.A1 ],
 	[ TRACK_1,  60,  SequenceMode.A2 ],
 	[ TRACK_1,  90,  SequenceMode.A3 ],
 	[ TRACK_1,  105, SequenceMode.A4 ],
-	[ TRACK_1,  134, SequenceMode.A1 ],
+	[ TRACK_1,  134, SequenceMode.A1b ],
 	[ TRACK_1,  150, SequenceMode.A3 ],
 	[ TRACK_1,  165, SequenceMode.A2 ],
 	[ TRACK_1,  196, SequenceMode.A3 ],
