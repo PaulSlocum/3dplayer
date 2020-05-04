@@ -200,6 +200,7 @@ export class P3dSequencer
 	//////////////////////////////////////////////////////////////////////////////////
 	_setSequencerMode( newSequenceMode )
 	{
+		this.particles.setModeNumber( this.appController.getTrackNumber() ); // <-- CURRENTLY JUST LOCKING SEQUENCE MODE TO TRACK FOR SIMPLICITY
 		this.sequenceMode = newSequenceMode;
 		switch( newSequenceMode )
 		{
