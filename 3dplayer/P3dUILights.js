@@ -54,7 +54,7 @@ export class P3dLights
     this.scene.add( this.spotlight );
     this.scene.add( this.spotlight.target );
 
-    let light = new THREE.AmbientLight( 0x606060 ); // med white light
+    let light = new THREE.AmbientLight( 0x202020 ); // med white light
     //let light = new THREE.AmbientLight( 0x101010 ); // soft white light
 		this.scene.add( light ); //*/
 	}

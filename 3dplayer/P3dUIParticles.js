@@ -93,28 +93,21 @@ export class P3dSwarm
     this.scene = scene;
     this.renderer = renderer;
 
-    /*this.sphere = null;
-
-    this.objectArray = [];
-    this.sizeArray = [];
-    this.objectEnabled = [];
-
-    this.xSpeed = [];
-    this.ySpeed = [];
-    this.zSpeed = []; //*/
-
 		this.particles = [];
 
 		this.maxParticles = 55;
 
 		this.launchPositionX = -1.0;
 		this.launchPositionY = 0.0;
-		this.launchVarianceX = 1.0;
-		this.launchVarianceY = 0.0;
+		this.launchVarianceX = 0.0;
+		this.launchVarianceY = 0.4;
+
+		this.minimumLaunchDistance = 1.0;
 
 		this.cubeCameraEnabled = false;
 
-		this.spawnDelayMSec = 1500.0;
+		this.spawnDelayMSec = 300.0;
+		//this.spawnDelayMSec = 1500.0;
 		this.lastSpawnTime = 0.0;
 
     this.xBaseSpeed = 0.0001;
@@ -274,6 +267,7 @@ export class P3dSwarm
 			// CARTESIAN COORDINATES
 			this.particles[i].object.position.x +=
 								(this.particles[i].xSpeed + this.wind.windAmountX * this.wind.windScale * 0.1 + this.xBaseSpeed) * frameDeltaMSec;
+			this.particles[i].object.position.y += this.wind.windAmountY * this.wind.windScale * 0.1 * frameDeltaMSec;
 
       // IF OBJECT HAS REACHED SCREEN EDGE, THEN RESET TO THE OPPOSITE SIDE...
       if( this.particles[i].object.position.x > this.screenEdgePosition  ||  this.particles[i].object.position.x < -this.screenEdgePosition   )
@@ -300,11 +294,16 @@ export class P3dSwarm
       this.particles[i].object.scale.y = this.particles[i].size;
       this.particles[i].object.scale.z = this.particles[i].size;
 
-      /*this.objectArray[i].rotation.z = currentTimeMSec * 0.0012;
+      this.particles[i].object.rotation.z += frameDeltaMSec * 0.0012;
+      this.particles[i].object.rotation.y += frameDeltaMSec * 0.002 * this.particles[i].xSpeed; // XSPEED??  WHY MULTIPLIED HERE?
+
+/*
+      this.objectArray[i].rotation.z = currentTimeMSec * 0.0012;
       this.objectArray[i].rotation.y = currentTimeMSec * 0.001 * this.xSpeed[i]; // XSPEED??  WHY MULTIPLIED HERE?
 
       this.objectArray[i].position.x += this.xSpeed[i] + this.wind.windAmountX * this.wind.windScale + this.xBaseSpeed;
       this.objectArray[i].position.y += this.wind.windAmountY * this.wind.windScale;
+
 
       //DEBUG - TEST POLAR ORBIT!!!!!!!!!!!!!!!!!!
       //this.objectArray[i].position.x = Math.sin( currentTimeMSec * 0.0008 );
@@ -387,7 +386,13 @@ class P3dParticle
 
 		this.enabled = false;
 	}
-} //*/
+}
+
+		this.launchPositionX = -1.0;
+		this.launchPositionY = 0.0;
+		this.launchVarianceX = 1.0;
+		this.launchVarianceY = 0.0;
+//*/
 //***************************************************************************************
 
 
@@ -397,19 +402,75 @@ class P3dParticle
 	{
 		if( this.particles.length < this.maxParticles )
 		{
-			let newParticle = new P3dParticle();
-			//newParticle.object = new THREE.Mesh( this.sphereGeometry, this.materialsArray[this.materialNumber] );
-			switch( random(3) )
+			logger( "---> PARTICLES LAUNCH OBJECT: TOTAL OBJECTS: ", this.particles.length );
+
+			// ATTEMPT TO PLACE OBJECT...
+			let foundNearbyObject = false;
+			let placementAttempts = 0;
+			let xPosition = 0.0;
+			let yPosition = 0.0;
+			const MAX_PLACE_ATTEMPTS = 5;
+			do
 			{
-				case 0: newParticle.object = new THREE.Mesh( this.sphereGeometry, this.materialsArray[this.materialNumber] ); break;
-				case 1: newParticle.object = new THREE.Mesh( this.boxGeometry, this.materialsArray[this.materialNumber] ); break;
-				case 2: newParticle.object = new THREE.Mesh( this.coneGeometry, this.materialsArray[this.materialNumber] ); break;
-			} //*/
-			newParticle.size = 0.0;
-			newParticle.enabled = true;
-			newParticle.xSpeed = random(20) * 0.000002 + 0.00037;
-			this.scene.add( newParticle.object );
-			this.particles.push( newParticle );
+				placementAttempts++;
+				if( placementAttempts > MAX_PLACE_ATTEMPTS )
+				{
+					foundNearbyObject = true;
+					break;  // <-- BREAK DO-WHILE LOOP
+				}
+
+				// TRY A RANDOM Y LOCATION...
+				//this.objectArray[i].position.y = random(80)*0.062 - 2.1;
+
+				xPosition = this.launchPositionX * this.screenEdgePosition
+																				+ ( random( 200 ) - 100.0 ) / 100.0 * this.screenEdgePosition * this.launchVarianceX;
+				yPosition = this.launchPositionY * this.screenEdgePosition
+																				+ ( random( 200 ) - 100.0 ) / 100.0 * this.screenEdgePosition * this.launchVarianceY; //*/
+
+				// CHECK IF IT'S TOO CLOSE TO ANY OTHER OBJECTS
+				const PROXIMITY_LIMIT = 1.35;
+				foundNearbyObject = false;
+				for( let j=0; j<this.particles.length; j++ )
+				{
+					if( Math.abs( this.particles[j].object.position.x - xPosition ) < PROXIMITY_LIMIT  &&
+							Math.abs( this.particles[j].object.position.y - yPosition ) < PROXIMITY_LIMIT  )
+					{
+						foundNearbyObject = true;
+						break; // <-- BREAK FOR LOOP
+					}
+				}
+
+			}
+			while( foundNearbyObject == true );//*/
+
+			// IF CLEAR TO PLACE OBJECT...
+			if( foundNearbyObject == false )
+			{
+				let newParticle = new P3dParticle();
+				//newParticle.object = new THREE.Mesh( this.sphereGeometry, this.materialsArray[this.materialNumber] );
+				switch( random(3) )
+				{
+					case 0: newParticle.object = new THREE.Mesh( this.sphereGeometry, this.materialsArray[this.materialNumber] ); break;
+					case 1: newParticle.object = new THREE.Mesh( this.boxGeometry, this.materialsArray[this.materialNumber] ); break;
+					case 2: newParticle.object = new THREE.Mesh( this.coneGeometry, this.materialsArray[this.materialNumber] ); break;
+				} //*/
+				newParticle.size = 0.0;
+				newParticle.enabled = true;
+				newParticle.xSpeed = random(20) * 0.000002 + 0.00037;
+
+				newParticle.object.castShadow = true;
+				/*newParticle.object.position.x = this.launchPositionX * this.screenEdgePosition
+																				+ ( random( 200 ) - 100.0 ) / 100.0 * this.screenEdgePosition * this.launchVarianceX;
+				newParticle.object.position.y = this.launchPositionY * this.screenEdgePosition
+																				+ ( random( 200 ) - 100.0 ) / 100.0 * this.screenEdgePosition * this.launchVarianceY; //*/
+				newParticle.object.position.x = xPosition;
+				newParticle.object.position.y = yPosition;
+
+
+				this.scene.add( newParticle.object );
+				this.particles.push( newParticle );
+			}
+
 		}
 
 

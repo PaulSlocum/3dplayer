@@ -111,14 +111,14 @@ export class P3dGraphics
 
   	this.frameCounter++;
 
-
-  	if( this.frameCounter%60 == 0 )
+		// FRAMES PER SECOND DISPLAY...
+  	/*if( this.frameCounter%60 == 0 )
   	{
   		logger( "=============> FRAMES PER SECOND: ", this.frameCounter * 1000 / (performance.now() - this.startTimeMSec),
   																							this.frameCounter, performance.now(), this.startTimeMSec );
   		this.frameCounter = 0;
   		this.startTimeMSec = performance.now();
-    }
+    } //*/
 
     requestAnimationFrame( this.run.bind(this) );
 
