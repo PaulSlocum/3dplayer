@@ -36,31 +36,39 @@ export class P3dParticleWind
     this.windScale = 0.0;
     this.windActive = false;
     this.windBuilding = false;
+    this.enabled = true;
   }
 
 	////////////////////////////////////////////////////////////////////////////
 	update( frameCounter, timeDeltaMSec )
 	{
-    if( frameCounter%780 == 0 )
-    {
-    	this.startWind( 0.0, 0.0 );
-    }//*/
+		if( this.enabled == false )
+		{
+       this.windScale = converge( this.windScale, 0.0, 0.005  );
+		}
+		else
+		{
+			if( frameCounter%780 == 0 )
+			{
+				this.startWind( 0.0, 0.0 );
+			}//*/
 
-    if( this.windActive == true )
-    {
-      if( this.windBuilding == true )
-      {
-        this.windScale = converge( this.windScale, 1.0, 0.01  );
-        if( this.windScale == 1.0 )
-          this.windBuilding = false;
-      }
-      else
-      {
-        this.windScale = converge( this.windScale, 0.0, 0.005  );
-        if( this.windScale == 0.0 )
-          this.windActive = false;
-      }
-    }
+			if( this.windActive == true )
+			{
+				if( this.windBuilding == true )
+				{
+					this.windScale = converge( this.windScale, 1.0, 0.01  );
+					if( this.windScale == 1.0 )
+						this.windBuilding = false;
+				}
+				else
+				{
+					this.windScale = converge( this.windScale, 0.0, 0.005  );
+					if( this.windScale == 0.0 )
+						this.windActive = false;
+				}
+			}
+		}
 	}
 
 
@@ -76,6 +84,21 @@ export class P3dParticleWind
 			this.windAmountY = (random(100)-50) * 0.00014 + extraWindY;
 		}
 	}
+
+	///////////////////////////////////////////////////////////////////////////////
+	enable()
+	{
+		this.enabled = true;
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////////
+	disable()
+	{
+		this.enabled = false;
+	}
+
+
 
 }
 

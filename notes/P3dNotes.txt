@@ -6,6 +6,28 @@
 TODO:
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+- find actual vertical screen edge rather than just using the horizontal screen edge
+~   -   ~   -   ~   -   ~   -   
+- make wind adjustable with adjustable variance like particle emitter
+- make particle size adjustable
+- add polar coordinate mode to particle system that can be switched seamlessly with cartesian system
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+- set up reflection based system
+- make tiny version of particle system
+- make large version of particle system
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+- create glowing particles
+- create mirror particles
+- create refracting particles
+- create image-mapped particles
+- create video particles
+~   -   ~   -   ~   -   ~   -   
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
 - FIX ISSUE WHERE MOVING THROUGH TRACKS QUICKLY CAN CAUSE AN ERROR IN THE DECODER QUEUE
 ~   -   ~   -   ~   -   ~   -   
 - MAKE WEBGL RESIZE RENDERER WHEN WINDOW IS RESIZED
@@ -15,7 +37,6 @@ TODO:
 - maybe lay out sequencer transition times for each song using the modes from track 1 as placeholders
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
-- add adjustable particle system velocity (x/y)
 - add adjustable x/y background shader offsets for animation
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
@@ -28,7 +49,6 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
-- add polar coordinate mode to particle system that can be switched seamlessly with cartesian system
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 - sample background and make ambient light correspond to background shader color
@@ -51,11 +71,6 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
-- create glowing particles
-- create mirror particles
-- create refracting particles
-- create image-mapped particles
-- create video particles
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
@@ -155,6 +170,7 @@ x keep the particle system off until some ways into the song
 x refactor graphics class to separate out different graphics components
 x implement ability to switch material modes in particle system
 x create new abstract background shader or two
+x add adjustable particle system velocity (x/y)
 ~   -   ~   -   ~   -   ~   -   
 
 
