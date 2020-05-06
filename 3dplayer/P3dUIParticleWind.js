@@ -31,11 +31,11 @@ export class P3dParticleWind
   ////////////////////////////////////////////////////////////////////////////
   constructor()
   {
-    this.windAmountX = 0.0;
-	  this.windAmountY = 0.0;
-    this.windScale = 0.0;
-    this.windActive = false;
-    this.windBuilding = false;
+    this.currentForceX = 0.0;
+	  this.currentForceY = 0.0;
+    this.scale = 0.0;
+    this.isBlowing = false;
+    this.isBuilding = false;
     this.enabled = true;
   }
 
@@ -44,7 +44,7 @@ export class P3dParticleWind
 	{
 		if( this.enabled == false )
 		{
-       this.windScale = converge( this.windScale, 0.0, 0.005  );
+       this.scale = converge( this.scale, 0.0, 0.005  );
 		}
 		else
 		{
@@ -53,19 +53,19 @@ export class P3dParticleWind
 				this.startWind( 0.0, 0.0 );
 			}//*/
 
-			if( this.windActive == true )
+			if( this.isBlowing == true )
 			{
-				if( this.windBuilding == true )
+				if( this.isBuilding == true )
 				{
-					this.windScale = converge( this.windScale, 1.0, 0.01  );
-					if( this.windScale == 1.0 )
-						this.windBuilding = false;
+					this.scale = converge( this.scale, 1.0, 0.01  );
+					if( this.scale == 1.0 )
+						this.isBuilding = false;
 				}
 				else
 				{
-					this.windScale = converge( this.windScale, 0.0, 0.005  );
-					if( this.windScale == 0.0 )
-						this.windActive = false;
+					this.scale = converge( this.scale, 0.0, 0.005  );
+					if( this.scale == 0.0 )
+						this.isBlowing = false;
 				}
 			}
 		}
@@ -75,13 +75,13 @@ export class P3dParticleWind
 	//////////////////////////////////////////////////////////////////////////////
 	startWind( extraWindX, extraWindY )
 	{
-  	if( this.windActive == false )
+  	if( this.isBlowing == false )
   	{
-			this.windActive = true;
-			this.windBuilding = true;
-			this.windScale = 0.0;
-			this.windAmountX = (random(100)-0) * 0.00014 + extraWindX;
-			this.windAmountY = (random(100)-50) * 0.00014 + extraWindY;
+			this.isBlowing = true;
+			this.isBuilding = true;
+			this.scale = 0.0;
+			this.currentForceX = (random(100)-0) * 0.00014 + extraWindX;
+			this.currentForceY = (random(100)-50) * 0.00014 + extraWindY;
 		}
 	}
 
