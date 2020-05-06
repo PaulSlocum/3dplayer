@@ -30,7 +30,8 @@ const SequenceMode = {
 	A1b: 5,
 	C: 10,
 	D: 20,
-	E: 30,
+	E1: 30,
+	E2: 31,
 	F: 40,
 	G: 50,
 	H: 60,
@@ -45,7 +46,7 @@ const TABLE_TIME_SEC_OFFSET = 1;
 const TABLE_SEQUENCE_MODE_OFFSET = 2;
 const sequenceTable = [
 	[ TRACK_1,  0,   SequenceMode.A1 ],
-	[ TRACK_1,  40,  SequenceMode.A1 ],
+	[ TRACK_1,  30,  SequenceMode.A1 ],
 	[ TRACK_1,  60,  SequenceMode.A2 ],
 	[ TRACK_1,  90,  SequenceMode.A3 ],
 	[ TRACK_1,  105, SequenceMode.A4 ],
@@ -60,7 +61,8 @@ const sequenceTable = [
 	// - - - - - - - - - - - - - -
 	[ TRACK_3,  0, SequenceMode.D ],
 	// - - - - - - - - - - - - - -
-	[ TRACK_4,  0, SequenceMode.E ],
+	[ TRACK_4,  0, SequenceMode.E1 ],
+	[ TRACK_4,  24,SequenceMode.E2 ],
 	// - - - - - - - - - - - - - -
 	[ TRACK_5,  0, SequenceMode.F ],
 	// - - - - - - - - - - - - - -
@@ -231,7 +233,8 @@ export class P3dSequencer
 				this.roomCube.setShaderMode( 0 );
 				this.particlesEnabled = true;
 				//this.particles.setMaterialNumber( 0 );
-				this.particles.startWind( 0.02, 0.0 );
+				this.particles.startWind( 0.0, -0.02 );
+				//this.particles.setVelocity( 0.0, 0.0004 );
 				break;
 			case SequenceMode.A4:
 				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
@@ -248,21 +251,30 @@ export class P3dSequencer
 				//this.particles.setMaterialNumber( 1 );
 				this.lights.disableStrobe();
 				break;
+
 			case SequenceMode.D:
 				this.roomCube.setShaderMode( 2 );
 				//this.particles.setMaterialNumber( 0 );
 				this.particlesEnabled = true;
 				break;
-			case SequenceMode.E:
+
+			case SequenceMode.E1:
+				this.roomCube.setShaderMode( 3 );
+				//this.particles.setMaterialNumber( 0 );
+				this.particlesEnabled = false;
+				break;
+			case SequenceMode.E2:
 				this.roomCube.setShaderMode( 3 );
 				//this.particles.setMaterialNumber( 0 );
 				this.particlesEnabled = true;
 				break;
+
 			case SequenceMode.F:
 				this.roomCube.setShaderMode( 4 );
 				//this.particles.setMaterialNumber( 0 );
 				this.particlesEnabled = true;
 				break;
+
 			case SequenceMode.G:
 				this.roomCube.setShaderMode( 5 );
 				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
