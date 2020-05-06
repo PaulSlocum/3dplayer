@@ -379,7 +379,7 @@ export class P3dSwarm
       {
         this.particles[i].fade = converge( this.particles[i].fade, 1.0, 0.003 * frameDeltaMSec );
         if( this.particles[i].fade == 0.0 )
-        	deletionList.push( i );
+        	deletionList.push( this.particles[i].idNumber );
       }
 
       this.particles[i].object.scale.x = this.particles[i].size * this.particles[i].fade;
@@ -390,16 +390,17 @@ export class P3dSwarm
       this.particles[i].object.rotation.y += frameDeltaMSec * 0.002 * this.particles[i].xSpeed; // XSPEED??  WHY MULTIPLIED HERE?
     }
 
-    // UPDATE POSITION, ROTATION, AND SCALE OF EACH OBJECT
+    // DELETE ALL OBJECTS THAT WERE MARKED FOR DELETION...
     for( let i=0; i<deletionList.length; i++ )
     {
     	//logger( "------> PARTICLES: DELETING FADED OBJECT: ", deletionList[i] );
     	this.killObjectWithId( deletionList[i] );
     }
-	// UPDATE CUBE CAMERA POSITION
-	/*this.cubeCamera.position.x = this.objectArray[0].position.x;
-	this.cubeCamera.position.y = this.objectArray[0].position.y;
-	this.cubeCamera.position.z = this.objectArray[0].position.z; //*/
+
+		// UPDATE CUBE CAMERA POSITION
+		/*this.cubeCamera.position.x = this.objectArray[0].position.x;
+		this.cubeCamera.position.y = this.objectArray[0].position.y;
+		this.cubeCamera.position.z = this.objectArray[0].position.z; //*/
 
   }
 
