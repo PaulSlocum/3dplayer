@@ -352,16 +352,15 @@ export class P3dSwarm
 
 			// CARTESIAN COORDINATES
 			this.particles[i].object.position.x +=
-								(this.particles[i].xSpeed + this.wind.currentForceX * this.wind.scale * 0.1 + this.xBaseSpeed) * frameDeltaMSec;
+								(this.particles[i].xSpeed + this.wind.getCurrentForceX() * 0.1 + this.xBaseSpeed) * frameDeltaMSec;
 			this.particles[i].object.position.y +=
-								(this.particles[i].ySpeed + this.wind.currentForceY * this.wind.scale * 0.1 + this.yBaseSpeed) * frameDeltaMSec;
+								(this.particles[i].ySpeed + this.wind.getCurrentForceY() * 0.1 + this.yBaseSpeed) * frameDeltaMSec;
 
       // IF OBJECT HAS REACHED SCREEN EDGE, THEN RESET TO THE OPPOSITE SIDE...
       if( this.particles[i].object.position.x > this.screenEdgePosition  ||  this.particles[i].object.position.x < -this.screenEdgePosition  ||
           this.particles[i].object.position.y > this.screenEdgePosition  ||  this.particles[i].object.position.y < -this.screenEdgePosition   )
       {
        	deletionList.push( this.particles[i].idNumber );
-      	//this.killObject( i );
       }
 
 			//-  -  -

@@ -31,8 +31,18 @@ export class P3dParticleWind
   ////////////////////////////////////////////////////////////////////////////
   constructor()
   {
-    this.currentForceX = 0.0;
-	  this.currentForceY = 0.0;
+    this.forceVectorX = 0.0;
+	  this.forceVectorY = 0.0;
+
+		this.startingForceX = 0.0;
+		this.startingForceY = -0.5;
+	  this.varianceX = 1.0;
+	  this.varianceY = 0.0;
+
+	  this.intervalMSec = 10000;
+	  this.frameTimeMSec = 0;
+	  this.lastTimeMSec = 0;
+
     this.scale = 0.0;
     this.isBlowing = false;
     this.isBuilding = false;
@@ -42,15 +52,18 @@ export class P3dParticleWind
 	////////////////////////////////////////////////////////////////////////////
 	update( frameCounter, timeDeltaMSec )
 	{
+		this.frameTimeMSec += timeDeltaMSec;
+
 		if( this.enabled == false )
 		{
        this.scale = converge( this.scale, 0.0, 0.005  );
 		}
 		else
 		{
-			if( frameCounter%780 == 0 )
+			if( this.frameTimeMSec  >  this.lastTimeMSec + this.intervalMSec )
 			{
 				this.startWind( 0.0, 0.0 );
+				this.lastTimeMSec = this.frameTimeMSec;
 			}//*/
 
 			if( this.isBlowing == true )
@@ -80,8 +93,11 @@ export class P3dParticleWind
 			this.isBlowing = true;
 			this.isBuilding = true;
 			this.scale = 0.0;
-			this.currentForceX = (random(100)-0) * 0.00014 + extraWindX;
-			this.currentForceY = (random(100)-50) * 0.00014 + extraWindY;
+			const BASE_WIND_AMOUNT = 0.024;
+			this.forceVectorX =
+				(random(200)-100.0)/100.0 * BASE_WIND_AMOUNT * this.varianceX + BASE_WIND_AMOUNT * this.startingForceX + extraWindX;
+			this.forceVectorY =
+				(random(200)-100.0)/100.0 * BASE_WIND_AMOUNT * this.varianceY + BASE_WIND_AMOUNT * this.startingForceY + extraWindY;
 		}
 	}
 
@@ -98,6 +114,34 @@ export class P3dParticleWind
 		this.enabled = false;
 	}
 
+
+	////////////////////////////////////////////////////////////////////////////////
+	getCurrentForceX()
+	{
+		return this.scale * this.forceVectorX;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////
+	getCurrentForceY()
+	{
+		return this.scale * this.forceVectorY;
+	}
+
+
+	/////////////////////////////////////////////////////////////////////////////////
+	setWindDirection( newAmountX, newAmountY, newVarianceX, newVarianceY )
+	{
+		this.startingForceX = newAmountX;
+		this.startingForceY = newAmountY;
+		this.varianceX = newVarianceX;
+		this.varianceY = newVarianceY;
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////
+	setIntervalMSec( newIntervalMSec )
+	{
+		this.intervalMSec = newIntervalMSec;
+	}
 
 
 }
