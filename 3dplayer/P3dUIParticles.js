@@ -172,10 +172,13 @@ export class P3dSwarm
 				this.minimumLaunchDistance = 1.35;
 				this.cubeCameraEnabled = false;
 				this.spawnDelayMSec = 300.0;
-				this.xBaseSpeed = 0.0001;
+				this.xBaseSpeed = 0.0002;
 				this.yBaseSpeed = 0.0;
 				this.materialNumber = 0;
 				this.size = 1.0;
+				this.wind.enable();
+				this.wind.setDirection( 0.5, 0.0, 0.2, 0.7 );
+				this.wind.setIntervalMSec( 15000 );
 				break;
 
 			case 2:
@@ -191,6 +194,7 @@ export class P3dSwarm
 				this.yBaseSpeed = 0.0;
 				this.materialNumber = 3;
 				this.size = 1.0;
+				this.wind.disable();
 				break;
 
 			case 1:
@@ -207,6 +211,8 @@ export class P3dSwarm
 				this.materialNumber = 1;
 				this.size = 0.05;
 				this.wind.enable();
+				this.wind.setDirection( 0.0, -1.0, 1.0, 0.0 );
+				this.wind.setIntervalMSec( 10000 );
 				break;
 
 			case 4:

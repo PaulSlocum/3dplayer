@@ -129,7 +129,7 @@ export class P3dParticleWind
 
 
 	/////////////////////////////////////////////////////////////////////////////////
-	setWindDirection( newAmountX, newAmountY, newVarianceX, newVarianceY )
+	setDirection( newAmountX, newAmountY, newVarianceX, newVarianceY )
 	{
 		this.startingForceX = newAmountX;
 		this.startingForceY = newAmountY;
