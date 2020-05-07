@@ -176,11 +176,11 @@ export class P3dSwarm
     //this.torusKnotGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
     //this.torusKnotGeometry = new THREE.CylinderGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
     //this.torusKnotGeometry = new THREE.TorusGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
-    this.torusKnotGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 ); //<------------------------
-    //this.torusKnotGeometry = this.boxGeometry;
+    //this.torusKnotGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 ); //<------------------------
+    this.torusKnotGeometry = this.boxGeometry;
 
 		// WORKAROUND FOR SHADOW PROBLEM
-		let shadowGenObject = new THREE.Mesh( this.torusKnotGeometry );
+		/*let shadowGenObject = new THREE.Mesh( this.torusKnotGeometry );
 		shadowGenObject.scale.x = 0.09;
 		shadowGenObject.scale.y = 0.09;
 		shadowGenObject.castShadow = true;
