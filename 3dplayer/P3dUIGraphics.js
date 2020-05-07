@@ -90,6 +90,7 @@ export class P3dGraphics
 
     this.roomCube = new P3dRoom();
     this.scene.add( this.roomCube ); //*/
+    //this.playerModel = null;
     this.playerModel = new P3dPlayerModel( appController, this.scene );
     this.playerModel.load();
     this.sequencer = new P3dSequencer( this );
@@ -122,7 +123,9 @@ export class P3dGraphics
 
     requestAnimationFrame( this.run.bind(this) );
 
-		this.playerModel.update();
+		if( this.playerModel != null )
+			this.playerModel.update();
+
 		this.particles.update();
 		this.lights.update();
 		this.roomCube.update();
@@ -201,10 +204,17 @@ export class P3dGraphics
   ////////////////////////////////////////////////////////////////////////
   getIntersectionsAtPixel( mousePosition )
   {
-    this.raycaster.setFromCamera( mousePosition, this.camera );
-    let playerModelScene = this.playerModel.getModel();
-    let intersects = this.raycaster.intersectObjects( playerModelScene.children );
-    return intersects;
+  	if( this.playerModel != null )
+  	{
+			this.raycaster.setFromCamera( mousePosition, this.camera );
+			let playerModelScene = this.playerModel.getModel();
+			let intersects = this.raycaster.intersectObjects( playerModelScene.children );
+			return intersects;
+		}
+		else
+		{
+			return [];
+		}
   }
 
 

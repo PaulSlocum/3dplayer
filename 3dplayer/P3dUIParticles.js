@@ -15,7 +15,7 @@ import { P3dParticleWind } from "./P3dUIParticleWind.js";
 
 //*************************************************************************
 // THIS SHOULD BE FALSE UNLESS DEBUGGING
-const DEBUG_ALWAYS_ENABLE_PARTICLES = false;
+const DEBUG_ALWAYS_ENABLE_PARTICLES = true;
 // ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -
 if( DEBUG_ALWAYS_ENABLE_PARTICLES )
 	console.warn( "WARNING: PARTICLE ALWAYS ENABLE DEBUG SWITCH ACTIVATED" );
@@ -173,12 +173,17 @@ export class P3dSwarm
     this.sphereGeometry = new THREE.SphereGeometry( objectSize, circularSegments, circularSegments );
     this.boxGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
     this.coneGeometry = new THREE.ConeGeometry( objectSize*0.9, objectSize*1.5, coneSegments ); // <-------------
+    //this.torusKnotGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
+    //this.torusKnotGeometry = new THREE.TorusGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
     this.torusKnotGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
 
+		// WORKAROUND FOR SHADOW PROBLEM
 		let shadowGenObject = new THREE.Mesh( this.torusKnotGeometry );
+		shadowGenObject.scale.x = 0.01;
+		shadowGenObject.scale.y = 0.01;
 		shadowGenObject.castShadow = true;
 		this.scene.add( shadowGenObject );
-		shadowGenObject.position.y = 100.0; // OFF SCREEN
+		//shadowGenObject.position.y = ; // OFF SCREEN //*/
 
 		this._loadMaterials();
   }
@@ -238,6 +243,7 @@ export class P3dSwarm
   ////////////////////////////////////////////////////////////////////////////
   enable()
   {
+  	//logger( "--->PARTICLES ENABLED" );
     this.enabled = true;
   }
 
@@ -245,6 +251,7 @@ export class P3dSwarm
   ////////////////////////////////////////////////////////////////////////////
   disable()
   {
+  	//logger( "----->PARTICLES DISABLED" );
     this.enabled = false;
     for( let i=0; i<this.particles.length; i++ )
     {
@@ -292,7 +299,7 @@ export class P3dSwarm
 				this.wind.setIntervalMSec( 15000 );
 				break;
 
-			case 2: // ROTATING OBJECTS
+			case 4: // ROTATING OBJECTS
 				this.maxParticles = 40;
 				this.launchPositionX = -0.8;
 				this.launchPositionY = 0.0;
@@ -349,7 +356,7 @@ export class P3dSwarm
 				this.wind.setIntervalMSec( 10000 );
 				break;
 
-			case 4: // TORUS WITH CUBE CAMERA
+			case 2: // TORUS WITH CUBE CAMERA
 				this.maxParticles = 1;
 				this.launchPositionX = 0.0;
 				this.launchPositionY = 0.0;
@@ -529,7 +536,17 @@ export class P3dSwarm
 
 			// UPDATE ACTUAL OBJECT
 			this.particles[i].object.position.x = this.particles[i].xPosition + this.particles[i].r1Position * Math.cos( this.particles[i].t1Position );
-			this.particles[i].object.position.y = this.particles[i].yPosition + this.particles[i].r1Position * Math.sin( this.particles[i].t1Position );;
+			this.particles[i].object.position.y = this.particles[i].yPosition + this.particles[i].r1Position * Math.sin( this.particles[i].t1Position );
+
+			// ENABLE/DISABLE SHADOWS BASED ON POSITION TO TRY TO AVOID WEBGL BUG...
+			/*if( Math.abs( this.particles[i].object.position.x ) < this.screenEdgePosition - 4  &&
+					Math.abs( this.particles[i].object.position.y ) < this.screenEdgePosition - 5 ) //*/
+			if( Math.abs( this.particles[i].object.position.x ) < 3.0  &&
+					Math.abs( this.particles[i].object.position.y ) < 1.0 )
+				this.particles[i].object.castShadow = true;
+			else
+				this.particles[i].object.castShadow = false; //*/
+
 
       // IF OBJECT HAS REACHED SCREEN EDGE, THEN MARK IT FOR DELETION...
       if( this.particles[i].object.position.x > this.screenEdgePosition  ||  this.particles[i].object.position.x < -this.screenEdgePosition  ||
@@ -597,6 +614,7 @@ export class P3dSwarm
 	/////////////////////////////////////////////////////////////////////////////////
 	killObjectAtIndex( index )
 	{
+		this.particles[index].object.castShadow = false;
 		this.scene.remove( this.particles[index].object );
 		this.particles[index].object = null;
 		this.particles.splice( index, 1 );
@@ -684,7 +702,7 @@ export class P3dSwarm
 				newParticle.enabled = true;
 				//newParticle.xSpeed = random(20) * 0.000002 + 0.00037;
 
-				newParticle.object.castShadow = true;
+				newParticle.object.castShadow = false;
 				newParticle.object.rotation.x = random(360)*3.14/2.0;
 				newParticle.object.rotation.y = random(360)*3.14/2.0;
 				newParticle.xPosition = xPosition;
