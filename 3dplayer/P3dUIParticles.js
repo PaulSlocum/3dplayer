@@ -174,13 +174,15 @@ export class P3dSwarm
     this.boxGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
     this.coneGeometry = new THREE.ConeGeometry( objectSize*0.9, objectSize*1.5, coneSegments ); // <-------------
     //this.torusKnotGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
+    //this.torusKnotGeometry = new THREE.CylinderGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
     //this.torusKnotGeometry = new THREE.TorusGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
-    this.torusKnotGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
+    this.torusKnotGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 ); //<------------------------
+    //this.torusKnotGeometry = this.boxGeometry;
 
 		// WORKAROUND FOR SHADOW PROBLEM
 		let shadowGenObject = new THREE.Mesh( this.torusKnotGeometry );
-		shadowGenObject.scale.x = 0.01;
-		shadowGenObject.scale.y = 0.01;
+		shadowGenObject.scale.x = 0.09;
+		shadowGenObject.scale.y = 0.09;
 		shadowGenObject.castShadow = true;
 		this.scene.add( shadowGenObject );
 		//shadowGenObject.position.y = ; // OFF SCREEN //*/
@@ -541,8 +543,8 @@ export class P3dSwarm
 			// ENABLE/DISABLE SHADOWS BASED ON POSITION TO TRY TO AVOID WEBGL BUG...
 			/*if( Math.abs( this.particles[i].object.position.x ) < this.screenEdgePosition - 4  &&
 					Math.abs( this.particles[i].object.position.y ) < this.screenEdgePosition - 5 ) //*/
-			if( Math.abs( this.particles[i].object.position.x ) < 3.0  &&
-					Math.abs( this.particles[i].object.position.y ) < 1.0 )
+			if( Math.abs( this.particles[i].object.position.x ) < 4.0  &&
+					Math.abs( this.particles[i].object.position.y ) < 2.0 )
 				this.particles[i].object.castShadow = true;
 			else
 				this.particles[i].object.castShadow = false; //*/
