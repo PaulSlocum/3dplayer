@@ -28,7 +28,8 @@ const SequenceMode = {
 	A3: 3,
 	A4: 4,
 	A1b: 5,
-	C: 10,
+	C1: 10,
+	C2: 11,
 	D: 20,
 	E1: 30,
 	E2: 31,
@@ -46,7 +47,7 @@ const TABLE_TIME_SEC_OFFSET = 1;
 const TABLE_SEQUENCE_MODE_OFFSET = 2;
 const sequenceTable = [
 	[ TRACK_1,  0,   SequenceMode.A1 ],
-	[ TRACK_1,  30,  SequenceMode.A1 ],
+	[ TRACK_1,  30,  SequenceMode.A1b ],
 	[ TRACK_1,  60,  SequenceMode.A2 ],
 	[ TRACK_1,  90,  SequenceMode.A3 ],
 	[ TRACK_1,  105, SequenceMode.A4 ],
@@ -55,9 +56,10 @@ const sequenceTable = [
 	[ TRACK_1,  165, SequenceMode.A2 ],
 	[ TRACK_1,  196, SequenceMode.A3 ],
 	//[ TRACK_1,  210, SequenceMode.A3 ], // <-- ALTERNATE TO 196 LINE, ORIGINALLY STARTED A LITTLE LATER
-	[ TRACK_1,  255, SequenceMode.A1 ],
+	[ TRACK_1,  255, SequenceMode.A1b ],
 	// - - - - - - - - - - - - - -
-	[ TRACK_2,  0, SequenceMode.C ],
+	[ TRACK_2,  0, SequenceMode.C1 ],
+	[ TRACK_2,  7, SequenceMode.C2 ],
 	// - - - - - - - - - - - - - -
 	[ TRACK_3,  0, SequenceMode.D ],
 	// - - - - - - - - - - - - - -
@@ -146,7 +148,7 @@ export class P3dSequencer
 		this.previousAppStatus = null;
 
 		this.trayOpen = true; // MODEL CLASS STARTS WITH TRAY OPEN
-		this.particlesEnabled = false;
+		//this.particlesEnabled = false;
 	}
 
 
@@ -180,10 +182,10 @@ export class P3dSequencer
 			else
 			{
 				this.roomCube.play();
-				if( this.particlesEnabled === true )
+				/*if( this.particlesEnabled === true )
 					this.particles.enable();
 				else
-					this.particles.disable();
+					this.particles.disable(); //*/
 			}
 
 			// UPDATE TRAY STATE
@@ -209,21 +211,25 @@ export class P3dSequencer
 			case SequenceMode.A1:
 				this.roomCube.setShaderMode( 0 );
 				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
-				this.particlesEnabled = false;
+				this.particles.enable();
+				//this.particlesEnabled = true;
 				//this.particles.setMaterialNumber( 0 );
 				this.lights.disableStrobe();
+				this.particles.setCurrentSize( 0.009 );
 				break;
 			case SequenceMode.A1b:
 				this.roomCube.setShaderMode( 0 );
 				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
-				this.particlesEnabled = true;
+				//this.particlesEnabled = true;
+				this.particles.enable();
 				//this.particles.setMaterialNumber( 0 );
 				this.lights.disableStrobe();
+				this.particles.setCurrentSize( 0.035 );
 				break;
 			case SequenceMode.A2:
 				this.lights.setColor( new THREE.Color( 0.15, 0.15, 0.15, 1.0 )  );
 				this.roomCube.setShaderMode( 6 );
-				this.particlesEnabled = true;
+				this.particles.enable();
 				this.lights.disableStrobe();
 				//this.particles.setMaterialNumber( 0 );
 				this.particles.startWind( 0.02, 0.0 );
@@ -231,7 +237,7 @@ export class P3dSequencer
 			case SequenceMode.A3:
 				this.lights.setColor( new THREE.Color( 0.3, 0.3, 0.3, 1.0 )  );
 				this.roomCube.setShaderMode( 0 );
-				this.particlesEnabled = true;
+				this.particles.enable();
 				//this.particles.setMaterialNumber( 0 );
 				this.particles.startWind( 0.0, -0.02 );
 				//this.particles.setVelocity( 0.0, 0.0004 );
@@ -239,58 +245,58 @@ export class P3dSequencer
 			case SequenceMode.A4:
 				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
 				this.roomCube.setShaderMode( 0 );
-				this.particlesEnabled = true;
+				this.particles.enable();
 				//this.particles.setMaterialNumber( 0 );
 				this.particles.startWind( 0.02, 0.0 );
 				break;
 
-			case SequenceMode.C:
+			case SequenceMode.C1:
 				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
 				this.roomCube.setShaderMode( 1 );
-				this.particlesEnabled = true;
-				//this.particles.setMaterialNumber( 1 );
-				this.lights.disableStrobe();
+				this.particles.disable();
+				break;
+			case SequenceMode.C2:
+				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
+				this.roomCube.setShaderMode( 1 );
+				this.particles.enable();
 				break;
 
 			case SequenceMode.D:
 				this.roomCube.setShaderMode( 2 );
-				//this.particles.setMaterialNumber( 0 );
-				this.particlesEnabled = true;
+				this.particles.enable();
 				break;
 
 			case SequenceMode.E1:
 				this.roomCube.setShaderMode( 3 );
-				//this.particles.setMaterialNumber( 0 );
-				this.particlesEnabled = false;
+				this.particles.disable();
 				break;
 			case SequenceMode.E2:
 				this.roomCube.setShaderMode( 3 );
-				//this.particles.setMaterialNumber( 0 );
-				this.particlesEnabled = true;
+				this.particles.enable();
 				break;
 
 			case SequenceMode.F:
 				this.roomCube.setShaderMode( 4 );
 				//this.particles.setMaterialNumber( 0 );
-				this.particlesEnabled = true;
+				this.particles.enable();
 				break;
 
 			case SequenceMode.G:
 				this.roomCube.setShaderMode( 5 );
 				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
 				//this.particles.setMaterialNumber( 0 );
-				this.particlesEnabled = true;
+				this.particles.enable();
 				break;
 			case SequenceMode.H:
 				this.roomCube.setShaderMode( 6 );
 				this.lights.setColor( new THREE.Color( 0.5, 0.5, 0.5, 1.0 )  );
 				//this.particles.setMaterialNumber( 2 );
-				this.particlesEnabled = true;
+				this.particles.enable();
 				break;
 
 			case SequenceMode.STANDBY:
 				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
-				this.particlesEnabled = false;
+				this.particles.disable();
 				break;
 		}
 	}

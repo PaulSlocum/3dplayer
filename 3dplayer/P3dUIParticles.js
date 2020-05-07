@@ -17,7 +17,7 @@ import { P3dParticleWind } from "./P3dUIParticleWind.js";
 // THIS SHOULD BE FALSE UNLESS DEBUGGING
 const DEBUG_ALWAYS_ENABLE_PARTICLES = false;
 // ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -
-if( DEBUG_ALWAYS_ENABLE_PARTICLES == true )
+if( DEBUG_ALWAYS_ENABLE_PARTICLES )
 	console.warn( "WARNING: PARTICLE ALWAYS ENABLE DEBUG SWITCH ACTIVATED" );
 //*************************************************************************
 
@@ -80,7 +80,7 @@ class P3dParticle
 		this.t2Position = 0.0;
 
 		this.object = null;
-		this.size = 1.0;
+		this.currentSize = 0.0;
 		this.fade = 0.0;
 
 		this.enabled = false;
@@ -133,8 +133,9 @@ export class P3dSwarm
     this.r2Value = 0.0;
     this.t2Speed = 0.0;
     this.t2StartPosition = 0.0;
-    this.size = 1.0;
-    this.sizeChangeRate = 0.001;
+    this.currentSize = 0.0;
+    this.targetSizeRate = 0.00001;
+    this.targetSize = 0.0;
 		this.meshMode = MeshMode.CONES_CUBES_SPHERES;
 
     this.wind = new P3dParticleWind();
@@ -190,6 +191,23 @@ export class P3dSwarm
 		this.ySpeed = newYSpeed;
 	}
 
+
+	///////////////////////////////////////////////////////////////////////////////////
+	setCurrentSize( newSize )
+	{
+		this.currentSize = newSize;
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////////////
+	setTargetSize( newTargetSize )
+	{
+		this.targetSize = newTargetSize;
+	}
+
+
+
+
 	///////////////////////////////////////////////////////////////////////////////////
 	/*setPolarVelocity( newR1Speed, newT1Speed, newR2Speed, newT2Speed )
 	{
@@ -198,6 +216,42 @@ export class P3dSwarm
 		this.r2Value = 0.0;
 		this.t2Speed = 0.0;
 	} //*/
+
+
+  ////////////////////////////////////////////////////////////////////////
+  setScreenEdgePosition( newEdge )
+  {
+    this.screenEdgePosition = newEdge + 0.7;
+  }
+
+
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	startWind( extraWindX, extraWindY )
+	{
+		this.wind.startWind( extraWindX, extraWindY );
+	}
+
+
+
+  ////////////////////////////////////////////////////////////////////////////
+  enable()
+  {
+    this.enabled = true;
+  }
+
+
+  ////////////////////////////////////////////////////////////////////////////
+  disable()
+  {
+    this.enabled = false;
+    for( let i=0; i<this.particles.length; i++ )
+    {
+      this.particles[i].enabled = false;
+    }
+  }
+
 
 
 	/////////////////////////////////////////////////////////////////////////////////
@@ -230,7 +284,9 @@ export class P3dSwarm
 				// ~  -  ~  -  ~  -  ~  -
 				this.meshMode = MeshMode.CONES_CUBES_SPHERES;
 				this.materialNumber = 0;
-				this.size = 1.0;
+				this.currentSize = 1.0;
+				this.targetSizeRate = 0.001;
+				this.targetSize = 1.0;
 				this.wind.enable();
 				this.wind.setDirection( 0.5, 0.0, 0.2, 0.7 );
 				this.wind.setIntervalMSec( 15000 );
@@ -257,14 +313,15 @@ export class P3dSwarm
 				// ~  -  ~  -  ~  -  ~  -
 				this.meshMode = MeshMode.CONES_CUBES_SPHERES;
 				this.materialNumber = 4;
-				this.size = 0.3;
+				this.currentSize = 0.3;
+				this.targetSize = 0.3;
 				this.wind.enable();
 				this.wind.setDirection( 0.0, 0.0, 0.4, 0.4 );
 				this.wind.setIntervalMSec( 5000 );
 				break;
 
 			case 1: // TINY BUBBLES
-				this.maxParticles = 155;
+				this.maxParticles = 200;
 				this.launchPositionX = 0.0;
 				this.launchPositionY = -0.5;
 				this.launchVarianceX = 1.0;
@@ -284,7 +341,9 @@ export class P3dSwarm
 				// ~  -  ~  -  ~  -  ~  -
 				this.meshMode = MeshMode.CONES_CUBES_SPHERES;
 				this.materialNumber = 1;
-				this.size = 0.09;
+				this.targetSizeRate = 0.000001;
+				this.targetSize = 0.18;
+				//this.targetSize = 0.09; // <--- ORIGINAL
 				this.wind.enable();
 				this.wind.setDirection( 0.0, -1.0, 1.0, 0.0 );
 				this.wind.setIntervalMSec( 10000 );
@@ -312,7 +371,7 @@ export class P3dSwarm
 				//this.meshMode = MeshMode.CONES_CUBES_SPHERES;
 				this.meshMode = MeshMode.TORRUS_KNOT;
 				this.materialNumber = 3;
-				this.size = 1.0;
+				this.currentSize = 1.0;
 				this.wind.disable();
 				this.wind.setDirection( 0.0, -1.0, 1.0, 0.0 );
 				this.wind.setIntervalMSec( 10000 );
@@ -330,7 +389,7 @@ export class P3dSwarm
 				this.xSpeed = -0.0002;
 				this.ySpeed = 0.0;
 				this.materialNumber = 3;
-				this.size = 0.3;
+				this.currentSize = 0.3;
 				break;
 			case 6:
 				break;
@@ -341,6 +400,17 @@ export class P3dSwarm
 			case 9:
 				break;
 		}
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////////
+	setMaterialNumber( newMaterialNumber )
+	{
+		logger( "----> PARTICLE: SET MATERIAL NUMBER: ", newMaterialNumber );
+		if( newMaterialNumber < this.materialsArray.length )
+			this.materialNumber = newMaterialNumber;
+		else
+			logerr( "SET MATERIAL NUMBER OUT OF RANGE: ", newMaterialNumber, this.materialsArray.length );
 	}
 
 
@@ -396,19 +466,6 @@ export class P3dSwarm
 
 
 
-	///////////////////////////////////////////////////////////////////////////////
-	setMaterialNumber( newMaterialNumber )
-	{
-		logger( "----> PARTICLE: SET MATERIAL NUMBER: ", newMaterialNumber );
-		if( newMaterialNumber < this.materialsArray.length )
-			this.materialNumber = newMaterialNumber;
-		else
-			logerr( "SET MATERIAL NUMBER OUT OF RANGE: ", newMaterialNumber, this.materialsArray.length );
-	}
-
-
-
-
   ///////////////////////////////////////////////////////////////////////////////
   update()
   {
@@ -448,6 +505,14 @@ export class P3dSwarm
 		// UPDATE WIND
 		this.wind.update( this.frameCounter, frameDeltaMSec );
 
+		// DEBUG!
+		//if( this.frameCounter % 60 == 0 )
+			//logger( "FRAMECOUNTER: ", this.frameCounter, this.currentSize, this.targetSize, this.targetSizeRate );
+			//logger( "FRAMECOUNTER: ", this.frameCounter );
+
+		// UPDATE SIZE DAMPENING
+		this.currentSize = converge( this.currentSize, this.targetSize, this.targetSizeRate * frameDeltaMSec );
+
     // UPDATE POSITION, ROTATION, AND SCALE OF EACH OBJECT
     let deletionList = [];
     for( let i=0; i<this.particles.length; i++ )
@@ -486,9 +551,21 @@ export class P3dSwarm
         this.particles[i].fade = converge( this.particles[i].fade, 1.0, 0.003 * frameDeltaMSec );
       }
 
-      this.particles[i].object.scale.x = this.particles[i].size * this.particles[i].fade;
+
+			//this.particles[i].size = converge( this.particles[i].size, 1.0, 0.0005 );
+			//this.particles[i].size = converge( this.particles[i].size, this.targetSize, this.targetSizeRate * frameDeltaMSec );
+
+      this.particles[i].object.scale.x = this.currentSize * this.particles[i].fade;
+      this.particles[i].object.scale.y = this.currentSize * this.particles[i].fade;
+      this.particles[i].object.scale.z = this.currentSize * this.particles[i].fade; //*/
+
+      /*this.particles[i].object.scale.x = this.particles[i].size * this.particles[i].fade;
       this.particles[i].object.scale.y = this.particles[i].size * this.particles[i].fade;
-      this.particles[i].object.scale.z = this.particles[i].size * this.particles[i].fade;
+      this.particles[i].object.scale.z = this.particles[i].size * this.particles[i].fade; //*/
+
+      /*this.particles[i].object.scale.x = 0.02;
+      this.particles[i].object.scale.y = 0.02;
+      this.particles[i].object.scale.z = 0.02; //*/
 
 			// UPDATE ROTATION
       this.particles[i].object.rotation.z += frameDeltaMSec * 0.0012;
@@ -527,33 +604,6 @@ export class P3dSwarm
 
 
 	//  ~      -       ~      -       ~      -       ~      -       ~      -       ~
-
-
-  ////////////////////////////////////////////////////////////////////////
-  setScreenEdgePosition( newEdge )
-  {
-    this.screenEdgePosition = newEdge + 0.7;
-  }
-
-
-
-  ////////////////////////////////////////////////////////////////////////////
-  enable()
-  {
-    this.enabled = true;
-  }
-
-
-  ////////////////////////////////////////////////////////////////////////////
-  disable()
-  {
-    this.enabled = false;
-    for( let i=0; i<this.particles.length; i++ )
-    {
-      this.particles[i].enabled = false;
-    }
-  }
-
 
 
 	//  ~      -       ~      -       ~      -       ~      -       ~      -       ~
@@ -640,7 +690,8 @@ export class P3dSwarm
 				newParticle.xPosition = xPosition;
 				newParticle.yPosition = yPosition;
 				newParticle.object.position.z = 0.0;
-				newParticle.size = this.size;
+				//newParticle.size = this.currentSize;
+				//newParticle.size = 0.02;
 				newParticle.t1Position = this.t1StartPosition;
 				newParticle.t2Position = this.t2StartPosition;
 
@@ -657,12 +708,6 @@ export class P3dSwarm
 
 	//  ~      -       ~      -       ~      -       ~      -       ~      -       ~
 
-
-	//////////////////////////////////////////////////////////////////////////////
-	startWind( extraWindX, extraWindY )
-	{
-		this.wind.startWind( extraWindX, extraWindY );
-	}
 
 
 }
