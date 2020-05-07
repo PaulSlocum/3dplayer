@@ -214,7 +214,7 @@ export class P3dSequencer
 			case SequenceMode.A1:
 				this.roomCube.setShaderMode( 0 );
 				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
-				this.particlesEnabled = true;
+				this.particlesEnabled = false;
 				this.lights.disableStrobe();
 				this.particles.setCurrentSize( 0.009 );
 				break;
@@ -265,7 +265,7 @@ export class P3dSequencer
 
 			case SequenceMode.E1:
 				this.roomCube.setShaderMode( 3 );
-				this.particlesEnabled = true;
+				this.particlesEnabled = false;
 				break;
 			case SequenceMode.E2:
 				this.roomCube.setShaderMode( 3 );

@@ -15,7 +15,7 @@ import { P3dParticleWind } from "./P3dUIParticleWind.js";
 
 //*************************************************************************
 // THIS SHOULD BE FALSE UNLESS DEBUGGING
-const DEBUG_ALWAYS_ENABLE_PARTICLES = true;
+const DEBUG_ALWAYS_ENABLE_PARTICLES = false;
 // ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -
 if( DEBUG_ALWAYS_ENABLE_PARTICLES )
 	console.warn( "WARNING: PARTICLE ALWAYS ENABLE DEBUG SWITCH ACTIVATED" );
@@ -177,7 +177,7 @@ export class P3dSwarm
     //this.torusKnotGeometry = new THREE.CylinderGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
     //this.torusKnotGeometry = new THREE.TorusGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
     //this.torusKnotGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 ); //<------------------------
-    this.torusKnotGeometry = this.boxGeometry;
+    this.torusKnotGeometry = this.sphereGeometry;
 
 		// WORKAROUND FOR SHADOW PROBLEM
 		/*let shadowGenObject = new THREE.Mesh( this.torusKnotGeometry );
@@ -301,7 +301,7 @@ export class P3dSwarm
 				this.wind.setIntervalMSec( 15000 );
 				break;
 
-			case 4: // ROTATING OBJECTS
+			case 2: // ROTATING OBJECTS
 				this.maxParticles = 40;
 				this.launchPositionX = -0.8;
 				this.launchPositionY = 0.0;
@@ -351,15 +351,15 @@ export class P3dSwarm
 				this.meshMode = MeshMode.CONES_CUBES_SPHERES;
 				this.materialNumber = 1;
 				this.targetSizeRate = 0.000001;
-				this.targetSize = 0.18;
+				this.targetSize = 0.09;
 				//this.targetSize = 0.09; // <--- ORIGINAL
 				this.wind.enable();
 				this.wind.setDirection( 0.0, -1.0, 1.0, 0.0 );
 				this.wind.setIntervalMSec( 10000 );
 				break;
 
-			case 2: // TORUS WITH CUBE CAMERA
-				this.maxParticles = 1;
+			case 4: // SPHERES WITH CUBE CAMERA
+				this.maxParticles = 8;
 				this.launchPositionX = 0.0;
 				this.launchPositionY = 0.0;
 				this.launchVarianceX = 0.0;
@@ -370,8 +370,8 @@ export class P3dSwarm
 				// ~  -  ~  -  ~  -  ~  -
 				this.xSpeed = 0.0;
 				this.ySpeed = 0.0;
-				this.r1Value = 1.5;
-				this.t1Speed = 0.01;
+				this.r1Value = 1.7;
+				this.t1Speed = 0.02;
 	   		this.t1StartPosition = 0.0;
 				this.r2Value = 0.0;
 				this.t2Speed = 0.0;
@@ -380,13 +380,15 @@ export class P3dSwarm
 				//this.meshMode = MeshMode.CONES_CUBES_SPHERES;
 				this.meshMode = MeshMode.TORRUS_KNOT;
 				this.materialNumber = 3;
-				this.currentSize = 1.0;
-				this.wind.disable();
-				this.wind.setDirection( 0.0, -1.0, 1.0, 0.0 );
+				this.currentSize = 0.0;
+				this.targetSizeRate = 0.0001;
+				this.targetSize = 1.70;
+				this.wind.enable();
+				this.wind.setDirection( 0.0, 0.0, 0.5, 0.5 );
 				this.wind.setIntervalMSec( 10000 );
 				break;
 
-			case 5:
+			case 5: // MULTIPLE TORUS WITH CUBE CAMERA
 				this.maxParticles = 55;
 				this.launchPositionX = 0.0;
 				this.launchPositionY = 0.0;
@@ -398,7 +400,7 @@ export class P3dSwarm
 				this.xSpeed = -0.0002;
 				this.ySpeed = 0.0;
 				this.materialNumber = 3;
-				this.currentSize = 0.3;
+				this.currentSize = 0.3; //*/
 				break;
 			case 6:
 				break;
@@ -446,7 +448,8 @@ export class P3dSwarm
     this.materialsArray[2] = material2;
 
 		// MIRROR MATERIAL
-		this.cubeCamera = new THREE.CubeCamera( 0.1, 100, 64 )   // near, far, resolution);
+		//this.cubeCamera = new THREE.CubeCamera( 0.1, 100, 64 )   // <------------- near, far, resolution);
+		this.cubeCamera = new THREE.CubeCamera( 0.1, 100, 256 )   // DEBUG
 		this.cubeCamera.update( this.renderer, this.scene );
 		//this.cubeCamera.renderTarget.texture.generateMipmaps = true;
 		//this.cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipmapLinearFilter;
@@ -497,10 +500,11 @@ export class P3dSwarm
 			this.materialsArray[3].envMap = this.cubeCamera.renderTarget.texture;
 			if( this.particles.length > 0 )
 			{
-				// UPDATE CUBE CAMERA POSITION TO POSITION OF FIRST PARTICLE
-				this.cubeCamera.position.x = this.particles[0].object.position.x;
-				this.cubeCamera.position.y = this.particles[0].object.position.y;
-				this.cubeCamera.position.z = this.particles[0].object.position.z; //*/
+				// UPDATE CUBE CAMERA POSITION TO POSITION OF MIDDLE PARTICLE
+				const middleParticle = Math.floor( this.particles.length / 2 );
+				this.cubeCamera.position.x = this.particles[middleParticle].object.position.x;
+				this.cubeCamera.position.y = this.particles[middleParticle].object.position.y;
+				this.cubeCamera.position.z = this.particles[middleParticle].object.position.z; //*/
 			}
 		}
 
