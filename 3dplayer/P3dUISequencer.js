@@ -9,6 +9,7 @@
 
 //-----------------------------------------------------------------------------------
 import { TransportMode } from "./P3dAppController.js";
+import { P3dParticlePresets } from "./P3dUIParticlePresets.js";
 import { logger } from "./P3dLog.js";
 //-----------------------------------------------------------------------------------
 
@@ -142,6 +143,8 @@ export class P3dSequencer
 		this.lights = graphicsController.lights;
 		this.playerModel = graphicsController.playerModel;
 
+		this.particlePresets = new P3dParticlePresets( this.particles );
+
 		this.sequenceMode = null;
 		this._setSequencerMode( SequenceMode.A1 );
 
@@ -207,7 +210,7 @@ export class P3dSequencer
 	//////////////////////////////////////////////////////////////////////////////////
 	_setSequencerMode( newSequenceMode )
 	{
-		this.particles.setModeNumber( this.appController.getTrackNumber() ); // <-- CURRENTLY JUST LOCKING SEQUENCE MODE TO TRACK FOR SIMPLICITY
+		this.particlePresets.setModeNumber( this.appController.getTrackNumber() ); // <-- CURRENTLY JUST LOCKING SEQUENCE MODE TO TRACK FOR SIMPLICITY
 		this.sequenceMode = newSequenceMode;
 		switch( newSequenceMode )
 		{

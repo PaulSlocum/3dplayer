@@ -80,6 +80,7 @@ class P3dParticle
 		this.t2Position = 0.0;
 
 		this.object = null;
+		this.light = null;
 		this.currentSize = 0.0;
 		this.fade = 0.0;
 
@@ -137,6 +138,7 @@ export class P3dSwarm
     this.targetSizeRate = 0.00001;
     this.targetSize = 0.0;
 		this.meshMode = MeshMode.CONES_CUBES_SPHERES;
+		this.lightSourceEnabled = true;
 
     this.wind = new P3dParticleWind();
 
@@ -180,7 +182,7 @@ export class P3dSwarm
     //this.torusKnotGeometry = new THREE.CylinderGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
     //this.torusKnotGeometry = new THREE.TorusGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
     //this.torusKnotGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 ); //<------------------------
-    this.torusKnotGeometry = this.sphereBufferGeometry;
+    this.torusKnotGeometry = this.sphereGeometry;
 
 		// WORKAROUND FOR SHADOW PROBLEM
 		/*let shadowGenObject = new THREE.Mesh( this.torusKnotGeometry );
@@ -265,202 +267,6 @@ export class P3dSwarm
   }
 
 
-
-	/////////////////////////////////////////////////////////////////////////////////
-	// SELECT SETTINGS FROM A NUMBER OF PREDEFINED MODES
-	setModeNumber( newModeNumber )
-	{
-		logger( "----->PARTCLE MODE: ", newModeNumber );
-		this.modeNumber = newModeNumber;
-		switch( newModeNumber )
-		{
-			case 0:
-			case 3: // ORIGINAL GOLD FLOATING OBJECTS
-				this.maxParticles = 55;
-				this.launchPositionX = -1.0;
-				this.launchPositionY = 0.0;
-				this.launchVarianceX = 0.0;
-				this.launchVarianceY = 0.5;
-				this.minimumLaunchDistance = 1.35;
-				this.cubeCameraEnabled = false;
-				this.spawnDelayMSec = 300.0;
-				// ~  -  ~  -  ~  -  ~  -
-				this.xSpeed = 0.0002;
-				this.ySpeed = 0.0;
-				this.r1Value = 0.0;
-				this.t1Speed = 0.0;
-    		this.t1StartPosition = 0.0;
-				this.r2Value = 0.0;
-				this.t2Speed = 0.0;
-    		this.t2StartPosition = 0.0;
-				// ~  -  ~  -  ~  -  ~  -
-				this.meshMode = MeshMode.CONES_CUBES_SPHERES;
-				this.materialNumber = 0;
-				this.currentSize = 1.0;
-				this.targetSizeRate = 0.001;
-				this.targetSize = 1.0;
-				this.wind.enable();
-				this.wind.setDirection( 0.5, 0.0, 0.2, 0.7 );
-				this.wind.setIntervalMSec( 15000 );
-				break;
-
-			case 2: // ROTATING OBJECTS
-				this.maxParticles = 40;
-				this.launchPositionX = -0.8;
-				this.launchPositionY = 0.0;
-				this.launchVarianceX = 0.0;
-				this.launchVarianceY = 0.0;
-				this.minimumLaunchDistance = 0.0;
-				this.cubeCameraEnabled = false;
-				this.spawnDelayMSec = 200.0;
-				// ~  -  ~  -  ~  -  ~  -
-				this.xSpeed = 0.0007;
-				this.ySpeed = 0.0;
-				this.r1Value = 1.8;
-				this.t1Speed = 0.04;
-    		this.t1StartPosition = 2.1;
-				this.r2Value = 0.0;
-				this.t2Speed = 0.0;
-    		this.t2StartPosition = 0.0;
-				// ~  -  ~  -  ~  -  ~  -
-				this.meshMode = MeshMode.CONES_CUBES_SPHERES;
-				this.materialNumber = 5;
-				this.currentSize = 0.3;
-				this.targetSize = 0.3;
-				this.wind.enable();
-				this.wind.setDirection( 0.0, 0.0, 0.4, 0.4 );
-				this.wind.setIntervalMSec( 5000 );
-				break;
-
-			case 6: // TINY BUBBLES
-				this.maxParticles = 200;
-				this.launchPositionX = 0.0;
-				this.launchPositionY = -0.5;
-				this.launchVarianceX = 1.0;
-				this.launchVarianceY = 0.0;
-				this.minimumLaunchDistance = 0.1;
-				this.cubeCameraEnabled = false;
-				this.spawnDelayMSec = 20.0;
-				// ~  -  ~  -  ~  -  ~  -
-				this.xSpeed = 0.0000;
-				this.ySpeed = 0.0015;
-				this.r1Value = 0.5;
-				this.t1Speed = 0.04;
-    		this.t1StartPosition = 0.0;
-				this.r2Value = 0.0;
-				this.t2Speed = 0.0;
-    		this.t2StartPosition = 0.0;
-				// ~  -  ~  -  ~  -  ~  -
-				this.meshMode = MeshMode.CONES_CUBES_SPHERES;
-				this.materialNumber = 1;
-				this.targetSizeRate = 0.000001;
-				this.targetSize = 0.09;
-				//this.targetSize = 0.09; // <--- ORIGINAL
-				this.wind.enable();
-				this.wind.setDirection( 0.0, -1.0, 1.0, 0.0 );
-				this.wind.setIntervalMSec( 10000 );
-				break;
-
-			case 4: // SPHERE BLOB WITH CUBE CAMERA
-				this.maxParticles = 8;
-				this.launchPositionX = 0.0;
-				this.launchPositionY = 0.0;
-				this.launchVarianceX = 0.0;
-				this.launchVarianceY = 0.0;
-				this.minimumLaunchDistance = 1.0;
-				this.cubeCameraEnabled = true;
-				this.spawnDelayMSec = 300.0;
-				// ~  -  ~  -  ~  -  ~  -
-				this.xSpeed = 0.0;
-				this.ySpeed = 0.0;
-				this.r1Value = 1.7;
-				this.t1Speed = 0.02;
-	   		this.t1StartPosition = 0.0;
-				this.r2Value = 0.0;
-				this.t2Speed = 0.0;
-    		this.t2StartPosition = 0.0;
-				// ~  -  ~  -  ~  -  ~  -
-				//this.meshMode = MeshMode.CONES_CUBES_SPHERES;
-				this.meshMode = MeshMode.TORRUS_KNOT;
-				this.materialNumber = 3;
-				this.currentSize = 0.0;
-				this.targetSizeRate = 0.0001;
-				this.targetSize = 1.70;
-				this.wind.enable();
-				this.wind.setDirection( 0.0, 0.0, 0.5, 0.5 );
-				this.wind.setIntervalMSec( 10000 );
-				break;
-
-			case 5: // SMALLER SPHERES WITH CUBE CAMERA
-				this.maxParticles = 15;
-				this.launchPositionX = 0.0;
-				this.launchPositionY = 0.0;
-				this.launchVarianceX = 0.0;
-				this.launchVarianceY = 0.5;
-				this.minimumLaunchDistance = 0.5;
-				this.cubeCameraEnabled = true;
-				this.spawnDelayMSec = 300.0;
-				// ~  -  ~  -  ~  -  ~  -
-				this.xSpeed = -0.0002;
-				this.ySpeed = 0.0;
-				this.r1Value = 1.7;
-				this.t1Speed = 0.02;
-	   		this.t1StartPosition = 0.0;
-				this.r2Value = 0.0;
-				this.t2Speed = 0.0;
-    		this.t2StartPosition = 0.0;
-				// ~  -  ~  -  ~  -  ~  -
-				//this.meshMode = MeshMode.CONES_CUBES_SPHERES;
-				this.meshMode = MeshMode.TORRUS_KNOT;
-				this.materialNumber = 3;
-				this.currentSize = 0.3;
-				this.targetSizeRate = 0.0001;
-				this.targetSize = 1.70;
-				this.wind.enable();
-				this.wind.setDirection( 0.0, 0.0, 0.5, 0.5 );
-				this.wind.setIntervalMSec( 10000 );
-				break;
-
-			case 1: // LIGHTS
-				this.maxParticles = 5;
-				this.launchPositionX = 0.0;
-				this.launchPositionY = 0.0;
-				this.launchVarianceX = 0.0;
-				this.launchVarianceY = 0.0;
-				this.minimumLaunchDistance = 1.0;
-				this.cubeCameraEnabled = false;
-				this.spawnDelayMSec = 1300.0;
-				// ~  -  ~  -  ~  -  ~  -
-				this.xSpeed = 0.0;
-				this.ySpeed = 0.0;
-				this.r1Value = 1.7;
-				this.t1Speed = 0.02;
-	   		this.t1StartPosition = 0.0;
-				this.r2Value = 0.0;
-				this.t2Speed = 0.0;
-    		this.t2StartPosition = 0.0;
-				// ~  -  ~  -  ~  -  ~  -
-				//this.meshMode = MeshMode.CONES_CUBES_SPHERES;
-				this.meshMode = MeshMode.CONES_CUBES_SPHERES;
-				this.materialNumber = 5;
-				this.currentSize = 0.10;
-				this.targetSizeRate = 0.0001;
-				this.targetSize = 0.10;
-				this.wind.disable();
-				this.wind.setDirection( 0.0, 0.0, 0.5, 0.5 );
-				this.wind.setIntervalMSec( 10000 );
-				break;
-
-			case 7:
-				break;
-
-			case 8:
-				break;
-
-			case 9:
-				break;
-		}
-	}
 
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -584,8 +390,8 @@ export class P3dSwarm
 			}
 		}
 
-		// DEBUG!!!!!!!!!!!!!!
-		if( this.particles.length > 0 )
+		// DEBUG!!!!!!!!!!!!!! PARTICLE LIGHT SOURCE TEST (CAN BE REMOVED)
+		/*if( this.particles.length > 0 )
 		{
 			this.pointLight.position.x = this.particles[0].object.position.x;
 			this.pointLight.position.y = this.particles[0].object.position.y;
@@ -634,6 +440,13 @@ export class P3dSwarm
 			this.particles[i].object.position.x = this.particles[i].xPosition + this.particles[i].r1Position * Math.cos( this.particles[i].t1Position );
 			this.particles[i].object.position.y = this.particles[i].yPosition + this.particles[i].r1Position * Math.sin( this.particles[i].t1Position );
 
+			if( this.particles[i].light != null )
+			{
+				this.particles[i].light.position.x = this.particles[i].object.position.x;
+				this.particles[i].light.position.y = this.particles[i].object.position.x;
+				this.particles[i].light.position.z = this.particles[i].object.position.z;
+			}
+
 			// ENABLE/DISABLE SHADOWS BASED ON POSITION TO TRY TO AVOID WEBGL BUG...
 			/*if( Math.abs( this.particles[i].object.position.x ) < this.screenEdgePosition - 4  &&
 					Math.abs( this.particles[i].object.position.y ) < this.screenEdgePosition - 5 ) //*/
@@ -642,7 +455,6 @@ export class P3dSwarm
 				this.particles[i].object.castShadow = true;
 			else
 				this.particles[i].object.castShadow = false; //*/
-
 
       // IF OBJECT HAS REACHED SCREEN EDGE, THEN MARK IT FOR DELETION...
       if( this.particles[i].object.position.x > this.screenEdgePosition  ||  this.particles[i].object.position.x < -this.screenEdgePosition  ||
@@ -713,6 +525,11 @@ export class P3dSwarm
 		this.particles[index].object.castShadow = false;
 		this.scene.remove( this.particles[index].object );
 		this.particles[index].object = null;
+		if( this.particles[index].light != null )
+		{
+			this.scene.remove( this.particles[index].light );
+			this.particles[index].light = null;
+		}
 		this.particles.splice( index, 1 );
 	}
 
@@ -797,6 +614,27 @@ export class P3dSwarm
 				newParticle.fade = 0.0;
 				newParticle.enabled = true;
 				//newParticle.xSpeed = random(20) * 0.000002 + 0.00037;
+
+				if( this.lightSourceEnabled == true )
+				{
+					newParticle.light = new THREE.PointLight( 0xFFFFFF, 1, 100, 3 );
+					//this.pointLight = new THREE.PointLight( 0xFFFFFF, 1, 100, 2 );
+					/*this.pointLight = new THREE.SpotLight(0xffffff);
+					this.pointLight.angle = Math.PI / 3.0;
+					this.pointLight.castShadow = false;
+					this.pointLight.target.position.z = -150;
+					this.pointLight.intensity = 2.0;
+					const spotlightDistance = 0.5;
+					this.pointLight.position.set( 0.5, 1.2*spotlightDistance, 3.6*spotlightDistance ); //<-------------- //*/
+					/*var width = 1;
+					var height = 1;
+					var intensity = 1;
+					this.pointLight = new THREE.RectAreaLight( 0xffffff, intensity,  width, height );
+					this.pointLight.position.set( 0, 1, 0 );
+					this.pointLight.lookAt( 0, 0, 0 ); //*/
+
+					this.scene.add( newParticle.light );
+				}
 
 				newParticle.object.castShadow = false;
 				newParticle.object.rotation.x = random(360)*3.14/2.0;
