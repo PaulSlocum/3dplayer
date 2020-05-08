@@ -15,7 +15,7 @@ import { P3dParticleWind } from "./P3dUIParticleWind.js";
 
 //*************************************************************************
 // THIS SHOULD BE FALSE UNLESS DEBUGGING
-const DEBUG_ALWAYS_ENABLE_PARTICLES = false;
+const DEBUG_ALWAYS_ENABLE_PARTICLES = true;
 // ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -
 if( DEBUG_ALWAYS_ENABLE_PARTICLES )
 	console.warn( "WARNING: PARTICLE ALWAYS ENABLE DEBUG SWITCH ACTIVATED" );
@@ -152,6 +152,9 @@ export class P3dSwarm
 
     this.particleIdCounter = 1;
 
+		// DEBUG!!!!!!!!
+		this.pointLight = null;
+
     this.load();
     this.disable(); // <-- START WITH PARTICLES TURNED OFF
   }
@@ -170,14 +173,14 @@ export class P3dSwarm
     const objectSize = 0.33; //<------------------
     const circularSegments = 22;
     const coneSegments = 60;
-    this.sphereGeometry = new THREE.SphereGeometry( objectSize, circularSegments, circularSegments );
-    this.boxGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
-    this.coneGeometry = new THREE.ConeGeometry( objectSize*0.9, objectSize*1.5, coneSegments ); // <-------------
+    this.sphereGeometry = new THREE.SphereBufferGeometry( objectSize, circularSegments, circularSegments );
+    this.boxGeometry = new THREE.BoxBufferGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
+    this.coneGeometry = new THREE.ConeBufferGeometry( objectSize*0.9, objectSize*1.5, coneSegments ); // <-------------
     //this.torusKnotGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
     //this.torusKnotGeometry = new THREE.CylinderGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
     //this.torusKnotGeometry = new THREE.TorusGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
     //this.torusKnotGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 ); //<------------------------
-    this.torusKnotGeometry = this.sphereGeometry;
+    this.torusKnotGeometry = this.sphereBufferGeometry;
 
 		// WORKAROUND FOR SHADOW PROBLEM
 		/*let shadowGenObject = new THREE.Mesh( this.torusKnotGeometry );
@@ -321,7 +324,7 @@ export class P3dSwarm
     		this.t2StartPosition = 0.0;
 				// ~  -  ~  -  ~  -  ~  -
 				this.meshMode = MeshMode.CONES_CUBES_SPHERES;
-				this.materialNumber = 4;
+				this.materialNumber = 5;
 				this.currentSize = 0.3;
 				this.targetSize = 0.3;
 				this.wind.enable();
@@ -329,7 +332,7 @@ export class P3dSwarm
 				this.wind.setIntervalMSec( 5000 );
 				break;
 
-			case 1: // TINY BUBBLES
+			case 6: // TINY BUBBLES
 				this.maxParticles = 200;
 				this.launchPositionX = 0.0;
 				this.launchPositionY = -0.5;
@@ -358,7 +361,7 @@ export class P3dSwarm
 				this.wind.setIntervalMSec( 10000 );
 				break;
 
-			case 4: // SPHERES WITH CUBE CAMERA
+			case 4: // SPHERE BLOB WITH CUBE CAMERA
 				this.maxParticles = 8;
 				this.launchPositionX = 0.0;
 				this.launchPositionY = 0.0;
@@ -417,12 +420,43 @@ export class P3dSwarm
 				this.wind.setDirection( 0.0, 0.0, 0.5, 0.5 );
 				this.wind.setIntervalMSec( 10000 );
 				break;
-			case 6:
+
+			case 1: // LIGHTS
+				this.maxParticles = 5;
+				this.launchPositionX = 0.0;
+				this.launchPositionY = 0.0;
+				this.launchVarianceX = 0.0;
+				this.launchVarianceY = 0.0;
+				this.minimumLaunchDistance = 1.0;
+				this.cubeCameraEnabled = false;
+				this.spawnDelayMSec = 1300.0;
+				// ~  -  ~  -  ~  -  ~  -
+				this.xSpeed = 0.0;
+				this.ySpeed = 0.0;
+				this.r1Value = 1.7;
+				this.t1Speed = 0.02;
+	   		this.t1StartPosition = 0.0;
+				this.r2Value = 0.0;
+				this.t2Speed = 0.0;
+    		this.t2StartPosition = 0.0;
+				// ~  -  ~  -  ~  -  ~  -
+				//this.meshMode = MeshMode.CONES_CUBES_SPHERES;
+				this.meshMode = MeshMode.CONES_CUBES_SPHERES;
+				this.materialNumber = 5;
+				this.currentSize = 0.10;
+				this.targetSizeRate = 0.0001;
+				this.targetSize = 0.10;
+				this.wind.disable();
+				this.wind.setDirection( 0.0, 0.0, 0.5, 0.5 );
+				this.wind.setIntervalMSec( 10000 );
 				break;
+
 			case 7:
 				break;
+
 			case 8:
 				break;
+
 			case 9:
 				break;
 		}
@@ -483,9 +517,36 @@ export class P3dSwarm
     material4.roughness = 0.6;
     this.materialsArray[4] = material4;
 
-		// TEXTURE MATERIAL
-
 		// EMISSION MATERIAL
+    let material5 = new THREE.MeshStandardMaterial( {color: 0x888888} ); // <-----------
+    material5.metalness = 0.0;
+    material5.roughness = 0.6;
+    material5.emissive =  new THREE.Color( 0xaaaaaa );
+    this.materialsArray[5] = material5;
+
+		// TEXTURE MATERIAL
+    let material6 = new THREE.MeshStandardMaterial( {color: 0x00FF00} ); // <-----------
+    material6.metalness = 0.0;
+    material6.roughness = 0.6;
+    this.materialsArray[6] = material6;
+
+		this.pointLight = new THREE.PointLight( 0xFFFFFF, 1, 100, 3 );
+		//this.pointLight = new THREE.PointLight( 0xFFFFFF, 1, 100, 2 );
+    /*this.pointLight = new THREE.SpotLight(0xffffff);
+    this.pointLight.angle = Math.PI / 3.0;
+    this.pointLight.castShadow = false;
+    this.pointLight.target.position.z = -150;
+	  this.pointLight.intensity = 2.0;
+    const spotlightDistance = 0.5;
+    this.pointLight.position.set( 0.5, 1.2*spotlightDistance, 3.6*spotlightDistance ); //<-------------- //*/
+		/*var width = 1;
+		var height = 1;
+		var intensity = 1;
+		this.pointLight = new THREE.RectAreaLight( 0xffffff, intensity,  width, height );
+		this.pointLight.position.set( 0, 1, 0 );
+		this.pointLight.lookAt( 0, 0, 0 ); //*/
+		this.scene.add( this.pointLight );
+		//this.scene.add( this.pointLight.target );
 
 		// VIDEO MATERIAL
 
@@ -522,6 +583,20 @@ export class P3dSwarm
 				this.cubeCamera.position.z = this.particles[middleParticle].object.position.z; //*/
 			}
 		}
+
+		// DEBUG!!!!!!!!!!!!!!
+		if( this.particles.length > 0 )
+		{
+			this.pointLight.position.x = this.particles[0].object.position.x;
+			this.pointLight.position.y = this.particles[0].object.position.y;
+			this.pointLight.position.z = this.particles[0].object.position.z;
+
+			/*this.pointLight.target.position.x = this.particles[0].object.position.x;
+			this.pointLight.target.position.y = this.particles[0].object.position.y; //*/
+			//this.pointLight.target.position.x = 100.0
+			//this.pointLight.target.position.y = 100.0
+		} //*/
+
 
 		// SPAWN A NEW PARTICLE IF SPAWN DELAY HAS ELAPSED
 		if( this.enabled == true  &&  currentTimeMSec > this.lastSpawnTime + this.spawnDelayMSec )

@@ -9,16 +9,12 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 - find actual vertical screen edge rather than just using the horizontal screen edge
 ~   -   ~   -   ~   -   ~   -   
-- make wind adjustable with adjustable variance like particle emitter
-- make particle size adjustable
-- add polar coordinate mode to particle system that can be switched seamlessly with cartesian system
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
-- set up reflection based system
-- make tiny version of particle system
-- make large version of particle system
+- make large version of particle system?
 ~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -  
+- create particles with textured surface 
 - create glowing particles
 - create mirror particles
 - create refracting particles
@@ -171,6 +167,11 @@ x refactor graphics class to separate out different graphics components
 x implement ability to switch material modes in particle system
 x create new abstract background shader or two
 x add adjustable particle system velocity (x/y)
+x make wind adjustable with adjustable variance like particle emitter
+x make particle size adjustable
+x add polar coordinate mode to particle system that can be switched seamlessly with cartesian system
+x set up reflection based system
+x make tiny version of particle system
 ~   -   ~   -   ~   -   ~   -   
 
 
