@@ -183,17 +183,17 @@ export class P3dParticlePresets
 
 			case 1: // LIGHTS
 				this.p.maxParticles = 5;
-				this.p.launchPositionX = 0.0;
+				this.p.launchPositionX = 0.2;
 				this.p.launchPositionY = 0.0;
 				this.p.launchVarianceX = 0.0;
 				this.p.launchVarianceY = 0.0;
 				this.p.minimumLaunchDistance = 1.0;
 				this.p.cubeCameraEnabled = false;
-				this.p.spawnDelayMSec = 1300.0;
+				this.p.spawnDelayMSec = 2300.0;
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.xSpeed = 0.0;
 				this.p.ySpeed = 0.0;
-				this.p.r1Value = 1.7;
+				this.p.r1Value = 2.5;
 				this.p.t1Speed = 0.02;
 	   		this.p.t1StartPosition = 0.0;
 				this.p.r2Value = 0.0;
@@ -202,13 +202,13 @@ export class P3dParticlePresets
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.lightSourceEnabled = true;
 				//this.p.meshMode = MeshMode.CONES_CUBES_SPHERES;
-				this.p.meshMode = MeshMode.CONES_CUBES_SPHERES;
+				this.p.meshMode = MeshMode.SPHERES;
 				this.p.materialNumber = 5;
 				this.p.currentSize = 0.10;
 				this.p.targetSizeRate = 0.0001;
 				this.p.targetSize = 0.10;
-				this.p.wind.disable();
-				this.p.wind.setDirection( 0.0, 0.0, 0.5, 0.5 );
+				this.p.wind.enable();
+				this.p.wind.setDirection( 0.0, 0.0, 0.3, 0.3 );
 				this.p.wind.setIntervalMSec( 10000 );
 				break;
 

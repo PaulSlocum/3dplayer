@@ -155,7 +155,7 @@ export class P3dSwarm
     this.particleIdCounter = 1;
 
 		// DEBUG!!!!!!!!
-		this.pointLight = null;
+		//this.pointLight = null;
 
     this.load();
     this.disable(); // <-- START WITH PARTICLES TURNED OFF
@@ -336,7 +336,7 @@ export class P3dSwarm
     material6.roughness = 0.6;
     this.materialsArray[6] = material6;
 
-		this.pointLight = new THREE.PointLight( 0xFFFFFF, 1, 100, 3 );
+		//this.pointLight = new THREE.PointLight( 0xFFFFFF, 1, 100, 3 );
 		//this.pointLight = new THREE.PointLight( 0xFFFFFF, 1, 100, 2 );
     /*this.pointLight = new THREE.SpotLight(0xffffff);
     this.pointLight.angle = Math.PI / 3.0;
@@ -351,7 +351,7 @@ export class P3dSwarm
 		this.pointLight = new THREE.RectAreaLight( 0xffffff, intensity,  width, height );
 		this.pointLight.position.set( 0, 1, 0 );
 		this.pointLight.lookAt( 0, 0, 0 ); //*/
-		this.scene.add( this.pointLight );
+		//this.scene.add( this.pointLight );
 		//this.scene.add( this.pointLight.target );
 
 		// VIDEO MATERIAL
@@ -389,20 +389,6 @@ export class P3dSwarm
 				this.cubeCamera.position.z = this.particles[middleParticle].object.position.z; //*/
 			}
 		}
-
-		// DEBUG!!!!!!!!!!!!!! PARTICLE LIGHT SOURCE TEST (CAN BE REMOVED)
-		/*if( this.particles.length > 0 )
-		{
-			this.pointLight.position.x = this.particles[0].object.position.x;
-			this.pointLight.position.y = this.particles[0].object.position.y;
-			this.pointLight.position.z = this.particles[0].object.position.z;
-
-			/*this.pointLight.target.position.x = this.particles[0].object.position.x;
-			this.pointLight.target.position.y = this.particles[0].object.position.y; //*/
-			//this.pointLight.target.position.x = 100.0
-			//this.pointLight.target.position.y = 100.0
-		} //*/
-
 
 		// SPAWN A NEW PARTICLE IF SPAWN DELAY HAS ELAPSED
 		if( this.enabled == true  &&  currentTimeMSec > this.lastSpawnTime + this.spawnDelayMSec )
@@ -443,7 +429,7 @@ export class P3dSwarm
 			if( this.particles[i].light != null )
 			{
 				this.particles[i].light.position.x = this.particles[i].object.position.x;
-				this.particles[i].light.position.y = this.particles[i].object.position.x;
+				this.particles[i].light.position.y = this.particles[i].object.position.y;
 				this.particles[i].light.position.z = this.particles[i].object.position.z;
 			}
 
@@ -617,7 +603,9 @@ export class P3dSwarm
 
 				if( this.lightSourceEnabled == true )
 				{
-					newParticle.light = new THREE.PointLight( 0xFFFFFF, 1, 100, 3 );
+					//newParticle.light = new THREE.PointLight( 0xEEDDDD, 1, 100, 3 );
+					newParticle.light = new THREE.PointLight( 0xEEDDDD, 0.6, 100, 10.0 );
+					newParticle.light.castShadow = false;
 					//this.pointLight = new THREE.PointLight( 0xFFFFFF, 1, 100, 2 );
 					/*this.pointLight = new THREE.SpotLight(0xffffff);
 					this.pointLight.angle = Math.PI / 3.0;

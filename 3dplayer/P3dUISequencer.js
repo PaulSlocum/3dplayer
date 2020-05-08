@@ -14,13 +14,13 @@ import { logger } from "./P3dLog.js";
 //-----------------------------------------------------------------------------------
 
 
-const TRACK_1 = 1;
+const TRACK_1 = 7;
 const TRACK_2 = 2;
 const TRACK_3 = 3;
 const TRACK_4 = 4;
 const TRACK_5 = 5;
 const TRACK_6 = 6;
-const TRACK_7 = 7;
+const TRACK_7 = 1;
 
 
 const SequenceMode = {
@@ -288,9 +288,11 @@ export class P3dSequencer
 				//this.particles.setMaterialNumber( 0 );
 				this.particlesEnabled = true;
 				break;
+
 			case SequenceMode.H:
 				this.roomCube.setShaderMode( 6 );
-				this.lights.setColor( new THREE.Color( 0.5, 0.5, 0.5, 1.0 )  );
+				//this.lights.setColor( new THREE.Color( 0.01, 0.01, 0.01, 1.0 )  );
+				this.lights.setColor( new THREE.Color( 0.0, 0.0, 0.0, 1.0 )  );
 				//this.particles.setMaterialNumber( 2 );
 				this.particlesEnabled = true;
 				break;
