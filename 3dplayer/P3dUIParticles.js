@@ -388,8 +388,8 @@ export class P3dSwarm
 				this.wind.setIntervalMSec( 10000 );
 				break;
 
-			case 5: // MULTIPLE TORUS WITH CUBE CAMERA
-				this.maxParticles = 55;
+			case 5: // SMALLER SPHERES WITH CUBE CAMERA
+				this.maxParticles = 15;
 				this.launchPositionX = 0.0;
 				this.launchPositionY = 0.0;
 				this.launchVarianceX = 0.0;
@@ -397,10 +397,25 @@ export class P3dSwarm
 				this.minimumLaunchDistance = 0.5;
 				this.cubeCameraEnabled = true;
 				this.spawnDelayMSec = 300.0;
+				// ~  -  ~  -  ~  -  ~  -
 				this.xSpeed = -0.0002;
 				this.ySpeed = 0.0;
+				this.r1Value = 1.7;
+				this.t1Speed = 0.02;
+	   		this.t1StartPosition = 0.0;
+				this.r2Value = 0.0;
+				this.t2Speed = 0.0;
+    		this.t2StartPosition = 0.0;
+				// ~  -  ~  -  ~  -  ~  -
+				//this.meshMode = MeshMode.CONES_CUBES_SPHERES;
+				this.meshMode = MeshMode.TORRUS_KNOT;
 				this.materialNumber = 3;
-				this.currentSize = 0.3; //*/
+				this.currentSize = 0.3;
+				this.targetSizeRate = 0.0001;
+				this.targetSize = 1.70;
+				this.wind.enable();
+				this.wind.setDirection( 0.0, 0.0, 0.5, 0.5 );
+				this.wind.setIntervalMSec( 10000 );
 				break;
 			case 6:
 				break;

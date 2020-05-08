@@ -214,16 +214,16 @@ export class P3dSequencer
 			case SequenceMode.A1:
 				this.roomCube.setShaderMode( 0 );
 				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
-				this.particlesEnabled = false;
+				this.particlesEnabled = true;
 				this.lights.disableStrobe();
-				this.particles.setCurrentSize( 0.009 );
+				this.particles.setCurrentSize( 0.000 );
 				break;
 			case SequenceMode.A1b:
 				this.roomCube.setShaderMode( 0 );
 				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
 				this.particlesEnabled = true;
 				this.lights.disableStrobe();
-				this.particles.setCurrentSize( 0.035 );
+				this.particles.setCurrentSize( 0.025 );
 				break;
 			case SequenceMode.A2:
 				this.lights.setColor( new THREE.Color( 0.15, 0.15, 0.15, 1.0 )  );
