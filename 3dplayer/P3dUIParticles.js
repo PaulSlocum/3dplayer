@@ -306,17 +306,14 @@ export class P3dSwarm
     this.materialsArray[2] = material2;
 
 		// MIRROR MATERIAL
-		//this.cubeCamera = new THREE.CubeCamera( 0.1, 100, 64 )   // <------------- near, far, resolution);
-		this.cubeCamera = new THREE.CubeCamera( 0.1, 100, 256 )   // DEBUG
+		this.cubeCamera = new THREE.CubeCamera( 0.1, 100, 64 )   // <------------- near, far, resolution);
+		//this.cubeCamera = new THREE.CubeCamera( 0.1, 100, 256 )   // DEBUG - TRYING HIGHER RES (DOESN'T SEEM TO MATTER FOR WHAT I'M DOING)
 		this.cubeCamera.update( this.renderer, this.scene );
 		//this.cubeCamera.renderTarget.texture.generateMipmaps = true;
 		//this.cubeCamera.renderTarget.texture.minFilter = THREE.LinearMipmapLinearFilter;
     let material3 = new THREE.MeshBasicMaterial( {color: 0xFFFFFF,
     									envMap: this.cubeCamera.renderTarget.texture, refractionRatio: 0.655, reflectivity: 0.98} ); // <-----------
-    //material3.envMap = this.cubeCamera.renderTarget.texture;
 		this.scene.add( this.cubeCamera );
-		//material3.metalness = 0.3;
-    //material3.roughness = 0.0;
     this.materialsArray[3] = material3;
 		//this.cubeCamera.renderTarget.texture.mapping = THREE.CubeRefractionMapping;
 

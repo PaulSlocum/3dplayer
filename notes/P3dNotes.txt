@@ -18,6 +18,7 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 - make large version of particle system?
 ~   -   ~   -   ~   -   ~   -   
+- add marble to the gold wobbly particle system mode
 ~   -   ~   -   ~   -   ~   -  
 - consider a cube camera mixed with a Phong surface (make the texture partially transparent?)s
 - create particles with textured/bumpy surface 
