@@ -1,0 +1,49 @@
+//
+//
+//
+//
+//
+//
+//
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+export class P3dLightPool
+{
+	//////////////////////////////////////////////////////////////////////////////////////
+	constructor( scene, maxLights )
+	{
+		this.scene = scene;
+		this.maxLights = maxLights;
+
+		this.lights = [];
+		this.lightIsUsed = [];
+
+		for( let i=0; i<maxLights; i++ )
+		{
+			let light = new THREE.PointLight( 0xEEDDDD, 0.6, 100, 10.0 );
+			light.castShadow = false;
+			light.intensity = 0.0;
+			this.lights.push( light );
+			this.lightIsUsed.push( false );
+		}
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////////
+	getLight()
+	{
+	}
+
+
+	/////////////////////////////////////////////////////////////////////////////////////
+	freeLight( lightToFree )
+	{
+	}
+
+
+
+
+}

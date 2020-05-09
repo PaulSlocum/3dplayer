@@ -9,6 +9,7 @@
 //---------------------------------------------------------------------------------
 import { random, converge } from "./P3dUtility.js";
 import { logger, logerr } from "./P3dLog.js";
+import { P3dLightPool } from "./P3dUILightPool.js";
 import { P3dParticleWind } from "./P3dUIParticleWind.js";
 //---------------------------------------------------------------------------------
 
@@ -109,6 +110,8 @@ export class P3dSwarm
   {
     this.scene = scene;
     this.renderer = renderer;
+
+		this.lightPool = new P3dLightPool( scene, 5 );
 
 		this.particles = [];
 
