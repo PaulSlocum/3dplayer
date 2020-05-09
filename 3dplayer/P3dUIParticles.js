@@ -111,7 +111,7 @@ export class P3dSwarm
     this.scene = scene;
     this.renderer = renderer;
 
-		this.lightPool = new P3dLightPool( scene, 5 );
+		this.lightPool = new P3dLightPool( scene, 10 );
 
 		this.particles = [];
 
@@ -516,7 +516,8 @@ export class P3dSwarm
 		this.particles[index].object = null;
 		if( this.particles[index].light != null )
 		{
-			this.scene.remove( this.particles[index].light );
+			this.lightPool.freeLight( this.particles[index].light );
+			//this.scene.remove( this.particles[index].light );
 			this.particles[index].light = null;
 		}
 		this.particles.splice( index, 1 );
@@ -607,8 +608,8 @@ export class P3dSwarm
 				if( this.lightSourceEnabled == true )
 				{
 					//newParticle.light = new THREE.PointLight( 0xEEDDDD, 1, 100, 3 );
-					newParticle.light = new THREE.PointLight( 0xEEDDDD, 0.6, 100, 10.0 );
-					newParticle.light.castShadow = false;
+					//newParticle.light = new THREE.PointLight( 0xEEDDDD, 0.6, 100, 10.0 );
+					//newParticle.light.castShadow = false;
 					//this.pointLight = new THREE.PointLight( 0xFFFFFF, 1, 100, 2 );
 					/*this.pointLight = new THREE.SpotLight(0xffffff);
 					this.pointLight.angle = Math.PI / 3.0;
@@ -624,7 +625,9 @@ export class P3dSwarm
 					this.pointLight.position.set( 0, 1, 0 );
 					this.pointLight.lookAt( 0, 0, 0 ); //*/
 
-					this.scene.add( newParticle.light );
+					//this.scene.add( newParticle.light );
+
+					newParticle.light = this.lightPool.getLight();
 				}
 
 				newParticle.object.castShadow = false;

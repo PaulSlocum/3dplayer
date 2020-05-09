@@ -24,9 +24,10 @@ export class P3dLightPool
 
 		for( let i=0; i<maxLights; i++ )
 		{
-			let light = new THREE.PointLight( 0xEEDDDD, 0.6, 100, 10.0 );
+			let light = new THREE.PointLight( 0xCCBBBB, 0.6, 100, 10.0 );
 			light.castShadow = false;
 			light.intensity = 0.0;
+			this.scene.add( light );
 			this.lights.push( light );
 			this.lightIsUsed.push( false );
 		}
@@ -35,12 +36,31 @@ export class P3dLightPool
 	/////////////////////////////////////////////////////////////////////////////////////
 	getLight()
 	{
+		for( let i=0; i<this.maxLights; i++ )
+		{
+			if( this.lightIsUsed[i] == false )
+			{
+				this.lights[i].intensity = 0.3;
+				this.lightIsUsed[i] = true;
+				return( this.lights[i] ); // <------- RETURN
+			}
+		}
+		return null; // NO MORE LIGHTS LEFT
 	}
 
 
 	/////////////////////////////////////////////////////////////////////////////////////
 	freeLight( lightToFree )
 	{
+		for( let i=0; i<this.maxLights; i++ )
+		{
+			if( this.lights[i] == lightToFree )
+			{
+				this.lights[i].intensity = 0.0;
+				this.lightIsUsed[i] = false;
+				return; // <------- RETURN
+			}
+		}
 	}
 
 

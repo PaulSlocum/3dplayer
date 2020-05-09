@@ -32,7 +32,8 @@ export class P3dParticlePresets
 			case 0:
 			case 3: // ORIGINAL GOLD FLOATING OBJECTS
 				this.p.maxParticles = 55;
-				this.p.launchPositionX = -1.0;
+				this.p.launchPositionX = -1.0; // <--------
+				//this.p.launchPositionX = 0.0; // DEBUG!
 				this.p.launchPositionY = 0.0;
 				this.p.launchVarianceX = 0.0;
 				this.p.launchVarianceY = 0.5;
@@ -42,8 +43,8 @@ export class P3dParticlePresets
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.xSpeed = 0.0002;
 				this.p.ySpeed = 0.0;
-				this.p.r1Value = 0.0;
-				this.p.t1Speed = 0.0;
+				this.p.r1Value = 0.04;
+				this.p.t1Speed = 0.524;
     		this.p.t1StartPosition = 0.0;
 				this.p.r2Value = 0.0;
 				this.p.t2Speed = 0.0;
@@ -89,7 +90,7 @@ export class P3dParticlePresets
 				this.p.wind.setIntervalMSec( 5000 );
 				break;
 
-			case 6: // TINY BUBBLES
+			case 1: // TINY BUBBLES
 				this.p.maxParticles = 200;
 				this.p.launchPositionX = 0.0;
 				this.p.launchPositionY = -0.5;
@@ -127,7 +128,7 @@ export class P3dParticlePresets
 				this.p.launchVarianceY = 0.0;
 				this.p.minimumLaunchDistance = 1.0;
 				this.p.cubeCameraEnabled = true;
-				this.p.spawnDelayMSec = 300.0;
+				this.p.spawnDelayMSec = 400.0;
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.xSpeed = 0.0;
 				this.p.ySpeed = 0.0;
@@ -150,7 +151,7 @@ export class P3dParticlePresets
 				this.p.wind.setIntervalMSec( 10000 );
 				break;
 
-			case 5: // SMALLER SPHERES WITH CUBE CAMERA
+			case 6: // SMALLER SPHERES WITH CUBE CAMERA
 				this.p.maxParticles = 15;
 				this.p.launchPositionX = 0.0;
 				this.p.launchPositionY = 0.0;
@@ -181,23 +182,25 @@ export class P3dParticlePresets
 				this.p.wind.setIntervalMSec( 10000 );
 				break;
 
-			case 1: // LIGHTS
-				this.p.maxParticles = 5;
-				this.p.launchPositionX = 0.2;
-				this.p.launchPositionY = 0.0;
+			case 5: // LIGHTS
+				this.p.maxParticles = 8;
+				this.p.launchPositionX = 0.0;
+				this.p.launchPositionY = 0.1;
 				this.p.launchVarianceX = 0.0;
 				this.p.launchVarianceY = 0.0;
 				this.p.minimumLaunchDistance = 1.0;
 				this.p.cubeCameraEnabled = false;
 				//this.p.spawnDelayMSec = 300.0;
-				this.p.spawnDelayMSec = 2300.0;
+				//this.p.spawnDelayMSec = 1500.0;
+				//this.p.spawnDelayMSec = 2300.0; // <-------------
+				this.p.spawnDelayMSec = 6300.0;
 				// ~  -  ~  -  ~  -  ~  -
-				this.p.xSpeed = 0.0;
-				this.p.ySpeed = 0.0;
+				this.p.xSpeed = 0.0000;
+				this.p.ySpeed = 0.0000;
 				this.p.r1Value = 2.5;
 				this.p.t1Speed = 0.02; //<------------
 				//this.p.t1Speed = 0.06;
-	   		this.p.t1StartPosition = 0.0;
+	   		this.p.t1StartPosition = 3.14/4;
 				this.p.r2Value = 0.0;
 				this.p.t2Speed = 0.0;
     		this.p.t2StartPosition = 0.0;
@@ -210,7 +213,7 @@ export class P3dParticlePresets
 				this.p.targetSizeRate = 0.0001;
 				this.p.targetSize = 0.10;
 				this.p.wind.enable();
-				this.p.wind.setDirection( 0.0, 0.0, 0.3, 0.3 );
+				this.p.wind.setDirection( 0.0, -0.01, 0.5, 0.5 );
 				this.p.wind.setIntervalMSec( 10000 );
 				break;
 
