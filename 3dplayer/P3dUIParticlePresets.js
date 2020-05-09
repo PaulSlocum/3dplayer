@@ -98,7 +98,8 @@ export class P3dParticlePresets
 				this.p.launchVarianceY = 0.0;
 				this.p.minimumLaunchDistance = 0.1;
 				this.p.cubeCameraEnabled = false;
-				this.p.spawnDelayMSec = 20.0;
+				//this.p.spawnDelayMSec = 20.0; // <---- ORIGINAL
+				this.p.spawnDelayMSec = 40.0;
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.xSpeed = 0.0000;
 				this.p.ySpeed = 0.0015;
@@ -144,7 +145,7 @@ export class P3dParticlePresets
 				this.p.meshMode = MeshMode.TORRUS_KNOT;
 				this.p.materialNumber = 3;
 				this.p.currentSize = 0.0;
-				this.p.targetSizeRate = 0.0001;
+				this.p.targetSizeRate = 0.00005;
 				this.p.targetSize = 1.70;
 				this.p.wind.enable();
 				this.p.wind.setDirection( 0.0, 0.0, 0.5, 0.5 );
@@ -183,7 +184,7 @@ export class P3dParticlePresets
 				break;
 
 			case 5: // LIGHTS
-				this.p.maxParticles = 8;
+				this.p.maxParticles = 7;
 				this.p.launchPositionX = 0.0;
 				this.p.launchPositionY = 0.1;
 				this.p.launchVarianceX = 0.0;

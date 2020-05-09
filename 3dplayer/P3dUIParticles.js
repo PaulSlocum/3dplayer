@@ -16,7 +16,7 @@ import { P3dParticleWind } from "./P3dUIParticleWind.js";
 
 //*************************************************************************
 // THIS SHOULD BE FALSE UNLESS DEBUGGING
-const DEBUG_ALWAYS_ENABLE_PARTICLES = true;
+const DEBUG_ALWAYS_ENABLE_PARTICLES = false;
 // ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -
 if( DEBUG_ALWAYS_ENABLE_PARTICLES )
 	console.warn( "WARNING: PARTICLE ALWAYS ENABLE DEBUG SWITCH ACTIVATED" );
@@ -111,7 +111,7 @@ export class P3dSwarm
     this.scene = scene;
     this.renderer = renderer;
 
-		this.lightPool = new P3dLightPool( scene, 10 );
+		this.lightPool = new P3dLightPool( scene, 7 );
 
 		this.particles = [];
 
@@ -339,24 +339,6 @@ export class P3dSwarm
     material6.roughness = 0.6;
     this.materialsArray[6] = material6;
 
-		//this.pointLight = new THREE.PointLight( 0xFFFFFF, 1, 100, 3 );
-		//this.pointLight = new THREE.PointLight( 0xFFFFFF, 1, 100, 2 );
-    /*this.pointLight = new THREE.SpotLight(0xffffff);
-    this.pointLight.angle = Math.PI / 3.0;
-    this.pointLight.castShadow = false;
-    this.pointLight.target.position.z = -150;
-	  this.pointLight.intensity = 2.0;
-    const spotlightDistance = 0.5;
-    this.pointLight.position.set( 0.5, 1.2*spotlightDistance, 3.6*spotlightDistance ); //<-------------- //*/
-		/*var width = 1;
-		var height = 1;
-		var intensity = 1;
-		this.pointLight = new THREE.RectAreaLight( 0xffffff, intensity,  width, height );
-		this.pointLight.position.set( 0, 1, 0 );
-		this.pointLight.lookAt( 0, 0, 0 ); //*/
-		//this.scene.add( this.pointLight );
-		//this.scene.add( this.pointLight.target );
-
 		// VIDEO MATERIAL
 
 	}
@@ -402,11 +384,6 @@ export class P3dSwarm
 
 		// UPDATE WIND
 		this.wind.update( this.frameCounter, frameDeltaMSec );
-
-		// DEBUG!
-		//if( this.frameCounter % 60 == 0 )
-			//logger( "FRAMECOUNTER: ", this.frameCounter, this.currentSize, this.targetSize, this.targetSizeRate );
-			//logger( "FRAMECOUNTER: ", this.frameCounter );
 
 		// UPDATE SIZE DAMPENING
 		this.currentSize = converge( this.currentSize, this.targetSize, this.targetSizeRate * frameDeltaMSec );
@@ -469,9 +446,18 @@ export class P3dSwarm
 			//this.particles[i].size = converge( this.particles[i].size, 1.0, 0.0005 );
 			//this.particles[i].size = converge( this.particles[i].size, this.targetSize, this.targetSizeRate * frameDeltaMSec );
 
-      this.particles[i].object.scale.x = this.currentSize * this.particles[i].fade;
-      this.particles[i].object.scale.y = this.currentSize * this.particles[i].fade;
-      this.particles[i].object.scale.z = this.currentSize * this.particles[i].fade; //*/
+			if( this.particles[i].enabled == true )
+			{
+				this.particles[i].object.scale.x = this.currentSize * this.particles[i].fade;
+				this.particles[i].object.scale.y = this.currentSize * this.particles[i].fade;
+				this.particles[i].object.scale.z = this.currentSize * this.particles[i].fade; //*/
+			}
+			else
+			{
+				this.particles[i].object.scale.x *= 0.90;
+				this.particles[i].object.scale.y *= 0.90;
+				this.particles[i].object.scale.z *= 0.90;
+			}
 
       /*this.particles[i].object.scale.x = this.particles[i].size * this.particles[i].fade;
       this.particles[i].object.scale.y = this.particles[i].size * this.particles[i].fade;
@@ -605,28 +591,9 @@ export class P3dSwarm
 				newParticle.enabled = true;
 				//newParticle.xSpeed = random(20) * 0.000002 + 0.00037;
 
+				// ADD LIGHTING IF ENABLED
 				if( this.lightSourceEnabled == true )
 				{
-					//newParticle.light = new THREE.PointLight( 0xEEDDDD, 1, 100, 3 );
-					//newParticle.light = new THREE.PointLight( 0xEEDDDD, 0.6, 100, 10.0 );
-					//newParticle.light.castShadow = false;
-					//this.pointLight = new THREE.PointLight( 0xFFFFFF, 1, 100, 2 );
-					/*this.pointLight = new THREE.SpotLight(0xffffff);
-					this.pointLight.angle = Math.PI / 3.0;
-					this.pointLight.castShadow = false;
-					this.pointLight.target.position.z = -150;
-					this.pointLight.intensity = 2.0;
-					const spotlightDistance = 0.5;
-					this.pointLight.position.set( 0.5, 1.2*spotlightDistance, 3.6*spotlightDistance ); //<-------------- //*/
-					/*var width = 1;
-					var height = 1;
-					var intensity = 1;
-					this.pointLight = new THREE.RectAreaLight( 0xffffff, intensity,  width, height );
-					this.pointLight.position.set( 0, 1, 0 );
-					this.pointLight.lookAt( 0, 0, 0 ); //*/
-
-					//this.scene.add( newParticle.light );
-
 					newParticle.light = this.lightPool.getLight();
 				}
 
