@@ -189,12 +189,14 @@ export class P3dParticlePresets
 				this.p.launchVarianceY = 0.0;
 				this.p.minimumLaunchDistance = 1.0;
 				this.p.cubeCameraEnabled = false;
+				//this.p.spawnDelayMSec = 300.0;
 				this.p.spawnDelayMSec = 2300.0;
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.xSpeed = 0.0;
 				this.p.ySpeed = 0.0;
 				this.p.r1Value = 2.5;
-				this.p.t1Speed = 0.02;
+				this.p.t1Speed = 0.02; //<------------
+				//this.p.t1Speed = 0.06;
 	   		this.p.t1StartPosition = 0.0;
 				this.p.r2Value = 0.0;
 				this.p.t2Speed = 0.0;
