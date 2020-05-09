@@ -16,7 +16,7 @@ import { P3dParticleWind } from "./P3dUIParticleWind.js";
 
 //*************************************************************************
 // THIS SHOULD BE FALSE UNLESS DEBUGGING
-const DEBUG_ALWAYS_ENABLE_PARTICLES = false;
+const DEBUG_ALWAYS_ENABLE_PARTICLES = true;
 // ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -
 if( DEBUG_ALWAYS_ENABLE_PARTICLES )
 	console.warn( "WARNING: PARTICLE ALWAYS ENABLE DEBUG SWITCH ACTIVATED" );
@@ -187,7 +187,7 @@ export class P3dSwarm
     //this.torusKnotGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 ); //<------------------------
     this.torusKnotGeometry = this.sphereGeometry;
 
-		// WORKAROUND FOR SHADOW PROBLEM
+		// TEST TORUS FOR SHADOW PROBLEM (DEBUG!)
 		/*let shadowGenObject = new THREE.Mesh( this.torusKnotGeometry );
 		shadowGenObject.scale.x = 0.09;
 		shadowGenObject.scale.y = 0.09;
@@ -416,8 +416,8 @@ export class P3dSwarm
 			// ENABLE/DISABLE SHADOWS BASED ON POSITION TO TRY TO AVOID WEBGL BUG...
 			/*if( Math.abs( this.particles[i].object.position.x ) < this.screenEdgePosition - 4  &&
 					Math.abs( this.particles[i].object.position.y ) < this.screenEdgePosition - 5 ) //*/
-			if( Math.abs( this.particles[i].object.position.x ) < 4.0  &&
-					Math.abs( this.particles[i].object.position.y ) < 2.0 )
+			if( Math.abs( this.particles[i].object.position.x ) < 4.5  &&
+					Math.abs( this.particles[i].object.position.y ) < 2.5 )
 				this.particles[i].object.castShadow = true;
 			else
 				this.particles[i].object.castShadow = false; //*/

@@ -4,19 +4,23 @@
 
 
 TODO:
-~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 - find actual vertical screen edge rather than just using the horizontal screen edge
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
+- implement secondary polar coordinates
+- implement dampening of changes to polar coordinate parameters
+- implement dampening of particle speed changes (maybe not necessary)
+~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 - make large version of particle system?
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -  
-- create particles with textured surface 
-- create glowing particles
-- create mirror particles
+- consider a cube camera mixed with a Phong surface (make the texture partially transparent?)s
+- create particles with textured/bumpy surface 
 - create refracting particles
 - create image-mapped particles
 - create video particles
@@ -30,9 +34,6 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
-- maybe lay out sequencer transition times for each song using the modes from track 1 as placeholders
-~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
 - add adjustable x/y background shader offsets for animation
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
@@ -42,8 +43,6 @@ TODO:
 - prevent CD rotation from changing CD lighting
 ~   -   ~   -   ~   -   ~   -   
 - use a flag instead of "seekVelocity" to keep track of whether buttons are down so that quick presses still skip correctly
-~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
@@ -68,9 +67,10 @@ TODO:
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
-~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
-- create model for CD jewel case
+- (maybe) create model for CD jewel case
 - add image mapped CD case edge and back
 - create flip-down animation
 - make it so that flip-down animation occurs if you click CD
@@ -172,6 +172,8 @@ x make particle size adjustable
 x add polar coordinate mode to particle system that can be switched seamlessly with cartesian system
 x set up reflection based system
 x make tiny version of particle system
+x create glowing particles
+x create mirror particles
 ~   -   ~   -   ~   -   ~   -   
 
 

@@ -152,37 +152,6 @@ export class P3dParticlePresets
 				this.p.wind.setIntervalMSec( 10000 );
 				break;
 
-			case 6: // SMALLER SPHERES WITH CUBE CAMERA
-				this.p.maxParticles = 15;
-				this.p.launchPositionX = 0.0;
-				this.p.launchPositionY = 0.0;
-				this.p.launchVarianceX = 0.0;
-				this.p.launchVarianceY = 0.5;
-				this.p.minimumLaunchDistance = 0.5;
-				this.p.cubeCameraEnabled = true;
-				this.p.spawnDelayMSec = 300.0;
-				// ~  -  ~  -  ~  -  ~  -
-				this.p.xSpeed = -0.0002;
-				this.p.ySpeed = 0.0;
-				this.p.r1Value = 1.7;
-				this.p.t1Speed = 0.02;
-	   		this.p.t1StartPosition = 0.0;
-				this.p.r2Value = 0.0;
-				this.p.t2Speed = 0.0;
-    		this.p.t2StartPosition = 0.0;
-				// ~  -  ~  -  ~  -  ~  -
-				this.p.lightSourceEnabled = false;
-				//this.p.meshMode = MeshMode.CONES_CUBES_SPHERES;
-				this.p.meshMode = MeshMode.TORRUS_KNOT;
-				this.p.materialNumber = 3;
-				this.p.currentSize = 0.3;
-				this.p.targetSizeRate = 0.0001;
-				this.p.targetSize = 1.70;
-				this.p.wind.enable();
-				this.p.wind.setDirection( 0.0, 0.0, 0.5, 0.5 );
-				this.p.wind.setIntervalMSec( 10000 );
-				break;
-
 			case 5: // LIGHTS
 				this.p.maxParticles = 7;
 				this.p.launchPositionX = 0.0;
@@ -218,16 +187,82 @@ export class P3dParticlePresets
 				this.p.wind.setIntervalMSec( 10000 );
 				break;
 
-			case 7:
+			case 6: // SMALLER SPHERES WITH CUBE CAMERA
+				this.p.maxParticles = 6;
+				this.p.launchPositionX = 0.0;
+				this.p.launchPositionY = 0.0;
+				this.p.launchVarianceX = 0.0;
+				this.p.launchVarianceY = 0.0;
+				this.p.minimumLaunchDistance = 0.5;
+				this.p.cubeCameraEnabled = true;
+				this.p.spawnDelayMSec = 30.0;
+				// ~  -  ~  -  ~  -  ~  -
+				this.p.xSpeed = 0.0;
+				this.p.ySpeed = 0.0;
+				this.p.r1Value = 1.7;
+				this.p.t1Speed = 0.02;
+	   		this.p.t1StartPosition = 0.0;
+				this.p.r2Value = 0.0;
+				this.p.t2Speed = 0.0;
+    		this.p.t2StartPosition = 0.0;
+				// ~  -  ~  -  ~  -  ~  -
+				this.p.lightSourceEnabled = false;
+				//this.p.meshMode = MeshMode.CONES_CUBES_SPHERES;
+				this.p.meshMode = MeshMode.TORRUS_KNOT;
+				this.p.materialNumber = 3;
+				this.p.currentSize = 0.3;
+				this.p.targetSizeRate = 0.0001;
+				this.p.targetSize = 1.70;
+				this.p.wind.enable();
+				this.p.wind.setDirection( 0.0, 0.0, 0.5, 0.5 );
+				this.p.wind.setIntervalMSec( 10000 );
 				break;
 
-			case 8:
+			case 7: // BLACK SHAPES
+				this.p.maxParticles = 55;
+				this.p.launchPositionX = 0.0; // <--------
+				//this.p.launchPositionX = 0.0; // DEBUG!
+				this.p.launchPositionY = -1.0;
+				this.p.launchVarianceX = 0.5;
+				this.p.launchVarianceY = 0.0;
+				this.p.minimumLaunchDistance = 2.35;
+				this.p.cubeCameraEnabled = false;
+				this.p.spawnDelayMSec = 1300.0;
+				// ~  -  ~  -  ~  -  ~  -
+				this.p.xSpeed = 0.0;
+				this.p.ySpeed = 0.0002;
+				this.p.r1Value = 0.02;
+				this.p.t1Speed = 0.0524;
+    		this.p.t1StartPosition = 0.0;
+				this.p.r2Value = 0.0;
+				this.p.t2Speed = 0.0;
+    		this.p.t2StartPosition = 0.0;
+				// ~  -  ~  -  ~  -  ~  -
+				this.p.lightSourceEnabled = false;
+				this.p.meshMode = MeshMode.CONES_CUBES_SPHERES;
+				this.p.materialNumber = 2;
+				this.p.currentSize = 2.0;
+				this.p.targetSizeRate = 0.001;
+				this.p.targetSize = 2.0;
+				this.p.wind.enable();
+				this.p.wind.setDirection( 0.0, 0.0, 0.5, 0.5 );
+				this.p.wind.setIntervalMSec( 15000 );
 				break;
 
-			case 9:
-				break;
 		}
 	}
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
