@@ -14,12 +14,12 @@ import { logger } from "./P3dLog.js";
 //-----------------------------------------------------------------------------------
 
 
-const TINY_BUBBLES = 6;
+const TINY_BUBBLES = 1;
 const SPINNING_TRAILS = 2;
 const WOBBLY_OBJECTS = 3;
 const MIRROR_BLOB = 4;
 const LIGHT_DOTS = 5;
-const TRACK_6 = 1;
+const TRACK_6 = 6;
 const BLACK_OBJECTS = 7;
 
 
@@ -235,44 +235,44 @@ export class P3dSequencer
 				this.particles.setCurrentSize( 0.025 );
 				break;
 			case SequenceMode.A2:
-				this.lights.setColor( new THREE.Color( 0.15, 0.15, 0.15, 1.0 )  );
 				this.particlePresets.setModeNumber( 1 );
 				this.particlePresets2.setModeNumber( 0 );
 				this.roomCube.setShaderMode( 6 );
+				this.lights.setColor( new THREE.Color( 0.15, 0.15, 0.15, 1.0 )  );
 				this.particlesEnabled = true;
 				this.lights.disableStrobe();
 				this.particles.startWind( 0.02, 0.0 );
 				break;
 			case SequenceMode.A3:
-				this.lights.setColor( new THREE.Color( 0.3, 0.3, 0.3, 1.0 )  );
 				this.particlePresets.setModeNumber( 1 );
 				this.particlePresets2.setModeNumber( 0 );
 				this.roomCube.setShaderMode( 0 );
+				this.lights.setColor( new THREE.Color( 0.3, 0.3, 0.3, 1.0 )  );
 				this.particlesEnabled = true;
 				this.particles.startWind( 0.0, -0.02 );
 				//this.particles.setVelocity( 0.0, 0.0004 );
 				break;
 			case SequenceMode.A4:
-				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
 				this.particlePresets.setModeNumber( 1 );
 				this.particlePresets2.setModeNumber( 0 );
 				this.roomCube.setShaderMode( 0 );
+				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
 				this.particlesEnabled = true;
 				this.particles.startWind( 0.02, 0.0 );
 				break;
 
 			case SequenceMode.C1:
-				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
 				this.particlePresets.setModeNumber( 2 );
 				this.particlePresets2.setModeNumber( 0 );
 				this.roomCube.setShaderMode( 1 );
+				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
 				this.particlesEnabled = false;
 				break;
 			case SequenceMode.C2:
-				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
 				this.particlePresets.setModeNumber( 2 );
 				this.particlePresets2.setModeNumber( 0 );
 				this.roomCube.setShaderMode( 1 );
+				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
 				this.particlesEnabled = true;
 				break;
 
@@ -281,6 +281,7 @@ export class P3dSequencer
 				this.particlePresets.setModeNumber( 3 );
 				this.particlePresets2.setModeNumber( 0 );
 				this.roomCube.setShaderMode( 2 );
+				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
 				this.particlesEnabled = true;
 				break;
 
@@ -288,12 +289,14 @@ export class P3dSequencer
 				this.particlePresets.setModeNumber( 4 );
 				this.particlePresets2.setModeNumber( 0 );
 				this.roomCube.setShaderMode( 3 );
+				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
 				this.particlesEnabled = false;
 				break;
 			case SequenceMode.E2: // CUBE CAMERA BLOB
 				this.particlePresets.setModeNumber( 4 );
 				this.particlePresets2.setModeNumber( 0 );
 				this.roomCube.setShaderMode( 3 );
+				this.lights.setColor( new THREE.Color( 1.0, 1.0, 1.0, 1.0 )  );
 				this.particlesEnabled = true;
 				break;
 

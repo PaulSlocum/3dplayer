@@ -153,7 +153,7 @@ export class P3dParticlePresets
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.lightSourceEnabled = false;
 				//this.p.meshMode = MeshMode.CONES_CUBES_SPHERES;
-				this.p.meshMode = MeshMode.TORRUS_KNOT;
+				this.p.meshMode = MeshMode.SPHERES;
 				this.p.materialNumber = 3;
 				this.p.currentSize = 0.0;
 				this.p.targetSizeRate = 0.00005;
@@ -200,7 +200,7 @@ export class P3dParticlePresets
 				break;
 
 			case 6: // SMALLER SPHERES WITH CUBE CAMERA
-				this.p.maxParticles = 55;
+				this.p.maxParticles = 200;
 				this.p.launchPositionX = 0.0;
 				this.p.launchPositionY = 0.0;
 				this.p.launchVarianceX = 0.0;
@@ -213,23 +213,24 @@ export class P3dParticlePresets
 				this.p.xSpeed = 0.0;
 				this.p.ySpeed = 0.0;
 				this.p.r1Value = 1.7;
-				this.p.t1Speed = 0.04;
+				this.p.t1Speed = 0.01;
 	   		this.p.t1StartPosition = 0.0;
-				this.p.r2Value = 0.0;
-				this.p.t2Speed = 0.0;
+				this.p.r2Value = 0.6;
+				this.p.t2Speed = 0.12;
     		this.p.t2StartPosition = 0.0;
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.lightSourceEnabled = false;
-				//this.p.meshMode = MeshMode.CONES_CUBES_SPHERES;
+				this.p.meshMode = MeshMode.CONES_CUBES_SPHERES;
 				//this.p.meshMode = MeshMode.TORRUS_KNOT;
-				this.p.meshMode = MeshMode.SPHERES;
-				this.p.materialNumber = 2;
-				this.p.currentSize = 0.2;
-				this.p.targetSizeRate = 0.0001;
-				this.p.targetSize = 0.2;
+				//this.p.meshMode = MeshMode.SPHERES;
+				this.p.materialNumber = 0;
+				this.p.currentSize = 0.01;
+				this.p.targetSizeRate = 0.00002;
+				this.p.targetSize = 0.19;
 				this.p.wind.enable();
-				this.p.wind.setDirection( 0.0, 0.0, 0.5, 0.5 );
-				this.p.wind.setIntervalMSec( 10000 );
+				//this.p.wind.disable(); // DEBUG!!!!!!!!
+				this.p.wind.setDirection( 0.0, 0.05, 0.5, 0.5 );
+				this.p.wind.setIntervalMSec( 1000 );
 				break;
 
 			case 7: // BLACK SHAPES

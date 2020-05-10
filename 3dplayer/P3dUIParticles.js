@@ -397,6 +397,10 @@ export class P3dSwarm
     	this.particles[i].r1Position = this.r1Value;
       this.particles[i].t1Position -= this.t1Speed * frameDeltaMSec * 0.03;
 
+    	// UPDATE POLAR COORDINATES
+    	this.particles[i].r2Position = this.r2Value;
+      this.particles[i].t2Position -= this.t2Speed * frameDeltaMSec * 0.03;
+
 			// UPDATE CARTESIAN COORDINATES
 			this.particles[i].xPosition +=
 								(this.particles[i].xSpeed + this.wind.getCurrentForceX() * 0.1 + this.xSpeed) * frameDeltaMSec;
@@ -430,8 +434,12 @@ export class P3dSwarm
 				this.particles[i].object.scale.z = this.currentSize * this.particles[i].fade; //*/
 
 				// UPDATE ACTUAL OBJECT POSITION
-				this.particles[i].object.position.x = this.particles[i].xPosition + this.particles[i].r1Position * Math.cos( this.particles[i].t1Position );
-				this.particles[i].object.position.y = this.particles[i].yPosition + this.particles[i].r1Position * Math.sin( this.particles[i].t1Position );
+				this.particles[i].object.position.x = this.particles[i].xPosition
+																						+ this.particles[i].r1Position * Math.cos( this.particles[i].t1Position )
+																						+ this.particles[i].r2Position * Math.cos( this.particles[i].t2Position );
+				this.particles[i].object.position.y = this.particles[i].yPosition
+																						+ this.particles[i].r1Position * Math.sin( this.particles[i].t1Position )
+																						+ this.particles[i].r2Position * Math.sin( this.particles[i].t2Position );
 
 				// UPDATE PARTICLE LIGHT IF INCLUDED...
 				if( this.particles[i].light != null )
