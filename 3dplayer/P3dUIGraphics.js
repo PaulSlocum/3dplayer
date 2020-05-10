@@ -85,8 +85,10 @@ export class P3dGraphics
     //  ~   -   ~   -   ~   -   ~   -   ~   -   ~   -
 
     this.lights = new P3dLights( this.scene );
-    this.particles = new P3dSwarm( this.scene, this.renderer );
+    this.particles = new P3dSwarm( this.scene, this.renderer, true );
     this.particles.setScreenEdgePosition( this.screenEdgePosition );
+    this.particles2 = new P3dSwarm( this.scene, this.renderer, false );
+    this.particles2.setScreenEdgePosition( this.screenEdgePosition );
 
     this.roomCube = new P3dRoom();
     this.scene.add( this.roomCube ); //*/
@@ -127,6 +129,7 @@ export class P3dGraphics
 			this.playerModel.update();
 
 		this.particles.update();
+		this.particles2.update();
 		this.lights.update();
 		this.roomCube.update();
 		this.sequencer.update();

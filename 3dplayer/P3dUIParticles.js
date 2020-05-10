@@ -106,12 +106,15 @@ export class P3dSwarm
 {
 
   ///////////////////////////////////////////////////////////////////////
-  constructor( scene, renderer )
+  constructor( scene, renderer, lightsEnabled )
   {
     this.scene = scene;
     this.renderer = renderer;
 
-		this.lightPool = new P3dLightPool( scene, 7 );
+		if( lightsEnabled === true )
+			this.lightPool = new P3dLightPool( scene, 3 );
+		else
+			this.lightPool = new P3dLightPool( null, 0 );
 
 		this.particles = [];
 
@@ -129,6 +132,7 @@ export class P3dSwarm
 		this.spawnDelayMSec = 300.0;
 		this.lastSpawnTime = 0.0;
 
+    this.zPosition = 0.0;
     this.xSpeed = 0.0001;
     this.ySpeed = 0.0;
     this.r1Value = 0.0;
@@ -184,8 +188,8 @@ export class P3dSwarm
     //this.torusKnotGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
     //this.torusKnotGeometry = new THREE.CylinderGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
     //this.torusKnotGeometry = new THREE.TorusGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
-    //this.torusKnotGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 ); //<------------------------
-    this.torusKnotGeometry = this.sphereGeometry;
+    this.torusKnotGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 ); //<------------------------
+    //this.torusKnotGeometry = this.sphereGeometry;
 
 		// TEST TORUS FOR SHADOW PROBLEM (DEBUG!)
 		/*let shadowGenObject = new THREE.Mesh( this.torusKnotGeometry );
@@ -589,6 +593,10 @@ export class P3dSwarm
 				if( this.lightSourceEnabled == true )
 				{
 					newParticle.light = this.lightPool.getLight();
+					if( newParticle.light === null )
+					{
+						newParticle.object.material = this.materialsArray[4];
+					}
 				}
 
 				newParticle.object.castShadow = false;
@@ -596,7 +604,7 @@ export class P3dSwarm
 				newParticle.object.rotation.y = random(360)*3.14/2.0;
 				newParticle.xPosition = xPosition;
 				newParticle.yPosition = yPosition;
-				newParticle.object.position.z = 0.0;
+				newParticle.object.position.z = this.zPosition;
 				//newParticle.size = this.currentSize;
 				//newParticle.size = 0.02;
 				newParticle.t1Position = this.t1StartPosition;

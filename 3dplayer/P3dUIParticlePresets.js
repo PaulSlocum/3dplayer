@@ -29,7 +29,14 @@ export class P3dParticlePresets
 		this.p.modeNumber = newModeNumber;
 		switch( newModeNumber )
 		{
-			case 0:
+			case 0: // DISABLE
+				this.p.cubeCameraEnabled = false;
+				this.p.lightSourceEnabled = false;
+				this.p.maxParticles = 0;
+				this.p.disable();
+				this.p.zPosition = 0.0;
+				break;
+
 			case 3: // ORIGINAL GOLD FLOATING OBJECTS
 				this.p.maxParticles = 55;
 				this.p.launchPositionX = -1.0; // <--------
@@ -40,6 +47,7 @@ export class P3dParticlePresets
 				this.p.minimumLaunchDistance = 1.35;
 				this.p.cubeCameraEnabled = false;
 				this.p.spawnDelayMSec = 300.0;
+				this.p.zPosition = 0.0;
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.xSpeed = 0.0002;
 				this.p.ySpeed = 0.0;
@@ -70,6 +78,7 @@ export class P3dParticlePresets
 				this.p.minimumLaunchDistance = 0.0;
 				this.p.cubeCameraEnabled = false;
 				this.p.spawnDelayMSec = 200.0;
+				this.p.zPosition = 0.0;
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.xSpeed = 0.0007;
 				this.p.ySpeed = 0.0;
@@ -100,6 +109,7 @@ export class P3dParticlePresets
 				this.p.cubeCameraEnabled = false;
 				//this.p.spawnDelayMSec = 20.0; // <---- ORIGINAL
 				this.p.spawnDelayMSec = 40.0;
+				this.p.zPosition = 0.0;
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.xSpeed = 0.0000;
 				this.p.ySpeed = 0.0015;
@@ -130,6 +140,7 @@ export class P3dParticlePresets
 				this.p.minimumLaunchDistance = 1.0;
 				this.p.cubeCameraEnabled = true;
 				this.p.spawnDelayMSec = 400.0;
+				this.p.zPosition = 0.0;
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.xSpeed = 0.0;
 				this.p.ySpeed = 0.0;
@@ -153,7 +164,7 @@ export class P3dParticlePresets
 				break;
 
 			case 5: // LIGHTS
-				this.p.maxParticles = 7;
+				this.p.maxParticles = 2;
 				this.p.launchPositionX = 0.0;
 				this.p.launchPositionY = 0.1;
 				this.p.launchVarianceX = 0.0;
@@ -164,6 +175,7 @@ export class P3dParticlePresets
 				//this.p.spawnDelayMSec = 1500.0;
 				//this.p.spawnDelayMSec = 2300.0; // <-------------
 				this.p.spawnDelayMSec = 6300.0;
+				this.p.zPosition = 0.0;
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.xSpeed = 0.0000;
 				this.p.ySpeed = 0.0000;
@@ -183,7 +195,7 @@ export class P3dParticlePresets
 				this.p.targetSizeRate = 0.0001;
 				this.p.targetSize = 0.10;
 				this.p.wind.enable();
-				this.p.wind.setDirection( 0.0, -0.01, 0.5, 0.5 );
+				this.p.wind.setDirection( 0.0, 0.0, 0.3, 0.3 );
 				this.p.wind.setIntervalMSec( 10000 );
 				break;
 
@@ -196,6 +208,7 @@ export class P3dParticlePresets
 				this.p.minimumLaunchDistance = 0.5;
 				this.p.cubeCameraEnabled = true;
 				this.p.spawnDelayMSec = 1000.0;
+				this.p.zPosition = 0.0;
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.xSpeed = 0.0;
 				this.p.ySpeed = 0.0;
@@ -228,6 +241,7 @@ export class P3dParticlePresets
 				this.p.minimumLaunchDistance = 2.35;
 				this.p.cubeCameraEnabled = false;
 				this.p.spawnDelayMSec = 1300.0;
+				this.p.zPosition = 0.0;
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.xSpeed = 0.0;
 				this.p.ySpeed = 0.0002;
@@ -248,6 +262,41 @@ export class P3dParticlePresets
 				this.p.wind.setDirection( 0.0, 0.0, 0.5, 0.5 );
 				this.p.wind.setIntervalMSec( 15000 );
 				break;
+
+			case 8: // NEW GOLD FLOATING OBJECTS
+				this.p.maxParticles = 55;
+				this.p.launchPositionX = 1.0; // <--------
+				//this.p.launchPositionX = 0.0; // DEBUG!
+				this.p.launchPositionY = 0.0;
+				this.p.launchVarianceX = 0.0;
+				this.p.launchVarianceY = 0.5;
+				this.p.minimumLaunchDistance = 1.35;
+				this.p.cubeCameraEnabled = false;
+				this.p.spawnDelayMSec = 300.0;
+				this.p.zPosition = 0.5;
+				// ~  -  ~  -  ~  -  ~  -
+				this.p.xSpeed = -0.002;
+				this.p.ySpeed = 0.0;
+				this.p.r1Value = 0.02;
+				this.p.t1Speed = 0.0524;
+    		this.p.t1StartPosition = 0.0;
+				this.p.r2Value = 0.0;
+				this.p.t2Speed = 0.0;
+    		this.p.t2StartPosition = 0.0;
+				// ~  -  ~  -  ~  -  ~  -
+				this.p.lightSourceEnabled = false;
+				this.p.meshMode = MeshMode.SPHERES;
+				//this.p.meshMode = MeshMode.CONES_CUBES_SPHERES;
+				this.p.materialNumber = 0;
+				this.p.currentSize = 1.0;
+				this.p.targetSizeRate = 0.001;
+				this.p.targetSize = 1.0;
+				this.p.wind.enable();
+				this.p.wind.setDirection( 0.5, 0.0, 0.2, 0.7 );
+				this.p.wind.setIntervalMSec( 15000 );
+				break;
+
+
 
 		}
 	}
