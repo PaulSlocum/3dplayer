@@ -399,17 +399,6 @@ export class P3dSwarm
 			this.particles[i].yPosition +=
 								(this.particles[i].ySpeed + this.wind.getCurrentForceY() * 0.1 + this.ySpeed) * frameDeltaMSec;
 
-			// UPDATE ACTUAL OBJECT
-			this.particles[i].object.position.x = this.particles[i].xPosition + this.particles[i].r1Position * Math.cos( this.particles[i].t1Position );
-			this.particles[i].object.position.y = this.particles[i].yPosition + this.particles[i].r1Position * Math.sin( this.particles[i].t1Position );
-
-			if( this.particles[i].light != null )
-			{
-				this.particles[i].light.position.x = this.particles[i].object.position.x;
-				this.particles[i].light.position.y = this.particles[i].object.position.y;
-				this.particles[i].light.position.z = this.particles[i].object.position.z;
-			}
-
 			// ENABLE/DISABLE SHADOWS BASED ON POSITION TO TRY TO AVOID WEBGL BUG...
 			/*if( Math.abs( this.particles[i].object.position.x ) < this.screenEdgePosition - 4  &&
 					Math.abs( this.particles[i].object.position.y ) < this.screenEdgePosition - 5 ) //*/
@@ -428,33 +417,41 @@ export class P3dSwarm
 
 			//-  -  -
       // IF OBJECT IS DISABLED, THEN SCALE OBJECT SMALLER UNTIL IT IS GONE.
-      if( this.particles[i].enabled === false )
+      if( this.particles[i].enabled === true )
       {
-				this.particles[i].fade = converge( this.particles[i].fade, 0.0, 0.003 * frameDeltaMSec );
-				if( this.particles[i].fade == 0.0 )
-					deletionList.push( this.particles[i].idNumber );
+        this.particles[i].fade = converge( this.particles[i].fade, 1.0, 0.003 * frameDeltaMSec );
+
+				this.particles[i].object.scale.x = this.currentSize * this.particles[i].fade;
+				this.particles[i].object.scale.y = this.currentSize * this.particles[i].fade;
+				this.particles[i].object.scale.z = this.currentSize * this.particles[i].fade; //*/
+
+				// UPDATE ACTUAL OBJECT POSITION
+				this.particles[i].object.position.x = this.particles[i].xPosition + this.particles[i].r1Position * Math.cos( this.particles[i].t1Position );
+				this.particles[i].object.position.y = this.particles[i].yPosition + this.particles[i].r1Position * Math.sin( this.particles[i].t1Position );
+
+				// UPDATE PARTICLE LIGHT IF INCLUDED...
+				if( this.particles[i].light != null )
+				{
+					this.particles[i].light.position.x = this.particles[i].object.position.x;
+					this.particles[i].light.position.y = this.particles[i].object.position.y;
+					this.particles[i].light.position.z = this.particles[i].object.position.z;
+				}
       }
       else // ELSE - SCALE OBJECT BIGGER UNTIL IT'S FULL SIZE
       {
-        this.particles[i].fade = converge( this.particles[i].fade, 1.0, 0.003 * frameDeltaMSec );
+				this.particles[i].object.scale.x *= 0.93;
+				this.particles[i].object.scale.y *= 0.93;
+				this.particles[i].object.scale.z *= 0.93;
+				if( this.particles[i].object.scale.x < 0.01 )
+					deletionList.push( this.particles[i].idNumber ); //*/
+				/*this.particles[i].fade = converge( this.particles[i].fade, 0.0, 0.003 * frameDeltaMSec );
+				if( this.particles[i].fade == 0.0 )
+					deletionList.push( this.particles[i].idNumber ); //*/
       }
 
 
 			//this.particles[i].size = converge( this.particles[i].size, 1.0, 0.0005 );
 			//this.particles[i].size = converge( this.particles[i].size, this.targetSize, this.targetSizeRate * frameDeltaMSec );
-
-			if( this.particles[i].enabled == true )
-			{
-				this.particles[i].object.scale.x = this.currentSize * this.particles[i].fade;
-				this.particles[i].object.scale.y = this.currentSize * this.particles[i].fade;
-				this.particles[i].object.scale.z = this.currentSize * this.particles[i].fade; //*/
-			}
-			else
-			{
-				this.particles[i].object.scale.x *= 0.90;
-				this.particles[i].object.scale.y *= 0.90;
-				this.particles[i].object.scale.z *= 0.90;
-			}
 
       /*this.particles[i].object.scale.x = this.particles[i].size * this.particles[i].fade;
       this.particles[i].object.scale.y = this.particles[i].size * this.particles[i].fade;

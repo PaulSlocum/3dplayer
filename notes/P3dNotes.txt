@@ -6,6 +6,7 @@
 TODO:
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+x make large version of particle system
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 - find actual vertical screen edge rather than just using the horizontal screen edge
@@ -15,14 +16,16 @@ TODO:
 - implement dampening of changes to polar coordinate parameters
 - implement dampening of particle speed changes (maybe not necessary)
 ~   -   ~   -   ~   -   ~   -   
+- add unlit particles to light-based particle mode
 ~   -   ~   -   ~   -   ~   -   
-- make large version of particle system?
 ~   -   ~   -   ~   -   ~   -   
 - add marble to the gold wobbly particle system mode
+- add smooth movement parts and fast parts to wobbly mode
+~   -   ~   -   ~   -   ~   -  
 ~   -   ~   -   ~   -   ~   -  
 - consider a cube camera mixed with a Phong surface (make the texture partially transparent?)s
 - create particles with textured/bumpy surface 
-- create refracting particles
+- refracting particles
 - create image-mapped particles
 - create video particles
 ~   -   ~   -   ~   -   ~   -   
