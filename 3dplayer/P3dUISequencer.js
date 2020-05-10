@@ -14,12 +14,12 @@ import { logger } from "./P3dLog.js";
 //-----------------------------------------------------------------------------------
 
 
-const TINY_BUBBLES = 5;
+const TINY_BUBBLES = 6;
 const SPINNING_TRAILS = 2;
 const WOBBLY_OBJECTS = 3;
 const MIRROR_BLOB = 4;
-const LIGHT_DOTS = 1;
-const TRACK_6 = 6;
+const LIGHT_DOTS = 5;
+const TRACK_6 = 1;
 const BLACK_OBJECTS = 7;
 
 
@@ -284,21 +284,20 @@ export class P3dSequencer
 				this.particlesEnabled = true;
 				break;
 
-			case SequenceMode.E1:
+			case SequenceMode.E1: // CUBE CAMERA BLOB
 				this.particlePresets.setModeNumber( 4 );
 				this.particlePresets2.setModeNumber( 0 );
 				this.roomCube.setShaderMode( 3 );
 				this.particlesEnabled = false;
 				break;
-			case SequenceMode.E2:
+			case SequenceMode.E2: // CUBE CAMERA BLOB
 				this.particlePresets.setModeNumber( 4 );
 				this.particlePresets2.setModeNumber( 0 );
 				this.roomCube.setShaderMode( 3 );
 				this.particlesEnabled = true;
 				break;
 
-			case SequenceMode.STANDBY: // DEBUG!
-			case SequenceMode.F:
+			case SequenceMode.F: // LIGHTS
 				this.particlePresets.setModeNumber( 5 );
 				this.particlePresets2.setModeNumber( 8 );
 				this.roomCube.setShaderMode( 6 );
@@ -307,7 +306,8 @@ export class P3dSequencer
 				this.particlesEnabled = true;
 				break;
 
-			case SequenceMode.G:
+			case SequenceMode.STANDBY: // DEBUG!
+			case SequenceMode.G: // NEW CUBE CAMERA
 				this.particlePresets.setModeNumber( 6 );
 				this.particlePresets2.setModeNumber( 0 );
 				this.roomCube.setShaderMode( 5 );

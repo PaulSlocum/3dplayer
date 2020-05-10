@@ -200,20 +200,20 @@ export class P3dParticlePresets
 				break;
 
 			case 6: // SMALLER SPHERES WITH CUBE CAMERA
-				this.p.maxParticles = 6;
+				this.p.maxParticles = 55;
 				this.p.launchPositionX = 0.0;
 				this.p.launchPositionY = 0.0;
 				this.p.launchVarianceX = 0.0;
 				this.p.launchVarianceY = 0.0;
 				this.p.minimumLaunchDistance = 0.5;
-				this.p.cubeCameraEnabled = true;
-				this.p.spawnDelayMSec = 1000.0;
+				this.p.cubeCameraEnabled = false;
+				this.p.spawnDelayMSec = 100.0;
 				this.p.zPosition = 0.0;
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.xSpeed = 0.0;
 				this.p.ySpeed = 0.0;
 				this.p.r1Value = 1.7;
-				this.p.t1Speed = 0.02;
+				this.p.t1Speed = 0.04;
 	   		this.p.t1StartPosition = 0.0;
 				this.p.r2Value = 0.0;
 				this.p.t2Speed = 0.0;
@@ -221,11 +221,12 @@ export class P3dParticlePresets
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.lightSourceEnabled = false;
 				//this.p.meshMode = MeshMode.CONES_CUBES_SPHERES;
-				this.p.meshMode = MeshMode.TORRUS_KNOT;
-				this.p.materialNumber = 3;
-				this.p.currentSize = 0.3;
+				//this.p.meshMode = MeshMode.TORRUS_KNOT;
+				this.p.meshMode = MeshMode.SPHERES;
+				this.p.materialNumber = 2;
+				this.p.currentSize = 0.2;
 				this.p.targetSizeRate = 0.0001;
-				this.p.targetSize = 1.70;
+				this.p.targetSize = 0.2;
 				this.p.wind.enable();
 				this.p.wind.setDirection( 0.0, 0.0, 0.5, 0.5 );
 				this.p.wind.setIntervalMSec( 10000 );
@@ -288,9 +289,9 @@ export class P3dParticlePresets
 				this.p.meshMode = MeshMode.SPHERES;
 				//this.p.meshMode = MeshMode.CONES_CUBES_SPHERES;
 				this.p.materialNumber = 0;
-				this.p.currentSize = 1.0;
+				this.p.currentSize = 0.8;
 				this.p.targetSizeRate = 0.001;
-				this.p.targetSize = 1.0;
+				this.p.targetSize = 0.8;
 				this.p.wind.enable();
 				this.p.wind.setDirection( 0.5, 0.0, 0.2, 0.7 );
 				this.p.wind.setIntervalMSec( 15000 );
