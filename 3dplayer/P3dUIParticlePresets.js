@@ -164,28 +164,28 @@ export class P3dParticlePresets
 				break;
 
 			case 5: // LIGHTS
-				this.p.maxParticles = 2;
-				this.p.launchPositionX = 0.0;
-				this.p.launchPositionY = 0.1;
+				this.p.maxParticles = 50;
+				this.p.launchPositionX = 0.7;
+				this.p.launchPositionY = 0.0;
 				this.p.launchVarianceX = 0.0;
-				this.p.launchVarianceY = 0.0;
+				this.p.launchVarianceY = 0.8;
 				this.p.minimumLaunchDistance = 1.0;
 				this.p.cubeCameraEnabled = false;
-				//this.p.spawnDelayMSec = 300.0;
+				this.p.spawnDelayMSec = 300.0;
 				//this.p.spawnDelayMSec = 1500.0;
 				//this.p.spawnDelayMSec = 2300.0; // <-------------
-				this.p.spawnDelayMSec = 6300.0;
+				//this.p.spawnDelayMSec = 4300.0;
 				this.p.zPosition = 0.0;
 				// ~  -  ~  -  ~  -  ~  -
-				this.p.xSpeed = 0.0000;
+				this.p.xSpeed = -0.002;
 				this.p.ySpeed = 0.0000;
-				this.p.r1Value = 2.5;
-				this.p.t1Speed = 0.02; //<------------
+				this.p.r1Value = 0.5;
+				this.p.t1Speed = 0.05; //<------------
 				//this.p.t1Speed = 0.06;
 	   		this.p.t1StartPosition = 3.14/4;
-				this.p.r2Value = 0.0;
-				this.p.t2Speed = 0.0;
-    		this.p.t2StartPosition = 0.0;
+				this.p.r2Value = 0.3;
+				this.p.t2Speed = 0.1;
+    		this.p.t2StartPosition = 3.14/4;
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.lightSourceEnabled = true;
 				//this.p.meshMode = MeshMode.CONES_CUBES_SPHERES;
@@ -199,7 +199,7 @@ export class P3dParticlePresets
 				this.p.wind.setIntervalMSec( 10000 );
 				break;
 
-			case 6: // SMALLER SPHERES WITH CUBE CAMERA
+			case 6: // WHILRING OBJECTS
 				this.p.maxParticles = 200;
 				this.p.launchPositionX = 0.0;
 				this.p.launchPositionY = 0.0;
@@ -213,10 +213,10 @@ export class P3dParticlePresets
 				this.p.xSpeed = 0.0;
 				this.p.ySpeed = 0.0;
 				this.p.r1Value = 1.7;
-				this.p.t1Speed = 0.01;
+				this.p.t1Speed = 0.007;
 	   		this.p.t1StartPosition = 0.0;
 				this.p.r2Value = 0.6;
-				this.p.t2Speed = 0.12;
+				this.p.t2Speed = 0.09;
     		this.p.t2StartPosition = 0.0;
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.lightSourceEnabled = false;
@@ -229,7 +229,7 @@ export class P3dParticlePresets
 				this.p.targetSize = 0.19;
 				this.p.wind.enable();
 				//this.p.wind.disable(); // DEBUG!!!!!!!!
-				this.p.wind.setDirection( 0.0, 0.05, 0.5, 0.5 );
+				this.p.wind.setDirection( 0.0, 0.06, 0.7, 0.7 );
 				this.p.wind.setIntervalMSec( 1000 );
 				break;
 
@@ -265,9 +265,9 @@ export class P3dParticlePresets
 				this.p.wind.setIntervalMSec( 15000 );
 				break;
 
-			case 8: // NEW GOLD FLOATING OBJECTS
+			case 8: // WHITE POOL BALLS
 				this.p.maxParticles = 55;
-				this.p.launchPositionX = 1.0; // <--------
+				this.p.launchPositionX = 0.9; // <--------
 				//this.p.launchPositionX = 0.0; // DEBUG!
 				this.p.launchPositionY = 0.0;
 				this.p.launchVarianceX = 0.0;
@@ -277,19 +277,19 @@ export class P3dParticlePresets
 				this.p.spawnDelayMSec = 300.0;
 				this.p.zPosition = 0.5;
 				// ~  -  ~  -  ~  -  ~  -
-				this.p.xSpeed = -0.002;
+				this.p.xSpeed = -0.0005;
 				this.p.ySpeed = 0.0;
-				this.p.r1Value = 0.02;
-				this.p.t1Speed = 0.0524;
-    		this.p.t1StartPosition = 0.0;
-				this.p.r2Value = 0.0;
-				this.p.t2Speed = 0.0;
-    		this.p.t2StartPosition = 0.0;
+				this.p.r1Value = 0.04;
+				this.p.t1Speed = 0.09;
+    		this.p.t1StartPosition = 3.14/4;
+				this.p.r2Value = 0.05;
+				this.p.t2Speed = 0.10;
+    		this.p.t2StartPosition = 3.14/4;
 				// ~  -  ~  -  ~  -  ~  -
 				this.p.lightSourceEnabled = false;
 				this.p.meshMode = MeshMode.SPHERES;
 				//this.p.meshMode = MeshMode.CONES_CUBES_SPHERES;
-				this.p.materialNumber = 0;
+				this.p.materialNumber = 7;
 				this.p.currentSize = 0.8;
 				this.p.targetSizeRate = 0.001;
 				this.p.targetSize = 0.8;

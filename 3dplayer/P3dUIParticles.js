@@ -16,48 +16,12 @@ import { P3dParticleWind } from "./P3dUIParticleWind.js";
 
 //*************************************************************************
 // THIS SHOULD BE FALSE UNLESS DEBUGGING
-const DEBUG_ALWAYS_ENABLE_PARTICLES = true;
+const DEBUG_ALWAYS_ENABLE_PARTICLES = false;
 // ~  -  ~  -  ~  -  ~  -  ~  -  ~  -  ~  -
 if( DEBUG_ALWAYS_ENABLE_PARTICLES )
 	console.warn( "WARNING: PARTICLE ALWAYS ENABLE DEBUG SWITCH ACTIVATED" );
 //*************************************************************************
 
-
-
-//*************************************************************************
-// PARAMETER NOTES:
-// x enable/disable
-// - fade out time
-// - fade in time
-// ~     -     ~     -     ~     -     ~     -
-// x generator rate
-// - minimum distance
-// x generator direction or starting position?
-// ~     -     ~     -     ~     -     ~     -
-// - cartesian target velocity (x,y) //     TARGETS EITHER VELOCITY OR POSITION BASED ON WHICH IS NON-ZERO
-// - cartesian target position (x,y) //     AND X/Y ARE HANDLED INDEPENDENTLY
-// - polar1 target velocity (x,y)
-// - polar1 target position (x,y)
-// - polar2 target velocity (x,y)
-// - polar2 target position (x,y)
-// ~     -     ~     -     ~     -     ~     -
-// - material mode (shiny, matte, glass, mirror, emitter, texture, video)
-// - emitter target brightness
-// ~     -     ~     -     ~     -     ~     -
-// - wind velocity (x,y)
-// - wind frequency
-// ~     -     ~     -     ~     -     ~     -
-// - object size
-// - object depth
-// ~     -     ~     -     ~     -     ~     -
-// - bounce/explode action that can be activated at regular intervals?
-// ~     -     ~     -     ~     -     ~     -
-// - polar1 modulation amount (x,y)
-// - polar1 modulation frequency (x,y)
-// - polar2 modulation amount (x,y)
-// - polar2 modulation frequency (x,y)
-// ~     -     ~     -     ~     -     ~     -
-//*************************************************************************
 
 
 
@@ -161,9 +125,6 @@ export class P3dSwarm
 
     this.particleIdCounter = 1;
 
-		// DEBUG!!!!!!!!
-		//this.pointLight = null;
-
     this.load();
     this.disable(); // <-- START WITH PARTICLES TURNED OFF
   }
@@ -185,9 +146,6 @@ export class P3dSwarm
     this.sphereGeometry = new THREE.SphereBufferGeometry( objectSize, circularSegments, circularSegments );
     this.boxGeometry = new THREE.BoxBufferGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
     this.coneGeometry = new THREE.ConeBufferGeometry( objectSize*0.9, objectSize*1.5, coneSegments ); // <-------------
-    //this.torusKnotGeometry = new THREE.BoxGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
-    //this.torusKnotGeometry = new THREE.CylinderGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
-    //this.torusKnotGeometry = new THREE.TorusGeometry( objectSize*1.5, objectSize*0.5, 100, 16 );
     this.torusKnotGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 ); //<------------------------
     //this.torusKnotGeometry = this.sphereGeometry;
 
@@ -257,7 +215,7 @@ export class P3dSwarm
   ////////////////////////////////////////////////////////////////////////////
   enable()
   {
-  	//logger( "--->PARTICLES ENABLED" );
+  	logger( "--->PARTICLES ENABLED" );
     this.enabled = true;
   }
 
@@ -265,7 +223,7 @@ export class P3dSwarm
   ////////////////////////////////////////////////////////////////////////////
   disable()
   {
-  	//logger( "----->PARTICLES DISABLED" );
+  	logger( "----->PARTICLES DISABLED" );
     this.enabled = false;
     for( let i=0; i<this.particles.length; i++ )
     {
@@ -310,7 +268,7 @@ export class P3dSwarm
     this.materialsArray[2] = material2;
 
 		// MIRROR MATERIAL
-		this.cubeCamera = new THREE.CubeCamera( 0.1, 100, 64 )   // <------------- near, far, resolution);
+		this.cubeCamera = new THREE.CubeCamera( 0.1, 100, 64 )   // <------------- THREE.CubeCamera(near, far, resolution);
 		//this.cubeCamera = new THREE.CubeCamera( 0.1, 100, 256 )   // DEBUG - TRYING HIGHER RES (DOESN'T SEEM TO MATTER FOR WHAT I'M DOING)
 		this.cubeCamera.update( this.renderer, this.scene );
 		//this.cubeCamera.renderTarget.texture.generateMipmaps = true;
@@ -334,13 +292,20 @@ export class P3dSwarm
     material5.emissive =  new THREE.Color( 0xaaaaaa );
     this.materialsArray[5] = material5;
 
-		// TEXTURE MATERIAL
+		// TEXTURE MATERIAL (TBI)
     let material6 = new THREE.MeshStandardMaterial( {color: 0x00FF00} ); // <-----------
     material6.metalness = 0.0;
     material6.roughness = 0.6;
-    this.materialsArray[6] = material6;
+    this.materialsArray[6] = material6; //*/
 
-		// VIDEO MATERIAL
+		// NEW METAL
+    let material7 = new THREE.MeshStandardMaterial( {color: 0xAA9988} ); // <-----------
+    //let material7 = new THREE.MeshStandardMaterial( {color: 0xDDD8CC} ); // <-----------
+    material7.metalness = 0.0;
+    material7.roughness = 0.1;
+    this.materialsArray[7] = material7;
+
+		// VIDEO MATERIAL ?
 
 	}
 
@@ -408,8 +373,6 @@ export class P3dSwarm
 								(this.particles[i].ySpeed + this.wind.getCurrentForceY() * 0.1 + this.ySpeed) * frameDeltaMSec;
 
 			// ENABLE/DISABLE SHADOWS BASED ON POSITION TO TRY TO AVOID WEBGL BUG...
-			/*if( Math.abs( this.particles[i].object.position.x ) < this.screenEdgePosition - 4  &&
-					Math.abs( this.particles[i].object.position.y ) < this.screenEdgePosition - 5 ) //*/
 			if( Math.abs( this.particles[i].object.position.x ) < 4.5  &&
 					Math.abs( this.particles[i].object.position.y ) < 2.5 )
 				this.particles[i].object.castShadow = true;
@@ -424,11 +387,11 @@ export class P3dSwarm
       }
 
 			//-  -  -
-      // IF OBJECT IS DISABLED, THEN SCALE OBJECT SMALLER UNTIL IT IS GONE.
+      // IF OBJECT IS ENABLED THEN UPDATE POSITION, SIZE, LIGHTING...
       if( this.particles[i].enabled === true )
       {
+      	// UPDATE SIZE
         this.particles[i].fade = converge( this.particles[i].fade, 1.0, 0.003 * frameDeltaMSec );
-
 				this.particles[i].object.scale.x = this.currentSize * this.particles[i].fade;
 				this.particles[i].object.scale.y = this.currentSize * this.particles[i].fade;
 				this.particles[i].object.scale.z = this.currentSize * this.particles[i].fade; //*/
@@ -449,29 +412,14 @@ export class P3dSwarm
 					this.particles[i].light.position.z = this.particles[i].object.position.z;
 				}
       }
-      else // ELSE - SCALE OBJECT BIGGER UNTIL IT'S FULL SIZE
+      else // ELSE - SCALE OBJECT SMALLER UNTIL IT'S GONE, THEN DELETE...
       {
 				this.particles[i].object.scale.x *= 0.93;
 				this.particles[i].object.scale.y *= 0.93;
 				this.particles[i].object.scale.z *= 0.93;
 				if( this.particles[i].object.scale.x < 0.01 )
 					deletionList.push( this.particles[i].idNumber ); //*/
-				/*this.particles[i].fade = converge( this.particles[i].fade, 0.0, 0.003 * frameDeltaMSec );
-				if( this.particles[i].fade == 0.0 )
-					deletionList.push( this.particles[i].idNumber ); //*/
       }
-
-
-			//this.particles[i].size = converge( this.particles[i].size, 1.0, 0.0005 );
-			//this.particles[i].size = converge( this.particles[i].size, this.targetSize, this.targetSizeRate * frameDeltaMSec );
-
-      /*this.particles[i].object.scale.x = this.particles[i].size * this.particles[i].fade;
-      this.particles[i].object.scale.y = this.particles[i].size * this.particles[i].fade;
-      this.particles[i].object.scale.z = this.particles[i].size * this.particles[i].fade; //*/
-
-      /*this.particles[i].object.scale.x = 0.02;
-      this.particles[i].object.scale.y = 0.02;
-      this.particles[i].object.scale.z = 0.02; //*/
 
 			// UPDATE ROTATION
       this.particles[i].object.rotation.z += frameDeltaMSec * 0.0012;
@@ -483,7 +431,6 @@ export class P3dSwarm
     {
     	this.killObjectWithId( deletionList[i] );
     }
-
 
   }
 
@@ -509,7 +456,6 @@ export class P3dSwarm
 		if( this.particles[index].light != null )
 		{
 			this.lightPool.freeLight( this.particles[index].light );
-			//this.scene.remove( this.particles[index].light );
 			this.particles[index].light = null;
 		}
 		this.particles.splice( index, 1 );
@@ -519,16 +465,12 @@ export class P3dSwarm
 	//  ~      -       ~      -       ~      -       ~      -       ~      -       ~
 
 
-	//  ~      -       ~      -       ~      -       ~      -       ~      -       ~
-
 	///////////////////////////////////////////////////////////////////////////////
 	_launchObject( objectIndex )
 	{
-
 		//logger( "---> PARTICLES LAUNCH OBJECT: TOTAL OBJECTS: ", this.particles.length, this.maxParticles );
 		if( this.particles.length < this.maxParticles )
 		{
-
 			// ATTEMPT TO PLACE OBJECT...
 			let foundNearbyObject = false;
 			let placementAttempts = 0;
@@ -544,20 +486,18 @@ export class P3dSwarm
 					break;  // <-- BREAK DO-WHILE LOOP
 				}
 
-				// TRY A RANDOM LOCATION...
+				// TRY A LOCATION...
 				xPosition = this.launchPositionX * this.screenEdgePosition
 								+ ( random( 200 ) - 100.0 ) / 100.0 * this.screenEdgePosition * this.launchVarianceX;
 				yPosition = this.launchPositionY * this.screenEdgePosition
 								+ ( random( 200 ) - 100.0 ) / 100.0 * this.screenEdgePosition * this.launchVarianceY; //*/
 
 				// CHECK IF IT'S TOO CLOSE TO ANY OTHER OBJECTS
-				//const PROXIMITY_LIMIT = 1.35;
-				let PROXIMITY_LIMIT = this.minimumLaunchDistance;
 				foundNearbyObject = false;
 				for( let j=0; j<this.particles.length; j++ )
 				{
-					if( Math.abs( this.particles[j].object.position.x - xPosition ) < PROXIMITY_LIMIT  &&
-							Math.abs( this.particles[j].object.position.y - yPosition ) < PROXIMITY_LIMIT  )
+					if( Math.abs( this.particles[j].object.position.x - xPosition ) < this.minimumLaunchDistance  &&
+							Math.abs( this.particles[j].object.position.y - yPosition ) < this.minimumLaunchDistance  )
 					{
 						foundNearbyObject = true;
 						break; // <-- BREAK FOR LOOP
@@ -571,7 +511,6 @@ export class P3dSwarm
 			if( foundNearbyObject == false )
 			{
 				let newParticle = new P3dParticle();
-				//newParticle.object = new THREE.Mesh( this.sphereGeometry, this.materialsArray[this.materialNumber] );
 				switch( this.meshMode )
 				{
 					case MeshMode.CONES_CUBES_SPHERES:
@@ -591,11 +530,9 @@ export class P3dSwarm
 					case MeshMode.TORRUS_KNOT:
 						newParticle.object = new THREE.Mesh( this.torusKnotGeometry, this.materialsArray[this.materialNumber] );
 						break;
-
 				}
 				newParticle.fade = 0.0;
 				newParticle.enabled = true;
-				//newParticle.xSpeed = random(20) * 0.000002 + 0.00037;
 
 				// ADD LIGHTING IF ENABLED
 				if( this.lightSourceEnabled == true )
@@ -613,8 +550,6 @@ export class P3dSwarm
 				newParticle.xPosition = xPosition;
 				newParticle.yPosition = yPosition;
 				newParticle.object.position.z = this.zPosition;
-				//newParticle.size = this.currentSize;
-				//newParticle.size = 0.02;
 				newParticle.t1Position = this.t1StartPosition;
 				newParticle.t2Position = this.t2StartPosition;
 
@@ -628,8 +563,6 @@ export class P3dSwarm
 		}
 	}
 
-
-	//  ~      -       ~      -       ~      -       ~      -       ~      -       ~
 
 
 
