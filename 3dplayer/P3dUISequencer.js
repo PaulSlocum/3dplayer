@@ -224,6 +224,7 @@ export class P3dSequencer
 		this.sequenceMode = newSequenceMode;
 		switch( newSequenceMode )
 		{
+			case SequenceMode.STANDBY: // DEBUG!
 			case SequenceMode.A1:
 				this.particlePresets.setModeNumber( 1 );
 				this.particlePresets2.setModeNumber( 0 );
@@ -325,7 +326,6 @@ export class P3dSequencer
 				this.particlesEnabled = true;
 				break;
 
-			case SequenceMode.STANDBY: // DEBUG!
 			case SequenceMode.G: // NEW CUBE CAMERA
 				this.particlePresets.setModeNumber( 6 );
 				this.particlePresets2.setModeNumber( 0 );

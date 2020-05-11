@@ -26,6 +26,14 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
+- set up other demo albums
+- move techno out of repository
+- add switches for visualizations
+- re-implement custom background color feature
+- add pass-through for CD image
+~   -   ~   -   ~   -   ~   -   
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~   -   ~   -   ~   -   ~   -   
 - find actual vertical screen edge rather than just using the horizontal screen edge
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   

@@ -7,6 +7,7 @@
 
 //-----------------------------------------------------------------------------------
 import { roomVertexShaders, roomFragmentShaders } from "./P3dUIRoomShaders.js";
+import { random, converge } from "./P3dUtility.js";
 //-----------------------------------------------------------------------------------
 
 
@@ -59,22 +60,33 @@ export class P3dRoom extends THREE.Mesh
     this.playing = false;
     this.backgroundSpinRate = 0.0;
 
-  }
+    this.targetSpinRate = 0.04;
+    //this.targetSpinRate = 0.07;
+    //this.targetSpinRate = 0.1235;
 
+    //this.roomUniforms.colorA.value = new THREE.Color(0x000000);
+    //this.roomUniforms.colorB.value = new THREE.Color(0x010100);
+    //this.roomUniforms.colorC.value = new THREE.Color(0x0A0B0A);
+
+  }
 
 
   ///////////////////////////////////////////////////////////////////////
   update()
   {
     // ROTATE ROOM CUBE...
+
     this.backgroundSpinRate += 0.00001; // <------------- ORIGINAL
-    if( this.backgroundSpinRate > 0.04 )
-      this.backgroundSpinRate = 0.04;
-    if( this.playing == false )
+    if( this.playing == true )
     {
-      this.backgroundSpinRate -= 0.0001; // <-- SLOW SPIN RATE WHEN NOT PLAYING
-      if( this.backgroundSpinRate < 0.0002 )
-        this.backgroundSpinRate = 0.0002;
+    	converge( this.backgroundSpinRate, this.targetSpinRate, 0.00001 ); // <-----------
+    	//this.backgroundSpinRate = converge( this.backgroundSpinRate, this.targetSpinRate, 0.1 ); // DEBUG! FAST CONVERGE
+			//console.warn( "WARNING: DEBUG CODE ACTIVATED" );
+		}
+  	else
+    {
+    	const IDLE_SPIN_RATE = 0.0002;
+    	this.backgroundSpinRate = converge( this.backgroundSpinRate, IDLE_SPIN_RATE, 0.0001 );
     }
 
     this.rotation.x += this.backgroundSpinRate;
@@ -92,6 +104,13 @@ export class P3dRoom extends THREE.Mesh
 	pause()
 	{
 		this.playing = false;
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+	setTargetSpinRate( newTargetSpinRate )
+	{
+		this.targetSpinRate = newTargetSpinRate;
 	}
 
 
