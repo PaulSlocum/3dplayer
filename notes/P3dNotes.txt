@@ -6,22 +6,52 @@
 TODO:
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
-x make large version of particle system
 ~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~   -   ~   -   ~   -   ~   -   
+- implement specular highlights on CD
+~   -   ~   -   ~   -   ~   -   
+- add tempo settings for tracks and have room rotation match tempo (maybe?)
+~   -   ~   -   ~   -   ~   -   
+- add adjustable x/y background shader offsets for animation
+~   -   ~   -   ~   -   ~   -   
+- MAKE WEBGL RESIZE RENDERER WHEN WINDOW IS RESIZED
+~   -   ~   -   ~   -   ~   -   
+- sample background and make ambient light correspond to background shader color
+~   -   ~   -   ~   -   ~   -   
+- attempt setting up image map of CD player
+~   -   ~   -   ~   -   ~   -   
+- make it so background shader colors can be controlled by sequencer
+~   -   ~   -   ~   -   ~   -   
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
 - find actual vertical screen edge rather than just using the horizontal screen edge
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
-- implement secondary polar coordinates
+- fix lighting of CD PNG so that it doesn't have to be darkened
+~   -   ~   -   ~   -   ~   -   
+- FIX ISSUE WHERE MOVING THROUGH TRACKS QUICKLY CAN CAUSE AN ERROR IN THE DECODER QUEUE
+ \ ALSO ONE TIME I STOPPED ON TRACK 5 BUT IT WAS PLAYING TRACK 4
+~   -   ~   -   ~   -   ~   -   
+- complete the audio effects
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+- implement FFT in effects system
+- build LED display for FFT
+- link FFT to LED display
+- link FFT output to background shader uniforms
+~   -   ~   -   ~   -   ~   -   
+- fix issue where volume changes don't have any effect if made before playback is started
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~   -   ~   -   ~   -   ~   -   
 - implement dampening of changes to polar coordinate parameters
 - implement dampening of particle speed changes (maybe not necessary)
 ~   -   ~   -   ~   -   ~   -   
-- add unlit particles to light-based particle mode
-~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
 - add marble to the gold wobbly particle system mode
 - add smooth movement parts and fast parts to wobbly mode
-~   -   ~   -   ~   -   ~   -  
 ~   -   ~   -   ~   -   ~   -  
 - consider a cube camera mixed with a Phong surface (make the texture partially transparent?)s
 - create particles with textured/bumpy surface 
@@ -31,48 +61,18 @@ x make large version of particle system
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
-- FIX ISSUE WHERE MOVING THROUGH TRACKS QUICKLY CAN CAUSE AN ERROR IN THE DECODER QUEUE
-~   -   ~   -   ~   -   ~   -   
-- MAKE WEBGL RESIZE RENDERER WHEN WINDOW IS RESIZED
-~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
-- add adjustable x/y background shader offsets for animation
-~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
-- add tempo settings for tracks and have room rotation match tempo (maybe?)
-~   -   ~   -   ~   -   ~   -   
-- implement specular highlights on CD
-- prevent CD rotation from changing CD lighting
-~   -   ~   -   ~   -   ~   -   
-- use a flag instead of "seekVelocity" to keep track of whether buttons are down so that quick presses still skip correctly
-~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
-- sample background and make ambient light correspond to background shader color
-~   -   ~   -   ~   -   ~   -   
-- make it so background shader colors can be controlled by sequencer
-~   -   ~   -   ~   -   ~   -   
-~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
-~   -   ~   -   ~   -   ~   -   
-- implement FFT in effects system
-- build LED display for FFT
-- link FFT to LED display
-- link FFT output to background shader uniforms
-~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
 - keep playing CD seeking sounds until music starts playing (or maybe just lengthn CD sounds)
 ~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
-- fix issue where volume changes don't have any effect if made before playback is started
+- use a flag instead of "seekVelocity" to keep track of whether buttons are down so that quick presses still skip correctly
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+MAYBE/LATER:
 ~   -   ~   -   ~   -   ~   -   
 - (maybe) create model for CD jewel case
 - add image mapped CD case edge and back
@@ -88,6 +88,9 @@ x make large version of particle system
 - add units (seconds) to getPlaybackTime calls and usage
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~   -   ~   -   ~   -   ~   -   
+- implement correct rotation for CD
+- prevent CD rotation from changing CD lighting
 ~   -   ~   -   ~   -   ~   -   
 - have player gyration stop momentarily when user is clicking buttons
 ~   -   ~   -   ~   -   ~   -   
@@ -105,12 +108,11 @@ x make large version of particle system
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
 - add secondary effect eq, pre-delay, and delay feedback
 ~   -   ~   -   ~   -   ~   -   
 - make it so that seek buttons can skip between tracks (also add a max seek rate)
 ~   -   ~   -   ~   -   ~   -  
-- run memory analysis
+- run memory/CPU analysis
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
@@ -178,7 +180,48 @@ x set up reflection based system
 x make tiny version of particle system
 x create glowing particles
 x create mirror particles
+x make large version of particle system
+x implement secondary polar coordinates
+x add unlit particles to light-based particle mode
 ~   -   ~   -   ~   -   ~   -   
+
+
+
+//*************************************************************************
+// PARAMETER NOTES (THIS IS A LIST OF IDEAS -- NOT ALL OF THIS IS IMPLEMENTED)
+// x enable/disable
+// - fade out time
+// - fade in time
+// ~     -     ~     -     ~     -     ~     -
+// x generator rate
+// - minimum distance
+// x generator direction or starting position?
+// ~     -     ~     -     ~     -     ~     -
+// - cartesian target velocity (x,y) //     TARGETS EITHER VELOCITY OR POSITION BASED ON WHICH IS NON-ZERO
+// - cartesian target position (x,y) //     AND X/Y ARE HANDLED INDEPENDENTLY
+// - polar1 target velocity (x,y)
+// - polar1 target position (x,y)
+// - polar2 target velocity (x,y)
+// - polar2 target position (x,y)
+// ~     -     ~     -     ~     -     ~     -
+// - material mode (shiny, matte, glass, mirror, emitter, texture, video)
+// - emitter target brightness
+// ~     -     ~     -     ~     -     ~     -
+// - wind velocity (x,y)
+// - wind frequency
+// ~     -     ~     -     ~     -     ~     -
+// - object size
+// - object depth
+// ~     -     ~     -     ~     -     ~     -
+// - bounce/explode action that can be activated at regular intervals?
+// ~     -     ~     -     ~     -     ~     -
+// - polar1 modulation amount (x,y)
+// - polar1 modulation frequency (x,y)
+// - polar2 modulation amount (x,y)
+// - polar2 modulation frequency (x,y)
+// ~     -     ~     -     ~     -     ~     -
+//*************************************************************************
+
 
 
 
