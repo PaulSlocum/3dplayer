@@ -3,7 +3,7 @@
 
 A 3D compact disc themed Javascript MP3 player.  The project is nearly complete but still needs a few minor adjustments and better adaptation to mobile devices.
 
-[Link to working project demo page](https://paulslocum.github.io/3dplayer/)
+[LINK TO WORKING PROJECT DEMO PAGE](https://paulslocum.github.io/3dplayer/)
 
 ### Features: 
  - load an album by specifying a list of MP3 files and a CD image in the script call parameters
