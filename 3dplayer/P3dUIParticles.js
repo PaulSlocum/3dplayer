@@ -146,7 +146,7 @@ export class P3dSwarm
     this.sphereGeometry = new THREE.SphereBufferGeometry( objectSize, circularSegments, circularSegments );
     this.boxGeometry = new THREE.BoxBufferGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
     this.coneGeometry = new THREE.ConeBufferGeometry( objectSize*0.9, objectSize*1.5, coneSegments ); // <-------------
-    this.torusKnotGeometry = new THREE.TorusKnotGeometry( objectSize*1.5, objectSize*0.5, 100, 16 ); //<------------------------
+    this.torusKnotGeometry = new THREE.TorusKnotBufferGeometry( objectSize*1.5, objectSize*0.5, 100, 16 ); //<------------------------
     //this.torusKnotGeometry = this.sphereGeometry;
 
 		// TEST TORUS FOR SHADOW PROBLEM (DEBUG!)
@@ -358,11 +358,11 @@ export class P3dSwarm
     let deletionList = [];
     for( let i=0; i<this.particles.length; i++ )
     {
-    	// UPDATE POLAR COORDINATES
+    	// UPDATE POLAR COORDINATES #1
     	this.particles[i].r1Position = this.r1Value;
       this.particles[i].t1Position -= this.t1Speed * frameDeltaMSec * 0.03;
 
-    	// UPDATE POLAR COORDINATES
+    	// UPDATE POLAR COORDINATES #2
     	this.particles[i].r2Position = this.r2Value;
       this.particles[i].t2Position -= this.t2Speed * frameDeltaMSec * 0.03;
 
@@ -519,7 +519,6 @@ export class P3dSwarm
 							case 0: newParticle.object = new THREE.Mesh( this.sphereGeometry, this.materialsArray[this.materialNumber] ); break;
 							case 1: newParticle.object = new THREE.Mesh( this.boxGeometry, this.materialsArray[this.materialNumber] ); break;
 							case 2: newParticle.object = new THREE.Mesh( this.coneGeometry, this.materialsArray[this.materialNumber] ); break;
-							case 3: newParticle.object = new THREE.Mesh( this.torusKnotGeometry, this.materialsArray[this.materialNumber] ); break;
 						} //*/
 						break;
 
