@@ -124,7 +124,7 @@ export class P3dCDShaders
           float finalSpecular = adjustedSpecularIn + adjustedSpecularOut;
           vec3 finalColor = hsv2rgb( vec3( centerDistance*0.5 - 0.1, finalSpecular*0.3 + 0.05, finalSpecular*0.3 + 0.05 ) );
 
-          // CD FOIL SLIGHTLY DARKER RINGS...
+          // CD FOIL SLIGHTLY DARKENS RINGS...
           if( centerDistance > 0.91  ||  centerDistance < 0.34 )
             finalColor = finalColor * 0.92;
 

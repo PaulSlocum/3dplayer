@@ -9,40 +9,59 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+MAIN TODO:
 ~   -   ~   -   ~   -   ~   -   
 - implement specular highlights on CD
 ~   -   ~   -   ~   -   ~   -   
-- add tempo settings for tracks and have room rotation match tempo (maybe?)
-~   -   ~   -   ~   -   ~   -   
-- add adjustable x/y background shader offsets for animation
-~   -   ~   -   ~   -   ~   -   
 - MAKE WEBGL RESIZE RENDERER WHEN WINDOW IS RESIZED
 ~   -   ~   -   ~   -   ~   -   
-- sample background and make ambient light correspond to background shader color
-~   -   ~   -   ~   -   ~   -   
 - attempt setting up image map of CD player
-~   -   ~   -   ~   -   ~   -   
-- make it so background shader colors can be controlled by sequencer
-~   -   ~   -   ~   -   ~   -   
-~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
-~   -   ~   -   ~   -   ~   -   
-- set up other demo albums
-- move techno out of repository
-- add switches for visualizations
-- re-implement custom background color feature
-- add pass-through for CD image
-~   -   ~   -   ~   -   ~   -   
-~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
-~   -   ~   -   ~   -   ~   -   
-- find actual vertical screen edge rather than just using the horizontal screen edge
-~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
-- fix lighting of CD PNG so that it doesn't have to be darkened
 ~   -   ~   -   ~   -   ~   -   
 - FIX ISSUE WHERE MOVING THROUGH TRACKS QUICKLY CAN CAUSE AN ERROR IN THE DECODER QUEUE
  \ ALSO ONE TIME I STOPPED ON TRACK 5 BUT IT WAS PLAYING TRACK 4
 ~   -   ~   -   ~   -   ~   -   
 - complete the audio effects
+~   -   ~   -   ~   -   ~   -   
+- complete the audio effects
+~   -   ~   -   ~   -   ~   -   
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~   -   ~   -   ~   -   ~   -   
+- set up other demo albums
+~   -   ~   -   ~   -   ~   -   
+- move techno out of repository
+~   -   ~   -   ~   -   ~   -   
+- add switches for visualizations
+~   -   ~   -   ~   -   ~   -   
+- re-implement custom background color feature
+~   -   ~   -   ~   -   ~   -   
+- add pass-through for CD image
+~   -   ~   -   ~   -   ~   -   
+- keep playing CD seeking sounds until music starts playing (or maybe just lengthn CD sounds)
+~   -   ~   -   ~   -   ~   -   
+- use a flag instead of "seekVelocity" to keep track of whether buttons are down so that quick presses still skip correctly
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+- refactor NumericDisplay out of PlayerModel and remove the reference to appController from PlayerModel
+- refactor transport class to separate event system from button processor
+- refactor "playbackTimeInt" with units in numeric display
+- add units (seconds) to getPlaybackTime calls and usage
+~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+MAYBE:
+~   -   ~   -   ~   -   ~   -   
+- fix lighting of CD PNG so that it doesn't have to be darkened
+~   -   ~   -   ~   -   ~   -   
+- make it so background shader colors can be controlled by sequencer
+~   -   ~   -   ~   -   ~   -   
+- add tempo settings for tracks and have room rotation match tempo (maybe?)
+~   -   ~   -   ~   -   ~   -   
+- add adjustable x/y background shader offsets for animation
+~   -   ~   -   ~   -   ~   -   
+- find actual vertical screen edge rather than just using the horizontal screen edge
+~   -   ~   -   ~   -   ~   -   
+- sample background and make ambient light correspond to background shader color
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 - implement FFT in effects system
@@ -51,6 +70,9 @@ TODO:
 - link FFT output to background shader uniforms
 ~   -   ~   -   ~   -   ~   -   
 - fix issue where volume changes don't have any effect if made before playback is started
+~   -   ~   -   ~   -   ~   -   
+- run memory/CPU analysis
+~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
@@ -69,18 +91,10 @@ TODO:
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
-~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
-~   -   ~   -   ~   -   ~   -   
-- keep playing CD seeking sounds until music starts playing (or maybe just lengthn CD sounds)
-~   -   ~   -   ~   -   ~   -   
-- use a flag instead of "seekVelocity" to keep track of whether buttons are down so that quick presses still skip correctly
-~   -   ~   -   ~   -   ~   -   
-~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
-~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
-MAYBE/LATER:
+LATER:
 ~   -   ~   -   ~   -   ~   -   
 - (maybe) create model for CD jewel case
 - add image mapped CD case edge and back
@@ -89,12 +103,6 @@ MAYBE/LATER:
 - make it so that the CD flips back if it's clicked again
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
-~   -   ~   -   ~   -   ~   -   
-- refactor NumericDisplay out of PlayerModel and remove the reference to appController from PlayerModel
-- refactor transport class to separate event system from button processor
-- refactor "playbackTimeInt" with units in numeric display
-- add units (seconds) to getPlaybackTime calls and usage
-~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 ~   -   ~   -   ~   -   ~   -   
 - implement correct rotation for CD
@@ -120,9 +128,6 @@ MAYBE/LATER:
 ~   -   ~   -   ~   -   ~   -   
 - make it so that seek buttons can skip between tracks (also add a max seek rate)
 ~   -   ~   -   ~   -   ~   -  
-- run memory/CPU analysis
-~   -   ~   -   ~   -   ~   -   
-~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 
 

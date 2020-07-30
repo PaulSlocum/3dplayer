@@ -1,13 +1,10 @@
 //
+// P3dLightPool.js
 //
-//
-//
-//
-//
+// CREATES A POOL OF PERSISTENT LIGHTS THAT CAN BE CHECKED OUT.  AVOIDS THE
+// OVERHEAD OF ACTUALLY CREATING NEW LIGHTS IN THE SCENE.
 //
 /////////////////////////////////////////////////////////////////////////////////////////
-
-
 
 
 
@@ -63,7 +60,7 @@ export class P3dLightPool
 		}
 	}
 
-
-
-
 }
+
+
+

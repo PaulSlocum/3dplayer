@@ -14,12 +14,9 @@ import { logger } from "./P3dLog.js";
 
 
 
-
-
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 export class P3dPanelLeds
 {
-
 
   ///////////////////////////////////////////////////////////////////////
   constructor( appController, scene )
@@ -143,3 +140,5 @@ export class P3dPanelLeds
 
 
 }
+
+

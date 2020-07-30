@@ -25,7 +25,6 @@ export class P3dUserInterface
   ///////////////////////////////////////////////////////////////////////
   constructor( appController, windowWidth, windowHeight, renderer )
   {
-    //console.log("---->DISPLAY CLASS CONSTRUCTOR" );
     logger( "---->DISPLAY CLASS CONSTRUCTOR" );
 
     this.appController = appController;
@@ -54,7 +53,7 @@ export class P3dUserInterface
 
 
   ///////////////////////////////////////////////////////////////////////////
-  // NEEDS TO BE RE-IMPLMENTED IN SHADER SYSTEM
+  // DISABLED UNTIL RE-IMPLMENTATION OF THIS FEATURE IN THE SHADER SYSTEM
   /*setBackgroundColor( color )
   {
     this.graphics.setBackgroundColor( color );
@@ -112,11 +111,15 @@ export class P3dUserInterface
     for ( let i = 0; i < intersects.length; i++ )
     {
       let objectName = intersects[i].object.name;
+
       if( objectName.startsWith( "Button" ) )
       {
+				// SEND BUTTON TO APP CONTROLLER/TRANSPORT
         this.appController.processButtonEvent( objectName );
-        //this.graphics.playAnimation( objectName ); // STILL DECIDING ABOUT BUTTON ANIMATIONS
+        //this.graphics.playAnimation( objectName ); // <--- STILL DECIDING ABOUT BUTTON ANIMATIONS, DON'T DELETE YET...
       }
+
+			// HANDLE SPECIAL BUTTONS THAT DIRECTLY AFFECT THE STATUS DISPLAY MODE...
       switch( objectName )
       {
         case ButtonEvent.BUTTON_DOWN_BASS_DOWN:

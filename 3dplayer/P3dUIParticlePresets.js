@@ -1,10 +1,9 @@
 //
+// P3dUIParticlePresets.js
 //
+// PRESET CONFIGURATION LOADER WITH PRESETS FOR THE PARTICLE SYSTEM.
 //
-//
-//
-//
-///////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 
 //-----------------------------------------------------------------------------------
@@ -15,13 +14,15 @@ import { MeshMode } from "./P3dUIParticles.js";
 
 export class P3dParticlePresets
 {
+
+	//////////////////////////////////////////////////////////////////////////////////
 	constructor( particles )
 	{
 		this.p = particles;
 	}
 
 
-		/////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////
 	// SELECT SETTINGS FROM A NUMBER OF PREDEFINED MODES
 	setModeNumber( newModeNumber )
 	{
@@ -297,8 +298,6 @@ export class P3dParticlePresets
 				this.p.wind.setDirection( 0.5, 0.0, 0.2, 0.7 );
 				this.p.wind.setIntervalMSec( 15000 );
 				break;
-
-
 
 		}
 	}

@@ -2,7 +2,7 @@
 //
 // BASE GRAPHICS CLASS THAT OPERATES THE CAMERA AND LOADS OTHER GRAPHICS COMPONENTS.
 // INCLUDES FUNCTION TO DETERMINE CLICKED SCENE COMPONENTS FROM CAMERA PERSPECTIVE
-// BASED ON SCREEN COORDINATES.
+// BASED ON SCREEN COORDINATES (PICKER).
 //
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -109,12 +109,9 @@ export class P3dGraphics
   // NOTE: MUST BE CALLED EXTERNALLY TO START THE ANIMATION
   run()
   {
-  	//if( this.frameCounter == 0 )
-  	//	this.startTimeMSec = performance.now();
-
   	this.frameCounter++;
 
-		// FRAMES PER SECOND DISPLAY...
+		// DFEBUG - FRAMES PER SECOND DISPLAY...
   	/*if( this.frameCounter%60 == 0 )
   	{
   		logger( "=============> FRAMES PER SECOND: ", this.frameCounter * 1000 / (performance.now() - this.startTimeMSec),
@@ -137,8 +134,6 @@ export class P3dGraphics
     // RENDER!
     this.renderer.render( this.scene, this.camera );
   }
-
-
 
 
 

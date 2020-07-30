@@ -1,7 +1,7 @@
 //
 // P3dUIRoomShaders.js
 //
-// CONTAINS ARRAYS OF VERT AND FRAG SHADERS USED BY ROOM CLASS.
+// CONTAINS ARRAYS OF VERT AND FRAG SHADERS USED BY ROOM CLASS FOR THE BACKGROUND.
 //
 /////////////////////////////////////////////////////////////////////////////////////
 

@@ -147,9 +147,8 @@ export class P3dSwarm
     this.boxGeometry = new THREE.BoxBufferGeometry( objectSize*1.5, objectSize*1.5, objectSize*1.5 );
     this.coneGeometry = new THREE.ConeBufferGeometry( objectSize*0.9, objectSize*1.5, coneSegments ); // <-------------
     this.torusKnotGeometry = new THREE.TorusKnotBufferGeometry( objectSize*1.5, objectSize*0.5, 100, 16 ); //<------------------------
-    //this.torusKnotGeometry = this.sphereGeometry;
 
-		// TEST TORUS FOR SHADOW PROBLEM (DEBUG!)
+		// DEBUG - TEST TORUS FOR SHADOW PROBLEM (THIS SHOULD NORMALLY BE DISABLED)
 		/*let shadowGenObject = new THREE.Mesh( this.torusKnotGeometry );
 		shadowGenObject.scale.x = 0.09;
 		shadowGenObject.scale.y = 0.09;
@@ -181,18 +180,6 @@ export class P3dSwarm
 	{
 		this.targetSize = newTargetSize;
 	}
-
-
-
-
-	///////////////////////////////////////////////////////////////////////////////////
-	/*setPolarVelocity( newR1Speed, newT1Speed, newR2Speed, newT2Speed )
-	{
-		this.r1Value = 0.0;
-		this.t1Speed = 0.0;
-		this.r2Value = 0.0;
-		this.t2Speed = 0.0;
-	} //*/
 
 
   ////////////////////////////////////////////////////////////////////////

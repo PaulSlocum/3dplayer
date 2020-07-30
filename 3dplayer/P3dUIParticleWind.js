@@ -1,26 +1,16 @@
 //
 // P3dUIParticleWind.js
 //
-// WIND SYSTEM FOR PARTICLE SYSTEM.
+// WIND SYSTEM FOR PARTICLE SYSTEM.  CREATES 2D VECTOR "GUSTS" THAT QUICKLY GROW
+// AND SLOWLY DIE DOWN.
 //
 /////////////////////////////////////////////////////////////////////////////////////////
-
 
 
 //---------------------------------------------------------------------------------
 import { random, converge } from "./P3dUtility.js";
 import { logger, logerr } from "./P3dLog.js";
 //---------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
 
 
 //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||

@@ -47,6 +47,7 @@ export class P3dNumericDisplay
     this.altDisplayWaitMSec = 3000.0;
   }
 
+
   //////////////////////////////////////////////////////////////////////////////
   load()
   {
@@ -54,6 +55,7 @@ export class P3dNumericDisplay
 
     this.ledDriver.colonOff();
   }
+
 
   //////////////////////////////////////////////////////////////////////////////
   update()
@@ -262,14 +264,11 @@ export class P3dNumericDisplay
       case TransportMode.STANDBY:
         break;
 
-
-        // STANDBY DOESN"T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
       case TransportMode.TRAY_OPEN:
       case TransportMode.TRAY_OPENING:
         this.ledDriver.setString( "XOpeNXX" );
         break;
 
-        // STANDBY DOESN"T DO ANYTHING HERE BECAUSE STANDBY MODE IS HANDLED AT THE TOP LEVEL
       case TransportMode.TRAY_CLOSING:
       case TransportMode.TRAY_CLOSING_PLAY:
         this.ledDriver.setString( "XLOadXX" );

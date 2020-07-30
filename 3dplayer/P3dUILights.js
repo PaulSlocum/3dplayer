@@ -1,7 +1,7 @@
 //
 // P3dUILights.js
 //
-// LIGHT CONTROLLER FOR SPOTLIGHT AND MAYBE OTHER LIGHTS.
+// LIGHT CONTROLLER FOR SPOTLIGHT, AND MAYBE EVENTUALLY OTHER LIGHTS.
 //
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -58,6 +58,7 @@ export class P3dLights
     //let light = new THREE.AmbientLight( 0x101010 ); // soft white light
 		this.scene.add( light ); //*/
 	}
+
 
 	////////////////////////////////////////////////////////////////////////////////
 	// TO BE USED FOR ANIMATIONS
