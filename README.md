@@ -1,13 +1,12 @@
 # 3dplayer
-### 3D WebGL compact disc simulator using THREE.js and Web Audio API.
 
-A 3D compact disc themed Javascript MP3 player.  The project is nearly complete but still needs a few minor adjustments and better adaptation to mobile devices.
+A Javascript web audio player with a stylized 3D compact disc player interface that includes visual and audio effects.  Uses WebGL and Web Audio.  The project is fully working but the API and details and still being adjusted.
 
 [>> LINK TO WORKING PROJECT DEMO PAGE <<](https://paulslocum.github.io/3dplayer/)
 
 ### Features: 
  - load an album by specifying a list of MP3 files and a CD image in the script call parameters
- - simulated CD player operation including play, pause, stop, track forward and back, fast forward, rewind, etc.
+ - simulated CD player operation including play, pause, stop, track forward and back, fast forward, rewind, repeat, etc.
  - CD player sound effects and animated disc drawer
  - realtime reverb and echo room simulator effects
  - realtime spectrum analyzer display and visualizations (TBI)

@@ -11,9 +11,11 @@ TODO:
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 MAIN TODO:
 ~   -   ~   -   ~   -   ~   -   
-- implement specular highlights on CD
+- come up with a better name for the project
 ~   -   ~   -   ~   -   ~   -   
 - MAKE WEBGL RESIZE RENDERER WHEN WINDOW IS RESIZED
+~   -   ~   -   ~   -   ~   -   
+- implement specular highlights on CD
 ~   -   ~   -   ~   -   ~   -   
 - attempt setting up image map of CD player
 ~   -   ~   -   ~   -   ~   -   
@@ -22,9 +24,7 @@ MAIN TODO:
 ~   -   ~   -   ~   -   ~   -   
 - complete the audio effects
 ~   -   ~   -   ~   -   ~   -   
-- complete the audio effects
-~   -   ~   -   ~   -   ~   -   
-~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+- fix lighting of CD PNG so that it doesn't have to be darkened
 ~   -   ~   -   ~   -   ~   -   
 - set up other demo albums
 ~   -   ~   -   ~   -   ~   -   
@@ -36,10 +36,19 @@ MAIN TODO:
 ~   -   ~   -   ~   -   ~   -   
 - add pass-through for CD image
 ~   -   ~   -   ~   -   ~   -   
+- choose order of techno songs
+~   -   ~   -   ~   -   ~   -   
+- make it so background shader colors can be controlled by sequencer
+~   -   ~   -   ~   -   ~   -   
+- add tempo settings for tracks and have room rotation match tempo (maybe?)
+~   -   ~   -   ~   -   ~   -   
+- implement MIT license for project
+~   -   ~   -   ~   -   ~   -   
+~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
+~   -   ~   -   ~   -   ~   -   
 - keep playing CD seeking sounds until music starts playing (or maybe just lengthn CD sounds)
 ~   -   ~   -   ~   -   ~   -   
 - use a flag instead of "seekVelocity" to keep track of whether buttons are down so that quick presses still skip correctly
-~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 - refactor NumericDisplay out of PlayerModel and remove the reference to appController from PlayerModel
@@ -47,15 +56,17 @@ MAIN TODO:
 - refactor "playbackTimeInt" with units in numeric display
 - add units (seconds) to getPlaybackTime calls and usage
 ~   -   ~   -   ~   -   ~   -   
+- fix issue where volume changes don't have any effect if made before playback is started
 ~   -   ~   -   ~   -   ~   -   
+~   -   ~   -   ~   -   ~   -   
+- add marble to the gold wobbly particle system mode
+- add smooth movement parts and fast parts to wobbly mode
+~   -   ~   -   ~   -   ~   -  
+~   -   ~   -   ~   -   ~   -  
+- experiment with alternate lighting on VTide black shapes track
+~   -   ~   -   ~   -   ~   -  
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
 MAYBE:
-~   -   ~   -   ~   -   ~   -   
-- fix lighting of CD PNG so that it doesn't have to be darkened
-~   -   ~   -   ~   -   ~   -   
-- make it so background shader colors can be controlled by sequencer
-~   -   ~   -   ~   -   ~   -   
-- add tempo settings for tracks and have room rotation match tempo (maybe?)
 ~   -   ~   -   ~   -   ~   -   
 - add adjustable x/y background shader offsets for animation
 ~   -   ~   -   ~   -   ~   -   
@@ -69,10 +80,8 @@ MAYBE:
 - link FFT to LED display
 - link FFT output to background shader uniforms
 ~   -   ~   -   ~   -   ~   -   
-- fix issue where volume changes don't have any effect if made before playback is started
 ~   -   ~   -   ~   -   ~   -   
 - run memory/CPU analysis
-~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~   -   ~   -   ~   -   ~   -   
 ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  ~~  --  
@@ -80,9 +89,6 @@ MAYBE:
 - implement dampening of changes to polar coordinate parameters
 - implement dampening of particle speed changes (maybe not necessary)
 ~   -   ~   -   ~   -   ~   -   
-- add marble to the gold wobbly particle system mode
-- add smooth movement parts and fast parts to wobbly mode
-~   -   ~   -   ~   -   ~   -  
 - consider a cube camera mixed with a Phong surface (make the texture partially transparent?)s
 - create particles with textured/bumpy surface 
 - refracting particles
