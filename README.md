@@ -1,6 +1,6 @@
 # 3dplayer
 
-A Javascript web audio player with a stylized 3D compact disc player interface that includes visual and audio effects.  Uses WebGL and Web Audio.  The project is fully working but the API and details and still being adjusted.
+A Javascript audio player with a stylized 3D compact disc player interface that includes visual effects and audio effects.  It uses WebGL and Web Audio and works in all modern browsers.  The project is fully working but the API and details are still being finalized.
 
 [>> LINK TO WORKING PROJECT DEMO PAGE <<](https://paulslocum.github.io/3dplayer/)
 
@@ -9,11 +9,11 @@ A Javascript web audio player with a stylized 3D compact disc player interface t
  - simulated CD player operation including play, pause, stop, track forward and back, fast forward, rewind, repeat, etc.
  - CD player sound effects and animated disc drawer
  - realtime reverb and echo room simulator effects
- - realtime spectrum analyzer display and visualizations (TBI)
  
 ### Technical features:
- - Web Audio sound library with background pre-loading, automatic memory management, and audio effects processor
  - custom optical disc GLSL shader
+ - Web Audio sound library with effects processor, background pre-loading, and automatic memory management
+ - Blender CD player 3D model that can be easily customized
 
 ### Screenshot: 
 

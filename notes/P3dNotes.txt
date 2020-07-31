@@ -19,6 +19,8 @@ MAIN TODO:
 ~   -   ~   -   ~   -   ~   -   
 - attempt setting up image map of CD player
 ~   -   ~   -   ~   -   ~   -   
+- decide whether to do the spectrum analyzer
+~   -   ~   -   ~   -   ~   -   
 - FIX ISSUE WHERE MOVING THROUGH TRACKS QUICKLY CAN CAUSE AN ERROR IN THE DECODER QUEUE
  \ ALSO ONE TIME I STOPPED ON TRACK 5 BUT IT WAS PLAYING TRACK 4
 ~   -   ~   -   ~   -   ~   -   
