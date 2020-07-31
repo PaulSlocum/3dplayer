@@ -5,10 +5,11 @@ A Javascript audio player with a stylized 3D compact disc player interface that 
 [>> LINK TO WORKING PROJECT DEMO PAGE <<](https://paulslocum.github.io/3dplayer/)
 
 ### Features: 
- - load an album by specifying a list of MP3 files and a CD image in the script call parameters
- - simulated CD player operation including play, pause, stop, track forward and back, fast forward, rewind, repeat, etc.
+ - simple interface to load an album by including a list of MP3 files and CD image in the script call 
  - CD player sound effects and animated disc drawer
- - realtime reverb and echo room simulator effects
+ - simulated CD player button interface with play, pause, stop, skip forward, skip back, repeat, etc.
+ - realtime reverb and echo room effects
+ - optional background and particle system visualizer effects
  
 ### Technical features:
  - custom optical disc GLSL shader
